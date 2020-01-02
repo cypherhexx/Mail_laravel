@@ -1,0 +1,258 @@
+
+.orgchart td.left, .orgchart td.right, .orgchart td.top {
+  border-color: #aaa;
+}
+.orgchart td>.down {
+  background-color: #aaa;
+}
+.orgchart .middle-level .title {
+  background-color: #006699;
+}
+.orgchart .middle-level .content {
+  border-color: #006699;
+}
+.orgchart .product-dept .title {
+  background-color: #009933;
+}
+.orgchart .product-dept .content {
+  border-color: #009933;
+}
+.orgchart .inactive .title {
+  background-color: #ff0505;
+}
+.orgchart .inactive .content {
+  border-color: #ff0505;
+}
+.orgchart .active .title {
+  background-color: #4baf4a;
+}
+.orgchart .active .content {
+  border-color: #4baf43;
+}
+.orgchart .vacant .title {
+  background-color: #949494;
+}
+.orgchart .vacant .content {
+  border-color: #949494;
+}
+.orgchart .node .content{
+    height: auto;
+}
+.orgchart .node{
+    width: auto;
+}
+
+.orgchart .node.matched {
+  background-color: rgba(238, 217, 54, 0.5);
+}
+#edit-panel {
+  text-align: center;
+  position: relative;
+  left: 10px;
+  width: calc(100% - 40px);
+  border-radius: 4px;
+  float: left;
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #449d44;
+}
+#edit-panel * {
+  font-size: 20px;
+}
+.orgchart .second-menu-icon {
+    transition: opacity .5s;
+    opacity: 0;
+    right: -5px;
+    top: -5px;
+    z-index: 2;
+    color: rgba(68, 157, 68, 0.5);
+    font-size: 18px;
+    position: absolute;
+}
+.orgchart .second-menu-icon:hover {
+  color: #449d44;
+}
+.orgchart .node:hover .second-menu-icon {
+  opacity: 1;
+}
+.orgchart .node .second-menu {
+display: none;
+    position: absolute;
+    top: 0;
+    right: -115px;
+    /* border-radius: 35px; */
+    box-shadow: 0 0 10px 1px #999;
+    background-color: #fff;
+    z-index: 1;
+    padding: 20px;
+}
+.orgchart .node .second-menu .avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+    float: left;
+  margin: 5px;
+}
+#treediv{
+
+    min-height: 202px;
+    min-width: 202px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: -webkit-gradient(linear, left top, right top, color-stop(10%, rgba(251, 231, 231, 0.15)), color-stop(10%, rgba(0, 0, 0, 0))), -webkit-gradient(linear, left top, left bottom, color-stop(10%, rgba(245, 230, 230, 0.15)), color-stop(10%, rgba(0, 0, 0, 0)));
+    background-image: linear-gradient(90deg, rgba(255, 213, 213, 0.15) 10%, rgba(0, 0, 0, 0) 10%), linear-gradient(rgba(255, 225, 225, 0.15) 10%, rgba(0, 0, 0, 0) 10%);
+    background-size: 10px 10px;
+    border: 1px dashed rgba(0,0,0,0);
+    padding: 20px;
+}
+.orgchart {
+    background: transparent;
+        cursor: move!important;
+        display: block;
+        text-align: center;
+}
+.orgchart .node.focused {
+background-color: rgba(255, 227, 98, 0.56);
+    box-shadow: 0px 20px 20px -15px #cec185;
+}
+.orgchart .node .content {
+    padding: 10px;
+}
+.checkbox.checkbox-switch {
+    margin: 0;
+}
+
+.ui-pnotify.custom .ui-pnotify-container {
+background-color: #404040 !important;
+background-image: none !important;
+border: none !important;
+-moz-border-radius: 10px;
+-webkit-border-radius: 10px;
+border-radius: 10px;
+}
+.ui-pnotify.custom .ui-pnotify-title, .ui-pnotify.custom .ui-pnotify-text {
+font-family: Arial, Helvetica, sans-serif !important;
+text-shadow: 2px 2px 3px black !important;
+font-size: 10pt !important;
+color: #FFF !important;
+padding-left: 50px !important;
+line-height: 1 !important;
+text-rendering: geometricPrecision !important;
+}
+.ui-pnotify.custom .ui-pnotify-title {
+font-weight: bold;
+}
+.ui-pnotify.custom .ui-pnotify-icon {
+float: left;
+}
+.ui-pnotify.custom .fa {
+margin: 3px;
+width: 33px;
+height: 33px;
+font-size: 33px;
+color: #FF0;
+}
+.no-images.orgchart .node .content img {
+    display: none;
+}
+
+.no-images.orgchart .node .content {
+    padding: 0;
+}
+
+.no-images.orgchart .node .title {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+
+
+.no-icons.orgchart .node .title .symbol {
+    display: none;
+}
+
+.orgchart.no-images .node .title .symbol {
+        margin-right: 10px;
+}
+
+.bar-active {
+    background: #4baf43;
+    color: #fff;
+}
+
+.bar-inactive {
+    background: red;
+    color: white;
+}
+
+.bar-vacant {
+    background: #949494;
+    color: white;
+}
+
+/*.bar {
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 360px;
+    margin-right: 10px;
+    display: inline-block;
+}*/
+
+.tree-guide-bar {
+  text-align: center;
+  /*background: #ddd;*/
+  padding: 10px;
+}
+
+/*-------------------------
+  The clocks
+--------------------------*/
+
+.time-parts {
+    display:inline-block    
+}
+
+.time-frame {
+    padding: 5px 30px 5px 30px;
+/*    background: #4caf50;
+    color: white;*/
+}
+
+div#ampm-part {
+    font-weight: 900;
+}
+
+div#time-part {
+    font-weight: 900;
+}
+
+div#day-part {
+    padding: 5px;
+}
+
+div#month-part {}
+
+
+.page-title {
+    padding: 5px 36px 5px 0;
+    display: block;
+    position: relative;
+}
+
+span.currency-symbol {
+    font-weight: 900;
+    margin-right: 10px;
+}
+.currency-switch ul li {
+    border-bottom: 1px solid #ddd;
+}
+.currency-switch ul li:last-child {
+    border-bottom:0px;
+}
+.currency-switch ul.dropdown-menu{
+    padding-bottom:0px;
+}

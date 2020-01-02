@@ -1,0 +1,262 @@
+ .user-profile .panel .panel-heading .avatar {
+        position: relative;
+        height: 120px;
+        margin-bottom: 0;
+        float: left;
+        clear: both;
+        margin-right: 15px
+    }
+
+    .user-profile .panel .panel-heading .avatar img {
+        height: 100%;
+        margin: 0
+    }
+
+    .user-profile .panel .panel-heading .title,.user-profile .panel .panel-heading small {
+        display: block;
+        float: left;
+        clear: both
+    }
+
+    .user-profile .panel .panel-heading .title {
+        font-size: 30px
+    }
+
+    .user-profile .panel .panel-heading small {
+        font-size: 14px
+    }
+
+    .user-profile .map {
+        margin-top: 10px
+    }
+
+    .user-profile .nav-tabs>li {
+        float: none
+    }
+
+    .user-profile .nav-tabs>li a {
+        margin-right: 0
+    }
+
+    .user-profile .tab-content .list-group {
+        margin: 0
+    }
+
+    .user-profile .tab-content h4 {
+        display: inline-block;
+        padding: 6px 20px 5px;
+        background-color: #76b6ec;
+        margin-left: -20px;
+        margin-bottom: 30px;
+        color: #fff
+    }
+
+    .user-profile .tab-content .messages-view {
+        border: 0;
+        height: 150px;
+        margin: 0;
+        -webkit-box-shadow: none;
+        box-shadow: none
+    }
+
+    .user-profile .tab-content .messages-view .list-group-item {
+        padding: 10px 20px;
+        -webkit-transition: all .1s;
+        transition: all .1s
+    }
+
+    .user-profile .tab-content .messages-view .list-group-item i,.user-profile .tab-content .messages-view .list-group-item .text-holder {
+        display: table-cell;
+        vertical-align: middle
+    }
+
+    .user-profile .tab-content .messages-view .list-group-item a {
+        color: inherit
+    }
+
+    .user-profile .tab-content .messages-view .list-group-item i {
+        width: 60px;
+        text-align: left
+    }
+
+    .user-profile .tab-content .messages-view .list-group-item i img,.user-profile .tab-content .messages-view .list-group-item i b {
+        height: 40px;
+        width: 40px;
+        border-radius: 50%
+    }
+
+    .user-profile .tab-content .messages-view .list-group-item i b {
+        display: block;
+        background-color: #fff;
+        border: 1px dashed #666
+    }
+
+    .user-profile .tab-content .messages-view .list-group-item i b.dark {
+        background-color: #666;
+        border: 0
+    }
+
+    .user-profile .tab-content .messages-view .list-group-item i b.pastel {
+        background-color: #eefddf
+    }
+
+    .user-profile .tab-content .messages-view .list-group-item i b.pastel-marine {
+        background-color: #dfeefd
+    }
+
+    .user-profile .tab-content .messages-view .list-group-item i b.rio {
+        background-color: #1d8c97
+    }
+
+    .user-profile .tab-content .messages-view .list-group-item i b.terminal {
+        background-color: #cdee69
+    }
+
+    .user-profile .tab-content .messages-view .list-group-item .text-holder span {
+        display: block;
+        width: 200px;
+        line-height: 17px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap
+    }
+
+    .user-profile .tab-content .messages-view .list-group-item .text-holder .title-text {
+        font-weight: bold
+    }
+
+    .user-profile .tab-content .messages-view .list-group-item .time-ago {
+        position: absolute;
+        top: 12px;
+        right: 15px;
+        width: 80px;
+        text-align: right;
+        color: #ccc;
+        line-height: 17px
+    }
+
+    .no-touch .user-profile .tab-content .messages-view .list-group-item:hover {
+        cursor: pointer;
+        background-color: #ebebeb;
+        color: #5698ce
+    }
+
+    .no-touch .user-profile .tab-content .messages-view .list-group-item:hover .time-ago {
+        color: #5698ce
+    }
+
+    .user-profile .panel.stat {
+        margin-bottom: 5px
+    }
+
+    .user-profile .overlay {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        opacity: 0;
+        filter: alpha(opacity=0);
+        -webkit-transition: opacity .1s;
+        transition: opacity .1s;
+        background: #ccc;
+        background: rgba(0,0,0,0.6);
+        color: #fff
+    }
+
+    .user-profile .overlay:hover {
+        opacity: 1;
+        filter: alpha(opacity=100)
+    }
+
+    .user-profile .overlay .dz-filename {
+        width: 140px;
+        padding: 15px 5px 0 15px
+    }
+
+    .user-profile .overlay .status {
+        position: relative;
+        z-index: 3;
+        padding: 5px 5px 0
+    }
+
+    .user-profile .overlay .controls {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 0 10px 15px;
+        text-align: center
+    }
+
+    .user-profile .overlay .controls a {
+        display: block;
+        float: left;
+        color: #fff;
+        width: 25px;
+        height: 25px;
+        border-radius: 3px;
+        padding: 3px 0 0;
+        -webkit-transition: background-color .1s;
+        transition: background-color .1s
+    }
+
+    .user-profile .overlay .controls a:hover {
+        background-color: #76b6ec
+    }
+
+    .user-profile .overlay .controls.confirm-removal {
+        display: none
+    }
+
+    .user-profile .overlay .controls.confirm-removal a {
+        float: right;
+        margin: 0 5px;
+        padding: 3px 5px 0;
+        width: 40px
+    }
+    .list-group-item.form-horizontal h4 {
+        display: inline-block !important;
+        padding: 6px 20px 5px !important;
+        background-color: #5FCFCF !important;
+        margin-left: -20px !important;
+        margin-bottom: 30px !important;
+        color: #fff !important;
+    }
+    .list-group-item h4 {
+        display: inline-block !important;
+        padding: 6px 20px 5px !important;
+        background-color: #e8bd54 !important;
+        margin-left: -20px !important;
+        margin-bottom: 30px !important;
+        color: #fff !important;
+    }
+
+    @media(min-width: 480px) {
+        .wrapper.user-profile {
+            left:90px
+        }
+
+        .user-profile .panel .panel-heading .avatar {
+            height: 120px;
+            clear: none
+        }
+
+        .user-profile .panel .panel-heading .title,.user-profile .panel .panel-heading small {
+            display: block;
+            float: none;
+            clear: none
+        }
+
+        .user-profile .tab-content .messages-view {
+            height: 505px
+        }
+
+        .user-profile .nav-tabs>li {
+            float: left
+        }
+
+        .user-profile .nav-tabs>li a {
+            margin-right: 0
+        }
+    }

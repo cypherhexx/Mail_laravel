@@ -1,0 +1,53 @@
+{
+  "_from": "flat-social-icons",
+  "_id": "flat-social-icons@0.0.1",
+  "_inBundle": false,
+  "_integrity": "sha1-fJqlreO4Hj1qqoILVjfdQPGpIFY=",
+  "_location": "/flat-social-icons",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "flat-social-icons",
+    "name": "flat-social-icons",
+    "escapedName": "flat-social-icons",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/flat-social-icons/-/flat-social-icons-0.0.1.tgz",
+  "_shasum": "7c9aa5ade3b81e3d6aaa820b5637dd40f1a92056",
+  "_spec": "flat-social-icons",
+  "_where": "C:\\wamp64\\www\\preset.cloudmlmsoftware.local",
+  "author": {
+    "name": "Clement Osternaud",
+    "email": "osternaud.clement@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/osternaudClem/70-flat-social-icons-font/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "Alexis Doreau release a new version of the 70 Flat Social Icons for Sketch. From this file, I generate font icons files with Icomoon.",
+  "homepage": "https://github.com/osternaudClem/70-flat-social-icons-font#readme",
+  "keywords": [
+    "icons",
+    "social",
+    "fonts"
+  ],
+  "license": "ISC",
+  "main": "flat-icons.css",
+  "name": "flat-social-icons",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/osternaudClem/70-flat-social-icons-font.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "0.0.1"
+}

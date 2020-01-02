@@ -1,0 +1,465 @@
+/*html, body {
+	height: 100%;
+}
+
+body#login-page {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	color: #B0BEC5;
+	font-weight: 100;
+	font-family: 'Open Sans',"Helvetica Neue",Helvetica,Arial,sans-serif;
+	background: url("http://cloudmlmsoftware.com/sites/all/modules/mlmclouds/modules/mlmcloudz_layerslider/plugins/rs-plugin/assets/gridtile_3x3.png") #0D3567;
+}
+
+#login-page .container {
+	text-align: center;
+	position: relative;
+	margin-top: 5%;
+}
+
+#login-page .content {
+	text-align: center;
+	display: inline-block;
+}
+
+
+#login-page form.form {
+	text-align: left;
+	padding: 10px;
+	background: #EFEFEF;
+	color: #333;
+	font-size: 12px;
+	box-shadow: 5px 5px 0px 2px #337AB7;
+	font-family: OPen Sans;
+	margin-bottom: 40px;
+}
+
+#login-page  label {
+	font-size: 12px;
+
+}
+
+#login-page .form-control {
+	box-shadow: none;
+	border-radius: 0;
+	border: 1px solid rgb(159, 202, 255);
+}
+#login-page .form-control:focus {
+	border-bottom: 1px solid #348EFE;
+	box-shadow: none;
+}
+
+#login-page button.submit {
+	background: #348EFE;
+	border-radius: 0;
+	border: 0;
+}
+
+#login-page .alert {
+	font-size: 12px;
+	text-align: left;
+	width: 100%;
+	z-index: 999;
+	border: 0;
+	border-radius: 0;
+	bottom: 0;
+	background: rgba(254, 52, 52, 0.29);
+	color: #FFF;
+}
+
+ul.error-list {
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    list-style: none;
+    font-size: 12px;
+    width: auto;
+}
+
+li.error-list-each {
+
+    margin-bottom: 2px;
+    padding: 4px;
+    width: auto;
+    color: white;
+}
+.form-group {
+    padding-bottom: 0px;
+    margin: 0px 0 0 0;
+}
+
+button.btn.btn-raised.btn-login {
+    background: #348EFE;
+    color: #FFFFFF;
+    font-weight: 900;
+    border-radius: 0px;
+}
+
+
+.form-group.form-group-login-last {
+    margin-top: 15px;
+}
+.form-group.form-group-login-last a {
+    font-style: italic;
+    font-size: 10px;
+    text-decoration: none;
+    color: #333;
+    text-align: right;
+}
+
+@media (max-width: 460px) {
+		
+	body#login-page {
+		background: #348EFE;
+	}
+	#login-page  label {
+	font-size: 16px;
+	color: #FFF;
+
+	display: block;
+	font-weight: bold;
+
+}
+
+	#login-page .container {
+		margin: 0px auto;
+		padding: 0;
+	}
+
+	.logo-img-login img {
+		width: 100%!important;
+		max-width: 100px;
+	}
+
+	.g-recaptcha {
+		transform: scale(0.77);
+		-webkit-transform: scale(0.75);
+	
+	}
+
+	#login-page form.form {
+		background: transparent;
+		box-shadow: none;
+	}
+		
+	button.btn.btn-login {
+		text-align: center;
+		margin: 0px auto!important;
+		display: block;
+		width: 95px;
+		float: none;
+		background: #348EFE;
+		
+		border-radius: 0px;
+		box-shadow: 1px 1px 0px #000;
+	
+		height: 43px;
+	}
+
+	.form-group:last-child {
+		text-align: center;
+		
+	}
+
+	.form-group:last-child a {
+	
+		display: block;
+		margin-top: 10px;
+	}
+	
+#login-page .form-control {
+ 
+}
+
+#login-page .form-control:focus {
+    border-bottom: 5px solid #FFFFFF;
+}
+
+
+.checkbox > label {
+    font-weight: 100;
+}
+
+#login-page .checkbox label {
+    font-weight: normal;
+    font-size: 12px;
+}
+
+.checkbox input[type=checkbox]:checked + .checkbox-material .check {
+    color: #FFFFFF;
+    border-color: #FCFFFF;
+}
+
+.checkbox .checkbox-material:before {
+    background-color: rgba(175, 175, 175, 0.84);
+}
+
+.checkbox input[type=checkbox]:checked + .checkbox-material .check:before {
+    color: #FFFFFF;
+}
+
+.checkbox .checkbox-material .check {
+    border: 2px solid rgba(255, 255, 255, 0.54);
+}
+
+
+
+}
+
+*/
+
+html,body {
+    height: 100%;
+}
+body{
+    background: #e8edf2 none repeat scroll 0 0;
+    color: #505050;
+    font-family: Open sans;
+    letter-spacing: 0.3px;
+    position: relative;
+    width: 100%;
+    background: linear-gradient(to bottom, rgb(239, 239, 239) 0%,rgba(255,255,255,1) 100%);
+    background-attachment: fixed;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: Montserrat;
+    color: #202020;
+}
+
+div#content {
+    background: #ffffff none repeat scroll 0 0;
+    margin-top: 14px;
+    position: relative;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    border-radius: 5px;
+}
+
+
+.language-switcher {
+    background: #F7F7F7;
+    padding: 10px;
+    text-align: right;
+}
+
+.language-switcher button {
+    border-radius: 0;
+}
+
+input[type="text"], input[type="tel"], input[type="email"], input[type="password"] {
+    border: 1px solid #e8ecec;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    -ms-border-radius: 0;
+    -o-border-radius: 0;
+    border-radius: 0;
+    box-sizing: border-box;
+    font-family: Open Sans;
+    outline: medium none;
+    padding: 10px 10px;
+    width: 100%;
+    height: auto;
+}
+textarea {
+    border: 1px solid #e8ecec;
+    
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    -ms-border-radius: 0 !important;
+    -o-border-radius: 0 !important;
+    border-radius: 0 !important;
+
+    box-sizing: border-box;
+    height: 100px;
+    outline: medium none;
+    overflow: auto;
+    padding: 11px 20px;
+    width: 100%;
+}
+label.sf-select {
+    position: relative;
+    display: block;
+}
+label.sf-select > select {
+    border: 1px solid #e8ecec;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    -ms-border-radius: 0;
+    -o-border-radius: 0;
+    border-radius: 0;
+    box-sizing: border-box;
+    color: #555555;
+    font-family: Open Sans;
+    font-weight: normal;
+    outline: medium none;
+    padding: 1rem;
+    width: 100%;
+    height: auto;
+}
+label.sf-select>span {
+    position: absolute;
+    display: inline-block;
+    text-align: center;
+    right: 1px;
+    top: 1px;
+    bottom:1px;
+    width: 3.5rem;
+    pointer-events: none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    box-sizing: border-box;
+    background-color: #27AE60;
+    border-left:solid 1px #DDD;
+}
+label.sf-select>span::after {
+    content: "";
+    display: inline-block;
+    width: 20%;
+    height: 20%;
+    -webkit-transform: rotate(-45deg) translate(-80%, 80%);
+    -moz-transform: rotate(-45deg) translate(-80%, 80%);
+    -ms-transform: rotate(-45deg) translate(-80%, 80%);
+    -o-transform: rotate(-45deg) translate(-80%, 80%);
+    transform: rotate(-45deg) translate(-80%, 80%);
+    border: 0 solid #fff;
+    border-left-width: .25em;
+    border-bottom-width: .25em
+}
+label.sf-select>select:focus+span {
+    background-color: #2096cd;
+}
+.sf-radio, .sf-check {
+    width: 100%;
+    height: auto;
+    padding: 1rem 0;
+}
+.sf-radio label, .sf-check label {
+    display: inline-block;
+    font-weight: 500;
+    margin-right: 5px;
+    padding-left: 0px;
+}
+.sf-radio label input[type=radio], .sf-check label input[type=checkbox] {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+    height: 10px;
+}
+.sf-radio label input[type=radio]+span, .sf-check label input[type=checkbox]+span {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background-color: #fff;
+    border: 1px solid #cecece;
+    text-align: center;
+    vertical-align: top;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.sf-radio label input[type=radio]+span::after, .sf-check label input[type=checkbox]+span::after {
+    content: "";
+    display: inline-block;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-transition: all 200ms;
+    -moz-transition: all 200ms;
+    -ms-transition: all 200ms;
+    -o-transition: all 200ms;
+    transition: all 200ms
+}
+.sf-radio label input[type=radio]:focus+span, .sf-check label input[type=checkbox]:focus+span, .sf-radio label input[type=radio]:active+span, .sf-check label input[type=checkbox]:active+span {
+    border-color: #2096cd
+}
+.sf-radio label input[type=radio]:checked+span::after, .sf-check label input[type=checkbox]:checked+span::after {
+    opacity: 1
+}
+.sf-radio label input[type=radio].error+span, .sf-check label input[type=checkbox].error+span {
+    border-color: #e2513f;
+    border-width: 2px
+}
+.sf-radio label input[type=radio]+span {
+    -webkit-border-radius: 2em;
+    -moz-border-radius: 2em;
+    border-radius: 2em;
+}
+.sf-radio label input[type=radio]+span::after {
+    -webkit-border-radius: 1em;
+    -moz-border-radius: 1em;
+    border-radius: 1em;
+    background-color: #2096cd
+}
+.sf-radio label input[type=radio]:checked+span::after {
+    border: .2em solid #fff
+}
+.sf-check label input[type=checkbox]+span {
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    -moz-box-shadow: 0 0 5px #ddd;
+    -webkit-box-shadow: 0 0 5px #ddd;
+    box-shadow: 0 0 5px #ddd
+}
+.sf-check label input[type=checkbox]+span::after {
+    height: 45%;
+    width: 75%;
+    background-color: transparent;
+    border: 0 solid #348EFE;
+    vertical-align: bottom;
+    -webkit-transform: rotate(-45deg) translate(50%, -75%);
+    -moz-transform: rotate(-45deg) translate(50%, -75%);
+    -ms-transform: rotate(-45deg) translate(50%, -75%);
+    -o-transform: rotate(-45deg) translate(50%, -75%);
+    transform: rotate(-45deg) translate(50%, -75%);
+}
+.sf-check label input[type=checkbox]:checked+span::after {
+    border-left-width: .2em;
+    border-bottom-width: .2em
+}
+input[type=text]:focus,input[type=tel]:focus, input[type=password]:focus, input[type=email]:focus,label.sf-select>select:focus, textarea:focus {
+    border-color: #348EFE;
+    -webkit-box-shadow: 0px 0px 5px 0px rgb(39, 124, 230);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(29,134,74,1);
+    box-shadow: 0px 0px 5px 0px rgb(41, 118, 214);
+}
+input, select, textarea, button {
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+.sf-shadow input, .sf-shadow select, .sf-shadow textarea {
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.1);
+}
+.well {
+    border: 0;
+    background: transparent;
+}
+
+label {
+    font-family: Montserrat;
+}
+
+.btn-login {
+    background: #348EFE;
+    border-radius: 0px;
+    font-size: 16px;
+    font-family: Montserrat;
+    color: #FFFFFF;
+}

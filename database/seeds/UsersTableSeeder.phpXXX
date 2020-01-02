@@ -1,0 +1,191 @@
+<?php
+
+use Illuminate\Database\Seeder;
+
+class UsersTableSeeder extends Seeder {
+
+	public function run()
+	{
+
+		\App\User::create([
+
+
+
+            //Login information
+			'username'   => 'admin',
+			'password'   => bcrypt('admin'),
+
+
+            //Network Information            
+            'role_id'   => 1,
+			'sponsor_id'   => null,
+			'rank_id'   => null,
+			'status'   => 'active',
+
+
+
+			//Identification
+			'first_name'  => 'John',
+			'last_name'   => 'Doe',
+			'gender'   => 'male',
+			'date_of_birth'=> '1993-01-11 19:03:44',
+			'job_title'   => 'Business',
+			'tax_id'   => 'UVLJZHLA',
+			// 'passport'   => '868639',
+
+            //Contact information
+			'country'   => 'Mexico',
+			'state'   => 'Nevada',
+			'city'   => 'East Allan',
+			'post_code'   => '36081',
+			'latitude'   => '48.159232',
+			'longitude'   => '-26.928879',
+			'address'   => '4118 Toy Meadow Apt. 879Lake Chaim, MS 49491-2517',
+			'email'		 => 'admin@cloudmlmsoftware.local',
+			'phone'   => '+1-529-481-6258',
+
+
+            //Media
+			'profile_photo'   => 'avatar.png',
+			'profile_coverphoto'   => 'coverphoto.jpg',
+
+
+            //Social links
+            'twitter_username'   => 'http://twitter.com/cloudsoft',
+			'facebook_username'   => 'http://facebook.com/cloudmlmsoftware',
+			'youtube_username'   => 'http://youtube.com/u/cloudmlmsoftware',
+			'linkedin_username'   => 'http://linkedin.com/cloudmlmsoftware',
+			'pinterest_username'   => 'http://pinterest.com/cloudmlmsoftware',
+			'instagram_username'   => 'http://intagram.com/cloudmlmsoftware',
+			'google_username'   => 'http://plus.google.com/u/cloudmlmsoftware',
+
+            //Instant Messaging Ids (IM)
+            'skype_username'   => 'cloudmlmsoftware',
+			'whatsapp_number'   => '+1-529-481-6258',
+
+
+            //Bio  
+			'bio'   => 'I am a dedicated person with a family of four. I enjoy reading, and the knowledge and perspective that my reading gives me has strengthened my teaching skills and presentation abilities. I have been successful at raising a family, and I attribute this success to my ability to plan, schedule, and handle many different tasks at once. This flexibility will help me in the classroom, where there are many different personalities and learning styles.',
+
+
+            //App Specific
+			'confirmed'  => 1,
+            'is_admin'      => 1,
+			'confirmation_code' => md5(microtime() . env('APP_KEY')),
+
+		]);	
+
+
+		$faker = Faker\Factory::create();
+
+		// $store_profile = public_path('files/users/profile_photos/');
+  //       $store_cover = public_path('files/users/profile_cover_photos/');
+
+		// File::deleteDirectory($store_profile, true);
+  //       File::deleteDirectory($store_cover, true);
+
+        $limit = 10;
+
+        for ($i = 0; $i < $limit; $i++) {
+
+
+
+
+        	// File::makeDirectory($store_profile, 0775, true, true);
+        	// File::makeDirectory($store_cover, 0775, true, true);
+
+        	// $store_profile_to =$store_profile;
+        	// $store_cover_to = $store_cover;
+
+        	// $profile_pic = $faker->image($dir = $store_profile_to, $width = 100, $height = 100,'people');
+        	// $profile_pic_name = basename($profile_pic);        	
+
+        	// $profile_coverpic = $faker->image($dir = $store_cover_to , $width = 300, $height = 100,'abstract');
+        	// $profile_coverpic_name = basename($profile_coverpic);
+
+
+        	$profile_pic_name = $faker->imageUrl($width = 100, $height = 100,'people');        	
+        	$profile_coverpic_name = $faker->imageUrl($width = 300, $height = 100,'abstract');
+
+
+
+        	// die();
+
+            DB::table('users')->insert([ //,
+
+
+
+            //Login information
+			'username'   => $faker->unique()->userName,
+			'password'   => bcrypt('123456'),
+
+            //Network Information            
+			'role_id'   => 2,
+			'sponsor_id'   => 1,
+			'rank_id'   => NULL,
+			'status'   => 'active',
+
+            //Identification
+			'first_name'  => $faker->firstName,
+			'last_name'   => $faker->lastName,
+			'gender'   => $faker->randomElement($array = array ('male','female')),
+			// 'gender'   => $faker->title,
+			'date_of_birth'=> $faker->date($format = 'Y-m-d', $max = '-18 years'),
+			'job_title'   => $faker->jobTitle,
+			'tax_id'   => $faker->unique()->swiftBicNumber,
+			// 'passport'   => $faker->numberBetween($min = 654856, $max = 954856) ,
+
+            //Contact information
+			'country'   => $faker->country,
+			'state'   => $faker->state,
+			'city'   => $faker->city,
+			'post_code'   => $faker->postcode,
+			'latitude'   => $faker->latitude($min = -90, $max = 90),
+			'longitude'   => $faker->longitude($min = -180, $max = 180),
+			'address'   => $faker->address,
+			'email'		 => $faker->unique()->email,
+			'phone'   => $faker->unique()->phoneNumber,
+
+
+            //Media
+			// 'profile_photo'   => $faker->image($dir = storage_path('app/public/profile_photos/'), $width = 100, $height = 100,'people'),
+			// 'profile_coverphoto'   => $faker->image($dir = storage_path('app/public/profile_cover_photos/'), $width = 300, $height = 100,'abstract'),
+
+			'profile_photo'   => $profile_pic_name,
+			'profile_coverphoto'   => $profile_coverpic_name,
+
+
+			 //Social links
+            'twitter_username'   => 'http://twitter.com/'.$faker->unique()->username,
+			'facebook_username'   => 'http://facebook.com/'.$faker->unique()->username,
+			'youtube_username'   => 'http://youtube.com/u/'.$faker->unique()->username,
+			'linkedin_username'   => 'http://linkedin.com/'.$faker->unique()->username,
+			'pinterest_username'   => 'http://pinterest.com/'.$faker->unique()->username,
+			'instagram_username'   => 'http://instagram.com/'.$faker->unique()->username,
+			'google_username'   => 'http://plus.google.com/u/'.$faker->unique()->username,
+
+
+            //Instant Messaging Ids (IM)
+            'skype_username'   => $faker->unique()->username,
+			'whatsapp_number'   => $faker->unique()->phoneNumber,
+
+
+            //Profile  
+			'bio'   => $faker->paragraph($nbSentences = 3, $variableNbSentences = true),
+
+
+
+            //App Specific
+			'confirmed'  => 1,
+            
+			
+
+            ]);
+        }
+
+
+	
+
+	}
+
+}

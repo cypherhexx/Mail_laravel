@@ -1,0 +1,101 @@
+<?php
+
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateUsersTable extends Migration
+{
+    
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('users', function (Blueprint $table) {
+
+            //unique IDs
+            $table->increments('id')->unsigned();
+
+
+            //Login information
+            $table->string('username')->unique(); // used for login and slug.
+            $table->string('password', 60);
+
+
+
+            //Network Information
+            $table->integer('role_id')->unsigned()->nullable(); // 1 = Admin , 2 = User
+            $table->integer('sponsor_id')->nullable(); // 
+            $table->integer('rank_id')->nullable();
+            $table->string('status')->default('active'); // active,inactive,deleted,blocked,
+
+
+            //Identification
+            $table->string('first_name',30)->nullable();
+            $table->string('last_name',30)->nullable();
+            $table->string('gender')->default('Mr.')->nullable();
+            $table->string('date_of_birth', 60)->date()->nullable();
+            $table->string('job_title', 200)->default('')->nullable();
+            $table->string('tax_id', 200)->default('')->nullable();
+            // $table->string('passport', 200)->default('');
+
+
+            //Contact information
+            $table->string('country', 200)->nullable();
+            $table->string('state', 200)->nullable();
+            $table->string('city', 200)->nullable();
+            $table->string('post_code', 60)->nullable();
+            $table->string('latitude', 200)->nullable();
+            $table->string('longitude', 200)->nullable();
+            $table->string('address')->nullable();
+            $table->string('email')->unique();
+            $table->string('phone', 60)->nullable();
+
+
+            //Media
+            $table->string('profile_photo', 600)->default('avatar.png');
+            $table->string('profile_coverphoto', 600)->default('coverphoto.jpg');
+
+            //Social links
+            $table->string('twitter_username')->nullable();
+            $table->string('facebook_username')->nullable();
+            $table->string('youtube_username')->nullable();
+            $table->string('linkedin_username')->nullable();
+            $table->string('pinterest_username')->nullable();
+            $table->string('instagram_username')->nullable();
+            $table->string('google_username')->nullable();
+
+
+            //Instant Messaging Ids (IM)
+            $table->string('skype_username', 200)->nullable();
+            $table->string('whatsapp_number')->nullable();
+
+
+            //Profile           
+            $table->text('bio')->nullable();
+
+
+            //App Specific
+            $table->boolean('confirmed')->boolean()->nullable();
+            $table->boolean('is_admin')->boolean()->default(false)->nullable();
+            $table->string('confirmation_code')->default(false)->nullable();
+
+
+            $table->rememberToken();
+            $table->timestamps();
+            $table->softDeletes();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::drop('users');
+    }
+}

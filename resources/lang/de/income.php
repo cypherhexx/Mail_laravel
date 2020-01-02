@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'Reorder Bonus'         => 'Reorder-Bonus',
+    'all'                   => 'Alle',
+    'bonus_type'            => 'Bonus-Typ',
+    'choose_an_users'       => 'Wählen Sie Einen Benutzer',
+    'credit_points'         => 'Credit Points',
+    'date'                  => 'Datum',
+    'direct_refer_bonus'    => 'Direkt Finden Sie Bonus',
+    'filter'                => 'Filter',
+    'from_username'         => 'Von Username',
+    'group_sales_bonus'     => 'Gruppe Umsatz-Bonus',
+    'income'                => 'Einkommen',
+    'income_details'        => 'Einkommen Details',
+    'leg'                   => 'Bein',
+    'my_income'             => 'Mein Einkommen',
+    'overall'               => 'Insgesamt',
+    'pv'                    => 'Pv',
+    'share_bonus'           => 'Anteil Bonus',
+    'sub_title'             => 'Sub-Titel',
+    'title'                 => 'Titel',
+    'total_credit_points'   => 'Total Credit Points',
+    'total_ewallet'         => 'Insgesamt Ewallet',
+    'total_pv'              => 'Gesamt Pv',
+    'username'              => 'Benutzername',
+];

@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'Reorder Bonus'         => 'Reordenar Bono',
+    'all'                   => 'Todos',
+    'bonus_type'            => 'Bono Tipo',
+    'choose_an_users'       => 'Elija Una De Los Usuarios',
+    'credit_points'         => 'Puntos De Crédito',
+    'date'                  => 'Fecha',
+    'direct_refer_bonus'    => 'Directo Consulte Bono',
+    'filter'                => 'Filtro',
+    'from_username'         => 'De Nombre De Usuario',
+    'group_sales_bonus'     => 'El Grupo De Bono De Ventas',
+    'income'                => 'Ingresos',
+    'income_details'        => 'Ingresos Detalles',
+    'leg'                   => 'La pierna',
+    'my_income'             => 'Mis Ingresos',
+    'overall'               => 'En general',
+    'pv'                    => 'Pv',
+    'share_bonus'           => 'Compartir Bono',
+    'sub_title'             => 'Sub Título',
+    'title'                 => 'Título',
+    'total_credit_points'   => 'El Crédito Total De Puntos',
+    'total_ewallet'         => 'Total De Ewallet',
+    'total_pv'              => 'El Total De Pv',
+    'username'              => 'Nombre de usuario',
+];

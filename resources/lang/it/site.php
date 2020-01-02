@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'any_design'                                                                                            => 'Qualsiasi design',
+    'connect_with_us_on'                                                                                    => 'Collegati con noi su',
+    'copyright_notes'                                                                                       => 'Le note di copyright',
+    'dashboard'                                                                                             => 'Cruscotto',
+    'dynamic'                                                                                               => 'Dinamica',
+    'give_me_a_full_demo'                                                                                   => 'Mi danno una demo completa',
+    'landing_page_sample'                                                                                   => 'Atterraggio, Pagina Di Esempio',
+    'learn_more'                                                                                            => 'Saperne di più',
+    'make_your_landing_page_multilingual_dynamic_backend_translation_with_language_switcher'                => 'Rendere la vostra pagina di destinazione dinamico multilingua backend di traduzione con selettore della lingua',
+    'multilingual_on_request'                                                                               => 'Multilingue su richiesta',
+    'need_a_dynamic_website_for_your_mlm_business_choose_from_variety_ofcms_frameworks_we_are_experts_at'   => 'Bisogno di un sito web dinamico per il tuo business mlm scegliere varietà ofcms quadri siamo esperti in',
+    'number_1_mlm_software_with_unleashed_features_scalability_security'                                    => 'Numero 1 Mlm Software Con Unleashed Caratteristiche Di Scalabilità, Sicurezza',
+    'register'                                                                                              => 'Registro',
+    'request_full_demo'                                                                                     => 'Richiesta demo completa',
+    'sign_in'                                                                                               => 'Accedi',
+    'site_description_value'                                                                                => 'Descrizione del sito di valore',
+    'this_is_a_sample_page_for_demonstrating_cloud_mlm_softwares_feature'                                   => 'Questa è una pagina di esempio per dimostrare cloud mlm software funzionalità',
+    'this_is_just_sample_we_can_build_and_integrate_any_theme_of_your_choice_no_limitations'                => 'Questo È Solo Di Esempio Possiamo Costruire E Integrare Qualsiasi Tema Di Vostra Scelta Senza Limitazioni',
+    'try_now'                                                                                               => 'Prova ora',
+    'try_our_full_featured_demo'                                                                            => 'Prova il nostro demo completa',
+    'we_are_version_2_1_0_future_upgrades_are_free'                                                         => 'Ci sono la versione 2 1 0 futuri aggiornamenti sono gratuiti',
+    'we_can_design_integrate_your_choice'                                                                   => 'Siamo in grado di progettare integrare la vostra scelta',
+    'your_networks'                                                                                         => 'Le reti',
+];

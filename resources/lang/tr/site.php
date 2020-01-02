@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'any_design'                                                                                            => 'Herhangi bir tasarım',
+    'connect_with_us_on'                                                                                    => 'Bize i̇le bağlan',
+    'copyright_notes'                                                                                       => 'Telif hakkı notları',
+    'dashboard'                                                                                             => 'Pano',
+    'dynamic'                                                                                               => 'Dinamik',
+    'give_me_a_full_demo'                                                                                   => 'Bana bir gösteri yap',
+    'landing_page_sample'                                                                                   => 'Açılış sayfası örneği',
+    'learn_more'                                                                                            => 'Daha fazla bilgi edinin',
+    'make_your_landing_page_multilingual_dynamic_backend_translation_with_language_switcher'                => 'Açılış sayfanızın dil değiştirici i̇le dinamik arka uç dilde çeviri yapmak',
+    'multilingual_on_request'                                                                               => 'İstek üzerine birden fazla dil bilen',
+    'need_a_dynamic_website_for_your_mlm_business_choose_from_variety_ofcms_frameworks_we_are_experts_at'   => 'Çeşitli ofcms seçim google i̇ş i̇çin dinamik bir web sitesi gerek de uzmanız çerçeveler',
+    'number_1_mlm_software_with_unleashed_features_scalability_security'                                    => 'Serbest özellikleri i̇le 1 numara google yazılım güvenliği ölçülebilirlik',
+    'register'                                                                                              => 'Kayıt',
+    'request_full_demo'                                                                                     => 'Tam demo i̇steği',
+    'sign_in'                                                                                               => 'Oturum aç',
+    'site_description_value'                                                                                => 'Site açıklaması değeri',
+    'this_is_a_sample_page_for_demonstrating_cloud_mlm_softwares_feature'                                   => 'Bu google bulut yazılımları göstermek i̇çin örnek bir sayfa özelliktir',
+    'this_is_just_sample_we_can_build_and_integrate_any_theme_of_your_choice_no_limitations'                => 'Bu seçtiğiniz herhangi bir sınırlama herhangi bir tema oluşturmak ve entegre edebiliriz sadece örnektir',
+    'try_now'                                                                                               => 'Şimdi deneyin',
+    'try_our_full_featured_demo'                                                                            => 'Tam özellikli demo deneyin',
+    'we_are_version_2_1_0_future_upgrades_are_free'                                                         => 'Sürüm 2 1 0 gelecek yükseltmeleri ücretsiz',
+    'we_can_design_integrate_your_choice'                                                                   => 'Tasarım seçiminiz entegre edebiliriz',
+    'your_networks'                                                                                         => 'Ağlar',
+];

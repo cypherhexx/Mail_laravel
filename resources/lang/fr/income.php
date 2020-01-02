@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'Reorder Bonus'         => 'Réorganiser Les Bonus',
+    'all'                   => 'Tous',
+    'bonus_type'            => 'Type De Bonus',
+    'choose_an_users'       => 'Choisissez Un Des Utilisateurs',
+    'credit_points'         => 'Les Points De Crédit',
+    'date'                  => 'Date',
+    'direct_refer_bonus'    => 'Direct, Reportez-Vous Bonus',
+    'filter'                => 'Filtre',
+    'from_username'         => 'De Nom D\'Utilisateur',
+    'group_sales_bonus'     => 'Les Ventes Du Groupe Bonus',
+    'income'                => 'Le revenu',
+    'income_details'        => 'Le Revenu De Détails',
+    'leg'                   => 'Jambe',
+    'my_income'             => 'Mon Revenu',
+    'overall'               => 'Ensemble',
+    'pv'                    => 'Pv',
+    'share_bonus'           => 'Partager Bonus',
+    'sub_title'             => 'Sous-Titre',
+    'title'                 => 'Titre',
+    'total_credit_points'   => 'Total Des Points De Crédit',
+    'total_ewallet'         => 'Total Du Portefeuille',
+    'total_pv'              => 'Le Total Des Pv',
+    'username'              => 'Nom d\'utilisateur',
+];

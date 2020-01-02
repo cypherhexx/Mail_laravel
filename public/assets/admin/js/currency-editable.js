@@ -1,0 +1,31 @@
+ $(function(){
+             $('#enable').click(function() {
+                 $('#settings .currency').editable('toggleDisabled');
+                  $('#enable').text(function(i, text){
+                     return text === "Enable edit mode" ? "Disable edit mode" : "Enable edit mode";
+                });
+            });
+
+        $.fn.editable.defaults.mode = 'popup';
+        $.fn.editable.defaults.params = function (params) {
+            params._token = $("meta[name=csrf-token]").attr("content");
+            return params;
+        };
+
+        $('.currency').editable({
+            validate: function(value) {
+              
+        },        
+        type: 'text',
+        url:'http://localhost/Projects/binary/admin/currency', 
+        placement: 'top', 
+        send:'always',
+        disabled:true,
+        ajaxOptions: {
+        dataType: 'json'
+        },
+        success: function(response, newValue) {
+            $(this).html(newValue);
+            }        
+     });
+     }); 

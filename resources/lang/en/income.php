@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'Reorder Bonus'         => 'Reorder Bonus',
+    'all'                   => 'All',
+    'bonus_type'            => 'Bonus Type',
+    'choose_an_users'       => 'Choose An Users',
+    'credit_points'         => 'Credit Points',
+    'date'                  => 'Date',
+    'direct_refer_bonus'    => 'Direct Refer Bonus',
+    'filter'                => 'Filter',
+    'from_username'         => 'From Username',
+    'group_sales_bonus'     => 'Group Sales Bonus',
+    'income'                => 'Income',
+    'income_details'        => 'Income Details',
+    'leg'                   => 'Leg',
+    'my_income'             => 'My Income',
+    'overall'               => 'Overall',
+    'pv'                    => 'Pv',
+    'share_bonus'           => 'Share Bonus',
+    'sub_title'             => 'Sub Title',
+    'title'                 => 'Title',
+    'total_credit_points'   => 'Total Credit Points',
+    'total_ewallet'         => 'Total Ewallet',
+    'total_pv'              => 'Total Pv',
+    'username'              => 'Username',
+];

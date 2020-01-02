@@ -1,0 +1,90 @@
+<?php
+
+return array(
+
+    /*
+    |--------------------------------------------------------------------------
+    | Name of route
+    |--------------------------------------------------------------------------
+    |
+    | Enter the routes name to enable dynamic imagecache manipulation.
+    | This handle will define the first part of the URI:
+    | 
+    | {route}/{template}/{filename}
+    | 
+    | Examples: "images", "img/cache"
+    |
+    */
+   
+    'route' => "img/cache",
+
+    /*
+    |--------------------------------------------------------------------------
+    | Storage paths
+    |--------------------------------------------------------------------------
+    |
+    | The following paths will be searched for the image filename, submited 
+    | by URI. 
+    | 
+    | Define as many directories as you like.
+    |
+    */
+    
+    'paths' => array(
+        // public_path('upload'),
+        // public_path('images')
+        public_path('files/images/'),
+        public_path('files/images/icons/'),
+        public_path('files/images/users/default/'),
+        public_path('files/images/users/profile_photos/'),
+        public_path('files/images/users/profile_photos/thumbs/'),
+        public_path('files/images/users/profile_cover_photos/'),
+        public_path('files/images/users/profile_cover_photos/thumbs/'),
+        
+        //DEMO AVATARS
+        public_path('files/images/users/demo/male/'),
+        public_path('files/images/users/demo/female/'),
+
+
+        storage_path('files/images/'),
+        storage_path('files/logo/'),
+    ),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Manipulation templates
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify your own manipulation filter templates.
+    | The keys of this array will define which templates 
+    | are available in the URI:
+    |
+    | {route}/{template}/{filename}
+    |
+    | The values of this array will define which filter class
+    | will be applied, by its fully qualified name.
+    |
+    */
+   
+    'templates' => array(
+        'small' => 'Intervention\Image\Templates\Small',
+        'medium' => 'Intervention\Image\Templates\Medium',
+        'large' => 'Intervention\Image\Templates\Large',
+        'profile' => 'App\Filters\Profile',
+        'logo' => 'App\Filters\Profile',
+        'original' => 'App\Filters\Original',
+    ),
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Image Cache Lifetime
+    |--------------------------------------------------------------------------
+    |
+    | Lifetime in minutes of the images handled by the imagecache route.
+    |
+    */
+   
+    'lifetime' => 43200,
+
+);

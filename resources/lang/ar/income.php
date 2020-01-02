@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'Reorder Bonus'         => 'إعادة ترتيب مكافأة',
+    'all'                   => 'كل',
+    'bonus_type'            => 'مكافأة نوع',
+    'choose_an_users'       => 'اختيار المستخدمين',
+    'credit_points'         => 'نقطة الائتمان',
+    'date'                  => 'تاريخ',
+    'direct_refer_bonus'    => 'المباشر الرجوع مكافأة',
+    'filter'                => 'فلتر',
+    'from_username'         => 'من اسم المستخدم',
+    'group_sales_bonus'     => 'مبيعات المجموعة مكافأة',
+    'income'                => 'الدخل',
+    'income_details'        => 'تفاصيل الدخل',
+    'leg'                   => 'الساق',
+    'my_income'             => 'دخلي',
+    'overall'               => 'عموما',
+    'pv'                    => 'Pv',
+    'share_bonus'           => 'حصة مكافأة',
+    'sub_title'             => 'العنوان الفرعي',
+    'title'                 => 'العنوان',
+    'total_credit_points'   => 'مجموع نقاط الائتمان',
+    'total_ewallet'         => 'إجمالي المحفظة الإلكترونية',
+    'total_pv'              => 'مجموع Pv',
+    'username'              => 'اسم المستخدم',
+];

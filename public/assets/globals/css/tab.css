@@ -1,0 +1,664 @@
+.tabbable {
+	margin-bottom: 15px;
+}
+.nav-tabs {
+	border-color: #DDDDDD;
+	margin-bottom: 0;
+	margin-left: 0;
+	position: relative;
+	top: 1px;
+}
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+	background-color: #FFFFFF;
+	border-color: #DDDDDD #DDDDDD transparent;
+	border-top: 2px solid #DDDDDD;
+	color: #333333;
+	line-height: 16px;
+	margin-top: -1px;
+	z-index: 12;
+}
+
+.nav-tabs > li:first-child > a {
+	margin-left: 0;
+}
+.nav-tabs > li > a:hover {
+	background-color: #FFFFFF;
+	border-color: #DDDDDD;
+	color: #4C8FBD;
+}
+.nav-tabs > li > a, .nav-tabs > li > a:focus {
+	background-color: #F9F9F9;
+	border-color: #DDDDDD;
+	border-radius: 0 0 0 0 !important;
+	color: #999999;
+	line-height: 16px;
+	margin-right: -1px;
+	position: relative;
+}
+.tab-content {
+	border: 1px solid #DDDDDD;
+	padding: 16px 12px;
+	position: relative;
+}
+.tabs-below > .nav-tabs {
+	border-bottom-width: 0;
+	border-color: #DDDDDD;
+	margin-bottom: 0;
+	margin-top: -1px;
+	top: auto;
+}
+.tabs-below > .nav-tabs > li > a, .tabs-below > .nav-tabs > li > a:hover, .tabs-below > .nav-tabs > li > a:focus {
+	border-color: #DDDDDD;
+}
+.tabs-below > .nav-tabs > li.active > a, .tabs-below > .nav-tabs > li.active > a:hover, .tabs-below > .nav-tabs > li.active > a:focus {
+	border-bottom: 2px solid #DDDDDD;
+	border-color: transparent #DDDDDD #DDDDDD;
+	border-top-width: 1px;
+	margin-top: 0;
+}
+.tabs-left > .nav-tabs > li > a, .tabs-right > .nav-tabs > li > a {
+	min-width: 60px;
+}
+.tabs-left > .nav-tabs {
+	border-color: #DDDDDD;
+	float: left;
+	margin-bottom: 0;
+	top: auto;
+}
+.tabs-left > .nav-tabs > li {
+	float: none;
+}
+.tabs-left > .nav-tabs > li > a, .tabs-left > .nav-tabs > li > a:focus, .tabs-left > .nav-tabs > li > a:hover {
+	border-color: #DDDDDD;
+	margin: 0 -1px 0 0;
+}
+.tabs-left > .nav-tabs > li.active > a, .tabs-left > .nav-tabs > li.active > a:focus, .tabs-left > .nav-tabs > li.active > a:hover {
+	border-color: #DDDDDD;
+	border-right: none;
+	border-left: 2px solid #DDDDDD;
+	border-top-width: 1px;
+	margin: 0 -1px;
+}
+.tabs-right > .nav-tabs {
+	border-color: #DDDDDD;
+	float: right;
+	margin-bottom: 0;
+	top: auto;
+}
+.tabs-right > .nav-tabs > li > a, .tabs-right > .nav-tabs > li > a:focus, .tabs-right > .nav-tabs > li > a:hover {
+	border-color: #DDDDDD;
+	margin: 0 -1px;
+}
+.tabs-right > .nav-tabs > li.active > a, .tabs-right > .nav-tabs > li.active > a:focus, .tabs-right > .nav-tabs > li.active > a:hover {
+	border-color: #DDDDDD;
+	border-left: none;
+	border-right: 2px solid #DDDDDD;
+	border-top-width: 1px;
+	margin: 0 -2px 0 -1px;
+}
+.nav-tabs > li > a > .badge {
+	line-height: 8px;
+	opacity: 0.7;
+}
+.nav-tabs > li > a > [class*="fa-"] {
+	opacity: 0.75;
+}
+.nav-tabs > li.active > a > .badge, .nav-tabs > li.active > a > [class*="fa-"] {
+	opacity: 1;
+}
+.nav-tabs li [class*=" fa-"], .nav-tabs li [class^="fa-"] {
+	display: inline-block;
+	text-align: center;
+	width: 1.25em;
+}
+.nav-tabs > li.open .dropdown-toggle {
+	background-color: #4F99C6;
+	border-color: #4F99C6;
+	color: #FFFFFF;
+}
+.nav-tabs > li.open .dropdown-toggle > [class*="fa-"] {
+	color: #FFFFFF !important;
+	opacity: 1;
+}
+.tabs-left .tab-content, .tabs-right .tab-content {
+	overflow: auto;
+}
+/*teal*/
+.tab-teal > li.active > a, .tab-teal > li.active > a:hover, .tab-teal > li.active > a:focus {
+	border-color: #DDDDDD;
+	border-top: 2px solid #569099;
+}
+.tab-teal > li > a:hover {
+	color: #569099;
+}
+.tab-teal > li.dropdown.open.active > a:hover, .tab-teal > li.dropdown.open.active > a:focus {
+	background-color: #569099;
+	border-color: #569099;
+	color: #FFFFFF;
+}
+.tab-teal > li.open .dropdown-toggle {
+	background-color: #569099;
+	border-color: #569099;
+	color: #FFFFFF;
+}
+.tab-teal .dropdown-menu > li > a:hover, .tab-teal .dropdown-menu > li > a:focus {
+	background-color: #569099;
+}
+.tab-teal .active > a, .tab-teal .active > a:hover, .tab-teal .active > a:focus {
+	background-color: #569099;
+}
+.tabs-left > .tab-teal > li.active > a, .tabs-left > .tab-teal > li.active > a:focus, .tabs-left > .tab-teal > li.active > a:hover {
+	border-color: #DDDDDD;
+	border-right: none;
+	border-left: 2px solid #569099;
+}
+.tabs-below > .tab-teal > li.active > a, .tabs-below > .tab-teal > li.active > a:hover, .tabs-below > .tab-teal > li.active > a:focus {
+	border-color: #DDDDDD;
+	border-top: none;
+	border-bottom: 2px solid #569099;
+}
+.tabs-right > .tab-teal > li.active > a, .tabs-right > .tab-teal > li.active > a:focus, .tabs-right > .tab-teal > li.active > a:hover {
+	border-color: #DDDDDD;
+	border-left: none;
+	border-right: 2px solid #569099;
+}
+.tab-padding.tab-teal > li > a, .tab-padding.tab-teal > li > a:focus, .tab-padding.tab-teal > li > a:hover {
+	border-color: rgba(0, 0, 0, 0);
+	color: #FFFFFF;
+}
+.tab-padding.tab-teal > li:not(.active) > a:hover {
+	border-color: rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.15) transparent;
+	opacity: 0.85;
+}
+.tab-padding.tab-teal > li:not(.active) > a > [class*="fa-"]:first-child {
+	color: #FFFFFF !important;
+}
+.tab-padding.tab-teal > li:not(.active) > a > .badge {
+	background-color: #FFFFFF !important;
+	color: rgba(0, 0, 0, 0.4) !important;
+}
+.tab-padding.tab-teal > li > a, .tab-padding.tab-teal > li > a:focus {
+	background-color: #7DAFB7;
+}
+.tab-padding.tab-teal > li.active > a, .tab-padding.tab-teal > li.active > a:focus, .tab-padding.tab-teal > li.active > a:hover {
+	background-color: #FFFFFF;
+	box-shadow: none;
+	color: #4F80A0;
+}
+.tab-padding.tab-teal > li.active > a, .tab-padding.tab-teal > li.active > a:focus, .tab-padding.tab-teal > li.active > a:hover {
+	border-color: #569099 #DDDDDD transparent;
+	color: #4D8189;
+}
+.tabs-below .tab-padding.tab-teal > li.active > a {
+	border-color: transparent #7DB4D8 #7DB4D8;
+}
+.tab-padding.tab-teal {
+	border-bottom-color: #569099;
+	background-color: #F3F8F8;
+}
+.tabs-below .nav-tabs.tab-teal {
+	padding-bottom: 6px;
+	border-bottom-color: #DDDDDD;
+	border-top: 0 none;
+}
+/*bricky*/
+.tab-bricky > li.active > a, .tab-bricky > li.active > a:hover, .tab-bricky > li.active > a:focus {
+	border-color: #C83A2A #DDDDDD transparent;
+	border-top: 2px solid #C83A2A;
+}
+.tab-bricky > li > a:hover {
+	color: #C83A2A;
+}
+.tab-bricky > li.dropdown.open.active > a:hover, .tab-bricky > li.dropdown.open.active > a:focus {
+	background-color: #C83A2A;
+	border-color: #C83A2A;
+	color: #FFFFFF;
+}
+.tab-bricky > li.open .dropdown-toggle {
+	background-color: #C83A2A;
+	border-color: #C83A2A;
+	color: #FFFFFF;
+}
+.tab-bricky .dropdown-menu > li > a:hover, .tab-bricky .dropdown-menu > li > a:focus {
+	background-color: #C83A2A;
+}
+.tab-bricky .active > a, .tab-bricky .active > a:hover, .tab-bricky .active > a:focus {
+	background-color: #C83A2A;
+}
+.tabs-left > .tab-bricky > li.active > a, .tabs-left > .tab-bricky > li.active > a:focus, .tabs-left > .tab-bricky > li.active > a:hover {
+	border-color: #DDDDDD transparent #DDDDDD #C83A2A;
+	border-left: 2px solid #C83A2A;
+}
+.tabs-below > .tab-bricky > li.active > a, .tabs-below > .tab-bricky > li.active > a:hover, .tabs-below > .tab-bricky > li.active > a:focus {
+	border-bottom: 2px solid #C83A2A;
+	border-color: transparent #DDDDDD #C83A2A;
+}
+.tabs-right > .tab-bricky > li.active > a, .tabs-right > .tab-bricky > li.active > a:focus, .tabs-right > .tab-bricky > li.active > a:hover {
+	border-color: #DDDDDD #C83A2A #DDDDDD transparent;
+	border-right: 2px solid #C83A2A;
+}
+.tab-padding.tab-bricky > li > a, .tab-padding.tab-bricky > li > a:focus, .tab-padding.tab-bricky > li > a:hover {
+	border-color: rgba(0, 0, 0, 0);
+	color: #FFFFFF;
+}
+.tab-padding.tab-bricky > li:not(.active) > a:hover {
+	border-color: rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.15) transparent;
+	opacity: 0.85;
+}
+.tab-padding.tab-bricky > li:not(.active) > a > [class*="fa-"]:first-child {
+	color: #FFFFFF !important;
+}
+.tab-padding.tab-bricky > li:not(.active) > a > .badge {
+	background-color: #FFFFFF !important;
+	color: rgba(0, 0, 0, 0.4) !important;
+}
+.tab-padding.tab-bricky > li > a, .tab-padding.tab-bricky > li > a:focus {
+	background-color: #DC6456;
+}
+
+.tab-padding.tab-bricky > li.active > a, .tab-padding.tab-bricky > li.active > a:focus, .tab-padding.tab-bricky > li.active > a:hover {
+	background-color: #FFFFFF;
+	box-shadow: none;
+	color: #333333;
+}
+.tab-padding.tab-bricky > li.active > a, .tab-padding.tab-bricky > li.active > a:focus, .tab-padding.tab-teal > li.active > a:hover {
+	border-color: #C83A2A #DDDDDD transparent;
+	color: #333333;
+}
+.tabs-below .tab-padding.tab-bricky > li.active > a {
+	border-color: transparent #C83A2A #DDDDDD;
+}
+.tab-padding.tab-bricky {
+	border-bottom-color: #C83A2A;
+	background-color: #FBEEEC;
+}
+.tabs-below .nav-tabs.tab-bricky {
+	padding-bottom: 6px;
+	border-bottom-color: #DDDDDD;
+	border-top: 0 none;
+}
+/*green*/
+.tab-green > li.active > a, .tab-green > li.active > a:hover, .tab-green > li.active > a:focus {
+	border-color: #3D9400 #DDDDDD transparent;
+	border-top: 2px solid #3D9400;
+}
+.tab-green > li > a:hover {
+	color: #3D9400;
+}
+.tab-green > li.dropdown.open.active > a:hover, .tab-green > li.dropdown.open.active > a:focus {
+	background-color: #3D9400;
+	border-color: #3D9400;
+	color: #FFFFFF;
+}
+.tab-green > li.open .dropdown-toggle {
+	background-color: #3D9400;
+	border-color: #3D9400;
+	color: #FFFFFF;
+}
+.tab-green .dropdown-menu > li > a:hover, .tab-green .dropdown-menu > li > a:focus {
+	background-color: #3D9400;
+}
+.tab-green .active > a, .tab-green .active > a:hover, .tab-green .active > a:focus {
+	background-color: #3D9400;
+}
+.tabs-left > .tab-green > li.active > a, .tabs-left > .tab-green > li.active > a:focus, .tabs-left > .tab-green > li.active > a:hover {
+	border-color: #DDDDDD transparent #DDDDDD #3D9400;
+	border-left: 2px solid #3D9400;
+}
+.tabs-below > .tab-green > li.active > a, .tabs-below > .tab-green > li.active > a:hover, .tabs-below > .tab-green > li.active > a:focus {
+	border-bottom: 2px solid #3D9400;
+	border-color: transparent #DDDDDD #3D9400;
+}
+.tabs-right > .tab-green > li.active > a, .tabs-right > .tab-green > li.active > a:focus, .tabs-right > .tab-green > li.active > a:hover {
+	border-color: #DDDDDD #3D9400 #DDDDDD transparent;
+	border-right: 2px solid #3D9400;
+}
+.tab-padding.tab-green > li > a, .tab-padding.tab-green > li > a:focus, .tab-padding.tab-green > li > a:hover {
+	border-color: rgba(0, 0, 0, 0);
+	color: #FFFFFF;
+}
+.tab-padding.tab-green > li:not(.active) > a:hover {
+	border-color: rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.15) transparent;
+	opacity: 0.85;
+}
+.tab-padding.tab-green > li:not(.active) > a > [class*="fa-"]:first-child {
+	color: #FFFFFF !important;
+}
+.tab-padding.tab-green > li:not(.active) > a > .badge {
+	background-color: #FFFFFF !important;
+	color: rgba(0, 0, 0, 0.4) !important;
+}
+.tab-padding.tab-green > li > a, .tab-padding.tab-green > li > a:focus {
+	background-color: #71B145;
+}
+/*purple*/
+.tab-purple > li.active > a, .tab-purple > li.active > a:hover, .tab-purple > li.active > a:focus {
+	border-color: #57517B #DDDDDD transparent;
+	border-top: 2px solid #57517B;
+}
+.tab-purple > li > a:hover {
+	color: #57517B;
+}
+.tab-purple > li.dropdown.open.active > a:hover, .tab-purple > li.dropdown.open.active > a:focus {
+	background-color: #57517B;
+	border-color: #57517B;
+	color: #FFFFFF;
+}
+.tab-purple > li.open .dropdown-toggle {
+	background-color: #57517B;
+	border-color: #57517B;
+	color: #FFFFFF;
+}
+.tab-purple .dropdown-menu > li > a:hover, .tab-purple .dropdown-menu > li > a:focus {
+	background-color: #57517B;
+}
+.tab-purple .active > a, .tab-purple .active > a:hover, .tab-purple .active > a:focus {
+	background-color: #57517B;
+}
+.tabs-left > .tab-purple > li.active > a, .tabs-left > .tab-purple > li.active > a:focus, .tabs-left > .tab-purple > li.active > a:hover {
+	border-color: #DDDDDD transparent #DDDDDD #57517B;
+	border-left: 2px solid #57517B;
+}
+.tabs-below > .tab-purple > li.active > a, .tabs-below > .tab-purple > li.active > a:hover, .tabs-below > .tab-purple > li.active > a:focus {
+	border-bottom: 2px solid #57517B;
+	border-color: transparent #DDDDDD #57517B;
+}
+.tabs-right > .tab-purple > li.active > a, .tabs-right > .tab-purple > li.active > a:focus, .tabs-right > .tab-purple > li.active > a:hover {
+	border-color: #DDDDDD #57517B #DDDDDD transparent;
+	border-right: 2px solid #57517B;
+}
+.tab-padding.tab-purple > li > a, .tab-padding.tab-purple > li > a:focus, .tab-padding.tab-purple > li > a:hover {
+	border-color: rgba(0, 0, 0, 0);
+	color: #FFFFFF;
+}
+.tab-padding.tab-purple > li:not(.active) > a:hover {
+	border-color: rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.15) transparent;
+	opacity: 0.85;
+}
+.tab-padding.tab-purple > li:not(.active) > a > [class*="fa-"]:first-child {
+	color: #FFFFFF !important;
+}
+.tab-padding.tab-purple > li:not(.active) > a > .badge {
+	background-color: #FFFFFF !important;
+	color: rgba(0, 0, 0, 0.4) !important;
+}
+.tab-padding.tab-purple > li > a, .tab-padding.tab-purple > li > a:focus {
+	background-color: #84809F;
+}
+
+.tab-padding.tab-purple > li.active > a, .tab-padding.tab-purple > li.active > a:focus, .tab-padding.tab-purple > li.active > a:hover {
+	background-color: #FFFFFF;
+	box-shadow: none;
+	color: #333333;
+}
+.tab-padding.tab-purple > li.active > a, .tab-padding.tab-purple > li.active > a:focus, .tab-padding.tab-teal > li.active > a:hover {
+	border-color: #57517B #DDDDDD transparent;
+	color: #333333;
+}
+.tabs-below .tab-padding.tab-purple > li.active > a {
+	border-color: transparent #57517B #DDDDDD;
+}
+.tab-padding.tab-purple {
+	border-bottom-color: #57517B;
+	background-color: #F5F4F9;
+}
+.tabs-below .nav-tabs.tab-purple {
+	padding-bottom: 6px;
+	border-bottom-color: #DDDDDD;
+	border-top: 0 none;
+}
+.tab-padding.tab-green > li.active > a, .tab-padding.tab-green > li.active > a:focus, .tab-padding.tab-green > li.active > a:hover {
+	background-color: #FFFFFF;
+	box-shadow: none;
+	color: #333333;
+}
+.tab-padding.tab-green > li.active > a, .tab-padding.tab-green > li.active > a:focus, .tab-padding.tab-teal > li.active > a:hover {
+	border-color: #3D9400 #DDDDDD transparent;
+	color: #333333;
+}
+.tabs-below .tab-padding.tab-green > li.active > a {
+	border-color: transparent #3D9400 #DDDDDD;
+}
+.tab-padding.tab-green {
+	border-bottom-color: #3D9400;
+	background-color: #EFFBEC;
+}
+.tabs-below .nav-tabs.tab-green {
+	padding-bottom: 6px;
+	border-bottom-color: #DDDDDD;
+	border-top: 0 none;
+}
+/*blue*/
+.tab-blue > li.active > a, .tab-blue > li.active > a:hover, .tab-blue > li.active > a:focus {
+	border-color: #364F6A #DDDDDD transparent;
+	border-top: 2px solid #364F6A;
+}
+.tab-blue > li > a:hover {
+	color: #364F6A;
+}
+.tab-blue > li.dropdown.open.active > a:hover, .tab-blue > li.dropdown.open.active > a:focus {
+	background-color: #364F6A;
+	border-color: #364F6A;
+	color: #FFFFFF;
+}
+.tab-blue > li.open .dropdown-toggle {
+	background-color: #364F6A;
+	border-color: #364F6A;
+	color: #FFFFFF;
+}
+.tab-blue .dropdown-menu > li > a:hover, .tab-blue .dropdown-menu > li > a:focus {
+	background-color: #364F6A;
+}
+.tab-blue .active > a, .tab-blue .active > a:hover, .tab-blue .active > a:focus {
+	background-color: #364F6A;
+}
+.tabs-left > .tab-blue > li.active > a, .tabs-left > .tab-blue > li.active > a:focus, .tabs-left > .tab-blue > li.active > a:hover {
+	border-color: #DDDDDD transparent #DDDDDD #364F6A;
+	border-left: 2px solid #364F6A;
+}
+.tabs-below > .tab-blue > li.active > a, .tabs-below > .tab-blue > li.active > a:hover, .tabs-below > .tab-blue > li.active > a:focus {
+	border-bottom: 2px solid #364F6A;
+	border-color: transparent #DDDDDD #364F6A;
+}
+.tabs-right > .tab-blue > li.active > a, .tabs-right > .tab-blue > li.active > a:focus, .tabs-right > .tab-blue > li.active > a:hover {
+	border-color: #DDDDDD #364F6A #DDDDDD transparent;
+	border-right: 2px solid #364F6A;
+}
+.tab-padding.tab-blue > li > a, .tab-padding.tab-blue > li > a:focus, .tab-padding.tab-blue > li > a:hover {
+	border-color: rgba(0, 0, 0, 0);
+	color: #FFFFFF;
+}
+.tab-padding.tab-blue > li:not(.active) > a:hover {
+	border-color: rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.15) transparent;
+	opacity: 0.85;
+}
+.tab-padding.tab-blue > li:not(.active) > a > [class*="fa-"]:first-child {
+	color: #FFFFFF !important;
+}
+.tab-padding.tab-blue > li:not(.active) > a > .badge {
+	background-color: #FFFFFF !important;
+	color: rgba(0, 0, 0, 0.4) !important;
+}
+.tab-padding.tab-blue > li > a, .tab-padding.tab-blue > li > a:focus {
+	background-color: #6C7F92;
+}
+
+.tab-padding.tab-blue > li.active > a, .tab-padding.tab-blue > li.active > a:focus, .tab-padding.tab-blue > li.active > a:hover {
+	background-color: #FFFFFF;
+	box-shadow: none;
+	color: #333333;
+}
+.tab-padding.tab-blue > li.active > a, .tab-padding.tab-blue > li.active > a:focus, .tab-padding.tab-teal > li.active > a:hover {
+	border-color: #364F6A #DDDDDD transparent;
+	color: #333333;
+}
+.tabs-below .tab-padding.tab-blue > li.active > a {
+	border-color: transparent #364F6A #DDDDDD;
+}
+.tab-padding.tab-blue {
+	border-bottom-color: #364F6A;
+	background-color: #F3F5F6;
+}
+.tabs-below .nav-tabs.tab-blue {
+	padding-bottom: 6px;
+	border-bottom-color: #DDDDDD;
+	border-top: 0 none;
+}
+
+.nav > li.active > .dropdown-toggle {
+	cursor: pointer !important;
+}
+.nav-pills .open .dropdown-toggle > [class*="fa-"], .nav > li.dropdown.open.active > a:hover > [class*="fa-"], .nav > li.dropdown.open.active > a:focus > [class*="fa-"] {
+	color: #FFFFFF !important;
+}
+.nav-tabs > li:not(.active):not(.open) > a:not(:hover) > .disabled[class*="fa-"]:first-child {
+	color: #909090 !important;
+}
+
+.nav-tabs.tab-space-1 > li > a {
+	margin-right: 1px;
+}
+.nav-tabs.tab-space-2 > li > a {
+	margin-right: 2px;
+}
+.nav-tabs.tab-space-3 > li > a {
+	margin-right: 3px;
+}
+.nav-tabs.tab-space-4 > li > a {
+	margin-right: 4px;
+}
+.nav-tabs.tab-padding {
+	padding: 6px 5px 0;
+	border: 1px solid #DDDDDD;
+}
+.panel-tabs .nav-tabs {
+	float: right;
+	margin-top: -52px;
+	border: none;
+}
+.panel-tabs .nav-tabs > li > a {
+	height: 36px;
+	border-top: none;
+	border-bottom: none;
+	background: none;
+	border-right: 1px solid #CDCDCD;
+	box-shadow: 1px 1px 0 0 #FFFFFF;
+}
+.panel-tabs .nav-tabs > li > a:hover {
+	background: #ffffff;
+}
+.panel-tabs .nav-tabs > li:first-child > a {
+	box-shadow: 0 1px 0 1px #FFFFFF;
+}
+.panel-tabs .nav-tabs > li.active > a, .panel-tabs .nav-tabs > li.active > a:hover, .panel-tabs .nav-tabs > li.active > a:focus {
+	background-color: #FFFFFF;
+	background-image: none;
+	border-color: #4C8FBD #DDDDDD transparent;
+	border-top: none;
+	box-shadow: none;
+	color: #333333;
+	line-height: 16px;
+	margin-top: 0;
+}
+.panel-tabs .tab-content {
+	border: none;
+	padding: 0;
+}
+.tabs-right > .nav-tabs > li {
+	float: none;
+}
+.tabs-left,.tabs-right {
+    border-bottom: none;
+    padding-top: 2px
+}
+
+.tabs-left {
+    border-right: 1px solid #ddd
+}
+
+.tabs-right {
+    border-left: 1px solid #ddd
+}
+
+.tabs-left>li,.tabs-right>li {
+    float: none;
+    margin-bottom: 2px
+}
+
+.tabs-left>li {
+    margin-right: -1px
+}
+
+.tabs-right>li {
+    margin-left: -1px
+}
+
+.tabs-left>li.active>a,.tabs-left>li.active>a:focus,.tabs-left>li.active>a:hover {
+    border-bottom-color: #ddd;
+    border-right-color: transparent
+}
+
+.tabs-right>li.active>a,.tabs-right>li.active>a:focus,.tabs-right>li.active>a:hover {
+    border-bottom: 1px solid #ddd;
+    border-left-color: transparent
+}
+
+.tabs-left>li>a {
+    border-radius: 4px 0 0 4px;
+    margin-right: 0;
+    display: block
+}
+
+.tabs-right>li>a {
+    border-radius: 0 4px 4px 0;
+    margin-right: 0
+}
+
+.sideways {
+    margin-top: 50px;
+    border: none;
+    position: relative
+}
+
+.sideways>li {
+    height: 20px;
+    width: 120px;
+    margin-bottom: 100px
+}
+
+.sideways>li>a {
+    border-bottom: 1px solid #ddd;
+    border-right-color: transparent;
+    text-align: center;
+    border-radius: 4px 4px 0 0
+}
+
+.sideways>li.active>a,.sideways>li.active>a:focus,.sideways>li.active>a:hover {
+    border-bottom-color: transparent;
+    border-right-color: #ddd;
+    border-left-color: #ddd
+}
+
+.sideways.tabs-left {
+    left: -50px
+}
+
+.sideways.tabs-right {
+    right: -50px
+}
+
+.sideways.tabs-right>li {
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg)
+}
+
+.sideways.tabs-left>li {
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    transform: rotate(-90deg)
+}

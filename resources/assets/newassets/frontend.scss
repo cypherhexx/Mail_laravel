@@ -1,0 +1,21 @@
+
+// Fonts
+@import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:200,300,400,400i,500,600,700|Source+Sans+Pro:200,300,400,600,700,900");
+
+// Animate
+@import '~animate.css/animate';
+
+// Font-awesome
+@import '~font-awesome/scss/font-awesome';
+
+// IntroJs 
+@import "~intro.js/minified/introjs.min";
+
+
+// Frontend demo v2
+@import "./frontend/frontend-v2/css/stack-interface.css";
+@import "./frontend/frontend-v2/css/bootstrap.css";
+@import "./frontend/frontend-v2/css/theme.css";
+//Extra Custom css
+@import "./frontend/frontend-v2/css/custom.css";

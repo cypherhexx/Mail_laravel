@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'Reorder Bonus'         => 'Yeniden Bonus',
+    'all'                   => 'Tüm',
+    'bonus_type'            => 'Bonus Türü',
+    'choose_an_users'       => 'Bir Kullanıcı Seçin',
+    'credit_points'         => 'Kredi Puan',
+    'date'                  => 'Tarih',
+    'direct_refer_bonus'    => 'Doğrudan Yönlendirme',
+    'filter'                => 'Filtre',
+    'from_username'         => 'Kullanıcı Adıyla',
+    'group_sales_bonus'     => 'Grup Satış Primi',
+    'income'                => 'Gelir',
+    'income_details'        => 'Gelir Detayları',
+    'leg'                   => 'Bacak',
+    'my_income'             => 'Benim Gelir',
+    'overall'               => 'Genel',
+    'pv'                    => 'Pv',
+    'share_bonus'           => 'Paylaşmak Bonus',
+    'sub_title'             => 'Alt Başlık',
+    'title'                 => 'Başlık',
+    'total_credit_points'   => 'Toplam Kredi Puan',
+    'total_ewallet'         => 'Toplam E-Cüzdan',
+    'total_pv'              => 'Toplam Pv',
+    'username'              => 'Kullanıcı adı',
+];

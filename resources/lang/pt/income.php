@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'Reorder Bonus'         => 'Reordenar Bônus',
+    'all'                   => 'Todos',
+    'bonus_type'            => 'Tipo De Bónus',
+    'choose_an_users'       => 'Escolha Um Blog',
+    'credit_points'         => 'Pontos De Crédito',
+    'date'                  => 'Data',
+    'direct_refer_bonus'    => 'Direto Consulte Bônus',
+    'filter'                => 'Filtro',
+    'from_username'         => 'Nome De Usuário',
+    'group_sales_bonus'     => 'As Vendas Do Grupo De Bônus',
+    'income'                => 'Rendimento',
+    'income_details'        => 'Detalhes De Renda',
+    'leg'                   => 'Perna',
+    'my_income'             => 'Minha Renda',
+    'overall'               => 'Geral',
+    'pv'                    => 'Pv',
+    'share_bonus'           => 'Bonificação Em Ações',
+    'sub_title'             => 'Sub-Título',
+    'title'                 => 'Título',
+    'total_credit_points'   => 'Total De Pontos De Crédito',
+    'total_ewallet'         => 'Total Carteira Eletrônica',
+    'total_pv'              => 'Total Pv',
+    'username'              => 'Nome de usuário',
+];
