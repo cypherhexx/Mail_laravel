@@ -37,10 +37,10 @@
                             <thead> 
                                 <th>{{ trans('packages.spot_plan_name') }} </th>
                                 <th>{{ trans('packages.fee') }}</th>
-                                <th>{{ trans('packages.Point_value_pv') }}</th>
-                                <th>{{ trans('packages.revenue_share_rs') }}</th>
+                                <th>{{ trans('packages.level_percent') }}</th>
+                           <!--      <th>{{ trans('packages.revenue_share_rs') }}</th>
                                 <th>{{ trans('packages.binary_percentage') }} </th>                                
-                                <th>{{ trans('packages.daily_pv_limit') }} </th>                                
+                                <th>{{ trans('packages.daily_pv_limit') }} </th> -->                                
                             </thead>
                             <tbody>
                                 @foreach($settings as $item)
@@ -54,11 +54,11 @@
                                                 
                                              {{$item->amount}}  </a> </td>
 
-                                    <td><a class="settings" id="pv{{$item->id}}" data-type='text' data-pk="{{$item->id}}" data-title="Enter point value PV" data-name="pv">
+                                    <td><a class="settings" id="level_percent{{$item->id}}" data-type='text' data-pk="{{$item->id}}" data-title="Enter level percent" data-name="level_percent">
                                                 
-                                           {{$item->pv}} </a> </td>
+                                           {{$item->level_percent}} </a> </td>
 
-                                    <td><a class="settings" id="pv{{$item->id}}" data-type='text' data-pk="{{$item->id}}" data-title="Enter  Revenue share (RS)" data-name="rs">
+                                  <!--   <td><a class="settings" id="pv{{$item->id}}" data-type='text' data-pk="{{$item->id}}" data-title="Enter  Revenue share (RS)" data-name="rs">
                                                 
                                            {{$item->rs}} </a> </td>
                                     <td><a class="settings" id="pv{{$item->id}}" data-type='text' data-pk="{{$item->id}}" data-title="Enter  Serial Code  count" data-name="code">
@@ -66,7 +66,7 @@
                                            {{$item->code}} </a> </td>
                                      <td><a class="settings" id="pv{{$item->id}}" data-type='text' data-pk="{{$item->id}}" data-title="Enter  daily PV limit" data-name="daily_limit">
                                                 
-                                           {{$item->daily_limit}} </a> </td>
+                                           {{$item->daily_limit}} </a> </td> -->
 
                                            
                                 </tr> 

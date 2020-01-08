@@ -46,13 +46,13 @@
                         </div>
                     </div>
                     @if($leg)
-                   <!--  <div class="col-md-4">
+                    <div class="col-md-4">
                         <div class="required form-group{{ $errors->has('placement_user') ? ' has-error' : '' }}">
                             {!! Form::label('placement_user', trans("all.placement_username"), array('class' => 'control-label')) !!} {!! Form::text('placement_user', $placement_user, ['class' => 'form-control','required' => 'required','data-parsley-required-message' => trans("all.please_enter_placement_username") ,'data-parsley-group' => 'block-0','value' => $placement_user,'readonly']) !!}
                         </div>
-                    </div> -->
+                    </div>
                     @else @if($placement_user)
-                    <!-- <input type="hidden" name="placement_user" placeholder="{{trans('register.placement_username')}}" class="form-control" value="{{$placement_user}}" required /> --> @endif @endif
+                    <input type="hidden" name="placement_user" placeholder="{{trans('register.placement_username')}}" class="form-control" value="{{$placement_user}}" required /> @endif @endif
                     <!-- end col-4 -->
                     <!-- begin col-4 -->
                 <!--     <div class="col-md-4">

@@ -605,13 +605,15 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
             Tree_Table::getAllUpline($userresult->id);
             PointTable::updatePoint($userPackage->pv, $userresult->id);
-            Transactions::sponsorcommission($sponsor_id,$userresult->id);
+            // Transactions::sponsorcommission($sponsor_id,$userresult->id);
             // $sponsor_id
-            LeadershipBonus::allocateCommission($sponsor_id,Sponsortree::where('user_id',$sponsor_id)->value('sponsor'),$userPackage->pv / 10);
+            // LeadershipBonus::allocateCommission($sponsor_id,Sponsortree::where('user_id',$sponsor_id)->value('sponsor'),$userPackage->pv / 10);
+            Packages::levelCommission($userresult->id,$userPackage->amount);
+            Packages::directReferral($sponsor_id,$userresult->id,$data['package']);
             RsHistory::create([
                     'user_id'=>$userresult->id,                   
                     'from_id'=>$userresult->id,
-                    'rs_credit'=>$userPackage->rs,
+                    'rs_credit'=>$userPackage->amount,
             ]);
 
             PointTable::addPointTable($userresult->id);

@@ -1,6 +1,4 @@
   <?php $__env->startSection('title'); ?> <?php echo e($title); ?> :: ##parent-placeholder-3c6de1b7dd91465d437ef415f94f36afc1fbc8a8## <?php $__env->stopSection(); ?>  <?php $__env->startSection('styles'); ?> ##parent-placeholder-bf62280f159b1468fff0c96540f3989d41279669##
-
-
 <style type="text/css">
 </style>
 <?php $__env->stopSection(); ?> <?php $__env->startSection('main'); ?>
@@ -14,8 +12,8 @@
             </ul>
         </div>
     </div>
-    <?php echo $__env->make('app.admin.layouts.ewalletrecord', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
-    <table class="table datatable-basic table-striped table-hover" id="ewallet-table" ">
+    <!-- <?php echo $__env->make('app.user.layouts.ewalletrecord', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?> -->
+    <table class="table datatable-basic table-striped table-hover" id="ewallet-user-table" ">
                             <thead>
                                 <tr>
                                     <th>
@@ -31,12 +29,10 @@
 
                                     </th>
                                     <th>
-                                        <?php echo e(trans('ewallet.debit')); ?>
-
+                                    <?php echo e(trans('ewallet.debit')); ?> (<?php echo e($currency_sy); ?>)
                                     </th>
                                     <th>
-                                        <?php echo e(trans('ewallet.credit')); ?>
-
+                                       <?php echo e(trans('ewallet.credit')); ?>  (<?php echo e($currency_sy); ?>)  
                                     </th>
                                     <th>
                                         <?php echo e(trans('ewallet.date')); ?>
@@ -59,4 +55,4 @@
 
 </script>
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('app.admin.layouts.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php echo $__env->make('app.user.layouts.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

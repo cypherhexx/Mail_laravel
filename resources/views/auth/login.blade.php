@@ -44,7 +44,7 @@ $lockedflag = true;
         
         @if($lockedflag==false)    
         <div class="text-center">
-            <div class="icon-object border-slate-300 text-slate-300"><img src="{{url('img/cache/logo/logo.jpg')}}" alt="solidus"></div>
+            <div class="icon-object border-slate-300 text-slate-300"><img src="{{url('img/cache/logo/cloud-pic-febda.png')}}" alt="solidus"></div>
             <h5 class="content-group">Login to your account <small class="display-block">Enter your credentials below</small></h5>
         </div>
         <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }} has-feedback has-feedback-left" >

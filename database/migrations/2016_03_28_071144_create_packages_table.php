@@ -24,6 +24,8 @@ class CreatePackagesTable extends Migration
             $table->double('top_count',15,2)->default(0);
             $table->double('ref_top_count',15,2)->default(0);
             $table->string('special')->default('no');
+            $table->double('level_percent')->default(0);
+            
             $table->timestamps(); 
             $table->softDeletes();
         });

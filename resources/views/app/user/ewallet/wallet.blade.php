@@ -12,7 +12,7 @@
             </ul>
         </div>
     </div>
-    @include('app.user.layouts.ewalletrecord')
+    <!-- @include('app.user.layouts.ewalletrecord') -->
     <table class="table datatable-basic table-striped table-hover" id="ewallet-user-table" ">
                             <thead>
                                 <tr>

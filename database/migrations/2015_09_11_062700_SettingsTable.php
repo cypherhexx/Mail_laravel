@@ -24,6 +24,7 @@ class SettingsTable extends Migration
             $table->integer('sponsor_Commisions');
             $table->integer('joinfee');
             $table->integer('sponsor');
+            $table->double('direct_referral');
             $table->timestamps();
         });
     }

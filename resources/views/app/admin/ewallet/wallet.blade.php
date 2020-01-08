@@ -14,7 +14,7 @@
             </ul>
         </div>
     </div>
-    @include('app.admin.layouts.ewalletrecord')
+    <!-- @include('app.admin.layouts.ewalletrecord') -->
     <table class="table datatable-basic table-striped table-hover" id="ewallet-table" ">
                             <thead>
                                 <tr>

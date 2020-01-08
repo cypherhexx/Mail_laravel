@@ -143,7 +143,7 @@
                                 <span class="text">{{trans('menu.register')}}  </span>
                             </a>
                     </li> 
-                      <li class="has-sub {{set_active('admin/adminregister')}}{{set_active('admin/viewalladmin')}}{{set_active('admin/work_assign')}}{{set_active('admin/assign-role/*')}}">
+                  <!--     <li class="has-sub {{set_active('admin/adminregister')}}{{set_active('admin/viewalladmin')}}{{set_active('admin/work_assign')}}{{set_active('admin/assign-role/*')}}">
                         <a href="javascript:;">
                             <i class="fa fa-plus"></i>
                             <span class="text">Admin</span>
@@ -152,7 +152,7 @@
                              <li class="{{set_active('admin/adminregister')}}"><a href="{{url('admin/adminregister')}}">Admin Register</a></li>
                              <li class="{{set_active('admin/viewalladmin')}}{{set_active('admin/assign-role/*')}}"><a href="{{url('admin/viewalladmin')}}">{{trans('menu.view-all')}}</a></li>
                         </ul>
-                    </li>
+                    </li> -->
                     <li class="navigation-header"><span>Funds Management</span> <i class="icon-menu" title="Funds Management"></i></li>
                     <li class="{{set_active('admin/wallet*')}}">
                             <a href="{{url('admin/wallet')}}">
@@ -289,7 +289,7 @@
                              <!-- <li class="{{set_active('admin/paymentsettings')}}"><a href="{{url('admin/paymentsettings')}}">Payment Gateway Settings</a></li> -->
                              <!-- <li class="{{set_active('admin/optionsettings')}}"><a href="{{url('admin/optionsettings')}}">{{trans('menu.block_options')}}</a></li> -->
 
-                             <li class="{{set_active('admin/sitedown_management')}}"><a href="{{url('admin/sitedown_management')}}">Site Management</a></li>
+                             <!-- <li class="{{set_active('admin/sitedown_management')}}"><a href="{{url('admin/sitedown_management')}}">Site Management</a></li> -->
                             
                       
                         </ul>
@@ -372,13 +372,13 @@
                              <li class="{{set_active('admin/plansettings')}}"><a href="{{url('admin/plansettings')}}">  {{trans('menu.plan-settings')}} </a></li>
                              
 
-                             <li class="{{set_active('admin/bonus')}}"><a href="{{url('admin/bonus')}}">
+                           <!--   <li class="{{set_active('admin/bonus')}}"><a href="{{url('admin/bonus')}}">
                                 {{trans('menu.bonus-settings')}}  </a></li>
                              
                              <li class="{{set_active('admin/ranksetting')}}"><a href="{{url('admin/ranksetting')}}">{{trans('menu.rank-settings')}}</a></li>
 
                              <li class="{{set_active('admin/paymentsettings')}}"><a href="{{url('admin/paymentsettings')}}">{{trans('menu.payment_gateway_settings')}}</a></li>
-
+ -->
                              
                         </ul>
                     </li>
