@@ -372,13 +372,13 @@
                              <li class="{{set_active('admin/plansettings')}}"><a href="{{url('admin/plansettings')}}">  {{trans('menu.plan-settings')}} </a></li>
                              
 
-                           <!--   <li class="{{set_active('admin/bonus')}}"><a href="{{url('admin/bonus')}}">
-                                {{trans('menu.bonus-settings')}}  </a></li>
+                          <!--    <li class="{{set_active('admin/bonus')}}"><a href="{{url('admin/bonus')}}">
+                                {{trans('menu.bonus-settings')}}  </a></li> -->
                              
                              <li class="{{set_active('admin/ranksetting')}}"><a href="{{url('admin/ranksetting')}}">{{trans('menu.rank-settings')}}</a></li>
 
-                             <li class="{{set_active('admin/paymentsettings')}}"><a href="{{url('admin/paymentsettings')}}">{{trans('menu.payment_gateway_settings')}}</a></li>
- -->
+                        <!--      <li class="{{set_active('admin/paymentsettings')}}"><a href="{{url('admin/paymentsettings')}}">{{trans('menu.payment_gateway_settings')}}</a></li> -->
+
                              
                         </ul>
                     </li>

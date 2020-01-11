@@ -8,7 +8,7 @@ class Ranksetting extends Model
 {
     protected $table="rank_setting";
 
-    protected $fillable=['rank_name','top_up','quali_rank_id','quali_rank_count','rank_bonus'];
+    protected $fillable=['rank_name','top_up','quali_rank_id','quali_rank_count','rank_bonus','direct','sub_direct1','sub_direct2','sub_direct3','sub_direct4','sub_direct5','sub_direct6','sub_junior_direct1','sub_junior_direct2','sub_junior_direct3','sub_junior_direct4','sub_junior_direct5','sub_junior_direct6','gain','tree_level','referral_level'];
 
 
     public static function idToRankname($id){
@@ -74,6 +74,9 @@ class Ranksetting extends Model
          return self::insertRankHistory($user_id,$rank_id,$last_rank,$remarks);
     } 
      public static function insertRankHistory($user_id,$rank_id,$last_rank,$remarks){
+        // dd("1");
+
+        User::where('id',$user_id)->update(['rank_id' => $rank_id]);
        return Rankhistory::create([
                 "user_id"=>$user_id,
                 "rank_id"=>$last_rank,
@@ -81,4 +84,21 @@ class Ranksetting extends Model
                 "remarks"=>$remarks,
                     ]);
     }
+
+
+    public static function getthreeupline($upline_users,$level=1,$uplines){
+     if ($level > 5) 
+        return $uplines;  
+   
+     $upline=Sponsortree::where('user_id',$upline_users)->where('type','=','yes')->value('sponsor'); 
+
+      if ($upline > 0)
+          $uplines[]=$upline;
+
+     if ($upline == 1) 
+       
+        return $uplines;  
+    
+     return SELF::getthreeupline($upline,++$level,$uplines);
+   }
 }

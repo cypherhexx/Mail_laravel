@@ -20,7 +20,9 @@ class settingsTableSeeder extends Seeder
             'sponsor_Commisions'   => '60',
             'sponsor'=>'90',
             'joinfee' => '70',
-            'direct_referral' =>'25'
+            'direct_referral' =>'25',
+            'three_friends' => '1',
+            'eight_friends' => '1',
         ]); 
     }
 }

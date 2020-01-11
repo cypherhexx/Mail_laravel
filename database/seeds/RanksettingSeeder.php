@@ -11,86 +11,182 @@ class RanksettingSeeder extends Seeder
      */
     public function run()
     {
-       \App\Ranksetting::create([
-			'rank_name' 	     => "Distributor",
-			'rank_code' 	     => "DC",
+
+    	\App\Ranksetting::create([
+			'rank_name' 	     => "Member",
+			'rank_code' 	     => "M",
 			'top_up'   => 0,
 			'quali_rank_id'   => 0,
 			'quali_rank_count'   => 0,
-			'rank_bonus'   => "NA",
+			'rank_bonus'   => "na",
+		]);
+       \App\Ranksetting::create([
+			'rank_name' 	     => "A",
+			'rank_code' 	     => "A",
+			'top_up'   => 0,
+			'quali_rank_id'   => 0,
+			'quali_rank_count'   => 0,
+			'rank_bonus'   => "na",
+			'direct' => 3,
+			'sub_direct1' => 1,
+			'sub_direct2' => 1,
+			'sub_direct3' => 1,
+			'gain'=>'0.2',
+			'tree_level'=>'12',
+			'referral_level'=>'2',
+
+
 		]);
         \App\Ranksetting::create([
-			'rank_name' 	     => " Team Coordinator",
-			'rank_code' 	     => "TC",
-			'top_up'   => 10,
-			'quali_rank_id'   => 0,
-			'quali_rank_count'   => 0,
-			'rank_bonus'   => "iPhone 6S 16GB",
-		]);
-		 \App\Ranksetting::create([
-			'rank_name' 	     => "Executive Team Coordinator",
-			'rank_code' 	     => "ETC",
-			'top_up'   => 60,
-			'quali_rank_id'   => 0,
-			'quali_rank_count'   => 0,
-			'rank_bonus'   => "Trip to France for 2",
-		]); 
-		 \App\Ranksetting::create([
-			'rank_name' 	     => "Director",
-			'rank_code' 	     => "DIR",
-			'top_up'   => 160,
-			'quali_rank_id'   => 0,
-			'quali_rank_count'   => 0,
-			'rank_bonus'   => "Trip to Maldives for 2",
-		]);
-		 \App\Ranksetting::create([
-			'rank_name' 	     => "National Director",
-			'rank_code' 	     => "ND",
-			'top_up'   => 660,
-			'quali_rank_id'   => 0,
-			'quali_rank_count'   => 0,
-			'rank_bonus'   => "Rolex watch worth 10k",
-		]);
-		 \App\Ranksetting::create([
-			'rank_name' 	     => "Global Director",
-			'rank_code' 	     => "GD",
-			'top_up'   => 1660,
-			'quali_rank_id'   => 0,
-			'quali_rank_count'   => 0,
-			'rank_bonus'   => "Mercedes C180",
-		]);
-		 \App\Ranksetting::create([
-			'rank_name' 	     => "Vice President",
-			'rank_code' 	     => "VPR",
-			'top_up'   => 3660,
-			'quali_rank_id'   => 0,
-			'quali_rank_count'   =>0,
-			'rank_bonus'   => "Petrol Fee $300 per month",
-		]); 
-		 \App\Ranksetting::create([
-			'rank_name' 	     => "President",
-			'rank_code' 	     => "PR",
-			'top_up'   => 8660,
-			'quali_rank_id'   => 0,
-			'quali_rank_count'   => 0,
-			'rank_bonus'   => "House fee for $1500 per mth",
-		]);
-		 \App\Ranksetting::create([
-			'rank_name' 	     => "Crown 1",
-			'rank_code' 	     => "CR1",
+			'rank_name' 	     => "B",
+			'rank_code' 	     => "B",
 			'top_up'   => 0,
-			'quali_rank_id'   => 7,
-			'quali_rank_count'   => 3,
-			'rank_bonus'   => "Global revenue share 1 %",
-		]);
-		 \App\Ranksetting::create([
-			'rank_name' 	     => "Crown 2 ",
-			'rank_code' 	     => "CR2 ",
-			'top_up'   => 0,
-			'quali_rank_id'   => 8,
-			'quali_rank_count'   => 3,
-			'rank_bonus'   => "Global revenue share 2 %",
+			'quali_rank_id'   => 0,
+			'quali_rank_count'   => 0,
+			'rank_bonus'   => "na",
+			'direct' => 3,
+			'sub_direct1' => 3,
+			'sub_direct2' => 3,
+			'sub_direct3' => 3,
+			'gain'=>'0.4',
+			'tree_level'=>'14',
+			'referral_level'=>'2',
+
 		]);
 
+		 \App\Ranksetting::create([
+			'rank_name' 	     => "C",
+			'rank_code' 	     => "C",
+			'top_up'   => 0,
+			'quali_rank_id'   => 0,
+			'quali_rank_count'   => 0,
+			'rank_bonus'   => "na",
+			'direct' => 6,
+			'sub_direct1' => 3,
+			'sub_direct2' => 3,
+			'sub_direct3' => 3,
+			'sub_direct4' => 1,
+			'sub_direct5' => 1,
+			'sub_direct6' => 1,
+			'gain'=>'0.6',
+			'tree_level'=>'15',
+			'referral_level'=>'2',
+
+		]);
+
+		  \App\Ranksetting::create([
+			'rank_name' 	     => "D",
+			'rank_code' 	     => "D",
+			'top_up'   => 0,
+			'quali_rank_id'   => 0,
+			'quali_rank_count'   => 0,
+			'rank_bonus'   => "na",
+			'direct' => 6,
+			'sub_direct1' => 3,
+			'sub_direct2' => 3,
+			'sub_direct3' => 3,
+			'sub_direct4' => 3,
+			'sub_direct5' => 3,
+			'sub_direct6' => 3,
+			'gain'=>'0.7',
+			'tree_level'=>'16',
+			'referral_level'=>'2',
+
+		]);
+
+		   \App\Ranksetting::create([
+			'rank_name' 	     => "E",
+			'rank_code' 	     => "E",
+			'top_up'   => 0,
+			'quali_rank_id'   => 0,
+			'quali_rank_count'   => 0,
+			'rank_bonus'   => "na",
+			'direct' => 6,
+			'sub_direct1' => 6,
+			'sub_direct2' => 6,
+			'sub_direct3' => 6,
+			'sub_direct4' => 3,
+			'sub_direct5' => 3,
+			'sub_direct6' => 3,
+			'gain'=>'0.8',
+			'tree_level'=>'17',
+			'referral_level'=>'2',
+
+		]);
+		 \App\Ranksetting::create([
+			'rank_name' 	     => "F",
+			'rank_code' 	     => "F",
+			'top_up'   => 0,
+			'quali_rank_id'   => 0,
+			'quali_rank_count'   => 0,
+			'rank_bonus'   => "na",
+			'direct' => 6,
+			'sub_direct1' => 6,
+			'sub_direct2' => 6,
+			'sub_direct3' => 6,
+			'sub_direct4' => 6,
+			'sub_direct5' => 6,
+			'sub_direct6' => 6,
+			'sub_junior_direct1' => 3,
+			'sub_junior_direct2' => 3,
+			'sub_junior_direct3' => 3,
+			'gain'=>'0.9',
+			'tree_level'=>'18',
+			'referral_level'=>'3',
+
+		]);
+
+		 \App\Ranksetting::create([
+			'rank_name' 	     => "G",
+			'rank_code' 	     => "G",
+			'top_up'   => 0,
+			'quali_rank_id'   => 0,
+			'quali_rank_count'   => 0,
+			'rank_bonus'   => "na",
+			'direct' => 6,
+			'sub_direct1' => 6,
+			'sub_direct2' => 6,
+			'sub_direct3' => 6,
+			'sub_direct4' => 6,
+			'sub_direct5' => 6,
+			'sub_direct6' => 6,
+			'sub_junior_direct1' => 1,
+			'sub_junior_direct2' => 1,
+			'sub_junior_direct3' => 1,
+			'sub_junior_direct4' => 1,
+			'sub_junior_direct5' => 1,
+			'sub_junior_direct6' => 1,
+			'gain'=>'1',
+			'tree_level'=>'19',
+			'referral_level'=>'3',
+
+		]);
+
+		 	 \App\Ranksetting::create([
+			'rank_name' 	     => "H",
+			'rank_code' 	     => "H",
+			'top_up'   => 0,
+			'quali_rank_id'   => 0,
+			'quali_rank_count'   => 0,
+			'rank_bonus'   => "na",
+			'direct' => 6,
+			'sub_direct1' => 6,
+			'sub_direct2' => 6,
+			'sub_direct3' => 6,
+			'sub_direct4' => 6,
+			'sub_direct5' => 6,
+			'sub_direct6' => 6,
+			'sub_junior_direct1' => 3,
+			'sub_junior_direct2' => 3,
+			'sub_junior_direct3' => 3,
+			'sub_junior_direct4' => 3,
+			'sub_junior_direct5' => 3,
+			'sub_junior_direct6' => 3,
+			'gain'=>'1',
+			'tree_level'=>'20',
+			'referral_level'=>'3',
+
+		]);
+      
     }
 }
