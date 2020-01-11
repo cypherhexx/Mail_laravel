@@ -698,11 +698,11 @@ ul, menu, dir {
 @section('scripts')
 @parent
  
- <script type="text/javascript">
+<!--  <script type="text/javascript">
 $(document).on('submit', 'form', function() {
    $(this).find('button:submit, input:submit').attr('disabled','disabled');
  });
-</script>
+</script> -->
 
 <script>
 

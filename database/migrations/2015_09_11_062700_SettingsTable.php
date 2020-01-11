@@ -25,6 +25,8 @@ class SettingsTable extends Migration
             $table->integer('joinfee');
             $table->integer('sponsor');
             $table->double('direct_referral');
+            $table->double('three_friends');
+            $table->double('eight_friends');
             $table->timestamps();
         });
     }

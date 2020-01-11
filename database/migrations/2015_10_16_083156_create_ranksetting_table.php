@@ -21,7 +21,23 @@ class CreateRanksettingTable extends Migration
             $table->integer('quali_rank_id')->default('1');
             $table->integer('quali_rank_count')->default('1');
             $table->string('rank_bonus', 500)->default('NA');
-            $table->timestamps();
+            $table->integer('direct')->default('0');
+            $table->integer('sub_direct1')->default('0');
+            $table->integer('sub_direct2')->default('0');
+            $table->integer('sub_direct3')->default('0');
+            $table->integer('sub_direct4')->default('0');
+            $table->integer('sub_direct5')->default('0');
+            $table->integer('sub_direct6')->default('0');
+            $table->integer('sub_junior_direct1')->default('0');
+            $table->integer('sub_junior_direct2')->default('0');
+            $table->integer('sub_junior_direct3')->default('0');
+            $table->integer('sub_junior_direct4')->default('0');
+            $table->integer('sub_junior_direct5')->default('0');
+            $table->integer('sub_junior_direct6')->default('0');
+            $table->double('gain')->default('0');
+            $table->integer('tree_level')->default('0');
+            $table->integer('referral_level')->default('0');
+            $table->timestamps();   
             $table->softDeletes();
         });
     }

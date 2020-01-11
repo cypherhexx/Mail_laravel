@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
             $table->integer('rank_id');
             $table->string('register_by')->default(false);
             $table->string('active')->default('yes');
+            $table->integer('referral_count')->default(0);
             $table->string('confirmation_code')->default(false);
             $table->boolean('confirmed')->default(false);
             $table->boolean('admin')->default(false);

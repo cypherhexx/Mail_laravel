@@ -95,7 +95,45 @@ class Packages extends Model
           * updates the userbalance
           */
           User::upadteUserBalance($sponsor, $direct_referral);
+          self::checkRefreals($sponsor,$from,$package);
 
+    }
+
+    public static function checkRefreals($sponsor,$from,$package){
+      $usercount=Sponsortree::where('sponsor',$sponsor)->where('type','yes')->count('user_id');
+      if($usercount > 3){
+          $pack=Packages::find($package);
+          $direct_ref=Settings::find(1)->three_friends;
+          $direct_referral=$pack->amount*$direct_ref*0.01;
+          $commision = Commission::create([
+                'user_id'        => $sponsor,
+                'from_id'        => $from,
+                'total_amount'   => $direct_referral,
+                'tds'            => 0,
+                'service_charge' =>0,
+                'payable_amount' => $direct_referral,
+                'payment_type'   => 'three_referral',
+                'payment_status' => 'Yes',
+          ]);
+          User::upadteUserBalance($sponsor, $direct_referral);
+
+            if($usercount > 8){
+              $eight_friends=Settings::find(1)->three_friends;
+              $eight_referral=$pack->amount*$eight_friends*0.01;
+              $commision = Commission::create([
+                    'user_id'        => $sponsor,
+                    'from_id'        => $from,
+                    'total_amount'   => $eight_referral,
+                    'tds'            => 0,
+                    'service_charge' =>0,
+                    'payable_amount' => $eight_referral,
+                    'payment_type'   => 'eight_referral',
+                    'payment_status' => 'Yes',
+              ]);
+              User::upadteUserBalance($sponsor, $eight_referral);
+            }
+
+      }
     }
 
 
@@ -114,6 +152,80 @@ class Packages extends Model
     
      return SELF::gettenupllins($upline,++$level,$uplines);
    }
+
+   public static function rankCheck($user){
+    
+    $cur_rank=User::find($user)->rank_id;
+    $next_rank=$cur_rank+1;
+    $rank_det=Ranksetting::find($next_rank);
+    $sponusers=Sponsortree::where('sponsor',$user)->where('type','yes')->pluck('user_id');
+    $user_count=count($sponusers);
+  
+      if($user_count >= $rank_det->direct){
+  
+        if(($rank_det->sub_direct1 > 0)){
+           $one=User::where('referral_count','>=',$rank_det->sub_direct1)
+                    ->whereIn('id',$sponusers)
+                    ->take(1)->get();
+        }
+    
+        if($rank_det->sub_direct2 > 0 && (count($one) > 0)){
+           $two=User::where('referral_count','>=',$rank_det->sub_direct2)
+                    ->whereIn('id',$sponusers)
+                    ->where('id','<>',$one[0]->id)
+                    ->take(1)->get();
+        }
+       
+       if($rank_det->sub_direct3 > 0 && (count($one) > 0) && (count($two) > 0)){
+           $three=User::where('referral_count','>=',$rank_det->sub_direct3)
+                      ->whereIn('id',$sponusers)
+                      ->where('id','<>',$two[0]->id)
+                      ->where('id','<>',$one[0]->id)
+                      ->take(1)->get();
+        }
+              
+        if($rank_det->sub_direct4 > 0 && (count($one) > 0) &&  (count($two) > 0) && (count($three) > 0)){
+           $four=User::where('referral_count','>=',$rank_det->sub_direct4)
+                     ->whereIn('id',$sponusers)
+                     ->where('id','<>',$two[0]->id)
+                     ->where('id','<>',$one[0]->id)
+                     ->where('id','<>',$three[0]->id)
+                     ->take(1)->get();
+        }
+        if($rank_det->sub_direct5 > 0 && (count($one) > 0) && (count($two) > 0) && (count($three) > 0) && (count($four) > 0)){
+          $five=User::where('referral_count','>=',$rank_det->sub_direct5)
+                    ->whereIn('id',$sponusers)->where('id','<>',$four[0]->id)
+                    ->where('id','<>',$two[0]->id)
+                    ->where('id','<>',$one[0]->id)
+                    ->where('id','<>',$three[0]->id)
+                    ->take(1)->get();
+           
+        }
+        if($rank_det->sub_direct6 > 0 && (count($one) > 0) && (count($two) > 0) && (count($three) > 0) && (count($four) > 0) && (count($five) > 0)){
+          $six=User::where('referral_count','>=',$rank_det->sub_direct6)
+                    ->whereIn('id',$sponusers)->where('id','<>',$five[0]->id)
+                    ->where('id','<>',$four[0]->id)
+                    ->where('id','<>',$two[0]->id)
+                    ->where('id','<>',$one[0]->id)
+                    ->where('id','<>',$three[0]->id)
+                    ->take(1)->get();
+        }
+
+        if($next_rank < 4){
+          if((count($one) > 0) && (count($two) > 0) &&  (count($three) > 0)){
+          Ranksetting::insertRankHistory($user,$next_rank,$cur_rank,'rank_updated');
+          }
+        }
+
+        if($next_rank > 3 && $next_rank < 7){
+          if((count($one) > 0) && (count($two) > 0) &&  (count($three) > 0) && (count($four) > 0) && (count($five) > 0) && (count($six) > 0)){
+             Ranksetting::insertRankHistory($user,$next_rank,$cur_rank,'rank_updated');
+          }
+        }
+      }
+}
+
+   
 
  
     public function user()

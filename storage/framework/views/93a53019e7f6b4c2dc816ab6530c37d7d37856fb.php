@@ -724,11 +724,11 @@ ul, menu, dir {
 <?php $__env->startSection('scripts'); ?>
 ##parent-placeholder-16728d18790deb58b3b8c1df74f06e536b532695##
  
- <script type="text/javascript">
+<!--  <script type="text/javascript">
 $(document).on('submit', 'form', function() {
    $(this).find('button:submit, input:submit').attr('disabled','disabled');
  });
-</script>
+</script> -->
 
 <script>
 

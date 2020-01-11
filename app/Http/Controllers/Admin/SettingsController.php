@@ -85,7 +85,8 @@ class SettingsController extends AdminController
 
     public function ranksetting()
     {
-        $settings  = Ranksetting::all();
+        $settings  = Ranksetting::where('id','>',1)->get();
+        // dd($settings);
         $title     = trans('settings.rank_settings');
         $sub_title = trans('settings.rank_settings_panel');
         $base      = trans('settings.settings');
