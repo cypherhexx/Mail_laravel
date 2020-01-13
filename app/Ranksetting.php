@@ -8,7 +8,7 @@ class Ranksetting extends Model
 {
     protected $table="rank_setting";
 
-    protected $fillable=['rank_name','top_up','quali_rank_id','quali_rank_count','rank_bonus','direct','sub_direct1','sub_direct2','sub_direct3','sub_direct4','sub_direct5','sub_direct6','sub_junior_direct1','sub_junior_direct2','sub_junior_direct3','sub_junior_direct4','sub_junior_direct5','sub_junior_direct6','gain','tree_level','referral_level'];
+    protected $fillable=['rank_name','top_up','quali_rank_id','quali_rank_count','rank_bonus','minimum_users1','rule1','minimum_users2','rule2','minimum_users3','rule3','minimum_users4','rule4','gain','tree_level'];
 
 
     public static function idToRankname($id){

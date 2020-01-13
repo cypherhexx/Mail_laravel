@@ -155,7 +155,7 @@ class DashboardController extends AdminController
             ->where('admin', '<>', 1)
             ->orderBy('created_at','desc')           
             ->paginate(10);
-        $user_arrs=[];
+        // $user_arrs=[];
 
         // Packages::rankCheck(1);
        // $results=Packages::gettenupllins(12,1,$user_arrs);
