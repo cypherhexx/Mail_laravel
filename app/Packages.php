@@ -158,15 +158,23 @@ class Packages extends Model
     $cur_rank=User::find($user)->rank_id;
     $next_rank=$cur_rank+1;
     $rank_det=Ranksetting::find($next_rank);
-    $sponusers=Sponsortree::where('sponsor',$user)->where('type','yes')->pluck('user_id');
+    $sponusers=Sponsortree::where('sponsor',$user)->where('sponsortree.type','yes')->pluck('user_id');
+     $sponusers2=Sponsortree::join('users','users.id','=','sponsortree.user_id')->where('sponsor',$user)->where('sponsortree.type','yes')->pluck('referral_count','user_id');
+    // dd($rank_det);
+    // dd($sponusers2);
     $user_count=count($sponusers);
   
       if($user_count >= $rank_det->direct){
+
+       
   
         if(($rank_det->sub_direct1 > 0)){
            $one=User::where('referral_count','>=',$rank_det->sub_direct1)
                     ->whereIn('id',$sponusers)
                     ->take(1)->get();
+                    // $sub_direct[]=$one[0]->id;
+                   // echo "one".$one[0]->id."<br>";
+
         }
     
         if($rank_det->sub_direct2 > 0 && (count($one) > 0)){
@@ -174,7 +182,8 @@ class Packages extends Model
                     ->whereIn('id',$sponusers)
                     ->where('id','<>',$one[0]->id)
                     ->take(1)->get();
-        }
+                 // echo "two".$two[0]->id."<br>";
+               }
        
        if($rank_det->sub_direct3 > 0 && (count($one) > 0) && (count($two) > 0)){
            $three=User::where('referral_count','>=',$rank_det->sub_direct3)
@@ -182,6 +191,9 @@ class Packages extends Model
                       ->where('id','<>',$two[0]->id)
                       ->where('id','<>',$one[0]->id)
                       ->take(1)->get();
+                       // $sub_direct[]=$three[0]->id;
+                    // dd($three);
+                      // echo "three".$three[0]->id."<br>";
         }
               
         if($rank_det->sub_direct4 > 0 && (count($one) > 0) &&  (count($two) > 0) && (count($three) > 0)){
@@ -191,6 +203,8 @@ class Packages extends Model
                      ->where('id','<>',$one[0]->id)
                      ->where('id','<>',$three[0]->id)
                      ->take(1)->get();
+                      // $sub_direct[]=$four[0]->id;
+                     // echo "four".$four[0]->id."<br>";
         }
         if($rank_det->sub_direct5 > 0 && (count($one) > 0) && (count($two) > 0) && (count($three) > 0) && (count($four) > 0)){
           $five=User::where('referral_count','>=',$rank_det->sub_direct5)
@@ -199,6 +213,8 @@ class Packages extends Model
                     ->where('id','<>',$one[0]->id)
                     ->where('id','<>',$three[0]->id)
                     ->take(1)->get();
+                    // $sub_direct[]=$five[0]->id;
+                    // echo "five".$five[0]->id."<br>";
            
         }
         if($rank_det->sub_direct6 > 0 && (count($one) > 0) && (count($two) > 0) && (count($three) > 0) && (count($four) > 0) && (count($five) > 0)){
@@ -209,7 +225,12 @@ class Packages extends Model
                     ->where('id','<>',$one[0]->id)
                     ->where('id','<>',$three[0]->id)
                     ->take(1)->get();
+                    // dd($six);
+                    // $sub_direct[]=$six[0]->id;
+                    // echo "six".$six[0]->id."<br>";
         }
+
+        // dd("done");
 
         if($next_rank < 4){
           if((count($one) > 0) && (count($two) > 0) &&  (count($three) > 0)){
@@ -218,11 +239,56 @@ class Packages extends Model
         }
 
         if($next_rank > 3 && $next_rank < 7){
+          // dd($sub_direct);
           if((count($one) > 0) && (count($two) > 0) &&  (count($three) > 0) && (count($four) > 0) && (count($five) > 0) && (count($six) > 0)){
              Ranksetting::insertRankHistory($user,$next_rank,$cur_rank,'rank_updated');
           }
         }
-      }
+
+          if($next_rank == 7){
+          
+            // dd($next_rank);
+          if((count($one) > 0) && (count($two) > 0) &&  (count($three) > 0) && (count($four) > 0) && (count($five) > 0) && (count($six) > 0)){
+               $second_direct=array($one[0]->id,$two[0]->id,$three[0]->id,$four[0]->id,$five[0]->id,$six[0]->id);
+
+
+            if(($rank_det->sub_junior_direct1 > 0)){
+                $one=User::where('referral_count','>=',$rank_det->sub_junior_direct1)
+                         ->whereIn('id',$second_direct)
+                         ->take(1)->get();
+                    // $sub_direct[]=$one[0]->id;
+                   echo "one".$one[0]->id."<br>";
+
+            }
+            dd($one);
+    
+            if($rank_det->sub_direct2 > 0 && (count($one) > 0)){
+               $two=User::where('referral_count','>=',$rank_det->sub_direct2)
+                        ->whereIn('id',$sponusers)
+                        ->where('id','<>',$one[0]->id)
+                        ->take(1)->get();
+                     // echo "two".$two[0]->id."<br>";
+            }
+       
+           if($rank_det->sub_direct3 > 0 && (count($one) > 0) && (count($two) > 0)){
+               $three=User::where('referral_count','>=',$rank_det->sub_direct3)
+                          ->whereIn('id',$sponusers)
+                          ->where('id','<>',$two[0]->id)
+                          ->where('id','<>',$one[0]->id)
+                          ->take(1)->get();
+                           // $sub_direct[]=$three[0]->id;
+                        // dd($three);
+                          // echo "three".$three[0]->id."<br>";
+            }
+           
+            dd($second_direct);
+
+
+             // Ranksetting::insertRankHistory($user,$next_rank,$cur_rank,'rank_updated');
+          }
+        }
+      
+}
 }
 
    
