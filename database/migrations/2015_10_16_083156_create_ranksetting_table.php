@@ -21,14 +21,14 @@ class CreateRanksettingTable extends Migration
             $table->integer('quali_rank_id')->default('1');
             $table->integer('quali_rank_count')->default('1');
             $table->string('rank_bonus', 500)->default('NA');
-            $table->integer('minimum_users1')->default('0');
-            $table->integer('rule1')->default('0');
-            $table->integer('minimum_users2')->default('0');
-            $table->integer('rule2')->default('0');
-            $table->integer('minimum_users3')->default('0');
-            $table->integer('rule3')->default('0');
-            $table->integer('minimum_users4')->default('0');
-            $table->integer('rule4')->default('0');
+             $table->integer('direct_referral')->default('0');
+            $table->integer('minimum_direct_ref1')->default('0');
+            $table->integer('minimum_ref_for_each1')->default('0');
+            $table->integer('minimum_direct_ref2')->default('0');
+            $table->integer('minimum_ref_for_each2')->default('0');
+            $table->integer('minimum_direct_ref3')->default('0');
+            $table->integer('minimum_ref_for_each3')->default('0');
+         
             $table->double('gain')->default('0');
             $table->integer('tree_level')->default('0');
             $table->timestamps();   

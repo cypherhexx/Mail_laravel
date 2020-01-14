@@ -24,22 +24,39 @@
                         <legend>{{ trans('settings.rank_settings') }}</legend>
 
                         <table class="table table-hover">
+                          <thead>
+                           <th colspan="3"></th> 
+                         
+                            <th colspan="2">Rule 1</th> 
+                            <th colspan="2">Rule 2</th> 
+                            <th colspan="2">Rule 3</th>
+                             </thead>
+
+
                             <thead>
                                 <th>{{ trans('settings.no') }}</th>
                                 <th>{{ trans('settings.rank_name') }}</th>
-                                <th>Rule 1(Min.users)</th>
-                                <th>Rule 2(Min.users)</th>
-                                <th>Rule 3(Min.users)</th>
-                                <th>Rule 4(Min.users)</th>
+                                <th>Direct Referrals</th>
                               
-                               
+                               <th>Min.Users</th>
+                                <th>Referrals For Each</th>
+
+                           
+                               <th>Min.Users</th>
+                                <th>Referrals For Each</th>
+
+                          
+                               <th>Min.Users</th>
+                                <th>Referrals For Each</th>
+
+                              
                                 <th>Gain</th>
                                 <th>Level</th>
 
                               
 
                             </thead>
-                            <tbody>
+                                             <tbody>
                                 @foreach($settings as $key=>$rank)
                            
                                 <tr>
@@ -50,25 +67,41 @@
                                         </a>
                                     </td>
                                     <td>
-                                        <a class="settings form-control" data-pk="{{$rank->id}}" data-type='number' id="minimum_users1" data-title='Enter count of direct referrals' data-name="minimum_users1">
-                                                 {{$rank->minimum_users1}}
+                                        <a class="settings form-control" data-pk="{{$rank->id}}" data-type='number' id="direct_referral" data-title='Enter count of direct referrals' data-name="direct_referral">
+                                                 {{$rank->direct_referral}}
                                         </a>
                                     </td>
                                      <td>
-                                        <a class="settings form-control" data-pk="{{$rank->id}}" data-type='number' id="minimum_users2" data-title='Enter count of  referrals' data-name="minimum_users2">
-                                                 {{$rank->minimum_users2}}
+                                        <a class="settings form-control" data-pk="{{$rank->id}}" data-type='number' id="minimum_direct_ref1" data-title='Enter count of direct referrals' data-name="minimum_direct_ref1">
+                                                 {{$rank->minimum_direct_ref1}}
                                         </a>
                                     </td>
                                      <td>
-                                        <a class="settings form-control" data-pk="{{$rank->id}}" data-type='number' id="minimum_users3" data-title='Enter count of  referrals' data-name="minimum_users3">
-                                                 {{$rank->minimum_users3}}
+                                        <a class="settings form-control" data-pk="{{$rank->id}}" data-type='number' id="minimum_ref_for_each1" data-title='Enter referrals for each' data-name="minimum_ref_for_each1">
+                                                 {{$rank->minimum_ref_for_each1}}
                                         </a>
                                     </td>
                                      <td>
-                                        <a class="settings form-control" data-pk="{{$rank->id}}" data-type='number' id="minimum_users4" data-title='Enter count of  referrals' data-name="minimum_users4">
-                                                 {{$rank->minimum_users4}}
+                                        <a class="settings form-control" data-pk="{{$rank->id}}" data-type='number' id="minimum_direct_ref2" data-title='Enter count of  referrals' data-name="minimum_direct_ref2">
+                                                 {{$rank->minimum_direct_ref2}}
                                         </a>
                                     </td>
+                                      <td>
+                                        <a class="settings form-control" data-pk="{{$rank->id}}" data-type='number' id="minimum_ref_for_each2" data-title='Enter referrals for each' data-name="minimum_ref_for_each2">
+                                                 {{$rank->minimum_ref_for_each2}}
+                                        </a>
+                                    </td>
+                                         <td>
+                                        <a class="settings form-control" data-pk="{{$rank->id}}" data-type='number' id="minimum_direct_ref3" data-title='Enter count of  referrals' data-name="minimum_direct_ref3">
+                                                 {{$rank->minimum_direct_ref3}}
+                                        </a>
+                                    </td>
+                                      <td>
+                                        <a class="settings form-control" data-pk="{{$rank->id}}" data-type='number' id="minimum_ref_for_each3" data-title='Enter referrals for each' data-name="minimum_ref_for_each3">
+                                                 {{$rank->minimum_ref_for_each3}}
+                                        </a>
+                                    </td>
+
                                    
                                       <td>
                                         <a class="settings form-control" data-pk="{{$rank->id}}" data-type='text' id="gain" data-title='Enter gain percent' data-name="gain">
@@ -84,7 +117,8 @@
                                 </tr>
                                 @endforeach
 
-                            </tbody>    
+                            </tbody>  
+                     
 
                         </table>
                         
