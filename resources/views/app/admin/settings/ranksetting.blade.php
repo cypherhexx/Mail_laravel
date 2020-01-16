@@ -51,7 +51,7 @@
 
                               
                                 <th>Gain</th>
-                                <th>Level</th>
+                           
 
                               
 
@@ -108,11 +108,11 @@
                                                  {{$rank->gain}}
                                         </a>
                                     </td>
-                                      <td>
+                                <!--       <td>
                                         <a class="settings form-control" data-pk="{{$rank->id}}" data-type='number' id="tree_level" data-title='Enter levels' data-name="tree_level">
                                                  {{$rank->tree_level}}
                                         </a>
-                                    </td>
+                                    </td> -->
                                     
                                 </tr>
                                 @endforeach

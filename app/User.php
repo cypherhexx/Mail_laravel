@@ -610,13 +610,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             // $sponsor_id
             // LeadershipBonus::allocateCommission($sponsor_id,Sponsortree::where('user_id',$sponsor_id)->value('sponsor'),$userPackage->pv / 10);
             self::where('id',$sponsor_id)->increment('referral_count',1);
-            // $user_arrs=[];
-            // $results=Ranksetting::getthreeupline($userresult->id,1,$user_arrs);
+            $user_arrs=[];
+            $results=Ranksetting::getthreeupline($userresult->id,1,$user_arrs);
           
-            // foreach ($results as $key => $value) {
-            //               Packages::rankCheck($value);
+            foreach ($results as $key => $value) {
+                          Packages::rankCheck($value);
             
-            // }
+            }
             Packages::levelCommission($userresult->id,$userPackage->amount);
             // Packages::rankBasedLevelCommission($userresult->id,$userPackage->amount);
             Packages::directReferral($sponsor_id,$userresult->id,$data['package']);

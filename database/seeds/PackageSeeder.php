@@ -12,7 +12,7 @@ class PackageSeeder extends Seeder
     public function run()
     {
        App\Packages::create([
-          'package'=>'50$',
+          'package'=>'50€',
           'amount'=>'50',
           'pv'=>0,
           'rs'=>0,
@@ -21,10 +21,10 @@ class PackageSeeder extends Seeder
           'special'=>0,
           'top_count'=>0,
           'ref_top_count'=>0,
-           'level_percent' => '1',
+           'level_percent' => '2',
         ]);
       App\Packages::create([
-          'package'=>'100$',
+          'package'=>'100€',
           'amount'=>'100',
           'pv'=>0,
           'rs'=>0,
@@ -33,11 +33,11 @@ class PackageSeeder extends Seeder
           'special'=>0,
           'top_count'=>0,
           'ref_top_count'=>0,
-          'level_percent' => '1.5',
+          'level_percent' => '2.5',
         ]);
 
        App\Packages::create([
-          'package'=>'150$',
+          'package'=>'150€',
           'amount'=>'150',
           'pv'=>0,
           'rs'=>0,
@@ -46,11 +46,11 @@ class PackageSeeder extends Seeder
           'special'=>0,
           'top_count'=>0,
           'ref_top_count'=>0,
-           'level_percent' =>'1.75', 
+           'level_percent' =>'2.75', 
         ]);
 
         App\Packages::create([
-          'package'=>'200$',
+          'package'=>'200€',
           'amount'=>'200',
           'pv'=>0,
           'rs'=>0,
@@ -59,7 +59,7 @@ class PackageSeeder extends Seeder
           'special'=>0,
           'top_count'=>0,
           'ref_top_count'=>0,
-           'level_percent' => '2',
+           'level_percent' => '3',
         ]);
     }
 }

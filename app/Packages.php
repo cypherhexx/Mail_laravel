@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use DB;
 
 
 class Packages extends Model
@@ -72,10 +73,30 @@ class Packages extends Model
           * updates the userbalance
           */
           User::upadteUserBalance($upuser, $level_commission);
+          self::checkRankbasedCommission($upuser,$package_am,$user_id);
           }
 
     }
 
+    public static function checkRankbasedCommission($user,$amount,$from){
+        $rank=User::find($user)->rank_id;
+        if($rank > 1){
+           $rankgain=Ranksetting::find($rank)->gain;
+           $rank_commission=$amount*$rankgain*0.01;
+                    $commision = Commission::create([
+                    'user_id'        => $user,
+                    'from_id'        => $from,
+                    'total_amount'   => $rank_commission,
+                    'tds'            => 0,
+                    'service_charge' =>0,
+                    'payable_amount' => $rank_commission,
+                    'payment_type'   => 'rank_level_commission',
+                    'payment_status' => 'Yes',
+              ]);
+              User::upadteUserBalance($user, $rank_commission);
+
+          }
+     }
      public static function directReferral($sponsor,$from,$package){
           
           $pack=Packages::find($package);
@@ -95,7 +116,7 @@ class Packages extends Model
           * updates the userbalance
           */
           User::upadteUserBalance($sponsor, $direct_referral);
-          self::checkRefreals($sponsor,$from,$package);
+          // self::checkRefreals($sponsor,$from,$package);
 
     }
 
@@ -153,143 +174,120 @@ class Packages extends Model
      return SELF::gettenupllins($upline,++$level,$uplines);
    }
 
-   public static function rankCheck($user){
-    
-    $cur_rank=User::find($user)->rank_id;
-    $next_rank=$cur_rank+1;
-    $rank_det=Ranksetting::find($next_rank);
-    $sponusers=Sponsortree::where('sponsor',$user)->where('sponsortree.type','yes')->pluck('user_id');
-     $sponusers2=Sponsortree::join('users','users.id','=','sponsortree.user_id')->where('sponsor',$user)->where('sponsortree.type','yes')->pluck('referral_count','user_id');
-    // dd($rank_det);
-    // dd($sponusers2);
-    $user_count=count($sponusers);
   
-      if($user_count >= $rank_det->direct){
 
+public static function rankCheck($rankuser){
+  $cur_rank=User::find($rankuser)->rank_id;
+  $next_rank=$cur_rank+1;
+  $rank_det=Ranksetting::find($next_rank);
+  $user_count=Sponsortree::where('sponsor',$rankuser)->where('type','yes')->count('user_id');
+    if($rank_det->minimum_ref_for_each1 == 0 && $rank_det->minimum_direct_ref2 == 0 && $rank_det->minimum_direct_ref3 == 0 && $user_count >= $rank_det->minimum_direct_ref1){
+        Ranksetting::insertRankHistory($rankuser,$next_rank,$cur_rank,'rank_updated');
+    }
+
+    if($rank_det->minimum_ref_for_each1 > 0){
+
+      // dd($rank_det);
        
+        $direct_ref_users1=Sponsortree::join('users','sponsortree.user_id','=','users.id')
+                                      ->where('sponsortree.sponsor','=',$rankuser)
+                                      ->where('sponsortree.type','=','yes')
+                                      ->where('users.referral_count','>=',$rank_det->minimum_ref_for_each1)
+                                      ->pluck('users.id');
+
+                                      // dd($rank_det->minimum_ref_for_each1);
+        $direct_ref1=count($direct_ref_users1);
+              // dd($direct_ref_users1);
+
+          if($direct_ref1 >= $rank_det->minimum_direct_ref1 && $rank_det->minimum_direct_ref2 == 0 && $rank_det->minimum_direct_ref3 == 0){
+              Ranksetting::insertRankHistory($rankuser,$next_rank,$cur_rank,'rank_updated');
+          }
+          if($rank_det->minimum_ref_for_each2 > 0){
+              // dd("hello");
+
+              $direct_ref_users2=Sponsortree::join('users','sponsortree.user_id','=','users.id')
+                                            ->where('sponsortree.sponsor','=',$rankuser)
+                                            ->where('users.referral_count','>=',$rank_det->minimum_ref_for_each2)
+                                            ->where('users.referral_count','<',$rank_det->minimum_ref_for_each1)
+                                            ->whereNotIn('sponsortree.user_id',$direct_ref_users1)
+                                            ->pluck('sponsortree.user_id');
+              $direct_ref2=count($direct_ref_users2);
+              // dd($direct_ref2);
+
+          if($direct_ref1 >= $rank_det->minimum_direct_ref1 && $direct_ref2 >= $rank_det->minimum_direct_ref2 && $rank_det->minimum_direct_ref3 == 0){
+              Ranksetting::insertRankHistory($rankuser,$next_rank,$cur_rank,'rank_updated');
+          }
+    }
+         
+
+          if($rank_det->minimum_ref_for_each3 > 0 && $rank_det->minimum_direct_ref2 == 0){
+            // dd($rank_det->minimum_direct_ref1);
+
+            if($direct_ref1 >= $rank_det->minimum_direct_ref1){
+
+              $second_user=self::Levelcount($rankuser,2);
+              // dd($rank_det->minimum_direct_ref3);
+
+              if(count($second_user) >= $rank_det->minimum_direct_ref3){
+
+                $sum_three=0;
+                foreach ($second_user as $key => $suser) {
+                 $ref_count=User::find($suser)->referral_count;
+               
+                 if($ref_count >= $rank_det->minimum_ref_for_each3){
+                  $sum_three=$sum_three+1;
+                 }
+
+                }
+
+              if($sum_three >= $rank_det->minimum_direct_ref3){
+                 Ranksetting::insertRankHistory($rankuser,$next_rank,$cur_rank,'rank_updated');
+              }
+            }
+
+            }
+
+          }
+
   
-        if(($rank_det->sub_direct1 > 0)){
-           $one=User::where('referral_count','>=',$rank_det->sub_direct1)
-                    ->whereIn('id',$sponusers)
-                    ->take(1)->get();
-                    // $sub_direct[]=$one[0]->id;
-                   // echo "one".$one[0]->id."<br>";
-
-        }
-    
-        if($rank_det->sub_direct2 > 0 && (count($one) > 0)){
-           $two=User::where('referral_count','>=',$rank_det->sub_direct2)
-                    ->whereIn('id',$sponusers)
-                    ->where('id','<>',$one[0]->id)
-                    ->take(1)->get();
-                 // echo "two".$two[0]->id."<br>";
-               }
-       
-       if($rank_det->sub_direct3 > 0 && (count($one) > 0) && (count($two) > 0)){
-           $three=User::where('referral_count','>=',$rank_det->sub_direct3)
-                      ->whereIn('id',$sponusers)
-                      ->where('id','<>',$two[0]->id)
-                      ->where('id','<>',$one[0]->id)
-                      ->take(1)->get();
-                       // $sub_direct[]=$three[0]->id;
-                    // dd($three);
-                      // echo "three".$three[0]->id."<br>";
-        }
-              
-        if($rank_det->sub_direct4 > 0 && (count($one) > 0) &&  (count($two) > 0) && (count($three) > 0)){
-           $four=User::where('referral_count','>=',$rank_det->sub_direct4)
-                     ->whereIn('id',$sponusers)
-                     ->where('id','<>',$two[0]->id)
-                     ->where('id','<>',$one[0]->id)
-                     ->where('id','<>',$three[0]->id)
-                     ->take(1)->get();
-                      // $sub_direct[]=$four[0]->id;
-                     // echo "four".$four[0]->id."<br>";
-        }
-        if($rank_det->sub_direct5 > 0 && (count($one) > 0) && (count($two) > 0) && (count($three) > 0) && (count($four) > 0)){
-          $five=User::where('referral_count','>=',$rank_det->sub_direct5)
-                    ->whereIn('id',$sponusers)->where('id','<>',$four[0]->id)
-                    ->where('id','<>',$two[0]->id)
-                    ->where('id','<>',$one[0]->id)
-                    ->where('id','<>',$three[0]->id)
-                    ->take(1)->get();
-                    // $sub_direct[]=$five[0]->id;
-                    // echo "five".$five[0]->id."<br>";
-           
-        }
-        if($rank_det->sub_direct6 > 0 && (count($one) > 0) && (count($two) > 0) && (count($three) > 0) && (count($four) > 0) && (count($five) > 0)){
-          $six=User::where('referral_count','>=',$rank_det->sub_direct6)
-                    ->whereIn('id',$sponusers)->where('id','<>',$five[0]->id)
-                    ->where('id','<>',$four[0]->id)
-                    ->where('id','<>',$two[0]->id)
-                    ->where('id','<>',$one[0]->id)
-                    ->where('id','<>',$three[0]->id)
-                    ->take(1)->get();
-                    // dd($six);
-                    // $sub_direct[]=$six[0]->id;
-                    // echo "six".$six[0]->id."<br>";
-        }
-
-        // dd("done");
-
-        if($next_rank < 4){
-          if((count($one) > 0) && (count($two) > 0) &&  (count($three) > 0)){
-          Ranksetting::insertRankHistory($user,$next_rank,$cur_rank,'rank_updated');
-          }
-        }
-
-        if($next_rank > 3 && $next_rank < 7){
-          // dd($sub_direct);
-          if((count($one) > 0) && (count($two) > 0) &&  (count($three) > 0) && (count($four) > 0) && (count($five) > 0) && (count($six) > 0)){
-             Ranksetting::insertRankHistory($user,$next_rank,$cur_rank,'rank_updated');
-          }
-        }
-
-          if($next_rank == 7){
-          
-            // dd($next_rank);
-          if((count($one) > 0) && (count($two) > 0) &&  (count($three) > 0) && (count($four) > 0) && (count($five) > 0) && (count($six) > 0)){
-               $second_direct=array($one[0]->id,$two[0]->id,$three[0]->id,$four[0]->id,$five[0]->id,$six[0]->id);
-
-
-            if(($rank_det->sub_junior_direct1 > 0)){
-                $one=User::where('referral_count','>=',$rank_det->sub_junior_direct1)
-                         ->whereIn('id',$second_direct)
-                         ->take(1)->get();
-                    // $sub_direct[]=$one[0]->id;
-                   echo "one".$one[0]->id."<br>";
-
-            }
-            dd($one);
-    
-            if($rank_det->sub_direct2 > 0 && (count($one) > 0)){
-               $two=User::where('referral_count','>=',$rank_det->sub_direct2)
-                        ->whereIn('id',$sponusers)
-                        ->where('id','<>',$one[0]->id)
-                        ->take(1)->get();
-                     // echo "two".$two[0]->id."<br>";
-            }
-       
-           if($rank_det->sub_direct3 > 0 && (count($one) > 0) && (count($two) > 0)){
-               $three=User::where('referral_count','>=',$rank_det->sub_direct3)
-                          ->whereIn('id',$sponusers)
-                          ->where('id','<>',$two[0]->id)
-                          ->where('id','<>',$one[0]->id)
-                          ->take(1)->get();
-                           // $sub_direct[]=$three[0]->id;
-                        // dd($three);
-                          // echo "three".$three[0]->id."<br>";
-            }
-           
-            dd($second_direct);
-
-
-             // Ranksetting::insertRankHistory($user,$next_rank,$cur_rank,'rank_updated');
-          }
-        }
-      
+  
 }
 }
+
+public static function Levelcount($user_id,$level)
+  {
+      $first_level = DB::table('sponsortree')
+                       ->where('sponsor','=',$user_id)
+                       ->where('type','<>',"vaccant")
+                       ->select('user_id')
+                       ->get(); 
+      $first_count = count($first_level);
+        if($first_count > 0 ){
+          $first_array = [];
+            foreach($first_level as $row){
+              $first_array[] = $row->user_id;
+              }
+              $second_level = DB::table('sponsortree')
+                                ->whereIn('sponsor',$first_array)
+                                ->where('type','<>',"vaccant")
+                                ->select('user_id')
+                                ->get(); 
+              $second_count = count($second_level);
+              if($second_count > 0 ){
+                $second_array = [];
+                  foreach($second_level as $row){
+                    $second_array[] = $row->user_id;
+                  }
+                    return $second_array; 
+              }
+              else{
+                   return 0;
+                 }
+        }
+        else{
+                   return 0;
+                 }
+    }
 
    
 
