@@ -30,7 +30,7 @@
                                       <div class="form-group">
                                          <div class="row">
                                             <div class="col-sm-6">
-                                                <label for="">{{trans('ticket_config.direct_referral')}} (%):</label>
+                                                <label for="">Direct Referral (%):</label>
                                             </div>
                                             <div class="col-sm-4">
                                                  <a class="settings form-control"  id="direct_referral" data-type='text' data-pk="{{$settings->id}}" data-title='Direct Referral' data-name="direct_referral">
