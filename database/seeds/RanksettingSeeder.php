@@ -27,11 +27,11 @@ class RanksettingSeeder extends Seeder
 			'quali_rank_id'   => 0,
 			'quali_rank_count'   => 0,
 			'rank_bonus'   => "na",
-			'direct_referral' => 3,
-			'minimum_direct_ref1' => 3,
-			'minimum_ref_for_each1' => 1,
-			'gain'=>'0.2',
-			'tree_level'=>'12',
+			'direct_referral' => 5,
+			'minimum_direct_ref1' => 5,
+			'minimum_ref_for_each1' => 0,
+			'gain'=>'1',
+			'tree_level'=>'10',
 
 
 		]);
@@ -42,11 +42,11 @@ class RanksettingSeeder extends Seeder
 			'quali_rank_id'   => 0,
 			'quali_rank_count'   => 0,
 			'rank_bonus'   => "na",
-			'direct_referral' => 3,
-			'minimum_direct_ref1' => 3,
-			'minimum_ref_for_each1' => 3,
-			'gain'=>'0.4',
-			'tree_level'=>'14',
+			'direct_referral' => 10,
+			'minimum_direct_ref1' => 10,
+			'minimum_ref_for_each1' => 0,
+			'gain'=>'1',
+			'tree_level'=>'10',
 			
 		]);
 
@@ -57,13 +57,13 @@ class RanksettingSeeder extends Seeder
 			'quali_rank_id'   => 0,
 			'quali_rank_count'   => 0,
 			'rank_bonus'   => "na",
-			'direct_referral' => 6,
-			'minimum_direct_ref1' => 3,
-			'minimum_ref_for_each1' => 3,
-			'minimum_direct_ref2' => 3,
-			'minimum_ref_for_each2' => 1,
-			'gain'=>'0.6',
-			'tree_level'=>'15',
+			'direct_referral' => 5,
+			'minimum_direct_ref1' => 5,
+			'minimum_ref_for_each1' => 1,
+			// 'minimum_direct_ref2' => 3,
+			// 'minimum_ref_for_each2' => 1,
+			'gain'=>'0.2',
+			'tree_level'=>'10',
 			
 
 		]);
@@ -75,12 +75,14 @@ class RanksettingSeeder extends Seeder
 			'quali_rank_id'   => 0,
 			'quali_rank_count'   => 0,
 			'rank_bonus'   => "na",
-			'direct_referral' => 6,
-			'minimum_direct_ref1' => 6,
-			'minimum_ref_for_each1' => 3,
+			'direct_referral' => 10,
+			'minimum_direct_ref1' => 5,
+			'minimum_ref_for_each1' => 5,
+			'minimum_direct_ref2' => 5,
+			'minimum_ref_for_each2' => 1,
 		
-			'gain'=>'0.7',
-			'tree_level'=>'16',
+			'gain'=>'0.6',
+			'tree_level'=>'10',
 			
 
 		]);
@@ -92,30 +94,30 @@ class RanksettingSeeder extends Seeder
 			'quali_rank_id'   => 0,
 			'quali_rank_count'   => 0,
 			'rank_bonus'   => "na",
-			'direct_referral' => 6,
-			'minimum_direct_ref1' => 3,
-			'minimum_ref_for_each1' => 6,
-			'minimum_direct_ref2' => 3,
-			'minimum_ref_for_each2' => 3,
+			'direct_referral' => 10,
+			'minimum_direct_ref1' => 10,
+			'minimum_ref_for_each1' => 5,
+			
 			'gain'=>'0.8',
-			'tree_level'=>'17',
+			'tree_level'=>'10',
 			
 
 		]);
-		 \App\Ranksetting::create([
+
+		    \App\Ranksetting::create([
 			'rank_name' 	     => "F",
 			'rank_code' 	     => "F",
 			'top_up'   => 0,
 			'quali_rank_id'   => 0,
 			'quali_rank_count'   => 0,
 			'rank_bonus'   => "na",
-			'direct_referral' => 6,
-			'minimum_direct_ref1' => 6,
-			'minimum_ref_for_each1' => 6,
-			'minimum_direct_ref3' => 3,
-			'minimum_ref_for_each3' => 3,
-			'gain'=>'0.9',
-			'tree_level'=>'18',
+			'direct_referral' => 10,
+			'minimum_direct_ref1' => 10,
+			'minimum_ref_for_each1' => 5,
+			'minimum_direct_ref3' => 50,
+			'minimum_ref_for_each3' => 1,
+			'gain'=>'0.2',
+			'tree_level'=>'10',
 			
 
 		]);
@@ -127,36 +129,19 @@ class RanksettingSeeder extends Seeder
 			'quali_rank_id'   => 0,
 			'quali_rank_count'   => 0,
 			'rank_bonus'   => "na",
-			'direct_referral' => 6,
-			'minimum_direct_ref1' => 6,
-			'minimum_ref_for_each1' => 6,
-			'minimum_direct_ref3' => 6,
-			'minimum_ref_for_each3' => 1,
+			'direct_referral' => 10,
+			'minimum_direct_ref1' => 10,
+			'minimum_ref_for_each1' => 5,
+			'minimum_direct_ref3' => 50,
+			'minimum_ref_for_each3' => 5,
 			'gain'=>'1',
-			'tree_level'=>'19',
+			'tree_level'=>'10',
 			
 
 		]);
 
-		 	 \App\Ranksetting::create([
-			'rank_name' 	     => "H",
-			'rank_code' 	     => "H",
-			'top_up'   => 0,
-			'quali_rank_id'   => 0,
-			'quali_rank_count'   => 0,
-			'rank_bonus'   => "na",
-			'direct_referral' => 6,
-			'minimum_direct_ref1' => 6,
-			'minimum_ref_for_each1' => 6,
-			'minimum_direct_ref3' => 6,
-			'minimum_ref_for_each3' => 3,
-			'gain'=>'1',
-			'tree_level'=>'19',
-			
-			
-			
-
-		]);
+		
+		
       
     }
 }

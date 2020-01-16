@@ -43,6 +43,39 @@
                                         </div>
                                     </div>   
 
+                                  
+                                    <!--   <div class="form-group">
+                                         <div class="row">
+                                            <div class="col-sm-6">
+                                                <label for="">Three Friends (%):</label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                 <a class="settings form-control"  id="three_friends" data-type='text' data-pk="{{$settings->id}}" data-title='three friends' data-name="three_friends">
+                                                 {{ $settings->three_friends}}
+                                                </a>
+
+
+                                            </div>
+                                           
+                                        </div>
+                                    </div>    -->
+<!-- 
+                                         <div class="form-group">
+                                         <div class="row">
+                                            <div class="col-sm-6">
+                                                <label for="">Eight Friends (%):</label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                 <a class="settings form-control"  id="eight_friends" data-type='text' data-pk="{{$settings->id}}" data-title='eight friends' data-name="eight_friends">
+                                                 {{ $settings->eight_friends}}
+                                                </a>
+
+
+                                            </div>
+                                           
+                                        </div>
+                                    </div>   -->
+
                                  
                               
 
