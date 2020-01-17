@@ -14,8 +14,9 @@
             </ul>
         </div>
     </div>
-    <!-- @include('app.admin.layouts.ewalletrecord') -->
-    <table class="table datatable-basic table-striped table-hover" id="ewallet-table" ">
+
+    <table class="table datatable-basic table-striped table-hover" id="ewallet">
+        <!-- id="ewallet-table"  -->
                             <thead>
                                 <tr>
                                     <th>
@@ -39,6 +40,33 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                    @foreach($users as $key=> $report)
+                                
+                                <tr>
+                                    <td>
+                                        {{$report->username}}
+                                    </td>
+                                     <td>
+                                            {{$report->fromuser}}
+                                    </td>
+                                     <td>
+
+                                            {{str_replace("_", " ",$report->payment_type)}}
+                                    </td>
+                                     <td>
+                                           @if ($report->payment_type =="released" || $report->payment_type =="fund_transfer" || $report->payment_type =="plan_purchase")
+                                           {{$report->payable_amount}} @else 0 @endif 
+                                    </td>
+                                     <td>
+                                             @if ($report->payment_type =="released" || $report->payment_type =="fund_transfer" || $report->payment_type =="plan_purchase")
+                                          0 @else {{$report->payable_amount}}@endif 
+                                    </td>
+                                     <td>
+                                            {{$report->created_at}}
+                                    </td>
+                                </tr>
+                                 @endforeach   
+
                             </tbody>
                         </table>
                     </div>
@@ -48,8 +76,9 @@
 {{-- Scripts --}}
 @section('scripts')
     @parent
-<script type="text/javascript ">
-   
-
+<script>
+ $(document).ready(function() {
+   $('#ewallet').DataTable();
+} );
 </script>
 @stop

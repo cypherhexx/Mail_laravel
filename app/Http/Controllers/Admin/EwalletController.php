@@ -32,7 +32,7 @@ class EwalletController extends AdminController
         $base      = trans('ewallet.ewallet');
         $method    = trans('ewallet.ewallet');
 
-        $users     = User::pluck('users.username', 'users.id');
+        // $users     = User::pluck('users.username', 'users.id');
         if (!session('user')) {
             Session::put('user', 'none');
         }
@@ -41,16 +41,43 @@ class EwalletController extends AdminController
             Session::put('wallet_type', 'All');
         }
 
-        $balance             = Balance::sum('balance');
+        // $balance             = Balance::sum('balance');
 
-        $userss = User::getUserDetails(Auth::id());
-        $user   = $userss[0];
-        $fast_start=Commission::where('payment_type','=','fast_start')->sum('payable_amount');
-         $indirect_start=Commission::where('payment_type','=','Indirect_fast_start')->sum('payable_amount');
-        $payout_rel=Payout::where('status','=','released')
-             ->sum('amount');
+        // $userss = User::getUserDetails(Auth::id());
+        // $user   = $userss[0];
+        // $fast_start=Commission::where('payment_type','=','fast_start')->sum('payable_amount');
+        //  $indirect_start=Commission::where('payment_type','=','Indirect_fast_start')->sum('payable_amount');
+        // $payout_rel=Payout::where('status','=','released')
+        //      ->sum('amount');
 
-        return view('app.admin.ewallet.wallet', compact('title', 'users', 'user', 'sub_title', 'base', 'method','balance','fast_start','indirect_start','payout_rel'));
+
+                     $amount = 0;
+        $users1 = array();
+        $users2 = array();
+        //echo $user_id;die();
+        $users1 = Commission::select('commission.id', 'user.username', 'fromuser.username as fromuser', 'commission.payment_type', 'commission.user_id', 'commission.payable_amount', 'commission.created_at')
+            ->join('users as fromuser', 'fromuser.id', '=', 'commission.from_id')
+            ->join('users as user', 'user.id', '=', 'commission.user_id')
+            ->orderBy('commission.id', 'desc');
+        $users2 = Payout::select('payout_request.id', 'users.username', 'users.username as fromuser', 'payout_request.status as payment_type', 'payout_request.user_id', 'payout_request.released_amount as payable_amount', 'payout_request.created_at')
+            ->join('users', 'users.id', '=', 'payout_request.user_id')
+             ->where('payout_request.status','!=','pending')
+            ->orderBy('payout_request.id', 'desc'); 
+        $users3 = Payout::select('payout_request.id', 'users.username', 'users.username as fromuser', 'payout_request.status as payment_type', 'payout_request.user_id', 'payout_request.amount as payable_amount', 'payout_request.created_at')
+            ->join('users', 'users.id', '=', 'payout_request.user_id')
+            ->where('payout_request.status','=','pending')
+            ->orderBy('payout_request.id', 'desc');
+
+        $users4 = UserDebit::select('user_debit.id', 'fromuser.username as fromuser', 'user.username', 'user_debit.payment_type', 'user_debit.user_id', 'user_debit.debit_amount', 'user_debit.created_at')
+            ->join('users as fromuser', 'fromuser.id', '=', 'user_debit.from_id')
+            ->join('users as user', 'user.id', '=', 'user_debit.user_id')
+            ->orderBy('user_debit.id', 'desc');
+
+         $ewallet_count = $users1->union($users2)->union($users3)->union($users4)->orderBy('created_at', 'DESC')->get()->count();
+        $users = $users1->union($users2)->union($users3)->union($users4)->orderBy('created_at', 'DESC')->get();
+        // dd($users);
+
+        return view('app.admin.ewallet.wallet', compact('title', 'users', 'sub_title', 'base', 'method'));
     }
 
     public function data(Request $request)
@@ -79,6 +106,7 @@ class EwalletController extends AdminController
 
          $ewallet_count = $users1->union($users2)->union($users3)->union($users4)->orderBy('created_at', 'DESC')->get()->count();
         $users = $users1->union($users2)->union($users3)->union($users4)->orderBy('created_at', 'DESC');
+        dd($users);
             // ->offset($request->start)
             // ->limit($request->length)
             // ->get();
