@@ -56,6 +56,8 @@ use PayPal\Api\RedirectUrls;
 use PayPal\Api\ExecutePayment;
 use PayPal\Api\PaymentExecution;
 use PayPal\Api\Transaction;
+use Srmklive\PayPal\Services\ExpressCheckout;
+use App\PendingTransactions;
 
 class RegisterController extends AdminController
 {
@@ -77,16 +79,18 @@ class RegisterController extends AdminController
      * returns view page
      *
      */
+     protected static  $provider;
 
-     private $_api_context;
+     // private $_api_context;
     public function __construct()
     {
-        parent::__construct();
+        // parent::__construct();
         
-        /** setup PayPal api context **/
-        $paypal_conf = \Config::get('paypal');
-        $this->_api_context = new ApiContext(new OAuthTokenCredential($paypal_conf['client_id'], $paypal_conf['secret']));
-        $this->_api_context->setConfig($paypal_conf['settings']);
+        // /** setup PayPal api context **/
+        // $paypal_conf = \Config::get('paypal');
+        // $this->_api_context = new ApiContext(new OAuthTokenCredential($paypal_conf['client_id'], $paypal_conf['secret']));
+        // $this->_api_context->setConfig($paypal_conf['settings']);
+      self::$provider = new ExpressCheckout;    
     }
 
     public function index($placement_id = "")
@@ -229,17 +233,19 @@ class RegisterController extends AdminController
          * @var [boolean]
          */
         $validator = Validator::make($data, [
-            'sponsor'          => 'required|exists:users,username|max:255',
-            'placement_user'   => 'sometimes|exists:users,username|max:255',
-            'email'            => 'required|unique:users,email|email|max:255',
-            'username'         => 'required|unique:users,username|alpha_num|max:255',
-            'password'         => 'required|min:6',
-            'transaction_pass' => 'required|alpha_num|min:6',
-            'package'          => 'required|exists:packages,id',
-            'leg'              => 'required',
-            'country'          => 'required|country',
+          'sponsor'          => 'required|exists:users,username|max:255',
+          'placement_user'   => 'sometimes|exists:users,username|max:255',
+          'email'            => 'required|unique:pending_transactions,email|email|max:255',
+          'username'         => 'required|unique:pending_transactions,username|alpha_num|max:255',
+          'email'            => 'required|unique:users,email|email|max:255',
+          'username'         => 'required|unique:users,username|alpha_num|max:255',
+          'password'         => 'required|min:6',
+          'transaction_pass' => 'required|alpha_num|min:6',
+          'package'          => 'required|exists:packages,id',
+          'leg'              => 'required',
+          'country'          => 'required|country',
         ]);
-        /**
+      /**
          * On fail, redirect back with error messages
          */
         if ($validator->fails()) {
@@ -265,8 +271,51 @@ class RegisterController extends AdminController
             }
 
 
-            $userPackage = Packages::find($data['package']);
-            $fee=$userPackage->amount;
+             $userPackage = Packages::find($data['package']);
+            $joiningfee=$userPackage->amount;
+
+               if($request->payment == 'paypal'){ 
+
+                    $orderid = mt_rand();
+                    $register=PendingTransactions::create([
+                         'order_id' =>$orderid,
+                         'username' =>$request->username,
+                         'email' =>$request->email,
+                         'sponsor' => $sponsor_id,
+                         'request_data' =>json_encode($data),
+                         'payment_method'=>$request->payment,
+                         'payment_type' =>'register',
+                         'amount' => $joiningfee,
+                        ]);
+                    
+                    Session::put('paypal_id',$register->id);
+
+                    $data = [];
+                    $data['items'] = [
+                        [
+                            'name' => Config('APP_NAME'),
+                            'price' => $joiningfee,
+                            'qty' => 1
+                        ]
+                    ];
+
+                    $data['invoice_id'] = time();
+                    $data['invoice_description'] = "Order #{$data['invoice_id']} Invoice";
+                    $data['return_url'] = url('/admin/paypal/success',$register->id);
+                    $data['cancel_url'] = url('register');
+
+                    $total = 0;
+                    foreach($data['items'] as $item) {
+                        $total += $item['price']*$item['qty'];
+                    }
+
+                    $data['total'] = $total; 
+                    $response = self::$provider->setExpressCheckout($data); 
+                    PendingTransactions::where('id',$register->id)->update(['payment_data' => json_encode($response),'paypal_express_data' => json_encode($data)]);
+                 
+                    return redirect($response['paypal_link']);
+                }
+
             if ($request->payment == "Stripe") {
 
 
@@ -634,4 +683,36 @@ class RegisterController extends AdminController
                 }
     }
 
+    public function paypalRegSuccess(Request $request,$id){
+        // dd($request->all());
+          $response = self::$provider->getExpressCheckoutDetails($request->token);
+          $item = PendingTransactions::find($id);
+          $item->payment_response_data = json_encode($response);
+          $item->save();
+          $express_data=json_decode($item->paypal_express_data,true);
+          $response = self::$provider->doExpressCheckoutPayment($express_data, $request->token, $request->PayerID);
+          if($response['ACK'] == 'Success'){
+            $item->payment_status='complete';
+            $item->save();
+            $details=json_decode($item->request_data,true);
+            $username=User::where('username',$item->username)->value('id');
+            $email=User::where('email',$item->email)->value('id');
+              if($username == null && $email == null){
+                $userresult = User::add($details,$item->sponsor,$item->sponsor);
+                Session::flash('flash_notification', array('level' => 'success', 'message' => 'User Registered Successfully'));
+                return Redirect::to('admin/register');
+              }
+              else{
+                Session::flash('flash_notification', array('level' => 'error', 'message' => 'User Already Exist'));
+                return Redirect::to('admin/register');
+
+              }
+          }
+          else{
+              Session::flash('flash_notification', array('level' => 'error', 'message' => 'Error In payment'));
+                return Redirect::to('admin/register');
+          }
+
+
+}
 }

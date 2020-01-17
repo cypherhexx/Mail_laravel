@@ -20,25 +20,27 @@ class PaymenttypeSeeder extends Seeder
        App\PaymentType::create([
           'payment_name'=>'Ewallet',
           'code'=>'ewallet',
-          'status'=>'yes',
+        
           
         ]);
 
        App\PaymentType::create([
           'payment_name'=>'Stripe',
           'code'=>'Stripe',
-          'status' => 'yes',
+       
           
         ]);
       App\PaymentType::create([
           'payment_name'=>'Paypal',
           'code'=>'paypal',
+           'status' => 'yes',
+          
           
         ]);
       App\PaymentType::create([
           'payment_name'=>'Voucher',
           'code'=>'voucher',
-          'status' => 'yes',
+          
           
         ]);
     }

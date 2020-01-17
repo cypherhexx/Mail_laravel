@@ -12,6 +12,8 @@ class VerifyCsrfToken extends BaseVerifier
      * @var array
      */
     protected $except = [
-        //
+       'admin/paypal/success/*',
+       'user/paypal/success/*',
+       'register/paypal/success/*',
     ];
 }

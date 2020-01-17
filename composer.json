@@ -23,6 +23,7 @@
         "nesbot/carbon": "~1.18",
         "paypal/rest-api-sdk-php": "*",
         "spatie/laravel-backup": "^4.0.0",
+        "srmklive/paypal": "~1.0",
         "stripe/stripe-php": "^6.4",
         "torann/currency": "^1.0",
         "torann/geoip": "^0.2.2",

@@ -83,7 +83,7 @@
 
                             <select class="form-control" name="package" id="package" required="required" data-parsley-required-message="Please Select Package" data-parsley-group="block-0">
                                 <?php $__currentLoopData = $package; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <option value="<?php echo e($data->id); ?>" amount="<?php echo e($data->amount); ?>" rs="<?php echo e($data->rs); ?>" pv="<?php echo e($data->pv); ?>"><?php echo e($data->package); ?>  (<?php echo e($currency_sy); ?><?php echo e($data->amount); ?>)</option>
+                                <option value="<?php echo e($data->id); ?>" amount="<?php echo e($data->amount); ?>" rs="<?php echo e($data->rs); ?>" pv="<?php echo e($data->pv); ?>"><?php echo e($data->package); ?>  </option>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </select>
                             <div class="form-control-feedback">

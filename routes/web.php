@@ -118,6 +118,9 @@ Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm'
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+Route::get('register/paypal/success/{id}','Auth\RegisterController@paypalRegSuccess');
+Route::post('register/paypal/success/{id}','Auth\RegisterController@paypalRegSuccess');
+
 
 
 /**
@@ -302,6 +305,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth'], 'namespace' 
 
     Route::get('sitedown_management', 'SettingsController@sitedown_management');
     Route::post('sitemanagementsettings', 'SettingsController@sitemanagementsettings');
+
+    Route::get('paypal/success/{id}','RegisterController@paypalRegSuccess');
+    Route::post('paypal/success/{id}','RegisterController@paypalRegSuccess');
 
     
 
@@ -683,6 +689,9 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth', 'namespace' => 'user']
     Route::get('viewreferals', 'ViewReferals@index');
     //mail system
 
+
+    Route::get('paypal/success/{id}','RegisterController@paypalRegSuccess');
+    Route::post('paypal/success/{id}','RegisterController@paypalRegSuccess');
 
     Route::get('inbox','MailController@index');
     Route::post('mail/delete','MailController@destroy');
