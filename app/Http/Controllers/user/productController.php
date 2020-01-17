@@ -55,6 +55,9 @@ use Stripe\Account;
 use Stripe\Transfer;
 use Stripe\Payout as StripePayout;
 use Stripe\Balance as StripeBalance;
+use Srmklive\PayPal\Services\ExpressCheckout;
+use App\PendingTransactions;
+use App\ProfileModel;
 
 
 
@@ -69,26 +72,30 @@ class productController extends UserAdminController
      * @return \Illuminate\Http\Response
      */
 
-    private $_api_context;
+    protected static  $provider;
+
+    // private $_api_context;
     public function __construct()
     {
-        parent::__construct();
+        // parent::__construct();
         
-        /** setup PayPal api context **/
-        $paypal_conf = \Config::get('paypal');
-        $this->_api_context = new ApiContext(new OAuthTokenCredential($paypal_conf['client_id'], $paypal_conf['secret']));
-        $this->_api_context->setConfig($paypal_conf['settings']);
+        // /** setup PayPal api context **/
+        // $paypal_conf = \Config::get('paypal');
+        // $this->_api_context = new ApiContext(new OAuthTokenCredential($paypal_conf['client_id'], $paypal_conf['secret']));
+        // $this->_api_context->setConfig($paypal_conf['settings']);
+       self::$provider = new ExpressCheckout;  
     }
     
     public function index()
     {
                 
-        $products = Packages::get();  
         $title = trans('products.purchase_plan');
         $sub_title =  trans('products.purchase_plan');       
         $rules = ['count' => 'required|min:1'];
         $base =  trans('products.purchase_plan');
         $method =  trans('products.purchase_plan');
+        $package=ProfileModel::where('user_id',Auth::user()->id)->value('package');
+        $products = Packages::where('id','>',$package)->get();  
         $balance =  Balance::where('user_id',Auth::user()->id)->value('balance');
         $min_amount =  Packages::min('amount');
         return view('app.user.product.index',compact('title','products','rules','base','method','sub_title','balance','min_amount'));    
@@ -140,227 +147,212 @@ class productController extends UserAdminController
 
             $package = Packages::find($request->plan); 
             $fee=$package->amount;
+            $cur_package=ProfileModel::where('user_id',Auth::user()->id)->value('package');
+            $cur_amount=Packages::find($cur_package)->amount;
+            $diff_amount=$fee-$cur_amount;
             $sponsor_id =Sponsortree::where('user_id',Auth::user()->id)->value('sponsor') ;
            
 
 
-            $falg =false;
+            // $falg =false;
+
+             if($request->steps_plan_payment == 'paypal'){ 
+
+                    $orderid = mt_rand();
+                    $purchase=PendingTransactions::create([
+                         'order_id' =>$orderid,
+                         'package' => $request->plan,
+                         'user_id'=>Auth::user()->id,
+                         'username' =>Auth::user()->username,
+                         'email' =>Auth::user()->email,
+                         'sponsor' => $sponsor_id,
+                         'request_data' =>json_encode($request->all()),
+                         'payment_method'=>$request->steps_plan_payment,
+                         'payment_type' =>'upgrade',
+                         'amount' => $diff_amount,
+                        ]);
+                    
+                    Session::put('paypal_id',$purchase->id);
+
+                    $data = [];
+                    $data['items'] = [
+                        [
+                            'name' => Config('APP_NAME'),
+                            'price' => $diff_amount,
+                            'qty' => 1
+                        ]
+                    ];
+
+                    $data['invoice_id'] = time();
+                    $data['invoice_description'] = "Order #{$data['invoice_id']} Invoice";
+                    $data['return_url'] = url('/user/upgrade/success',$purchase->id);
+                    $data['cancel_url'] = url('register');
+
+                    $total = 0;
+                    foreach($data['items'] as $item) {
+                        $total += $item['price']*$item['qty'];
+                    }
+
+                    $data['total'] = $total; 
+                    $response = self::$provider->setExpressCheckout($data); 
+                    PendingTransactions::where('id',$purchase->id)->update(['payment_data' => json_encode($response),'paypal_express_data' => json_encode($data)]);
+                 
+                    return redirect($response['paypal_link']);
+                }
+              }
+                
             /*  payment validation and update balance */
 
-            if($request->steps_plan_payment == 'cheque'){
-                $flag = true;
-            }elseif($request->steps_plan_payment == 'voucher'){
+            // if($request->steps_plan_payment == 'cheque'){
+            //     $flag = true;
+            // }elseif($request->steps_plan_payment == 'voucher'){
 
-                    $voucher_total = $package->amount ;
-                    foreach ($request->voucher as $key => $vouchervalue) {
-                         $voucher = Voucher::where('voucher_code', $vouchervalue)->first();
-                         $voucher_total = $voucher_total - $voucher->balance_amount ;
-                         if($voucher_total <=0 ){
-                             $flag = true;
-                          }
-                    }
+            //         $voucher_total = $package->amount ;
+            //         foreach ($request->voucher as $key => $vouchervalue) {
+            //              $voucher = Voucher::where('voucher_code', $vouchervalue)->first();
+            //              $voucher_total = $voucher_total - $voucher->balance_amount ;
+            //              if($voucher_total <=0 ){
+            //                  $flag = true;
+            //               }
+            //         }
 
-                    if($flag){
-                      $package_amount = $package->amount ;
-                      foreach ($request->voucher as $key => $vouchervalue) {
-                           $voucher = Voucher::where('voucher_code', $vouchervalue)->first();                                 
-                           if($package_amount > $voucher->balance_amount){
-                              $package_amount = $package_amount -  $voucher->balance_amount ;
-                              $used_amount =  $voucher->balance_amount;                                    
-                              $voucher->balance_amount = 0 ;
-                              $voucher->save();
-                           }else{
-                              // $package_amount =$voucher->balance_amount - $package_amount  ;
-                              $used_amount =  $voucher->balance_amount - $package_amount;          
-                              $voucher->balance_amount = $used_amount;
-                              $voucher->save();                                    
-                           }
+            //         if($flag){
+            //           $package_amount = $package->amount ;
+            //           foreach ($request->voucher as $key => $vouchervalue) {
+            //                $voucher = Voucher::where('voucher_code', $vouchervalue)->first();                                 
+            //                if($package_amount > $voucher->balance_amount){
+            //                   $package_amount = $package_amount -  $voucher->balance_amount ;
+            //                   $used_amount =  $voucher->balance_amount;                                    
+            //                   $voucher->balance_amount = 0 ;
+            //                   $voucher->save();
+            //                }else{
+            //                   // $package_amount =$voucher->balance_amount - $package_amount  ;
+            //                   $used_amount =  $voucher->balance_amount - $package_amount;          
+            //                   $voucher->balance_amount = $used_amount;
+            //                   $voucher->save();                                    
+            //                }
 
-                      }
-                    }  
-            } 
+            //           }
+            //         }  
+            // } 
 
 
-            elseif($request->steps_plan_payment == 'ewallet'){
-                $userbalance =Balance::where('user_id',Auth::user()->id)->value('balance');  
-                if($userbalance < $package->amount){
-                    return redirect()->back()->withErrors(["Ewallet doesn't have enough balance, "]); 
-                }
-                  $userbalance = Balance::where('user_id',Auth::user()->id)->decrement('balance',$package->amount);
-                  UserDebit::create([
-                        'user_id'=>Auth::user()->id,
-                        'from_id'=>Auth::user()->id,
-                        'debit_total'=>$package->amount,
-                        'debit_amount'=>$package->amount,
-                        'payment_type'=>'plan_purchase',
-                        ]);
-                $flag = true;
-            }elseif($request->steps_plan_payment == 'Stripe'){
+            // elseif($request->steps_plan_payment == 'ewallet'){
+            //     $userbalance =Balance::where('user_id',Auth::user()->id)->value('balance');  
+            //     if($userbalance < $package->amount){
+            //         return redirect()->back()->withErrors(["Ewallet doesn't have enough balance, "]); 
+            //     }
+            //       $userbalance = Balance::where('user_id',Auth::user()->id)->decrement('balance',$package->amount);
+            //       UserDebit::create([
+            //             'user_id'=>Auth::user()->id,
+            //             'from_id'=>Auth::user()->id,
+            //             'debit_total'=>$package->amount,
+            //             'debit_amount'=>$package->amount,
+            //             'payment_type'=>'plan_purchase',
+            //             ]);
+            //     $flag = true;
+            // }elseif($request->steps_plan_payment == 'Stripe'){
 
-                       try{
-                        Stripe::setApiKey(config('services.stripe.secret'));
-                        $customer=Customer::create([
-                            'email' =>request('stripeEmail'),
-                            'source' =>request('stripeToken')
-                        ]);
+            //            try{
+            //             Stripe::setApiKey(config('services.stripe.secret'));
+            //             $customer=Customer::create([
+            //                 'email' =>request('stripeEmail'),
+            //                 'source' =>request('stripeToken')
+            //             ]);
             
-                    $id = $customer->id;
-                    $Charge=Charge::create([
-                        'customer' =>$id,
-                        'amount' => $fee * 100,
-                        'currency' => 'USD'
-                    ]);
-                     $flag = true;
-                }
-                catch(\Stripe\Error\Card $e) {
-                    $body = $e->getJsonBody();
-                    $err  = $body['error'];
+            //         $id = $customer->id;
+            //         $Charge=Charge::create([
+            //             'customer' =>$id,
+            //             'amount' => $fee * 100,
+            //             'currency' => 'USD'
+            //         ]);
+            //          $flag = true;
+            //     }
+            //     catch(\Stripe\Error\Card $e) {
+            //         $body = $e->getJsonBody();
+            //         $err  = $body['error'];
 
-                    echo 'Status is:' . $e->getHttpStatus() . "\n" ;
-                    echo 'Type is:' . $err['type'] . "\n" ;
-                    echo 'Code is:' . $err['code'] . "\n" ;die();
+            //         echo 'Status is:' . $e->getHttpStatus() . "\n" ;
+            //         echo 'Type is:' . $err['type'] . "\n" ;
+            //         echo 'Code is:' . $err['code'] . "\n" ;die();
 
-                } catch (Stripe_InvalidRequestError $e) {
-                    return redirect()->back();
-                } catch (Stripe_AuthenticationError $e) {
-                  return redirect()->back();
-                } catch (Stripe_ApiConnectionError $e) {
-                   return redirect()->back();
-                } catch (Stripe_Error $e) {
-                   return redirect()->back();
-                } catch (Exception $e) {
-                   return redirect()->back();
-                }
+            //     } catch (Stripe_InvalidRequestError $e) {
+            //         return redirect()->back();
+            //     } catch (Stripe_AuthenticationError $e) {
+            //       return redirect()->back();
+            //     } catch (Stripe_ApiConnectionError $e) {
+            //        return redirect()->back();
+            //     } catch (Stripe_Error $e) {
+            //        return redirect()->back();
+            //     } catch (Exception $e) {
+            //        return redirect()->back();
+            //     }
 
 
 
-            }elseif($request->steps_plan_payment == 'paypal'){
-              $fee=$package->amount;
-              $payer = new Payer();
-                $payer->setPaymentMethod('paypal');
-                $item_1 = new Item();
-                $item_1->setName('Item 1')
-                    ->setCurrency('USD')
-                    ->setQuantity(1)
-                    ->setPrice($fee); 
+            // }
+           
 
-                $item_list = new ItemList();
-                $item_list->setItems(array($item_1));
+            // elseif($request->steps_plan_payment == 'voucher'){
 
-                $amount = new Amount();
-                $amount->setCurrency('USD')
-                    ->setTotal($fee);
+            //         $voucher_total = $package->amount ;
+            //         foreach ($request->voucher as $key => $vouchervalue) {
+            //              $voucher = Voucher::where('voucher_code', $vouchervalue)->first();
+            //              $voucher_total = $voucher_total - $voucher->balance_amount ;
+            //              if($voucher_total <=0 ){
+            //                  $flag = true;
+            //              }
+            //         }
 
-                $transaction = new Transaction();
-                $transaction->setAmount($amount)
-                    ->setItemList($item_list)
-                    ->setDescription('Your transaction description');
+            //         if($flag){
+            //              $package_amount = $package->amount ;
+            //                 foreach ($request->voucher as $key => $vouchervalue) {
+            //                      $voucher = Voucher::where('voucher_code', $vouchervalue)->first();                                 
+            //                      if($package_amount > $voucher->balance_amount){
+            //                         $package_amount = $package_amount -  $voucher->balance_amount ;
+            //                         $used_amount =  $voucher->balance_amount;                                    
+            //                         $voucher->balance_amount = 0 ;
+            //                         $voucher->save();
+            //                      }else{
+            //                         // $package_amount =$voucher->balance_amount - $package_amount  ;
+            //                         echo $used_amount =  $voucher->balance_amount - $package_amount;          
+            //                         $voucher->balance_amount = $used_amount;
+            //                         $voucher->save();                                    
+            //                      }
 
-                $redirect_urls = new RedirectUrls();
-                $redirect_urls->setReturnUrl(url('user/paypal/purchase-plan')) 
-                ->setCancelUrl(url('user/purchase-plan'));
+            //                      // die();
 
-                $payment = new Payment();
-                $payment->setIntent('Sale')
-                    ->setPayer($payer)
-                    ->setRedirectUrls($redirect_urls)
-                    ->setTransactions(array($transaction));
-                try {
-                    $payment->create($this->_api_context);
-                } catch (\PayPal\Exception\PPConnectionException $ex) {
-                    if (\Config::get('app.debug')) {
-                        Session::flash('flash_notification', array('level' => 'danger', 'message' => "Connection timeout"));
-                          return redirect("user/purchase-plan");
-                    } else {
-                       Session::flash('flash_notification', array('level' => 'danger', 'message' => "Some error occur, sorry for inconvenient"));
-                     return redirect("user/purchase-plan");
-                    }   
-                }
+            //                      VoucherHistory::create([
+            //                         'voucher_id'=>$voucher->voucher_code,
+            //                         'used_by'=>Auth::user()->id,
+            //                         'used_for'=> "pacakge purchase",
+            //                         'used_amount'=>$used_amount,
+            //                     ])  ;                           
+            //                 }
+            //         }  
+            // }   
 
-                foreach($payment->getLinks() as $link) {
-                    if($link->getRel() == 'approval_url') {
-                        $redirect_url = $link->getHref();
-                        break;
-                    }
-                }
+            // if($flag){
 
-                /** add payment ID to session **/
-                Session::put('paypal_payment_id', $payment->getId());
+            //       // dd($request->all());
+            //    $purchase_id=  PurchaseHistory::create([
+            //         'user_id'=>Auth::user()->id,
+            //         'purchase_user_id'=>Auth::user()->id,
+            //         'package_id'=>$package->id,
+            //         'count'=>$package->top_count,
+            //         'pv'=>$package->pv,
+            //         'total_amount'=>$package->amount,
+            //         'pay_by'=>$request->steps_plan_payment,
+            //         'rs_balance'=>$package->rs,
+            //         'sales_status'=>'yes',
 
-                $temp = PaypalDetails::create([
-                        'regdetails'=>json_encode($request->all()),
-                        'paystatus'=>'paypal-pack',
-                        'token'=>$payment->getId()
-                        ]);
+            //     ]);
 
-                if(isset($redirect_url)) {
-                    return Redirect::away($redirect_url);
-                }
-
-               Session::flash('flash_notification', array('level' => 'danger', 'message' => "Unknown error occurred"));
-                return redirect("user/purchase-plan");
-            }  
-
-            elseif($request->steps_plan_payment == 'voucher'){
-
-                    $voucher_total = $package->amount ;
-                    foreach ($request->voucher as $key => $vouchervalue) {
-                         $voucher = Voucher::where('voucher_code', $vouchervalue)->first();
-                         $voucher_total = $voucher_total - $voucher->balance_amount ;
-                         if($voucher_total <=0 ){
-                             $flag = true;
-                         }
-                    }
-
-                    if($flag){
-                         $package_amount = $package->amount ;
-                            foreach ($request->voucher as $key => $vouchervalue) {
-                                 $voucher = Voucher::where('voucher_code', $vouchervalue)->first();                                 
-                                 if($package_amount > $voucher->balance_amount){
-                                    $package_amount = $package_amount -  $voucher->balance_amount ;
-                                    $used_amount =  $voucher->balance_amount;                                    
-                                    $voucher->balance_amount = 0 ;
-                                    $voucher->save();
-                                 }else{
-                                    // $package_amount =$voucher->balance_amount - $package_amount  ;
-                                    echo $used_amount =  $voucher->balance_amount - $package_amount;          
-                                    $voucher->balance_amount = $used_amount;
-                                    $voucher->save();                                    
-                                 }
-
-                                 // die();
-
-                                 VoucherHistory::create([
-                                    'voucher_id'=>$voucher->voucher_code,
-                                    'used_by'=>Auth::user()->id,
-                                    'used_for'=> "pacakge purchase",
-                                    'used_amount'=>$used_amount,
-                                ])  ;                           
-                            }
-                    }  
-            }   
-
-            if($flag){
-
-                  // dd($request->all());
-               $purchase_id=  PurchaseHistory::create([
-                    'user_id'=>Auth::user()->id,
-                    'purchase_user_id'=>Auth::user()->id,
-                    'package_id'=>$package->id,
-                    'count'=>$package->top_count,
-                    'pv'=>$package->pv,
-                    'total_amount'=>$package->amount,
-                    'pay_by'=>$request->steps_plan_payment,
-                    'rs_balance'=>$package->rs,
-                    'sales_status'=>'yes',
-
-                ]);
-
-                  RsHistory::create([
-                    'user_id'=>Auth::user()->id,                   
-                    'from_id'=>Auth::user()->id,
-                    'rs_credit'=>$package->rs,
-                  ]);
+            //       RsHistory::create([
+            //         'user_id'=>Auth::user()->id,                   
+            //         'from_id'=>Auth::user()->id,
+            //         'rs_credit'=>$package->rs,
+            //       ]);
                 /*  Commissions calculation and point distributione */
 
                 // Tree_Table::getAllUpline(Auth::user()->id);
@@ -369,33 +361,33 @@ class productController extends UserAdminController
                 // $sponsor_id
                 // LeadershipBonus::allocateCommission($sponsor_id,Sponsortree::where('user_id',$sponsor_id)->value('sponsor'),$package->pv/10);
 
-            }      
-        }
-           $pur_user=PurchaseHistory::find($purchase_id->id);
-           $user=User::join('profile_infos','profile_infos.user_id','=','users.id')
-            ->join('packages','packages.id','=','profile_infos.package')
-            ->where('users.id',$pur_user->user_id)
-            ->select('users.username','users.name','users.lastname','users.email','profile_infos.mobile','profile_infos.address1','packages.package')
-            ->get();
+       //      }      
+       //  }
+       //     $pur_user=PurchaseHistory::find($purchase_id->id);
+       //     $user=User::join('profile_infos','profile_infos.user_id','=','users.id')
+       //      ->join('packages','packages.id','=','profile_infos.package')
+       //      ->where('users.id',$pur_user->user_id)
+       //      ->select('users.username','users.name','users.lastname','users.email','profile_infos.mobile','profile_infos.address1','packages.package')
+       //      ->get();
             
        
-       $userpurchase=array();      
-       $userpurchase['name']=$user[0]->name;
-       $userpurchase['lastname']=$user[0]->lastname;
-       $userpurchase['amount']=$purchase_id->total_amount;
-       $userpurchase['payment_method']=$purchase_id->pay_by;
-       $userpurchase['mail_address']=$user[0]->email;;
-       $userpurchase['mobile']=$user[0]->mobile;
-       $userpurchase['address']=$user[0]->address1;
-       $userpurchase['invoice_id'] ='0000'.$purchase_id->id;
-       $userpurchase['date_p']=$purchase_id->created_at;
-       $userpurchase['package']=$user[0]->package;
+       // $userpurchase=array();      
+       // $userpurchase['name']=$user[0]->name;
+       // $userpurchase['lastname']=$user[0]->lastname;
+       // $userpurchase['amount']=$purchase_id->total_amount;
+       // $userpurchase['payment_method']=$purchase_id->pay_by;
+       // $userpurchase['mail_address']=$user[0]->email;;
+       // $userpurchase['mobile']=$user[0]->mobile;
+       // $userpurchase['address']=$user[0]->address1;
+       // $userpurchase['invoice_id'] ='0000'.$purchase_id->id;
+       // $userpurchase['date_p']=$purchase_id->created_at;
+       // $userpurchase['package']=$user[0]->package;
 
-       PurchaseHistory::where('id','=',$purchase_id->id)->update(['datas'=>json_encode($userpurchase)]);
+       // PurchaseHistory::where('id','=',$purchase_id->id)->update(['datas'=>json_encode($userpurchase)]);
 
-        Session::flash('flash_notification',array('message'=>"You have purchased the plan succesfully ",'level'=>'success'));
+       //  Session::flash('flash_notification',array('message'=>"You have purchased the plan succesfully ",'level'=>'success'));
 
-        return  redirect("user/purchase/preview/".Crypt::encrypt($purchase_id->id));
+       //  return  redirect("user/purchase/preview/".Crypt::encrypt($purchase_id->id));
     }
 
 
@@ -500,6 +492,64 @@ class productController extends UserAdminController
         }
         Session::flash('flash_notification', array('level' => 'danger', 'message' => "Payment failed"));
          return redirect("user/purchase-plan");
+    }
+
+    public function productSuccess(Request $request,$id){
+
+          $response = self::$provider->getExpressCheckoutDetails($request->token);
+          $item = PendingTransactions::find($id);
+          $item->payment_response_data = json_encode($response);
+          $item->save();
+          $express_data=json_decode($item->paypal_express_data,true);
+          $response = self::$provider->doExpressCheckoutPayment($express_data, $request->token, $request->PayerID);
+          if($response['ACK'] == 'Success'){
+            $item->payment_status='complete';
+            $item->save();
+            $package=Packages::find($item->package);
+            $purchase_id= PurchaseHistory::create([
+                            'user_id'=>$item->user_id,
+                            'purchase_user_id'=>$item->user_id,
+                            'package_id'=>$item->package,
+                            'count'=>1,
+                            'pv'=>$package->pv,
+                            'total_amount'=>$package->amount,
+                            'pay_by'=>$item->payment_method,
+                            'rs_balance'=>$package->rs,
+                            'sales_status'=>'yes',
+                          ]);
+              RsHistory::create([
+                'user_id'=>$item->user_id,                   
+                'from_id'=>$item->user_id,
+                'rs_credit'=>$package->rs,
+              ]);
+
+            $pur_user=PurchaseHistory::find($purchase_id->id);
+            $user=User::join('profile_infos','profile_infos.user_id','=','users.id')
+                       ->join('packages','packages.id','=','profile_infos.package')
+                       ->where('users.id',$pur_user->user_id)
+                       ->select('users.username','users.name','users.lastname','users.email','profile_infos.mobile','profile_infos.address1','packages.package')
+                       ->get();
+             $userpurchase=array();      
+             $userpurchase['name']=$user[0]->name;
+             $userpurchase['lastname']=$user[0]->lastname;
+             $userpurchase['amount']=$item->amount;
+             $userpurchase['payment_method']=$purchase_id->pay_by;
+             $userpurchase['mail_address']=$user[0]->email;;
+             $userpurchase['mobile']=$user[0]->mobile;
+             $userpurchase['address']=$user[0]->address1;
+             $userpurchase['invoice_id'] ='0000'.$purchase_id->id;
+             $userpurchase['date_p']=$purchase_id->created_at;
+             $userpurchase['package']=$package->package;
+             PurchaseHistory::where('id','=',$purchase_id->id)->update(['datas'=>json_encode($userpurchase)]);
+             ProfileModel::where('user_id',$item->user_id)->update(['package' => $item->package]);
+             Session::flash('flash_notification',array('message'=>"You have purchased the plan succesfully ",'level'=>'success'));
+             return  redirect("user/purchase/preview/".Crypt::encrypt($purchase_id->id));
+            }
+            else{
+                Session::flash('flash_notification', array('level' => 'error', 'message' => 'Error In payment'));
+                  return Redirect::to('user/purchase-plan');
+            }
+
     }
 
 

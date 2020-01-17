@@ -4221,8 +4221,8 @@ $(".steps-planpurchase").parsley();
             
 
             $('input[name="steps_plan_payment"]').val($(this).attr('data-payment'));
-            if( $(this).attr('data-payment') == 'paypal'){
-                $(".steps-planpurchase a[href='#finish']").show();
+            if( $(this).attr('data-payment') == 'ewallet'){
+                $(".steps-planpurchase a[href='#finish']").hide();
             }else{
                 $(".steps-planpurchase a[href='#finish']").hide();
             }

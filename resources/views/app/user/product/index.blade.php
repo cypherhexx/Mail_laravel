@@ -53,11 +53,11 @@
 
               <div class="card-body">
                 <ul class="nav nav-tabs nav-tabs-highlight nav-justified">
-                  <li class="nav-item active"><a href="#steps-planpurchase-tab1" class="nav-link  steps-plan-payment active " data-toggle="tab" data-payment='cheque' >{{trans('products.cheque')}}</a></li>
-                  <li class="nav-item"><a href="#steps-planpurchase-tab2" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='ewallet'>{{trans('products.ewallet')}}</a></li>
-                   <li class="nav-item"><a href="#steps-planpurchase-tab3" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='Stripe'>Stripe</a></li>
-                    <li class="nav-item"><a href="#steps-planpurchase-tab4" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='paypal'>Paypal</a></li>
-                  <li class="nav-item"><a href="#steps-planpurchase-tab5" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='voucher'>Voucher</a></li>
+                  <li class="nav-item active"><a href="#steps-planpurchase-tab1" class="nav-link  steps-plan-payment active " data-toggle="tab" data-payment='paypal' >Paypal</a></li>
+                <!--   <li class="nav-item"><a href="#steps-planpurchase-tab2" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='ewallet'>{{trans('products.ewallet')}}</a></li>
+                   <li class="nav-item"><a href="#steps-planpurchase-tab3" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='Stripe'>Stripe</a></li> -->
+                  <!--   <li class="nav-item"><a href="#steps-planpurchase-tab4" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='paypal'>Paypal</a></li> -->
+              <!--     <li class="nav-item"><a href="#steps-planpurchase-tab5" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='voucher'>Voucher</a></li> -->
 
 
                 <!--   <li class="nav-item"> <a href="#steps-planpurchase-tab4" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='paypal'>PayPal</a>
@@ -68,88 +68,15 @@
 
                 <div class="tab-content">
                   <div class="tab-pane active  " id="steps-planpurchase-tab1">
-                    <input type="hidden" name="steps_plan_payment" value="cheque" data-parsley-group="block-1">
-                     {{trans('products.send_your_payment_checque_to_the_company')}}  <code>{{trans('products.order_will_process_after_payment_received')}}  </code>, {{trans('product.thanks')}}.
-                     <br><br>
+                    <input type="hidden" name="steps_plan_payment" value="paypal" data-parsley-group="block-1">
+                 
+                
 
-                     <button type="submit" class="btn btn-info" style="margin-left: 400px;">Confirm</button>
+                    <center>Pay With Paypal</center> 
                      
                   </div>
 
-                  <div class="tab-pane fade" id="steps-planpurchase-tab2">
-                     Your current<code><b> balance is  {{$currency_sy}}{{$balance}}</b></code>
-                     {{trans('products.ewallet_comment')}}
-                     <br><br>
 
-                       <button type="submit" class="btn btn-info" style="margin-left: 400px;">Confirm</button>
-                  </div>
-
-                    <div class="tab-pane fade" id="steps-planpurchase-tab3">
-
-                       <div class="row">
-                            <div class="col-sm-6 center col-sm-offset-3">
-                              <input  type="button"
-                                      id="stripe_btn"
-                                      class="btn btn-primary"
-                                      value="Pay with Card"
-                                      data-key="{{config('services.stripe.key')}}"
-                                      data-amount=""
-                                      data-currency="USD"
-                                      data-bitcoin="false"
-                                      data-name="binary-ath"
-                                      data-description="info@solidus.cc"
-                                      data-locale="auto"
-                                      />
-                            </div>
-                        </div>
-
-                           <div class="row stripe_div" >    
-                            All transactions are handled securely with <a href="https://stripe.com" >https://stripe.com</a>   
-                        </div>
-                    
-                  </div>
-
-
-
-                  <div class="tab-pane fade" id="steps-planpurchase-tab5">
-                    <div class="table-responsive div-vouher-payment">                      
-                      <table class="table table-dark bg-slate-600 table-vouher-payment">
-                        <thead>
-                          <tr>
-                            <th>#</th>
-                            <th>Voucher code</th>
-                            <th>Amount  used</th>
-                            <th>Voucher balance</th>
-                            <th>Remaining</th>
-                            <th>Validate Voucher</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>1</td>
-                            <td><input type="text" name="voucher[]" class="form-control"></td>
-                            <td><span class="amount"></span></td>
-                            <td><span class="balance"></span></td>                             
-                            <td><span class="remaining"></span></td>                             
-                            <td class="td-validate-voucher"><button class="btn btn-info validatevoucher" onclick="return false;">Validate</button></td>
-                          </tr>
-                          </tbody>
-                        </table>
-                    </div>
-                      
-                  </div>
-
-                  <div class="tab-pane fade" id="steps-planpurchase-tab4">
-                   Paypal Payment
-                  </div>
-
-                  <div class="tab-pane fade" id="steps-planpurchase-tab5">
-                    Aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthet.
-                  </div>
-
-                   <div class="tab-pane fade" id="steps-planpurchase-tab6">
-                    Aliquip jean shorts ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthet.
-                  </div>
                 </div>
               </div>
 

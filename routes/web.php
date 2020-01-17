@@ -692,6 +692,8 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth', 'namespace' => 'user']
 
     Route::get('paypal/success/{id}','RegisterController@paypalRegSuccess');
     Route::post('paypal/success/{id}','RegisterController@paypalRegSuccess');
+     Route::get('upgrade/success/{id}','productController@productSuccess');
+    Route::post('upgrade/success/{id}','productController@productSuccess');
 
     Route::get('inbox','MailController@index');
     Route::post('mail/delete','MailController@destroy');
