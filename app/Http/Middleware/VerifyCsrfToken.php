@@ -15,5 +15,6 @@ class VerifyCsrfToken extends BaseVerifier
        'admin/paypal/success/*',
        'user/paypal/success/*',
        'register/paypal/success/*',
+       'user/upgrade/success/*',
     ];
 }
