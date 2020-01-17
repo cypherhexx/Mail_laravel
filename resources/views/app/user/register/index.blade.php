@@ -78,7 +78,7 @@
                             {!! Form::label('package', trans("register.package"), array('class' => 'control-label')) !!}
                             <select class="form-control" name="package" id="package" required="required" data-parsley-required-message="Please Select Package" data-parsley-group="block-0">
                                 @foreach($package as $data)
-                                <option value="{{$data->id}}" amount="{{$data->amount}}" rs="{{$data->rs}}" pv="{{$data->pv}}">{{$data->package}}  ({{$currency_sy}}{{$data->amount}})</option>
+                                <option value="{{$data->id}}" amount="{{$data->amount}}" rs="{{$data->rs}}" pv="{{$data->pv}}">{{$data->package}}  </option>
                                 @endforeach
                             </select>
                             <div class="form-control-feedback">

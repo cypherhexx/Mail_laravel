@@ -194,7 +194,9 @@ return [
         Yajra\Datatables\ButtonsServiceProvider::class,
         HTMLMin\HTMLMin\HTMLMinServiceProvider::class,
         Mews\Purifier\PurifierServiceProvider::class,
-        Barryvdh\Debugbar\ServiceProvider::class
+        Barryvdh\Debugbar\ServiceProvider::class,
+        Srmklive\PayPal\Providers\PayPalServiceProvider::class
+
 
 
 
@@ -284,6 +286,7 @@ return [
 
         //Debugbar
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'PayPal' => Srmklive\PayPal\Facades\PayPal::class,
 
         
 

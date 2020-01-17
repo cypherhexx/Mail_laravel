@@ -17,6 +17,7 @@ use App\Voucher;
 use App\Emails;
 use App\User;
 use App\PaypalDetails;
+use App\PendingTransactions;
 
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Validator;
@@ -45,6 +46,7 @@ use PayPal\Api\RedirectUrls;
 use PayPal\Api\ExecutePayment;
 use PayPal\Api\PaymentExecution;
 use PayPal\Api\Transaction;
+use Srmklive\PayPal\Services\ExpressCheckout;
 
 
 class RegisterController extends Controller
@@ -61,6 +63,7 @@ class RegisterController extends Controller
     */
 
     use RegistersUsers;
+        protected static  $provider;
 
     /**
      * Where to redirect users after registration.
@@ -85,6 +88,7 @@ class RegisterController extends Controller
         // $this->_api_context = new ApiContext(new OAuthTokenCredential($paypal_conf['client_id'], $paypal_conf['secret']));
         // $this->_api_context->setConfig($paypal_conf['settings']);
         // $this->middleware('guest');
+         self::$provider = new ExpressCheckout;    
     }
     /**
      * Show the application registration form.
@@ -171,6 +175,8 @@ class RegisterController extends Controller
 
             //Login information
             'sponsor_name' => 'exists:users,username',
+            'username' => 'required|max:255|unique:pending_transactions',
+            'email' => 'required|max:255|unique:pending_transactions',
             'username' => 'required|max:255|unique:users',
             'password' => 'required|min:6',
             
@@ -326,74 +332,49 @@ class RegisterController extends Controller
             }
 
             $userPackage = Packages::find($data['package']);
-            $fee=$userPackage->amount;
-             if ($request->payment == "paypal") {
+            $joiningfee=$userPackage->amount;
 
-                  $payer = new Payer();
-                $payer->setPaymentMethod('paypal');
-                $item_1 = new Item();
-                $item_1->setName('Item 1')
-                    ->setCurrency('USD')
-                    ->setQuantity(1)
-                    ->setPrice($fee); 
+               if($request->payment == 'paypal'){ 
 
-                $item_list = new ItemList();
-                $item_list->setItems(array($item_1));
-
-                $amount = new Amount();
-                $amount->setCurrency('USD')
-                    ->setTotal($fee);
-
-                $transaction = new Transaction();
-                $transaction->setAmount($amount)
-                    ->setItemList($item_list)
-                    ->setDescription('Your transaction description');
-
-                $redirect_urls = new RedirectUrls();
-                $redirect_urls->setReturnUrl(url('paypal/register')) 
-                ->setCancelUrl(url('/register'));
-
-                $payment = new Payment();
-                $payment->setIntent('Sale')
-                    ->setPayer($payer)
-                    ->setRedirectUrls($redirect_urls)
-                    ->setTransactions(array($transaction));
-                try {
-                    $payment->create($this->_api_context);
-                } catch (\PayPal\Exception\PPConnectionException $ex) {
-                    if (\Config::get('app.debug')) {
-                        Session::flash('flash_notification', array('level' => 'danger', 'message' => "Connection timeout"));
-                          return redirect("/register");
-                    } else {
-                       Session::flash('flash_notification', array('level' => 'danger', 'message' => "Some error occur, sorry for inconvenient"));
-                     return redirect("/register");
-                    }   
-                }
-
-                foreach($payment->getLinks() as $link) {
-                    if($link->getRel() == 'approval_url') {
-                        $redirect_url = $link->getHref();
-                        break;
-                    }
-                }
-
-                /** add payment ID to session **/
-                Session::put('paypal_payment_id', $payment->getId());
-
-                $temp = PaypalDetails::create([
-                        'regdetails'=>json_encode($data),
-                        'paystatus'=>'paypal-reg',
-                        'token'=>$payment->getId()
+                    $orderid = mt_rand();
+                    $register=PendingTransactions::create([
+                         'order_id' =>$orderid,
+                         'username' =>$request->username,
+                         'email' =>$request->email,
+                         'sponsor' => $sponsor_id,
+                         'request_data' =>json_encode($data),
+                         'payment_method'=>$request->payment,
+                         'payment_type' =>'register',
+                         'amount' => $joiningfee,
                         ]);
+                    
+                    Session::put('paypal_id',$register->id);
 
-                if(isset($redirect_url)) {
-                    return Redirect::away($redirect_url);
+                    $data = [];
+                    $data['items'] = [
+                        [
+                            'name' => Config('APP_NAME'),
+                            'price' => $joiningfee,
+                            'qty' => 1
+                        ]
+                    ];
+
+                    $data['invoice_id'] = time();
+                    $data['invoice_description'] = "Order #{$data['invoice_id']} Invoice";
+                    $data['return_url'] = url('/register/paypal/success',$register->id);
+                    $data['cancel_url'] = url('register');
+
+                    $total = 0;
+                    foreach($data['items'] as $item) {
+                        $total += $item['price']*$item['qty'];
+                    }
+
+                    $data['total'] = $total; 
+                    $response = self::$provider->setExpressCheckout($data); 
+                    PendingTransactions::where('id',$register->id)->update(['payment_data' => json_encode($response),'paypal_express_data' => json_encode($data)]);
+                 
+                    return redirect($response['paypal_link']);
                 }
-
-               Session::flash('flash_notification', array('level' => 'danger', 'message' => "Unknown error occurred"));
-                return redirect("/register");
-              
-            }
 
 
               if ($request->payment == 'voucher') {      
@@ -576,5 +557,48 @@ class RegisterController extends Controller
         } else {
             return redirect()->back();
         }
+    }
+
+    public function paypalRegSuccess(Request $request,$id){
+        // dd($request->all());
+          $response = self::$provider->getExpressCheckoutDetails($request->token);
+          $item = PendingTransactions::find($id);
+          $item->payment_response_data = json_encode($response);
+          $item->save();
+          $express_data=json_decode($item->paypal_express_data,true);
+          $response = self::$provider->doExpressCheckoutPayment($express_data, $request->token, $request->PayerID);
+          if($response['ACK'] == 'Success'){
+            $item->payment_status='complete';
+            $item->save();
+            $details=json_decode($item->request_data,true);
+            $username=User::where('username',$item->username)->value('id');
+            $email=User::where('email',$item->email)->value('id');
+              if($username == null && $email == null){
+                $userresult = User::add($details,$item->sponsor,$item->sponsor);
+                Session::flash('flash_notification', array('level' => 'success', 'message' => 'User Registered Successfully'));
+                return Redirect::to('register');
+              }
+              else{
+                Session::flash('flash_notification', array('level' => 'error', 'message' => 'User Already Exist'));
+                return Redirect::to('register');
+
+              }
+          }
+          else{
+              Session::flash('flash_notification', array('level' => 'error', 'message' => 'Error In payment'));
+                return Redirect::to('register');
+          }
+
+          
+
+            // dd($details['firstname']);
+
+           
+          // }
+          // else{
+          //    Session::flash('flash_notification', array('level' => 'danger', 'message' => trans('register.error_in_payment')));
+          //   return Redirect::to('login');
+          // }
+
     }
 }
