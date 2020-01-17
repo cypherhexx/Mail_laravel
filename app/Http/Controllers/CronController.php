@@ -30,6 +30,7 @@ use App\CarryForwardHistory;
 use App\User; 
 use App\AutoResponse;
 use App\Emails;
+use App\welcomeemail;
 
 
 class CronController extends Controller
@@ -578,6 +579,26 @@ working now ----total sale 3000.00 monthly_loaylty sale 6000 Completed loyalty b
                 Echo "Mail has been sent successfully" ; 
          }
        
+
+       public function testmail(){
+
+         $email = Emails::find(1); 
+         $welcome=welcomeemail::find(1);
+         Mail::send('emails.sponsoremail',
+                ['email'         => $email,
+                    'company_name'   => 'test',
+                    'firstname'      => 'test1',
+                    'name'           => 'test2',
+                    'login_username' => 'testu',
+                    'newuser'       => 'test123',
+                   'welcome'        =>$welcome,
+                   
+                ], function ($m) {
+                    $m->to('shilpa@bpract.com', 'shilpa')->subject('Successfully registered')->from('shilpa@bpract.com', 'shilpa');
+                });
+
+         dd("ddd");
+       }
 
               
 

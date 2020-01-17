@@ -109,7 +109,7 @@ class productController extends UserAdminController
           $data = PurchaseHistory::join('packages','packages.id','=','purchase_history.package_id')
                   ->where('user_id',Auth::user()->id)
                   ->where('purchase_user_id',Auth::user()->id)
-                  ->select('packages.package','count','packages.amount','total_amount','purchase_history.created_at','purchase_history.pv','purchase_history.pay_by')
+                  ->select('purchase_history.id','packages.package','count','packages.amount','total_amount','purchase_history.created_at','purchase_history.pv','purchase_history.pay_by')
                   ->orderBy('purchase_history.id','DESC')
                   ->paginate(10);
            
@@ -409,6 +409,24 @@ class productController extends UserAdminController
 
     }
 
+    public function invoice($id){
+       
+        $title = trans('products.purchased_plan');
+        $sub_title = trans('products.purchased_plan'); 
+        $base = trans('products.purchase_plan');  
+        $method = trans('products.purchase_plan'); 
+        // $id = decrypt($idencrypt);
+       
+      
+      $data = PurchaseHistory::where('id','=',$id)->value('datas');
+
+      $datas = json_decode($data,true);
+          
+
+    return view('app.user.product.purchase-invoice',compact('title','datas','base','method','sub_title'));
+
+    }
+
      public function paypalpurchase(Request $request){
       $payment_id = Session::get('paypal_payment_id');
       $temp_data=PaypalDetails::where('token','=',$payment_id)->first();
@@ -512,7 +530,7 @@ class productController extends UserAdminController
                             'package_id'=>$item->package,
                             'count'=>1,
                             'pv'=>$package->pv,
-                            'total_amount'=>$package->amount,
+                            'total_amount'=>$item->amount,
                             'pay_by'=>$item->payment_method,
                             'rs_balance'=>$package->rs,
                             'sales_status'=>'yes',

@@ -172,6 +172,13 @@
                             <span class="text">{{trans('menu.fund-credits')}} </span>
                         </a>
                     </li>
+
+                     <li class="{{set_active('admin/purchase-details')}}">
+                        <a href="{{url('admin/purchase-details')}}">
+                            <i class="fa fa-shopping-cart"></i>
+                            <span class="text">Purchase History</span>
+                        </a>
+                    </li>
                    <li class="navigation-header"><span>Communication</span> <i class="icon-menu" title="Forms"></i></li>
                    <li class="has-sub {{set_active('admin/inbox')}}">
                         <a href="{{url('admin/inbox')}}">

@@ -55,7 +55,7 @@
                   Hi {{$firstname}} {{$name}},
 
                   
-            <p>    {!!$welcome->body!!} </p>
+            <p>   New User {{$newuser}} registered under you </p>
 
 
 
@@ -73,20 +73,7 @@ Cheerfully yours, <br>
 
                 </tr>
 
-                <tr>
-
-                    <td style="padding:20px 30px">
-
-                        <b style="color:#000; font-size:16px;">Username : {{$login_username}} </b><br>
-
-                        <b style="color:#000; font-size:16px;">Your password : {{$password}} </b><br>
-
-                       
-
-                        <a style="color:#ff0099; font-size:16px;" href="{{url('/')}}" target="_blank">Click here to login</a>
-
-                    </td>
-                </tr>
+              
             </tbody>
 
             <tfoot bgcolor="#c1c1c1">

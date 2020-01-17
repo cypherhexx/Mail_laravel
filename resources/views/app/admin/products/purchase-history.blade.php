@@ -53,33 +53,7 @@
 
     </div>
 
-    <div class="container-fluid">
 
-        <div class="row">
-
-        <form class="col-sm-10 col-sm-offset-1" method="post"
-
-  action="{{ URL::to('admin/purchase-history') }}"
-
-  autocomplete="off">
-
-  <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />  
-
-            <div class="form-group">
-
-            {!!  Form::label('user', 'Select User',array('class'=>'control-label'))  !!}  
-
-            <input type="text" name="user" id="username" class ="form-control" required>
-
-            </div>
-
-        {!! Form::submit('submit',array('class'=>'btn btn-primary m-r-5')) !!}         
-
-        </form>
-
-        </div>
-
-    </div>
 
     <div class="panel-body">
 
@@ -96,14 +70,14 @@
 
           <!-- <th> Product amount</th> -->
 
-          <th>{{trans('products.pv')}} </th>
+        <!--   <th>{{trans('products.pv')}} </th> -->
           <th>{{trans('products.total_amount')}} </th>
 
           <th> {{trans('products.purchase_date')}}</th>
 
           <th> {{trans('products.paid_by')}}</th>
 
-          <th> {{trans('products.purchase_status')}}</th>
+          <!-- <th> {{trans('products.purchase_status')}}</th> -->
 
           <th> {{trans('products.action')}}</th>
          
@@ -118,49 +92,29 @@
 
            <tr>
 
-             <td> {{ $item->product}}</td>
+             <td> {{ $item->package}}</td>
              
              <td> {{ $item->username}}</td>
 
-             <td> {{ $item->count}}</td>
+             <td> 1</td>
 
              <!-- <td> {{ $item->member_amount}}</td> -->
 
-             <td> {{ $item->BV}}</td>
+             <!-- <td> {{ $item->BV}}</td> -->
              <td> {{ $item->total_amount}}</td>
 
              <td> {{ Date('d M Y',strtotime($item->created_at))}}</td>
 
-             <td> @if($item->pay_by == 'credits')
+             <td> {{ $item->pay_by}}</td>
 
-                {{trans('products.by_product_credits')}}
-
-              @elseif($item->pay_by  == 'redeem')
-                {{trans('products.by_credit_points')}}
-              @else
-                  {{trans('products.pay_by_cash')}}  
-              @endif</td>
-
-             <td> {{ $item->status}}</td> 
+             <!-- <td> {{ $item->status}}</td>  -->
 
              <td>
-             <div class="col-sm-12">
-               <!--  <div class="col-sm-4">
-                  <button class="btn btn-warning">Edit</button>                  
-                </div> -->
-                @if($item->status != 'approved')
-                  <div class="col-sm-6">
-                    <a href="{{ url('admin/purchase-history/'.$item->id.'/confirm')}}" class="btn btn-primary">{{trans('products.paid')}}</a>                    
-                  </div>
-
-                   <div class="col-sm-6">                  
-                    <a class="btn btn-danger" href="{{ url('admin/purchase-history/'.$item->id.'/delete')}}">{{trans('products.delete')}}</a>                  
-                </div> 
-                
-                 @endif
-
-                            
-             </div>
+              <a href="{{url('admin/view-invoice/'.$item->id)}}" target="_blank" class="btn btn-primary">
+                <i class="fa fa-file-word-o"></i>
+              
+              </a>
+        
              </td>
            </tr>
 

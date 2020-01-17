@@ -487,18 +487,18 @@ class RegisterController extends AdminController
             $welcome=welcomeemail::find(1);
             $app_settings = AppSettings::find(1);
            
-            Mail::send('emails.register',
-                ['email'         => $email,
-                    'company_name'   => $app_settings->company_name,
-                    'firstname'      => $data['firstname'],
-                    'name'           => $data['lastname'],
-                    'login_username' => $data['username'],
-                    'password'       => $data['password'],
-                    'welcome'        =>$welcome,
-                    'transaction_pass'=>$data['transaction_pass'],
-                ], function ($m) use ($data, $email) {
-                    $m->to($data['email'], $data['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
-                });
+            // Mail::send('emails.register',
+            //     ['email'         => $email,
+            //         'company_name'   => $app_settings->company_name,
+            //         'firstname'      => $data['firstname'],
+            //         'name'           => $data['lastname'],
+            //         'login_username' => $data['username'],
+            //         'password'       => $data['password'],
+            //         'welcome'        =>$welcome,
+            //         'transaction_pass'=>$data['transaction_pass'],
+            //     ], function ($m) use ($data, $email) {
+            //         $m->to($data['email'], $data['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
+            //     });
 
 
            

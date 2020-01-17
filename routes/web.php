@@ -207,6 +207,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth'], 'namespace' 
 
     Route::get('online_users', 'UserController@onlineUser');
     Route::get('onlineusers/data','UserController@onlineUsersdata');
+    Route::get('purchase-details','UserController@purchaseHistory');
+     Route::get('view-invoice/{id}','UserController@viewInvoice');
      
     /**
      * Index Page
@@ -601,6 +603,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth'], 'namespace' 
 
 }); 
 
+Route::group(['prefix' => 'cron'], function()
+{
+
+   
+   Route::get('testmail','CronController@testmail');
+ 
+   
+});
+
+
 
 
 
@@ -769,6 +781,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth', 'namespace' => 'user']
     Route::get('purchase-plan','productController@index');
     Route::post('purchase-plan','productController@purchase');
     Route::get('purchase/preview/{idencrypt}', 'productController@preview');
+      Route::get('purchase/invoice/{id}', 'productController@invoice');
     Route::get('purchase-history','productController@purchasehistory');
      Route::get('paypal/purchase-plan','productController@paypalpurchase');
     #Register new memeber
