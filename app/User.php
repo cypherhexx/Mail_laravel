@@ -16,6 +16,9 @@ use Html;
 use Storage;
 use Profileinfo;
 use Illuminate\Notifications\Notifiable;
+use App\Jobs\SendAllEmail;
+use App\Jobs\SendSponsorEmail;
+use Carbon;
 
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
@@ -627,12 +630,21 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
                     'rs_credit'=>$userPackage->amount,
             ]);
 
+            $spon_det=User::find($sponsor_id);
+              SendSponsorEmail::dispatch($data['username'],$spon_det->email,$spon_det->name,$spon_det->lastname)
+                        ->delay(Carbon::now()->addSeconds(10));
+
             PointTable::addPointTable($userresult->id);
             Tree_Table::createVaccant($tree->user_id);
             /**
              * adding user to balance table
              */
             $balanceupdate = SELF::insertToBalance($userresult->id);
+            // dd("00");
+
+            SendAllEmail::dispatch($data['firstname'],$data['lastname'],$data['username'],$data['password'],$data['email'])
+                        ->delay(Carbon::now()->addSeconds(10));
+          
 
             DB::commit();
 

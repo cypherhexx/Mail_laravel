@@ -1,15 +1,18 @@
-<?php $__env->startSection('title'); ?> <?php echo e($title); ?> :: ##parent-placeholder-3c6de1b7dd91465d437ef415f94f36afc1fbc8a8## <?php $__env->stopSection(); ?>
+@extends('app.admin.layouts.default')
+{{-- Web site Title --}}
 
-<?php $__env->startSection('styles'); ?>
-##parent-placeholder-bf62280f159b1468fff0c96540f3989d41279669##
+@section('title') {{{ $title }}} :: @parent @stop
 
-
-
-<?php $__env->stopSection(); ?>
-
+@section('styles')
+@parent
 
 
-<?php $__env->startSection('main'); ?>
+
+@endsection
+
+{{-- Content --}}
+
+@section('main')
 
 
 <!doctype html>
@@ -26,7 +29,7 @@
 .invoice-price .invoice-price-right {
     padding: 3px;
 }
-        @page  {
+        @page {
             margin: 0px;
         }
         body {
@@ -113,7 +116,7 @@ table.minimalistBlack tfoot td {
     </style>
    <div class="invoice-company">
          <span class="pull-right hidden-print">                   
-             <a href="javascript:;" onclick="window.print()" class="btn btn-sm btn-success m-b-10"><i class="fa fa-print m-r-5"></i> <?php echo e(trans('report.print')); ?></a>
+             <a href="javascript:;" onclick="window.print()" class="btn btn-sm btn-success m-b-10"><i class="fa fa-print m-r-5"></i> {{trans('report.print')}}</a>
          </span>
      </div>
 
@@ -123,7 +126,7 @@ table.minimalistBlack tfoot td {
         <tr>
             <td align="center" style="width: 50%; ">
 
-                 <img src="<?php echo e(url('img/cache/logo/logo.jpg')); ?>" width="170" height="30" alt="ajooweb" style="outline: none;border: 0;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;line-height: 100%;max-width: 100px;height: auto !important;border-radius: 100px !important;">
+                 <img src="{{url('img/cache/logo/cloud-pic-febda.png')}}" width="170" height="30" alt="ajooweb" style="outline: none;border: 0;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;line-height: 100%;max-width: 100px;height: auto !important;border-radius: 100px !important;">
              
             </td>
         </tr>
@@ -136,26 +139,21 @@ table.minimalistBlack tfoot td {
         <tr>
 <td align="left" style="width: 40%;">
 <pre class ="bor">
-<h3><?php echo e($app->company_name); ?></h3>
-<?php echo e($app->company_address); ?>
-
-<?php echo e($app->email_address); ?>                               
+<h3>{{$app->company_name}}</h3>
+{{$app->company_address}}
+{{$app->email_address}}                               
 </pre>
 </td>
 <td align="right" style="width: 40%;">
 <pre class ="bor">
 
 
-<h3>INVOICE NO:<?php echo e($datas['invoice_id']); ?></h3>
-Paid:<?php echo e($datas['date_p']['date']); ?>
-
-<?php echo e($datas['name']); ?> <?php echo e($datas['lastname']); ?>
-
-<?php echo e($datas['address']); ?>
-
-<?php echo e($datas['mail_address']); ?>
-
-<?php echo e($datas['mobile']); ?> 
+<h3>INVOICE NO:{{$datas['invoice_id']}}</h3>
+Paid:{{$datas['date_p']['date']}}
+{{$datas['name']}} {{$datas['lastname']}}
+{{$datas['address']}}
+{{$datas['mail_address']}}
+{{$datas['mobile']}} 
 
 
 </pre>
@@ -165,7 +163,7 @@ Paid:<?php echo e($datas['date_p']['date']); ?>
 
 </div>
 <div class="alert bg-default alert-styled-left">
-  <span class="text-semibold">Congrats!!</span> You have successfully Purchased <strong><?php echo e($datas['package']); ?></strong> package. Payment done via <strong><?php echo e($datas['payment_method']); ?>.</strong>
+  <span class="text-semibold">Congrats!!</span> You have successfully Purchased <strong>{{$datas['package']}}</strong> package. Payment done via <strong>{{$datas['payment_method']}}.</strong>
 </div>
 <div>
 <table class="minimalistBlack">
@@ -178,24 +176,24 @@ Paid:<?php echo e($datas['date_p']['date']); ?>
 </thead>
 <tbody>
 <tr>
-<td align="left">Purchased package -<?php echo e($datas['package']); ?></td>
+<td align="left">Purchased package -{{$datas['package']}}</td>
 <td align="right">1</td>
-<td align="right"><?php echo e($currency_sy); ?> <?php echo e($datas['amount']); ?>.00</td>
+<td align="right">{{$currency_sy}} {{$datas['amount']}}.00</td>
 </tr>
 <tr>
 <td></td>
 <td align="right">Subtotal</td>
-<td align="right"><?php echo e($currency_sy); ?> 0.00</td>
+<td align="right">{{$currency_sy}} 0.00</td>
 </tr>
 <tr>
 <td></td>
 <td align="right">Sales Tax</td>
-<td align="right"><?php echo e($currency_sy); ?> 0.00</td>
+<td align="right">{{$currency_sy}} 0.00</td>
 </tr>
 <tr>
 <td></td>
 <td align="right">Total</td>
-<td align="right"><?php echo e($currency_sy); ?> <?php echo e($datas['amount']); ?>.00</td>
+<td align="right">{{$currency_sy}} {{$datas['amount']}}.00</td>
 </tr>
 </tbody>
 </table>
@@ -209,7 +207,7 @@ Paid:<?php echo e($datas['date_p']['date']); ?>
     <table width="100%">
         <tr>
              <td align="center" style="width: 100%;height: 50px;font-size: 18px;">
-               Copyright @ <?php echo e(Date('Y')); ?> <?php echo e($app->company_name); ?>. All Rights Reserved
+               Copyright @ {{Date('Y')}} {{$app->company_name}}. All Rights Reserved
             </td>
           
         </tr>
@@ -219,9 +217,9 @@ Paid:<?php echo e($datas['date_p']['date']); ?>
 </footer>
 </html>
 
-<?php $__env->stopSection(); ?>
+@endsection
 
-<?php $__env->startSection('scripts'); ?> ##parent-placeholder-16728d18790deb58b3b8c1df74f06e536b532695##
+@section('scripts') @parent
 
 <script src="http://binarymlm.searchneasy.com/assets/globals/reg/apps.min.js" type="text/javascript"></script>
 
@@ -235,6 +233,4 @@ Paid:<?php echo e($datas['date_p']['date']); ?>
 
     </script>
 
-    <?php $__env->stopSection(); ?>
-
-<?php echo $__env->make('app.user.layouts.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+    @endsection

@@ -987,6 +987,42 @@ else
     }
   }
 
+  public function purchaseHistory(){
+    $data = PurchaseHistory::join('packages','packages.id','=','purchase_history.package_id')
+                            ->join('users','users.id','=','purchase_history.user_id')
+                           ->select('purchase_history.id','packages.package','count','packages.amount','total_amount','purchase_history.created_at','purchase_history.pv','purchase_history.pay_by','users.username')
+                           ->orderBy('purchase_history.id','DESC')
+                           ->paginate(10);
+                           // dd($data);
+           
+        $title = trans('products.purchase_history');
+        $sub_title = trans('products.purchase_history'); 
+        $base = trans('products.purchase_history');  
+        $method = trans('products.purchase_history');     
+        return view('app.admin.products.purchase-history',compact('title','data','base','method','sub_title'));
+  }
+
+  public function viewInvoice($id){
+    // dd("dd");
+
+         
+        $title = trans('products.purchased_plan');
+        $sub_title = trans('products.purchased_plan'); 
+        $base = trans('products.purchase_plan');  
+        $method = trans('products.purchase_plan'); 
+      
+       
+      
+      $data = PurchaseHistory::where('id','=',$id)->value('datas');
+
+      $datas = json_decode($data,true);
+          
+
+    // return view('app.user.product.purchase-invoice',compact('title','datas','base','method','sub_title'));
+     return view('app.admin.products.purchaseinvoice',compact('title','datas','base','method','sub_title'));
+
+  }
+
    public function refreshDatabase(){
        Artisan::call('migrate:refresh', [ '--force' => true, ]);
        Artisan::call('db:seed');

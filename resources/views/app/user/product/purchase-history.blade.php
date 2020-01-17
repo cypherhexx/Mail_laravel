@@ -24,7 +24,10 @@
           <th>{{trans('products.pv')}}</th>
           <th> {{trans('products.total_amount')}}</th>
           <th> {{trans('products.paid_by')}}</th>
-          <th> {{trans('products.purchase_date')}}</th>         
+          <th> {{trans('products.purchase_date')}}</th>  
+          <th>
+            Invoice
+          </th>       
          
         </thead>
 
@@ -38,7 +41,13 @@
              <td> {{ $item->pv}}</td>
              <td> {{  round($item->total_amount,2)}} </td>
              <td> {{$item->pay_by }}</td>
-             <td> {{ Date('d M Y',strtotime($item->created_at))}}</td>            
+             <td> {{ Date('d M Y',strtotime($item->created_at))}}</td>  
+             <td>
+               <a href="{{url('user/purchase/invoice/'.$item->id)}}" target="_blank" class="btn btn-primary">
+                <i class="fa fa-file-word-o"></i>
+              
+              </a>
+             </td>          
            </tr>
 
            @endforeach
