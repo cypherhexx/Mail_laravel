@@ -631,8 +631,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             ]);
 
             $spon_det=User::find($sponsor_id);
-              SendSponsorEmail::dispatch($data['username'],$spon_det->email,$spon_det->name,$spon_det->lastname)
-                        ->delay(Carbon::now()->addSeconds(10));
+              // SendSponsorEmail::dispatch($data['username'],$spon_det->email,$spon_det->name,$spon_det->lastname)
+              //           ->delay(Carbon::now()->addSeconds(10));
 
             PointTable::addPointTable($userresult->id);
             Tree_Table::createVaccant($tree->user_id);
@@ -642,8 +642,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             $balanceupdate = SELF::insertToBalance($userresult->id);
             // dd("00");
 
-            SendAllEmail::dispatch($data['firstname'],$data['lastname'],$data['username'],$data['password'],$data['email'])
-                        ->delay(Carbon::now()->addSeconds(10));
+            // SendAllEmail::dispatch($data['firstname'],$data['lastname'],$data['username'],$data['password'],$data['email'])
+            //             ->delay(Carbon::now()->addSeconds(10));
           
 
             DB::commit();
