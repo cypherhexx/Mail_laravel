@@ -129,7 +129,7 @@ table.minimalistBlack tfoot td {
         <tr>
             <td align="center" style="width: 50%; ">
 
-                 <img src="{{url('img/cache/logo/cloud-pic-febda.png')}}" width="170" height="30" alt="ajooweb" style="outline: none;border: 0;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;line-height: 100%;max-width: 100px;height: auto !important;border-radius: 100px !important;">
+                 <img src="{{url('img/cache/logo/atmor.png')}}" width="170" height="30" alt="ajooweb" style="outline: none;border: 0;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;line-height: 100%;max-width: 100px;height: auto !important;border-radius: 100px !important;">
              
             </td>
         </tr>

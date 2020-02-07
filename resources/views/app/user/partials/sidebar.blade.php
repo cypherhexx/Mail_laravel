@@ -43,7 +43,7 @@
 
 								<!-- Main -->
 								<li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li>
-                              
+
 
                                 @if($current_pack > 1)								
 								<li class="{{set_active('user/dashboard')}}">
@@ -140,12 +140,15 @@
 
                         @endif
 
+                        @if($current_pack == 1)  
+
                          <li class="{{set_active('user/purchasedashboard')}}">
                         <a href="{{url('user/purchasedashboard')}}">
                             <i class="icon-home4"></i>
                             <span class="text"> Dashboard</span>
                         </a>
                     </li>  
+                    @endif
 
 
                     <li class="{{set_active('user/runsoftware')}}">
