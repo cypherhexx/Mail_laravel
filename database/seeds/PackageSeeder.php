@@ -11,8 +11,21 @@ class PackageSeeder extends Seeder
      */
     public function run()
     {
+
        App\Packages::create([
-          'package'=>'50€',
+          'package'=>'member',
+          'amount'=>'0',
+          'pv'=>0,
+          'rs'=>0,
+          'code'=>0,
+          'daily_limit'=>0,
+          'special'=>0,
+          'top_count'=>0,
+          'ref_top_count'=>0,
+           'level_percent' => '0',
+        ]);
+       App\Packages::create([
+          'package'=>'Bronze',
           'amount'=>'50',
           'pv'=>0,
           'rs'=>0,
@@ -24,7 +37,7 @@ class PackageSeeder extends Seeder
            'level_percent' => '2',
         ]);
       App\Packages::create([
-          'package'=>'100€',
+          'package'=>'Silver',
           'amount'=>'100',
           'pv'=>0,
           'rs'=>0,
@@ -37,7 +50,7 @@ class PackageSeeder extends Seeder
         ]);
 
        App\Packages::create([
-          'package'=>'150€',
+          'package'=>'Gold',
           'amount'=>'150',
           'pv'=>0,
           'rs'=>0,
@@ -50,7 +63,7 @@ class PackageSeeder extends Seeder
         ]);
 
         App\Packages::create([
-          'package'=>'200€',
+          'package'=>'Diamond',
           'amount'=>'200',
           'pv'=>0,
           'rs'=>0,

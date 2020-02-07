@@ -25,16 +25,16 @@
             <input type="hidden" name="payable_vouchers[]" value="">
             <input type="hidden" name="payment" id="payment" value="cheque">
             <input type="hidden" name="pack_new" id="pack_new" value="">
-            <h6 class="width-full">{{trans('register.network_information') }}  </h6>
+          <!--   <h6 class="width-full">{{trans('register.network_information') }}  </h6>
             <fieldset>
                 <div class="row">
                     <div class="col-md-4">
                         <div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('sponsor') ? ' has-error' : '' }}">
                             {!! Form::label('sponsor', trans("all.sponsor"), array('class' => 'control-label')) !!}
-                            <input class="form-control" value="{{Auth::user()->username}}" required="required" data-parsley-required-message="all.please_enter_sponsor_name" name="sponsor" type="text" id="sponsor" data-parsley-group="block-0" data-parsley-sponsor="null" readonly="">
+                            <input class="form-control" value="{{Auth::user()->username}}" required="required" data-parsley-required-message="all.please_enter_sponsor_name" name="sponsor" type="text" id="sponsor" data-parsley-group="block-0" data-parsley-sponsor="null" readonly=""> -->
                             <!--data-parsley-remote="data-parsley-remote" data-parsley-remote-validator="validate_sponsor" data-parsley-remote-options='{ "type": "POST", "dataType": "jsonp", "data": { "csrf": {{csrf_token()}} } }' data-parsley-remote-message="all.there_is_no_user_with_that_username" data-parsley-trigger-after-failure="change" data-parsley-trigger="change" 
                             -->
-                            <div class="form-control-feedback">
+                         <!--    <div class="form-control-feedback">
                                 <i class="icon-person text-muted"></i>
                             </div>
                             <span class="help-block">
@@ -52,7 +52,7 @@
                         </div>
                     </div>
                     @else @if($placement_user)
-                    <input type="hidden" name="placement_user" placeholder="{{trans('register.placement_username')}}" class="form-control" value="{{$placement_user}}" required /> @endif @endif
+                    <input type="hidden" name="placement_user" placeholder="{{trans('register.placement_username')}}" class="form-control" value="{{$placement_user}}" required /> @endif @endif -->
                     <!-- end col-4 -->
                     <!-- begin col-4 -->
                 <!--     <div class="col-md-4">
@@ -73,7 +73,7 @@
                             </span>
                         </div>
                     </div> -->
-                    <div class="col-md-4">
+                   <!--  <div class="col-md-4">
                         <div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('package') ? ' has-error' : '' }}">
                             {!! Form::label('package', trans("register.package"), array('class' => 'control-label')) !!}
                             <select class="form-control" name="package" id="package" required="required" data-parsley-required-message="Please Select Package" data-parsley-group="block-0">
@@ -93,13 +93,32 @@
                         </div>
                     </div>
                 </div>
-            </fieldset>
+            </fieldset> -->
             <h6 class="width-full">  {{trans('register.contact_information') }}  </h6>
             <fieldset>
                 <div class="row">
+
+
+                         <div class="col-md-6">
+                        <div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('sponsor') ? ' has-error' : '' }}">
+                            {!! Form::label('sponsor', trans("all.sponsor"), array('class' => 'control-label')) !!}
+                            <input class="form-control" value="{{Auth::user()->username}}" required="required" data-parsley-required-message="all.please_enter_sponsor_name" name="sponsor" type="text" id="sponsor" data-parsley-group="block-0" data-parsley-sponsor="null" readonly="">
+                            <!--data-parsley-remote="data-parsley-remote" data-parsley-remote-validator="validate_sponsor" data-parsley-remote-options='{ "type": "POST", "dataType": "jsonp", "data": { "csrf": {{csrf_token()}} } }' data-parsley-remote-message="all.there_is_no_user_with_that_username" data-parsley-trigger-after-failure="change" data-parsley-trigger="change" 
+                            -->
+                            <div class="form-control-feedback">
+                                <i class="icon-person text-muted"></i>
+                            </div>
+                            <span class="help-block">
+                                <small>{!!trans("all.type_your_sponsors_username") !!}</small>
+                                @if ($errors->has('sponsor'))
+                                <strong>{{ $errors->first('sponsor') }}</strong>
+                                @endif
+                            </span>
+                        </div>
+                    </div>
                     <div class="col-md-6">
                         <div class="required form-group {{ $errors->has('firstname') ? ' has-error' : '' }}">
-                            {!! Form::label('name', trans("register.firstname"), array('class' => 'control-label')) !!} {!! Form::text('firstname', Input::old('firstname'), ['class' => 'form-control','required' => 'required','data-parsley-required-message' => trans("all.please_enter_first_name"),'data-parsley-group' => 'block-1']) !!}
+                            {!! Form::label('name', trans("register.firstname"), array('class' => 'control-label')) !!} {!! Form::text('firstname', Input::old('firstname'), ['class' => 'form-control','required' => 'required','data-parsley-required-message' => trans("all.please_enter_first_name"),'data-parsley-group' => 'block-0']) !!}
                             <span class="help-block">
                                 <small>{!!trans("all.your_firstname") !!}</small>
                                 @if ($errors->has('firstname'))
@@ -108,9 +127,14 @@
                             </span>
                         </div>
                     </div>
-                    <div class="col-md-6">
+               
+                </div>
+                <!-- end row -->
+                <div class="row">
+
+                         <div class="col-md-6">
                         <div class="required form-group{{ $errors->has('lastname') ? ' has-error' : '' }}">
-                            {!! Form::label('lastname', trans("register.lastname"), array('class' => 'control-label')) !!} {!! Form::text('lastname', Input::old('lastname'), ['class' => 'form-control','required' => 'required','data-parsley-required-message' => trans("all.please_enter_last_name"),'data-parsley-group' => 'block-1']) !!}
+                            {!! Form::label('lastname', trans("register.lastname"), array('class' => 'control-label')) !!} {!! Form::text('lastname', Input::old('lastname'), ['class' => 'form-control','required' => 'required','data-parsley-required-message' => trans("all.please_enter_last_name"),'data-parsley-group' => 'block-0']) !!}
                             <span class="help-block">
                                 <small>{!!trans("all.your_lastname") !!}</small>
                                 @if ($errors->has('lastname'))
@@ -119,12 +143,9 @@
                             </span>
                         </div>
                     </div>
-                </div>
-                <!-- end row -->
-                <div class="row">
                     <div class="col-md-6">
                         <div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('country') ? ' has-error' : '' }}">
-                            {!! Form::label('country', trans("register.country"), array('class' => 'control-label')) !!} {!! Form::select('country', $countries ,'US',['class' => 'form-control','id' => 'country','required' => 'required','data-parsley-required-message' => trans("all.please_select_country"),'data-parsley-group' => 'block-1']) !!}
+                            {!! Form::label('country', trans("register.country"), array('class' => 'control-label')) !!} {!! Form::select('country', $countries ,'US',['class' => 'form-control','id' => 'country','required' => 'required','data-parsley-required-message' => trans("all.please_select_country"),'data-parsley-group' => 'block-0']) !!}
                             <div class="form-control-feedback">
                                 <i class="fa fa-flag-o text-muted"></i>
                             </div>
@@ -136,7 +157,13 @@
                             </span>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                  
+                </div>
+                <!-- end row -->
+                <div class="row">
+                    <!-- begin col-6 -->
+
+                      <div class="col-md-6">
                         <div class="required form-group{{ $errors->has('state') ? ' has-error' : '' }}">
                             {!! Form::label('state', trans("register.state"), array('class' => 'control-label')) !!} {!! Form::select('state', $states ,'WA',['class' => 'form-control','id' => 'state']) !!}
                             <span class="help-block">
@@ -147,13 +174,9 @@
                             </span>
                         </div>
                     </div>
-                </div>
-                <!-- end row -->
-                <div class="row">
-                    <!-- begin col-6 -->
                     <div class="col-md-6">
                         <div class="required form-group{{ $errors->has('zip') ? ' has-error' : '' }}">
-                            {!! Form::label('zip', trans("register.zip_code"), array('class' => 'control-label')) !!} {!! Form::text('zip', Input::old('zip'), ['class' => 'form-control','required' => 'required','id' => 'zip','data-parsley-required-message' => trans("all.please_enter_zip"),'data-parsley-group' => 'block-1','data-parsley-zip' => 'us','data-parsley-type' => 'digits','data-parsley-length' => '[5,8]','data-parsley-state-and-zip' => 'us','data-parsley-validate-if-empty' => '','data-parsley-errors-container' => '#ziperror' ]) !!}
+                            {!! Form::label('zip', trans("register.zip_code"), array('class' => 'control-label')) !!} {!! Form::text('zip', Input::old('zip'), ['class' => 'form-control','required' => 'required','id' => 'zip','data-parsley-required-message' => trans("all.please_enter_zip"),'data-parsley-group' => 'block-0','data-parsley-zip' => 'us','data-parsley-type' => 'digits','data-parsley-length' => '[5,8]','data-parsley-state-and-zip' => 'us','data-parsley-validate-if-empty' => '','data-parsley-errors-container' => '#ziperror' ]) !!}
                             <span class="help-block">
                                 <span id="ziplocation"><span></span></span>
                             <span id="ziperror"></span>
@@ -162,9 +185,14 @@
                             </span>
                         </div>
                     </div>
-                    <div class="col-md-6">
+           
+                </div>
+                <div class="row">
+                    <!-- begin col-6 -->
+
+                             <div class="col-md-6">
                         <div class="required form-group{{ $errors->has('address') ? ' has-error' : '' }}">
-                            {!! Form::label('address', trans("register.address"), array('class' => 'control-label')) !!} {!! Form::textarea('address', Input::old('address'), ['class' => 'form-control','required' => 'required','id' => 'address','rows'=>'2','data-parsley-required-message' => trans("all.please_enter_address"),'data-parsley-group' => 'block-1']) !!}
+                            {!! Form::label('address', trans("register.address"), array('class' => 'control-label')) !!} {!! Form::textarea('address', Input::old('address'), ['class' => 'form-control','required' => 'required','id' => 'address','rows'=>'2','data-parsley-required-message' => trans("all.please_enter_address"),'data-parsley-group' => 'block-0']) !!}
                             <span class="help-block">
                                 <small>{!!trans("all.your_address") !!}</small>
                                 @if ($errors->has('address'))
@@ -173,12 +201,10 @@
                             </span>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <!-- begin col-6 -->
+               
                     <div class="col-md-6">
                         <div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('city') ? ' has-error' : '' }}">
-                            {!! Form::label('city', trans("register.city"), array('class' => 'control-label')) !!} {!! Form::text('city', Input::old('city'), ['class' => 'form-control','required' => 'required','id' => 'city','data-parsley-required-message' => trans("all.please_enter_city"),'data-parsley-group' => 'block-1']) !!}
+                            {!! Form::label('city', trans("register.city"), array('class' => 'control-label')) !!} {!! Form::text('city', Input::old('city'), ['class' => 'form-control','required' => 'required','id' => 'city','data-parsley-required-message' => trans("all.please_enter_city"),'data-parsley-group' => 'block-0']) !!}
                             <div class="form-control-feedback">
                                 <i class="icon-city text-muted"></i>
                             </div>
@@ -190,9 +216,13 @@
                             </span>
                         </div>
                     </div>
+                </div>
+                <div class="row">
+
+
                     <div class="col-md-6">
                         <div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('gender') ? ' has-error' : '' }}">
-                            {!! Form::label('gender', trans("register.gender"), array('class' => 'control-label')) !!} {!! Form::select('gender', array('m' => trans("all.male"), 'f' => trans("all.female") ,'other' =>trans("all.other")),NULL,['class' => 'form-control','required' => 'required','data-parsley-required-message' => trans("all.please_select_gender"),'data-parsley-group' => 'block-1']) !!}
+                            {!! Form::label('gender', trans("register.gender"), array('class' => 'control-label')) !!} {!! Form::select('gender', array('m' => trans("all.male"), 'f' => trans("all.female") ,'other' =>trans("all.other")),NULL,['class' => 'form-control','required' => 'required','data-parsley-required-message' => trans("all.please_select_gender"),'data-parsley-group' => 'block-0']) !!}
                             <div class="form-control-feedback">
                                 <i class="fa fa-neuter text-muted"></i>
                             </div>
@@ -204,12 +234,10 @@
                             </span>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <!-- begin col-6 -->
-                    <div class="col-md-6">
+
+                          <div class="col-md-6">
                         <div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('phone') ? ' has-error' : '' }}">
-                            {!! Form::label('phone', trans("register.phone"), array('class' => 'control-label')) !!} {!! Form::text('phone', Input::old('phone'), ['class' => 'form-control','id' => 'phone','data-parsley-required-message' => trans("all.please_enter_phone_number"),'data-parsley-group' => 'block-1']) !!}
+                            {!! Form::label('phone', trans("register.phone"), array('class' => 'control-label')) !!} {!! Form::text('phone', Input::old('phone'), ['class' => 'form-control','id' => 'phone','data-parsley-required-message' => trans("all.please_enter_phone_number"),'data-parsley-group' => 'block-0']) !!}
                             <div class="form-control-feedback">
                                 <i class=" icon-mobile3 text-muted"></i>
                             </div>
@@ -221,9 +249,13 @@
                             </span>
                         </div>
                     </div>
+                </div>
+                <div class="row">
+                    <!-- begin col-6 -->
+              
                     <div class="col-md-6">
                         <div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('email') ? ' has-error' : '' }}">
-                            {!! Form::label('email', trans("register.email"), array('class' => 'control-label')) !!} {!! Form::email('email', Input::old('email'), ['class' => 'form-control','required' => 'required','id' => 'email','data-parsley-required-message' => trans("all.please_enter_email"),'data-parsley-group' => 'block-1']) !!}
+                            {!! Form::label('email', trans("register.email"), array('class' => 'control-label')) !!} {!! Form::email('email', Input::old('email'), ['class' => 'form-control','required' => 'required','id' => 'email','data-parsley-required-message' => trans("all.please_enter_email"),'data-parsley-group' => 'block-0']) !!}
                             <div class="form-control-feedback">
                                 <i class="icon-mail5 text-muted"></i>
                             </div>
@@ -235,12 +267,10 @@
                             </span>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <!-- begin col-6 -->
-                    <div class="col-md-6">
+
+                          <div class="col-md-6">
                         <div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('wechat') ? ' has-error' : '' }}">
-                            {!! Form::label('wechat', trans("register.wechat"), array('class' => 'control-label')) !!} {!! Form::text('wechat', Input::old('wechat'), ['class' => 'form-control','id' => 'wechat','data-parsley-required-message' => trans("all.please_enter_wechat"),'data-parsley-group' => 'block-1']) !!}
+                            {!! Form::label('wechat', trans("register.wechat"), array('class' => 'control-label')) !!} {!! Form::text('wechat', Input::old('wechat'), ['class' => 'form-control','id' => 'wechat','data-parsley-required-message' => trans("all.please_enter_wechat"),'data-parsley-group' => 'block-0']) !!}
                             <span class="help-block">
                                 <small>{!!trans("all.type_your_wechat") !!}</small>
                                 @if ($errors->has('wechat'))
@@ -249,10 +279,14 @@
                             </span>
                         </div>
                     </div>
+                </div>
+                <div class="row">
+                    <!-- begin col-6 -->
+              
                     <!-- begin col-4 -->
                     <div class="col-md-6">
                         <div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('passport') ? ' has-error' : '' }}">
-                            {!! Form::label('passport', trans("register.national_identification_number"), array('class' => 'control-label')) !!} {!! Form::text('passport', Input::old('passport'), ['class' => 'form-control','required' => 'required','id' => 'passport','data-parsley-required-message' => trans("all.please_enter_passport"),'data-parsley-group' => 'block-1']) !!}
+                            {!! Form::label('passport', trans("register.national_identification_number"), array('class' => 'control-label')) !!} {!! Form::text('passport', Input::old('passport'), ['class' => 'form-control','required' => 'required','id' => 'passport','data-parsley-required-message' => trans("all.please_enter_passport"),'data-parsley-group' => 'block-0']) !!}
                             <div class="form-control-feedback">
                                 <i class="icon-user-check text-muted"></i>
                             </div>
@@ -278,7 +312,7 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('username') ? ' has-error' : '' }}">
-                            {!! Form::label('username', trans("register.username"), array('class' => 'control-label')) !!} {!! Form::text('username', Input::old('username'), ['class' => 'form-control','required' => 'required','id' => 'username','data-parsley-required-message' => trans("all.please_enter_username"),'data-parsley-type' => 'alphanum','data-parsley-group' => 'block-2']) !!}
+                            {!! Form::label('username', trans("register.username"), array('class' => 'control-label')) !!} {!! Form::text('username', Input::old('username'), ['class' => 'form-control','required' => 'required','id' => 'username','data-parsley-required-message' => trans("all.please_enter_username"),'data-parsley-type' => 'alphanum','data-parsley-group' => 'block-1']) !!}
                             <div class="form-control-feedback">
                                 <i class="icon-user-check text-muted"></i>
                             </div>
@@ -296,7 +330,7 @@
                         <div class="passy required form-group has-feedbackX has-feedback-leftx {{ $errors->has('password') ? ' has-error' : '' }}">
                             {!! Form::label('password', trans("register.password"), array('class' => 'control-label')) !!}
                             <div class="input-group label-indicator-absolute">
-                                {!! Form::text('password','', ['class' => 'form-control pwstrength','required' => 'required','id' => 'password','data-parsley-required-message' => trans("all.please_enter_password"),'data-parsley-minlength'=>'6','data-parsley-group' => 'block-2']) !!}
+                                {!! Form::text('password','', ['class' => 'form-control pwstrength','required' => 'required','id' => 'password','data-parsley-required-message' => trans("all.please_enter_password"),'data-parsley-minlength'=>'6','data-parsley-group' => 'block-1']) !!}
                                 <span class="label password-indicator-label-abs"></span>
                                 <span class="input-group-addon copylink">
                                    <a class="btn btn-link btn-copy" style="margin: 0 auto;padding: 0px;font-size: 12px;" data-clipboard-action="copy" data-clipboard-target="#password" data-popup="tooltip" title="copy password" data-placement="top"><i class="fa fa-copy"></i>
@@ -321,7 +355,7 @@
                     <!-- begin col-4 -->
                     <div class="col-md-4">
                         <div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('password') ? ' has-error' : '' }}">
-                            {!! Form::label('confirm_password', trans("register.confirm_password"), array('class' => 'control-label')) !!} {!! Form::text('confirm_password','', ['class' => 'form-control','required' => 'required','id' => 'confirm_password','data-parsley-equalto' => '#password','data-parsley-required-message' => trans("all.please_enter_password_confirmation"),'data-parsley-minlength'=>'6','data-parsley-group' => 'block-2']) !!}
+                            {!! Form::label('confirm_password', trans("register.confirm_password"), array('class' => 'control-label')) !!} {!! Form::text('confirm_password','', ['class' => 'form-control','required' => 'required','id' => 'confirm_password','data-parsley-equalto' => '#password','data-parsley-required-message' => trans("all.please_enter_password_confirmation"),'data-parsley-minlength'=>'6','data-parsley-group' => 'block-1']) !!}
                             <div class="form-control-feedback">
                                 <i class="icon-user-check text-muted"></i>
                             </div>
@@ -373,7 +407,7 @@
                                                 <h1> <p class="text-success">
                                                     
                                                     {{trans('register.joining_fee') }}:
-                                                    <span name="fee" id="joiningfee"> 70 </span>
+                                                    <span name="fee" id="joiningfee"> {{$joiningfee}} </span>
                                                     
                                                 </p></h1>
                                                 <h3>{{trans('register.confirm_registration') }}</h3>
@@ -439,7 +473,7 @@
                                                 <h1> <p class="text-success">
                                                     
                                                     {{trans('register.joining_fee') }}:
-                                                    <span name="fee" class="ewallet_joining"> 70 </span>
+                                                    <span name="fee">  {{$joiningfee}} </span>
                                                     
                                                   
                                                     

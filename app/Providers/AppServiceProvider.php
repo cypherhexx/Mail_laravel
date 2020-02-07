@@ -124,6 +124,7 @@ class AppServiceProvider extends ServiceProvider
             // dd();
 
             $package_new=PurchaseHistory::where('user_id','=',Auth::user()->id)->orderBy('id','desc')->value('package_id');
+            $current_pack=ProfileInfo::where('user_id','=',Auth::user()->id)->value('package');
             $GLOBAL_PACAKGE= Packages::where('id','=',$package_new)->value('package');;
             // dd($GLOBAL_PACAKGE);
             $USER_CURRENCY= Currency::find(ProfileInfo::where('user_id','=',Auth::user()->id)->value('currency'));
@@ -165,6 +166,7 @@ class AppServiceProvider extends ServiceProvider
             ->with('logo_ico',$app->logo_ico)
             ->with('image',$image)
             ->with('activities',$activities)
+            ->with('current_pack',$current_pack)
             ->with('GLOBAL_USERRANK',$GLOBAL_USERRANK)
             ->with('GLOBAL_PACAKGE',$GLOBAL_PACAKGE)
             ->with('USER_CURRENCY',$USER_CURRENCY)

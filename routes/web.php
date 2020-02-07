@@ -683,6 +683,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth', 'namespace' => 'user']
     Route::get('getMonthUsers', 'dashboard@getmonthusers');
     Route::get('suggestlist', 'UserController@suggestlist');
     Route::get('profile', 'ProfileController@index');
+    Route::get('purchasedashboard','dashboard@purchasedashboard');
      Route::post('profile/edit/{id}', ['as' => 'user.saveprofile', 'uses' => 'ProfileController@update']);
 
     

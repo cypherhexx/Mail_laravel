@@ -12,7 +12,7 @@ class PurchaseHistory extends Model
 
     protected $table = 'purchase_history' ;
 
-    protected $fillable = ['user_id','package_id','count','total_amount','pv','pay_by','purchase_user_id','sales_status','rs_balance','created_at','datas'] ;
+    protected $fillable = ['user_id','package_id','count','total_amount','pv','pay_by','purchase_user_id','sales_status','rs_balance','created_at','datas','pay_type'] ;
 
     public static function getMonthlyTotal($id,$date){
 
