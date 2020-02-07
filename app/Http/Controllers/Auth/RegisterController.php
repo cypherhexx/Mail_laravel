@@ -115,9 +115,9 @@ class RegisterController extends Controller
 
 
 
-        $location = GeoIP::getLocation();
-        $ip_latitude = $location['lat'];
-        $ip_longtitude = $location['lon'];
+        // $location = GeoIP::getLocation();
+        // $ip_latitude = $location['lat'];
+        // $ip_longtitude = $location['lon'];
         $countries = CountryState::getCountries();
         $states = CountryState::getStates('US');
         $leg = 'L';
@@ -145,7 +145,7 @@ class RegisterController extends Controller
 
       
 
-        return view('auth.register',compact('sponsor_name','countries','states','ip_latitude','ip_longtitude','leg','placement_user','package','transaction_pass','package','sponsorname','sponsor','profile','profile_photo','currency_sy','payment_type'));
+        return view('auth.register',compact('sponsor_name','countries','states','leg','placement_user','package','transaction_pass','package','sponsorname','sponsor','profile','profile_photo','currency_sy','payment_type'));
     }
 
      public function RandomString()
