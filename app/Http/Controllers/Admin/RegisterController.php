@@ -205,7 +205,7 @@ class RegisterController extends AdminController
         $data['password']         = $request->password;
         $data['transaction_pass'] = $request->transaction_pass;
         $data['sponsor']          = $request->sponsor;
-        $data['package']          = $request->pack_new;
+        $data['package']          = 1;
         $data['leg']              = 'L';
         $data['payment']          = $request->payment;
         /**
@@ -241,7 +241,7 @@ class RegisterController extends AdminController
           'username'         => 'required|unique:users,username|alpha_num|max:255',
           'password'         => 'required|min:6',
           'transaction_pass' => 'required|alpha_num|min:6',
-          'package'          => 'required|exists:packages,id',
+          // 'package'          => 'required|exists:packages,id',
           'leg'              => 'required',
           'country'          => 'required|country',
         ]);
@@ -271,9 +271,9 @@ class RegisterController extends AdminController
             }
 
 
-             $userPackage = Packages::find($data['package']);
-            $joiningfee=$userPackage->amount;
-
+             
+             $joiningfee = Settings::value('joinfee');
+           
                if($request->payment == 'paypal'){ 
 
                     $orderid = mt_rand();
@@ -478,7 +478,7 @@ class RegisterController extends AdminController
 
             Activity::add("Joined as $userresult->username","Joined in system as $userresult->username sponsor as $sponsorname ",$userresult->id);
 
-            Activity::add("Package purchased","Purchased package - $userPackage->package ",$userresult->id);
+            // Activity::add("Package purchased","Purchased package - $userPackage->package ",$userresult->id);
 
 
           
@@ -699,8 +699,7 @@ class RegisterController extends AdminController
             $email=User::where('email',$item->email)->value('id');
               if($username == null && $email == null){
                 $userresult = User::add($details,$item->sponsor,$item->sponsor);
-                Session::flash('flash_notification', array('level' => 'success', 'message' => 'User Registered Successfully'));
-                return Redirect::to('admin/register');
+                 return redirect("admin/register/preview/" . Crypt::encrypt($userresult->id));
               }
               else{
                 Session::flash('flash_notification', array('level' => 'error', 'message' => 'User Already Exist'));

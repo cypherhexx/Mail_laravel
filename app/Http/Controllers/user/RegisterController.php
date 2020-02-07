@@ -107,7 +107,7 @@ class RegisterController extends UserAdminController
         $rules = ['sponsor' => 'required|min:5','username' => 'unique:users,username|required|min:5','email' => 'unique:users,email|required','password' => 'required|same:password_confirmation'];
         $country = Country::all();
         $package = Packages::all();
-        $joiningfee = Settings::pluck('joinfee');
+        $joiningfee = Settings::value('joinfee');
         $voucher_code=Voucher::pluck('voucher_code');
         $payment_type=PaymentType::where('status','yes')->get();
         $transaction_pass=self::RandomString();
@@ -139,7 +139,7 @@ class RegisterController extends UserAdminController
         $data['password'] = $request->password;
         $data['transaction_pass'] = $request->transaction_pass;
         $data['sponsor'] = $request->sponsor;
-        $data['package'] = $request->pack_new;
+        $data['package'] = 1;
         $data['leg'] = 'L';
         $data['payment']          = $request->payment;
         $data['placement_user'] = $request->placement_user;
@@ -180,8 +180,8 @@ class RegisterController extends UserAdminController
                 return redirect()->back()->withErrors(['The username not exist'])->withInput();
             }
            // $request->payment = "paypal";
-            $userPackage = Packages::find($data['package']);
-            $joiningfee=$userPackage->amount;
+           
+     $joiningfee = Settings::value('joinfee');
 
                if($request->payment == 'paypal'){ 
 
@@ -301,7 +301,7 @@ class RegisterController extends UserAdminController
                     return redirect()->back()->withErrors(['Opps something went wrong'])->withInput();
                 }
 
-                $userPackage = Packages::find($data['package']);
+                // $userPackage = Packages::find($data['package']);
           
 
                 $sponsorname = $userresult->sponsor ? $userresult->sponsor : Auth::user()->username;
@@ -312,7 +312,7 @@ class RegisterController extends UserAdminController
 
                 Activity::add("Joined as $userresult->username","Joined in system as $userresult->username sponsor as $sponsorname ",$userresult->id);
 
-                Activity::add("Package purchased","Purchased package - $userPackage->package ",$userresult->id);
+                // Activity::add("Package purchased","Purchased package - $userPackage->package ",$userresult->id);
 
 
           
@@ -464,8 +464,7 @@ class RegisterController extends UserAdminController
             $email=User::where('email',$item->email)->value('id');
               if($username == null && $email == null){
                 $userresult = User::add($details,$item->sponsor,$item->sponsor);
-                Session::flash('flash_notification', array('level' => 'success', 'message' => 'User Registered Successfully'));
-                return Redirect::to('user/register');
+               return  redirect("user/register/preview/".Crypt::encrypt($userresult->id));
               }
               else{
                 Session::flash('flash_notification', array('level' => 'error', 'message' => 'User Already Exist'));

@@ -22,6 +22,7 @@ use App\Balance;
 use App\Voucher;
 use App\User;
 use App\PaypalDetails;
+use App\ProfileInfo;
 
 use Validator;
 use Session;
@@ -109,7 +110,7 @@ class productController extends UserAdminController
           $data = PurchaseHistory::join('packages','packages.id','=','purchase_history.package_id')
                   ->where('user_id',Auth::user()->id)
                   ->where('purchase_user_id',Auth::user()->id)
-                  ->select('purchase_history.id','packages.package','count','packages.amount','total_amount','purchase_history.created_at','purchase_history.pv','purchase_history.pay_by')
+                  ->select('purchase_history.id','packages.package','count','packages.amount','total_amount','purchase_history.created_at','purchase_history.pv','purchase_history.pay_by','purchase_history.pay_type')
                   ->orderBy('purchase_history.id','DESC')
                   ->paginate(10);
            
@@ -199,13 +200,14 @@ class productController extends UserAdminController
                  
                     return redirect($response['paypal_link']);
                 }
-              }
+              
                 
             /*  payment validation and update balance */
 
-            // if($request->steps_plan_payment == 'cheque'){
-            //     $flag = true;
-            // }elseif($request->steps_plan_payment == 'voucher'){
+            if($request->steps_plan_payment == 'cheque'){
+                $flag = true;
+            }
+            // elseif($request->steps_plan_payment == 'voucher'){
 
             //         $voucher_total = $package->amount ;
             //         foreach ($request->voucher as $key => $vouchervalue) {
@@ -332,63 +334,74 @@ class productController extends UserAdminController
             //         }  
             // }   
 
-            // if($flag){
+             if($flag){
 
-            //       // dd($request->all());
-            //    $purchase_id=  PurchaseHistory::create([
-            //         'user_id'=>Auth::user()->id,
-            //         'purchase_user_id'=>Auth::user()->id,
-            //         'package_id'=>$package->id,
-            //         'count'=>$package->top_count,
-            //         'pv'=>$package->pv,
-            //         'total_amount'=>$package->amount,
-            //         'pay_by'=>$request->steps_plan_payment,
-            //         'rs_balance'=>$package->rs,
-            //         'sales_status'=>'yes',
+                  // dd($request->all());
+             $package = Packages::find($request->plan); 
+            $sponsor_id =Sponsortree::where('user_id',Auth::user()->id)->value('sponsor') ;
+            $purchase_id=  PurchaseHistory::create([
+                    'user_id'=>Auth::user()->id,
+                    'purchase_user_id'=>Auth::user()->id,
+                    'package_id'=>$package->id,
+                    'count'=>$package->top_count,
+                    'pv'=>$package->pv,
+                    'total_amount'=>$package->amount,
+                    'pay_by'=>'cheque',
+                    'rs_balance'=>$package->rs,
+                    'sales_status'=>'yes',
+                    'pay_type'  =>$request->type,
 
-            //     ]);
+                ]);
 
-            //       RsHistory::create([
-            //         'user_id'=>Auth::user()->id,                   
-            //         'from_id'=>Auth::user()->id,
-            //         'rs_credit'=>$package->rs,
-            //       ]);
+                  RsHistory::create([
+                    'user_id'=>Auth::user()->id,                   
+                    'from_id'=>Auth::user()->id,
+                    'rs_credit'=>$package->rs,
+                  ]);
                 /*  Commissions calculation and point distributione */
 
                 // Tree_Table::getAllUpline(Auth::user()->id);
                 // PointTable::updatePoint($package->pv, Auth::user()->id);
-                // Transactions::sponsorcommission($sponsor_id,Auth::user()->id);
-                // $sponsor_id
-                // LeadershipBonus::allocateCommission($sponsor_id,Sponsortree::where('user_id',$sponsor_id)->value('sponsor'),$package->pv/10);
+                 // Ranksetting::updateRank(Auth::user()->id);
+                // Transactions::sponsorcommission($sponsor_id,Auth::user()->id,$package->id);
 
-       //      }      
-       //  }
-       //     $pur_user=PurchaseHistory::find($purchase_id->id);
-       //     $user=User::join('profile_infos','profile_infos.user_id','=','users.id')
-       //      ->join('packages','packages.id','=','profile_infos.package')
-       //      ->where('users.id',$pur_user->user_id)
-       //      ->select('users.username','users.name','users.lastname','users.email','profile_infos.mobile','profile_infos.address1','packages.package')
-       //      ->get();
+                if($sponsor_id>1){
+                    $second_sponsor = Sponsortree::where('user_id',$sponsor_id)->value('sponsor');
+                    Transactions::indirectFaststart($second_sponsor,Auth::user()->id,$package->id);
+                }
+
+                ProfileInfo::where('user_id',Auth::user()->id)->update(['package'=>$package->id]); 
+
+                $pur_user=PurchaseHistory::find($purchase_id->id);
+
+              $user=User::join('profile_infos','profile_infos.user_id','=','users.id')
+                          ->join('packages','packages.id','=','profile_infos.package')
+                          ->where('users.id',$pur_user->user_id)
+                          ->select('users.username','users.name','users.lastname','users.email','profile_infos.mobile','profile_infos.address1','packages.package')
+                          ->get();
             
        
-       // $userpurchase=array();      
-       // $userpurchase['name']=$user[0]->name;
-       // $userpurchase['lastname']=$user[0]->lastname;
-       // $userpurchase['amount']=$purchase_id->total_amount;
-       // $userpurchase['payment_method']=$purchase_id->pay_by;
-       // $userpurchase['mail_address']=$user[0]->email;;
-       // $userpurchase['mobile']=$user[0]->mobile;
-       // $userpurchase['address']=$user[0]->address1;
-       // $userpurchase['invoice_id'] ='0000'.$purchase_id->id;
-       // $userpurchase['date_p']=$purchase_id->created_at;
-       // $userpurchase['package']=$user[0]->package;
+               $userpurchase=array();      
+               $userpurchase['name']=$user[0]->name;
+               $userpurchase['lastname']=$user[0]->lastname;
+               $userpurchase['amount']=$purchase_id->total_amount;
+               $userpurchase['payment_method']=$purchase_id->pay_by;
+               $userpurchase['mail_address']=$user[0]->email;;
+               $userpurchase['mobile']=$user[0]->mobile;
+               $userpurchase['address']=$user[0]->address1;
+               $userpurchase['invoice_id'] ='0000'.$purchase_id->id;
+               $userpurchase['date_p']=$purchase_id->created_at;
+               $userpurchase['package']=$user[0]->package;
 
-       // PurchaseHistory::where('id','=',$purchase_id->id)->update(['datas'=>json_encode($userpurchase)]);
 
-       //  Session::flash('flash_notification',array('message'=>"You have purchased the plan succesfully ",'level'=>'success'));
+               PurchaseHistory::where('id','=',$purchase_id->id)->update(['datas'=>json_encode($userpurchase)]);
 
-       //  return  redirect("user/purchase/preview/".Crypt::encrypt($purchase_id->id));
+                Session::flash('flash_notification',array('message'=>"You have purchased the plan succesfully ",'level'=>'success'));
+
+                return  redirect("user/purchase/preview/".Crypt::encrypt($purchase_id->id));
     }
+}
+}
 
 
     public function preview($idencrypt){

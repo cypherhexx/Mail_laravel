@@ -1,40 +1,39 @@
-@extends('app.user.layouts.default')
-{{-- Web site Title --}}
-@section('title') {{{ $title }}} :: @parent @stop
-@section('main')
- @include('utils.errors.list')
- @include('utils.vendor.flash.message') 
+<?php $__env->startSection('title'); ?> <?php echo e($title); ?> :: ##parent-placeholder-3c6de1b7dd91465d437ef415f94f36afc1fbc8a8## <?php $__env->stopSection(); ?>
+<?php $__env->startSection('main'); ?>
+ <?php echo $__env->make('utils.errors.list', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+ <?php echo $__env->make('utils.vendor.flash.message', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?> 
 <div class="content">
   <div class="panel panel-white">
 
-    <form class="wizard-form steps-planpurchase" action="{{url('user/purchase-plan')}}" method="post"  data-parsley-validate="true">
-        {!! csrf_field() !!}
+    <form class="wizard-form steps-planpurchase" action="<?php echo e(url('user/purchase-plan')); ?>" method="post"  data-parsley-validate="true">
+        <?php echo csrf_field(); ?>
 
-            <h6>{{trans('products.choose_pacakge')}} </h6>
+
+            <h6><?php echo e(trans('products.choose_pacakge')); ?> </h6>
             <fieldset>
                <div class="col-md-12">                
                     <div class="d-flex align-items-start flex-column flex-md-row">   
                       <div class="row"> 
-                        @forelse($products as $item)
+                        <?php $__empty_1 = true; $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                         <div class="col-xl-3 col-sm-4">
                           <label class="form-check-label" style="width: 100%;"> 
                             <div class="panel panel-default text-center">
                               <div class="panel-heading">
-                                <div class="ribbon-container {{$item->package}} ">
-                                  <div class="ribbon bg-indigo-400">{{trans('products.selected')}} </div>
+                                <div class="ribbon-container <?php echo e($item->package); ?> ">
+                                  <div class="ribbon bg-indigo-400"><?php echo e(trans('products.selected')); ?> </div>
                                 </div>
-                                <h1>{{$item->package}}</h1>
+                                <h1><?php echo e($item->package); ?></h1>
                               </div>
                               <div class="panel-body">
-                                <p><strong>{{$item->pv}}</strong> PV</p>                                     
+                                <p><strong><?php echo e($item->pv); ?></strong> PV</p>                                     
                                 <p><strong>Endless</strong> Amet</p>
                               </div>
                               <div class="panel-footer">
-                                <h3>{{$currency_sy}} {{$item->amount}}</h3>
-                                <h4>{{trans('products.one_time_fee')}}</h4>                                  
+                                <h3><?php echo e($currency_sy); ?> <?php echo e($item->amount); ?></h3>
+                                <h4><?php echo e(trans('products.one_time_fee')); ?></h4>                                  
                                 <div class="form-check">
                                   <div class="uniform-choice border-indigo-600 text-indigo-800"><span class="checked">
-                                    <input type="radio"  required="required"    name="plan" badge-class="{{$item->package}}" class="form-check-input-styled-custom" data-fouc="" data-parsley-group="block-0" value="{{$item->id}}" plan-amount="{{$item->amount}}">
+                                    <input type="radio"  required="required"    name="plan" badge-class="<?php echo e($item->package); ?>" class="form-check-input-styled-custom" data-fouc="" data-parsley-group="block-0" value="<?php echo e($item->id); ?>" plan-amount="<?php echo e($item->amount); ?>">
                                     <span class="checkmark"></span>
                                   </div>
                                 </div>
@@ -42,37 +41,19 @@
                             </div> 
                           </label>
                         </div>
-                        @empty
-                      @endforelse
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                      <?php endif; ?>
                     </div>  
                   </div> 
                 </div>              
               </fieldset>
-            <h6>{{trans('products.choose_payment_type')}}</h6>
-            <fieldset> 
-
-              <div class="text-center">
-
-
-     <label class="radio-inline"><input type="radio" name="type"  value="1" checked>Annual Payment</label>
-<label class="radio-inline"><input type="radio" name="type" value="2">Monthly Payment</label>
-      </div>
-  
-
-
-
-             
-                
-              
-            </fieldset>
-
-              <h6>{{trans('products.choose_payment')}}</h6>
+            <h6><?php echo e(trans('products.choose_payment')); ?></h6>
             <fieldset> 
 
               <div class="card-body">
                 <ul class="nav nav-tabs nav-tabs-highlight nav-justified">
-                  <li class="nav-item active"><a href="#steps-planpurchase-tab1" class="nav-link  steps-plan-payment active " data-toggle="tab" data-payment='cheque' >cheque</a></li>
-                <!--   <li class="nav-item"><a href="#steps-planpurchase-tab2" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='ewallet'>{{trans('products.ewallet')}}</a></li>
+                  <li class="nav-item active"><a href="#steps-planpurchase-tab1" class="nav-link  steps-plan-payment active " data-toggle="tab" data-payment='paypal' >Paypal</a></li>
+                <!--   <li class="nav-item"><a href="#steps-planpurchase-tab2" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='ewallet'><?php echo e(trans('products.ewallet')); ?></a></li>
                    <li class="nav-item"><a href="#steps-planpurchase-tab3" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='Stripe'>Stripe</a></li> -->
                   <!--   <li class="nav-item"><a href="#steps-planpurchase-tab4" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='paypal'>Paypal</a></li> -->
               <!--     <li class="nav-item"><a href="#steps-planpurchase-tab5" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='voucher'>Voucher</a></li> -->
@@ -86,11 +67,11 @@
 
                 <div class="tab-content">
                   <div class="tab-pane active  " id="steps-planpurchase-tab1">
-                    <input type="hidden" name="steps_plan_payment" value="cheque" data-parsley-group="block-1">
+                    <input type="hidden" name="steps_plan_payment" value="paypal" data-parsley-group="block-1">
                  
                 
 
-                    <center>Pay With cheque</center> 
+                    <center>Pay With Paypal</center> 
                      
                   </div>
 
@@ -117,9 +98,9 @@
 
               
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('scripts') @parent
+<?php $__env->startSection('scripts'); ?> ##parent-placeholder-16728d18790deb58b3b8c1df74f06e536b532695##
 
 <script type="text/javascript">
 $(document).on('submit', 'form', function() {
@@ -156,7 +137,7 @@ $(document).on('submit', 'form', function() {
 
 
 
-@endsection
+<?php $__env->stopSection(); ?>
 
 
 
@@ -164,3 +145,5 @@ $(document).on('submit', 'form', function() {
 
 
 
+
+<?php echo $__env->make('app.user.layouts.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

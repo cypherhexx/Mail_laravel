@@ -27,6 +27,7 @@ class SettingsTable extends Migration
             $table->double('direct_referral');
             $table->double('three_friends');
             $table->double('eight_friends');
+             $table->string('removed');
             $table->timestamps();
         });
     }

@@ -527,27 +527,27 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
              */
 
 
-            $userPackage = Packages::find($data['package']);
+            // $userPackage = Packages::find($data['package']);
             
-            if(isset(Auth::user()->id)){
-              if($data['payment'] == "ewallet" && $sponsor_id != Auth::user()->id)
-                $purchase_user_id = $sponsor_id;
-              else
-                $purchase_user_id = Auth::user()->id;
-            }
-            else
-              $purchase_user_id = $userresult->id;
+            // if(isset(Auth::user()->id)){
+            //   if($data['payment'] == "ewallet" && $sponsor_id != Auth::user()->id)
+            //     $purchase_user_id = $sponsor_id;
+            //   else
+            //     $purchase_user_id = Auth::user()->id;
+            // }
+            // else
+            //   $purchase_user_id = $userresult->id;
 
-            PurchaseHistory::create([
-                'user_id'          => $userresult->id,
-                'purchase_user_id' => $purchase_user_id,
-                'package_id'       => $data['package'],
-                'pv'               => $userPackage->pv,
-                'count'            => 1,
-                'total_amount'     => $userPackage->amount,
-                'pay_by'           => $data['payment'],
-                'sales_status'     => 0,                
-            ]);
+            // PurchaseHistory::create([
+            //     'user_id'          => $userresult->id,
+            //     'purchase_user_id' => $purchase_user_id,
+            //     'package_id'       => $data['package'],
+            //     'pv'               => $userPackage->pv,
+            //     'count'            => 1,
+            //     'total_amount'     => $userPackage->amount,
+            //     'pay_by'           => $data['payment'],
+            //     'sales_status'     => 0,                
+            // ]);
 
              /**
              * Get sponsor tree id where there is a vacant under specified sponsor
@@ -608,31 +608,28 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
              */
 
             Tree_Table::getAllUpline($userresult->id);
-            PointTable::updatePoint($userPackage->pv, $userresult->id);
-            // Transactions::sponsorcommission($sponsor_id,$userresult->id);
-            // $sponsor_id
-            // LeadershipBonus::allocateCommission($sponsor_id,Sponsortree::where('user_id',$sponsor_id)->value('sponsor'),$userPackage->pv / 10);
+            // PointTable::updatePoint($userPackage->pv, $userresult->id);
+           
             self::where('id',$sponsor_id)->increment('referral_count',1);
             $user_arrs=[];
-            $results=Ranksetting::getthreeupline($userresult->id,1,$user_arrs);
+            // $results=Ranksetting::getthreeupline($userresult->id,1,$user_arrs);
           
-            foreach ($results as $key => $value) {
-                          Packages::rankCheck($value);
+            // foreach ($results as $key => $value) {
+            //               Packages::rankCheck($value);
             
-            }
-            Packages::levelCommission($userresult->id,$userPackage->amount);
-            // Packages::rankBasedLevelCommission($userresult->id,$userPackage->amount);
-            Packages::directReferral($sponsor_id,$userresult->id,$data['package']);
-            // dd("sdf");
-            RsHistory::create([
-                    'user_id'=>$userresult->id,                   
-                    'from_id'=>$userresult->id,
-                    'rs_credit'=>$userPackage->amount,
-            ]);
+            // }
+            // Packages::levelCommission($userresult->id,$userPackage->amount);
+          
+            // Packages::directReferral($sponsor_id,$userresult->id,$data['package']);
+          
+            // RsHistory::create([
+            //         'user_id'=>$userresult->id,                   
+            //         'from_id'=>$userresult->id,
+            //         'rs_credit'=>$userPackage->amount,
+            // ]);
 
-            $spon_det=User::find($sponsor_id);
-              // SendSponsorEmail::dispatch($data['username'],$spon_det->email,$spon_det->name,$spon_det->lastname)
-              //           ->delay(Carbon::now()->addSeconds(10));
+            // $spon_det=User::find($sponsor_id);
+           
 
             PointTable::addPointTable($userresult->id);
             Tree_Table::createVaccant($tree->user_id);

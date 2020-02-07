@@ -1,202 +1,47 @@
-<?php $__env->startSection('content'); ?>
-
-
-
-
-<!-- Wizard with validation -->
-
+  <?php $__env->startSection('title'); ?> <?php echo e($title); ?> :: ##parent-placeholder-3c6de1b7dd91465d437ef415f94f36afc1fbc8a8## <?php $__env->stopSection(); ?> <?php $__env->startSection('styles'); ?> ##parent-placeholder-bf62280f159b1468fff0c96540f3989d41279669##
 <style type="text/css">
-.binary-demo{
-    padding: 10px 20px;
-}
-.sponse-img {
-    padding: 10px 40px;
-    width: 285px;
-    margin: 0 auto;
-}
-.side-1 h3 {
-    font-family: 'Abel',sans-serif;
-    text-transform: uppercase;
-    font-size: 22px;
-    padding: 0 0 10px 10px;
-    border-bottom: solid 1px #ccc;
-}
-.side-1 h3 i {
-    color: #2196F3;
-    margin-right: 10px;
-}
-.side-1 h3 span {
-    color: #2196F3;
-}
-.binary-dlt {
-    padding: 0;
+.form-control-feedback {
+    display: none;
 }
 
-.clear {
-    padding: 0;
-    margin: 0;
-    clear: both;
-}
-.side-1 {
-    background: #fff;
-    margin-top: 30px;
-    -webkit-box-shadow: 0 0 12px -5px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 0 0 12px -5px rgba(0, 0, 0, 0.75);
-    box-shadow: 0 0 12px -5px rgba(0, 0, 0, 0.75);
-    margin-bottom: 30px;
-}
-.bdr {
-    padding: 10px;
-}
-.binary-dlt li {
-    list-style: none;
-    padding: 10px 0;
-    font-size: 17px;
-}
-body {
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-size: 14px;
-    line-height: 1.428571429;
-    color: #333;
-    background-color: #fff;
-}
-
-li {
-    display: list-item;
-    text-align: -webkit-match-parent;
-}
-ul, menu, dir {
-    display: block;
-    list-style-type: disc;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    padding-inline-start: 40px;
-}
-
-.vide-strap {
-    background: url(../images/blr-img.png) center center no-repeat;
-    position: relative;
-    width: 100%;
-    font-size: 30px;
-    font-family: 'Abel',sans-serif;
-    color: #333333;
-    padding: 21px 10px;
-    text-transform: uppercase;
-    line-height: 54px;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+.wizard>.actions>ul>li>a[href="#finish"] {
+    display: none
 }
 </style>
-
+<?php $__env->stopSection(); ?>  <?php $__env->startSection('main'); ?> <?php echo $__env->make('utils.errors.list', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?> <?php echo $__env->make('utils.vendor.flash.message', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 <!-- Wizard with validation -->
-
-
-    
-
-
-<div class="col-md-4 side-1 padding-1">
-    <div class="panel panel-white" >
-    <h3 class="bdr">
-        <i class="fa fa-newspaper-o"></i>Sponsor
-        <span>Info</span>
-    </h3>
-    <div class="sponse-img">
-        <div class="img-circle" id="profilephotopreview" style="width:100px;height:100px;margin:0px auto;background-image:url(<?php echo e(url('img/cache/profile/'.$profile_photo)); ?>">
-                    </div>
-    </div>
-    <div class="binary-demo">
-        <h3><?php echo e($sponsor[0]->username); ?></h3>
-        <ul class="binary-dlt">
-            <li>  
-                <?php echo e(trans('register.full_name')); ?> : <?php echo e($sponsor[0]->name); ?>  <?php echo e($sponsor[0]->lastname); ?>
-
-            </li>
-            <li>   
-                <?php echo e(trans('register.email')); ?> : <?php echo e($sponsor[0]->email); ?>
-
-            </li>
-            <li>
-                <?php echo e(trans('register.phone')); ?> : <?php echo e($profile[0]->mobile); ?>
-
-            </li>
-            <li>
-                <?php echo e(trans('register.country')); ?> : <?php echo e($profile[0]->country); ?>
-
-            </li>
-           
-
-         
-        </ul>
-        <div class="social-media">
-          
-        </div>    
-    </div>
-   
-    <div class="clear"></div>
-    <div class="shadow"></div>
- </div>
-   
-  
-</div>
-
-    <div class="col-md-8">
-                    <div class="side-2">
-                        <div class="home-page">
-                            <div class="vide-strap">
-                                <p>Welcome , This site is sponsored by <b><?php echo e($sponsor[0]->username); ?></b> </p>
-                            </div>
-                            <script>
-    jQuery(document).ready(function()
-    {
-        jQuery("#close_link").click(function()
-        {
-            jQuery("#message_box").fadeOut(1000);
-        }
-        )
-    })
-</script>  
-<div class="row">
-    <div class="col-sm-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-        <h5 class="panel-title">New Member Register </h5>
+<div class="panel panel-white">
+    <div class="panel-heading">
+        <h6 class="panel-title"><?php echo e(trans('register.register_new_memeber')); ?></h6>
         <div class="heading-elements">
             <ul class="icons-list">
                 <li><a data-action="collapse"></a></li>
             </ul>
-        </div><p style="text-align:center;"><img src="<?php echo e(url('img/cache/original/logo.png')); ?>" alt="logo" style="width:60px;height:60px;" align="middle"></p>
+        </div>
     </div>
     <div class="panel-body">
-
-   
-        <form class="form-vertical steps-validation" action="<?php echo e(url('register')); ?>" method="POST" data-parsley-validate="true" name="form-wizard">
+        <form class="form-vertical steps-validation" action="<?php echo e(url('admin/register')); ?>" method="POST" data-parsley-validate="true" name="form-wizard">
             <?php echo csrf_field(); ?>
 
-            <input type="hidden" name="payable_vouchers[]" value="">
-            <input type="hidden" name="payment" id="payment" value="cheque">
-              <input type="hidden" name="pack_new" id="pack_new" value="">
-            <input type="hidden" name="leg" id="leg" value="L">
+            <input type="hidden" name="payment" id="payment" value="Cheque">
+            <input type="hidden" name="pack_new" id="pack_new" value="">
 
-           
-            <h6 class="width-full">  <?php echo e(trans('register.contact_information')); ?>  </h6>
-            
-            <h6 class="width-full">  <?php echo e(trans('register.login_information')); ?>   </h6>
-            
-            <h6 class="width-full">  <?php echo e(trans('register.payment')); ?>   </h6>
-          <!--    <fieldset>
+          
+              <input type="hidden" name="payable_vouchers[]" value=""> 
+
+
+             
+          <!--   <h6 class="width-full"><?php echo e(trans('register.network_information')); ?>  </h6>
+            <fieldset>
                 <div class="row">
                     <div class="col-md-4">
                         <div class="required form-group has-feedbackX has-feedback-leftx <?php echo e($errors->has('sponsor') ? ' has-error' : ''); ?>">
                             <?php echo Form::label('sponsor', trans("all.sponsor"), array('class' => 'control-label')); ?>
 
-                            <input class="form-control" value="<?php echo e($sponsor_name); ?>" required="required" data-parsley-required-message="all.please_enter_sponsor_name" name="sponsor" type="text" id="sponsor" data-parsley-group="block-0" data-parsley-sponsor="null"> -->
+                            <input class="form-control" value="<?php echo e(Auth::user()->username); ?>" required="required" data-parsley-required-message="all.please_enter_sponsor_name" name="sponsor" type="text" id="sponsor" data-parsley-group="block-0" data-parsley-sponsor="null"> -->
                             <!--data-parsley-remote="data-parsley-remote" data-parsley-remote-validator="validate_sponsor" data-parsley-remote-options='{ "type": "POST", "dataType": "jsonp", "data": { "csrf": <?php echo e(csrf_token()); ?> } }' data-parsley-remote-message="all.there_is_no_user_with_that_username" data-parsley-trigger-after-failure="change" data-parsley-trigger="change" 
                             -->
-                     <!--        <div class="form-control-feedback">
+                         <!--    <div class="form-control-feedback">
                                 <i class="icon-person text-muted"></i>
                             </div>
                             <span class="help-block">
@@ -207,19 +52,18 @@ ul, menu, dir {
                             </span>
                         </div>
                     </div>
-                    <?php if($leg): ?> -->
-               <!--      <div class="col-md-4">
+                    <?php if($leg): ?>
+                    <div class="col-md-4">
                         <div class="required form-group<?php echo e($errors->has('placement_user') ? ' has-error' : ''); ?>">
-                            <?php echo Form::label('placement_user', trans("all.placement_username"), array('class' => 'control-label')); ?> <?php echo Form::text('placement_user', $sponsor_name, ['class' => 'form-control','required' => 'required','data-parsley-required-message' => trans("all.please_enter_placement_username") ,'data-parsley-group' => 'block-0','value' => $placement_user,'readonly']); ?>
+                            <?php echo Form::label('placement_user', trans("all.placement_username"), array('class' => 'control-label')); ?> <?php echo Form::text('placement_user', $placement_user, ['class' => 'form-control','required' => 'required','data-parsley-required-message' => trans("all.please_enter_placement_username") ,'data-parsley-group' => 'block-0','value' => $placement_user,'readonly']); ?>
 
                         </div>
-                    </div> -->
-                 <!--    <?php else: ?> <?php if($placement_user): ?> -->
-                    <!-- <input type="hidden" name="placement_user" placeholder="<?php echo e(trans('register.placement_username')); ?>" class="form-control" value="<?php echo e($placement_user); ?>" required />  -->
-               <!--      <?php endif; ?> <?php endif; ?> -->
+                    </div>
+                    <?php else: ?> <?php if($placement_user): ?>
+                    <input type="hidden" name="placement_user" placeholder="<?php echo e(trans('register.placement_username')); ?>" class="form-control" value="<?php echo e($placement_user); ?>" required /> <?php endif; ?> <?php endif; ?> -->
                     <!-- end col-4 -->
                     <!-- begin col-4 -->
-                  <!--   <div class="col-md-4">
+                    <!-- <div class="col-md-4">
                         <div class="required form-group has-feedbackX has-feedback-leftx <?php echo e($errors->has('leg') ? ' has-error' : ''); ?>">
                             <?php echo Form::label('leg', trans("register.position"), array('class' => 'control-label',($leg)? 'readonly' : "")); ?>
 
@@ -238,7 +82,7 @@ ul, menu, dir {
                             </span>
                         </div>
                     </div> -->
-<!--                     <div class="col-md-4">
+             <!--        <div class="col-md-4">
                         <div class="required form-group has-feedbackX has-feedback-leftx <?php echo e($errors->has('package') ? ' has-error' : ''); ?>">
                             <?php echo Form::label('package', trans("register.package"), array('class' => 'control-label')); ?>
 
@@ -257,17 +101,19 @@ ul, menu, dir {
                                 <?php endif; ?>
                             </span>
                         </div>
-                    </div>
-                </div>
+                    </div> -->
+         <!--        </div>
             </fieldset> -->
+            <h6 class="width-full">  <?php echo e(trans('register.contact_information')); ?>  </h6>
             <fieldset>
-                <div class="row">
 
-                         <div class="col-md-6">
+                     <div class="row">
+   
+                  <div class="col-md-6">
                         <div class="required form-group has-feedbackX has-feedback-leftx <?php echo e($errors->has('sponsor') ? ' has-error' : ''); ?>">
                             <?php echo Form::label('sponsor', trans("all.sponsor"), array('class' => 'control-label')); ?>
 
-                            <input class="form-control" value="<?php echo e($sponsor_name); ?>" required="required" data-parsley-required-message="all.please_enter_sponsor_name" name="sponsor" type="text" id="sponsor" data-parsley-group="block-0" data-parsley-sponsor="null">
+                            <input class="form-control" value="<?php echo e(Auth::user()->username); ?>" required="required" data-parsley-required-message="all.please_enter_sponsor_name" name="sponsor" type="text" id="sponsor" data-parsley-group="block-0" data-parsley-sponsor="null">
                             <!--data-parsley-remote="data-parsley-remote" data-parsley-remote-validator="validate_sponsor" data-parsley-remote-options='{ "type": "POST", "dataType": "jsonp", "data": { "csrf": <?php echo e(csrf_token()); ?> } }' data-parsley-remote-message="all.there_is_no_user_with_that_username" data-parsley-trigger-after-failure="change" data-parsley-trigger="change" 
                             -->
                             <div class="form-control-feedback">
@@ -281,7 +127,8 @@ ul, menu, dir {
                             </span>
                         </div>
                     </div>
-                    <div class="col-md-6">
+
+                       <div class="col-md-6">
                         <div class="required form-group <?php echo e($errors->has('firstname') ? ' has-error' : ''); ?>">
                             <?php echo Form::label('name', trans("register.firstname"), array('class' => 'control-label')); ?> <?php echo Form::text('firstname', Input::old('firstname'), ['class' => 'form-control','required' => 'required','data-parsley-required-message' => trans("all.please_enter_first_name"),'data-parsley-group' => 'block-0']); ?>
 
@@ -293,12 +140,10 @@ ul, menu, dir {
                             </span>
                         </div>
                     </div>
-                 
                 </div>
-                <!-- end row -->
                 <div class="row">
-
-                       <div class="col-md-6">
+                 
+                    <div class="col-md-6">
                         <div class="required form-group<?php echo e($errors->has('lastname') ? ' has-error' : ''); ?>">
                             <?php echo Form::label('lastname', trans("register.lastname"), array('class' => 'control-label')); ?> <?php echo Form::text('lastname', Input::old('lastname'), ['class' => 'form-control','required' => 'required','data-parsley-required-message' => trans("all.please_enter_last_name"),'data-parsley-group' => 'block-0']); ?>
 
@@ -310,7 +155,8 @@ ul, menu, dir {
                             </span>
                         </div>
                     </div>
-                    <div class="col-md-6">
+
+                     <div class="col-md-6">
                         <div class="required form-group has-feedbackX has-feedback-leftx <?php echo e($errors->has('country') ? ' has-error' : ''); ?>">
                             <?php echo Form::label('country', trans("register.country"), array('class' => 'control-label')); ?> <?php echo Form::select('country', $countries ,'US',['class' => 'form-control','id' => 'country','required' => 'required','data-parsley-required-message' => trans("all.please_select_country"),'data-parsley-group' => 'block-0']); ?>
 
@@ -325,12 +171,11 @@ ul, menu, dir {
                             </span>
                         </div>
                     </div>
-                  
                 </div>
                 <!-- end row -->
                 <div class="row">
-
-                      <div class="col-md-6">
+                   
+                    <div class="col-md-6">
                         <div class="required form-group<?php echo e($errors->has('state') ? ' has-error' : ''); ?>">
                             <?php echo Form::label('state', trans("register.state"), array('class' => 'control-label')); ?> <?php echo Form::select('state', $states ,'WA',['class' => 'form-control','id' => 'state']); ?>
 
@@ -342,8 +187,8 @@ ul, menu, dir {
                             </span>
                         </div>
                     </div>
-                    <!-- begin col-6 -->
-                    <div class="col-md-6">
+
+                         <div class="col-md-6">
                         <div class="required form-group<?php echo e($errors->has('zip') ? ' has-error' : ''); ?>">
                             <?php echo Form::label('zip', trans("register.zip_code"), array('class' => 'control-label')); ?> <?php echo Form::text('zip', Input::old('zip'), ['class' => 'form-control','required' => 'required','id' => 'zip','data-parsley-required-message' => trans("all.please_enter_zip"),'data-parsley-group' => 'block-0','data-parsley-zip' => 'us','data-parsley-type' => 'digits','data-parsley-length' => '[5,8]','data-parsley-state-and-zip' => 'us','data-parsley-validate-if-empty' => '','data-parsley-errors-container' => '#ziperror' ]); ?>
 
@@ -355,11 +200,12 @@ ul, menu, dir {
                             </span>
                         </div>
                     </div>
-              
                 </div>
+                <!-- end row -->
                 <div class="row">
-
-                          <div class="col-md-6">
+                    <!-- begin col-6 -->
+               
+                    <div class="col-md-6">
                         <div class="required form-group<?php echo e($errors->has('address') ? ' has-error' : ''); ?>">
                             <?php echo Form::label('address', trans("register.address"), array('class' => 'control-label')); ?> <?php echo Form::textarea('address', Input::old('address'), ['class' => 'form-control','required' => 'required','id' => 'address','rows'=>'2','data-parsley-required-message' => trans("all.please_enter_address"),'data-parsley-group' => 'block-0']); ?>
 
@@ -371,8 +217,8 @@ ul, menu, dir {
                             </span>
                         </div>
                     </div>
-                    <!-- begin col-6 -->
-                    <div class="col-md-6">
+
+                         <div class="col-md-6">
                         <div class="required form-group has-feedbackX has-feedback-leftx <?php echo e($errors->has('city') ? ' has-error' : ''); ?>">
                             <?php echo Form::label('city', trans("register.city"), array('class' => 'control-label')); ?> <?php echo Form::text('city', Input::old('city'), ['class' => 'form-control','required' => 'required','id' => 'city','data-parsley-required-message' => trans("all.please_enter_city"),'data-parsley-group' => 'block-0']); ?>
 
@@ -387,11 +233,11 @@ ul, menu, dir {
                             </span>
                         </div>
                     </div>
-              
                 </div>
                 <div class="row">
-
-                          <div class="col-md-6">
+                    <!-- begin col-6 -->
+               
+                    <div class="col-md-6">
                         <div class="required form-group has-feedbackX has-feedback-leftx <?php echo e($errors->has('gender') ? ' has-error' : ''); ?>">
                             <?php echo Form::label('gender', trans("register.gender"), array('class' => 'control-label')); ?> <?php echo Form::select('gender', array('m' => trans("all.male"), 'f' => trans("all.female") ,'other' =>trans("all.other")),NULL,['class' => 'form-control','required' => 'required','data-parsley-required-message' => trans("all.please_select_gender"),'data-parsley-group' => 'block-0']); ?>
 
@@ -406,7 +252,8 @@ ul, menu, dir {
                             </span>
                         </div>
                     </div>
-                    <!-- begin col-6 -->
+            
+
                     <div class="col-md-6">
                         <div class="required form-group has-feedbackX has-feedback-leftx <?php echo e($errors->has('phone') ? ' has-error' : ''); ?>">
                             <?php echo Form::label('phone', trans("register.phone"), array('class' => 'control-label')); ?> <?php echo Form::text('phone', Input::old('phone'), ['class' => 'form-control','id' => 'phone','data-parsley-required-message' => trans("all.please_enter_phone_number"),'data-parsley-group' => 'block-0']); ?>
@@ -422,11 +269,11 @@ ul, menu, dir {
                             </span>
                         </div>
                     </div>
-                  
                 </div>
                 <div class="row">
-
-                      <div class="col-md-6">
+                    <!-- begin col-6 -->
+                
+                    <div class="col-md-6">
                         <div class="required form-group has-feedbackX has-feedback-leftx <?php echo e($errors->has('email') ? ' has-error' : ''); ?>">
                             <?php echo Form::label('email', trans("register.email"), array('class' => 'control-label')); ?> <?php echo Form::email('email', Input::old('email'), ['class' => 'form-control','required' => 'required','id' => 'email','data-parsley-required-message' => trans("all.please_enter_email"),'data-parsley-group' => 'block-0']); ?>
 
@@ -441,8 +288,8 @@ ul, menu, dir {
                             </span>
                         </div>
                     </div>
-                    <!-- begin col-6 -->
-                    <div class="col-md-6">
+
+                           <div class="col-md-6">
                         <div class="required form-group has-feedbackX has-feedback-leftx <?php echo e($errors->has('wechat') ? ' has-error' : ''); ?>">
                             <?php echo Form::label('wechat', trans("register.wechat"), array('class' => 'control-label')); ?> <?php echo Form::text('wechat', Input::old('wechat'), ['class' => 'form-control','id' => 'wechat','data-parsley-required-message' => trans("all.please_enter_wechat"),'data-parsley-group' => 'block-0']); ?>
 
@@ -454,12 +301,14 @@ ul, menu, dir {
                             </span>
                         </div>
                     </div>
-                    <!-- begin col-4 -->
-           
                 </div>
-                <div class="row">
 
-                             <div class="col-md-6">
+
+                <div class="row">
+                    <!-- begin col-6 -->
+             
+                    <!-- begin col-4 -->
+                    <div class="col-md-6">
                         <div class="required form-group has-feedbackX has-feedback-leftx <?php echo e($errors->has('passport') ? ' has-error' : ''); ?>">
                             <?php echo Form::label('passport', trans("register.national_identification_number"), array('class' => 'control-label')); ?> <?php echo Form::text('passport', Input::old('passport'), ['class' => 'form-control','required' => 'required','id' => 'passport','data-parsley-required-message' => trans("all.please_enter_passport"),'data-parsley-group' => 'block-0']); ?>
 
@@ -474,6 +323,8 @@ ul, menu, dir {
                             </span>
                         </div>
                     </div>
+                </div>
+                <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <input type="hidden" name="transaction_pass" class="form-control" placeholder="Transaction Password " value="<?php echo e($transaction_pass); ?>" />
@@ -481,6 +332,7 @@ ul, menu, dir {
                     </div>
                 </div>
             </fieldset>
+            <h6 class="width-full">  <?php echo e(trans('register.login_information')); ?>   </h6>
             <fieldset>
                 <div class="row">
                     <div class="col-md-4">
@@ -507,8 +359,10 @@ ul, menu, dir {
                             <div class="input-group label-indicator-absolute">
                                 <?php echo Form::text('password','', ['class' => 'form-control pwstrength','required' => 'required','id' => 'password','data-parsley-required-message' => trans("all.please_enter_password"),'data-parsley-minlength'=>'6','data-parsley-group' => 'block-1']); ?>
 
+
+                               
                                 <span class="label password-indicator-label-abs"></span>
-                                <span class="input-group-addon copylink">
+                                 <span class="input-group-addon copylink">
                                    <a class="btn btn-link btn-copy" style="margin: 0 auto;padding: 0px;font-size: 12px;" data-clipboard-action="copy" data-clipboard-target="#password" data-popup="tooltip" title="copy password" data-placement="top"><i class="fa fa-copy"></i>
                                    </a>
                                </span>
@@ -557,15 +411,13 @@ ul, menu, dir {
                 </div>
                 <!-- end row -->
             </fieldset>
-             <fieldset>
+            <h6 class="width-full">  <?php echo e(trans('register.payment')); ?>   </h6>
+            <fieldset>
              <div class="2_box">
                 <div class="m-b-0 text-center">
                     <div class="containerX">
                         <div class="row bhoechie-tab-container">
-                            
-
-
-                            <div class="col-xs-12 test">
+                            <div class="col-xs-12 ">
                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bhoechie-tab-menu">
                                     <div class="list-group">
                                         <?php $__currentLoopData = $payment_type; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $payment): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> <?php if($payment->id==1): ?>
@@ -574,13 +426,8 @@ ul, menu, dir {
                                             <br/><?php echo e($payment->payment_name); ?>
 
                                         </a>
-                                        <?php elseif($payment->payment_name== "Paypal"): ?>
-                                          <a href="#" payment="<?php echo e($payment->code); ?>" class="list-group-item text-center " class="">
-                                            <h4 class="glyphicon glyphicon-send"></h4>
-                                            <br/>Card Payment
-                                          </a>
                                         <?php else: ?>
-                                        <a href="#" payment="<?php echo e($payment->code); ?>" class="list-group-item text-center  " class="">
+                                        <a href="#" payment="<?php echo e($payment->code); ?>" class="list-group-item text-center " class="">
                                             <h4 class="glyphicon glyphicon-send"></h4>
                                             <br/><?php echo e($payment->payment_name); ?>
 
@@ -588,15 +435,42 @@ ul, menu, dir {
                                         <?php endif; ?> <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </div>
                                 </div>
-
                                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab">
                                     <?php $__currentLoopData = $payment_type; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pay): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> <?php if($pay->payment_name=="Cheque"): ?>
-                                    <div class="bhoechie-tab-content active">
+                                        <div class="bhoechie-tab-content active">
+
+                                            <div class="text-center">
+                                                <div class="text-center">
+                                                    <h1> <p class="text-success">
+                                                        
+                                                        <?php echo e(trans('register.joining_fee')); ?>:
+                                                        <span name="fee" id="joiningfee"> <?php echo e($joiningfee); ?> </span>
+                                                        
+                                                        
+                                                        
+                                                        
+                                                    </p></h1>
+                                                    <h3><?php echo e(trans('register.confirm_registration')); ?></h3>
+                                                    <p>
+                                                        <button class="btn btn-success btn-lg" role="button"><?php echo e($pay->payment_name); ?> payment confirmation</button>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php elseif($pay->payment_name=="Ewallet"): ?>
+
+                                    <div class="bhoechie-tab-content ">
                                         <div class="text-center">
                                             <div class="text-center">
-                                                <h1> <p class="text-success">   
+                                                <h1> <p class="text-success">
+                                                    
+                                                    <?php echo e(trans('register.joining_fee')); ?>:
+                                                    <span name="fee" class="ewallet_joining"> 70 </span>
+                                                    
+                                                  
+                                                    
+                                                    
                                                 </p></h1>
-                                              Joining Fee:<span><?php echo e($joiningfee); ?></span>
                                                 <h3><?php echo e(trans('register.confirm_registration')); ?></h3>
                                                 <p>
                                                     <button class="btn btn-success btn-lg" role="button"><?php echo e($pay->payment_name); ?> payment confirmation</button>
@@ -604,37 +478,9 @@ ul, menu, dir {
                                             </div>
                                         </div>
                                     </div>
-                                    <?php elseif($pay->payment_name=="Ewallet"): ?>
-                                    <div class="bhoechie-tab-content ">
-                                        <div class="text-center">
-                                            <div class="text-center">
-                                                <h1> <p class="text-success">
-                                                  <?php echo e(trans('register.joining_fee')); ?>:
-                                                    <span name="fee" class="ewallet_joining"> 0 </span>
-                                                </p></h1>
-                                              
-                                                <p>
-                                                    <button class="btn btn-success btn-lg" role="button"><?php echo e($pay->payment_name); ?> payment confirmation</button>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <?php elseif($pay->payment_name=="Paypal"): ?>
-                                    <div class="bhoechie-tab-content ">
-                                        <div class="text-center">
-                                            <div class="text-center">
-                                              
-                                            Joining Fee:<span><?php echo e($joiningfee); ?></span>
-                                            <br>
-                                                <p>
-                                                    <button class="btn btn-success btn-lg" role="button"><?php echo e($pay->payment_name); ?> payment confirmation</button>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                   
+
                                     <?php elseif($pay->payment_name=="Stripe"): ?>
-                                    <div class="bhoechie-tab-content   ">
+                                     <div class="bhoechie-tab-content   ">
                                         <div class="text-center">
                                             <div class="row">
                                                 <div class="col-sm-6 center col-sm-offset-3">
@@ -647,8 +493,8 @@ ul, menu, dir {
                                                data-amount=""
                                                data-currency="USD"
                                                data-bitcoin="false"
-                                               data-name="TradingAuto"
-                                               data-description="info@tradingauto.com"
+                                               data-name="Binary-ath"
+                                               data-description="info@solidus.cc"
                                                data-locale="auto"
                                                     />
                                                 </div>
@@ -657,23 +503,30 @@ ul, menu, dir {
                                                 All transactions are handled securely with <a href="https://stripe.com" >https://stripe.com</a>   
                                             </div>
                                         </div>
-                                    </div>
-                                     <?php elseif($pay->payment_name == "BTC"): ?>
-                                     <div class="bhoechie-tab-content ">
+                                    </div> 
+
+
+                                    <?php elseif($pay->payment_name=="Paypal"): ?>
+                                    <div class="bhoechie-tab-content ">
                                         <div class="text-center">
                                             <div class="text-center">
                                                 <h1> <p class="text-success">
-                                                     <?php echo e(trans('register.joining_fee')); ?>:
-                                                    <span name="fee" class="btc_joining"> 0 </span>
+                                                    
+                                                    <?php echo e(trans('register.joining_fee')); ?>:
+                                                    <span ><?php echo e($joiningfee); ?></span>
+                                                    
+                                                  
+                                                    
+                                                    
                                                 </p></h1>
+                                                <h3><?php echo e(trans('register.confirm_registration')); ?></h3>
                                                 <p>
                                                     <button class="btn btn-success btn-lg" role="button"><?php echo e($pay->payment_name); ?> payment confirmation</button>
                                                 </p>
                                             </div>
                                         </div>
-                                    </div> 
-
-                                         <?php elseif($pay->payment_name=="Voucher"): ?>
+                                    </div>
+                                   <?php elseif($pay->payment_name=="Voucher"): ?>
                                          <div class="bhoechie-tab-content ">
                                           <div class="text-center">
                                           <div class="text-center">
@@ -702,7 +555,7 @@ ul, menu, dir {
                                         <td><span class="amount"></span></td>
                                         <td><span class="balance"></span></td>                             
                                         <td><span class="remaining"></span></td>                             
-                                        <td class="td-validate-voucher"><button class="btn btn-info validatevoucher" onclick="return false;">validate</button></td>
+                                        <td class="td-validate-voucher"><button class="btn btn-info validatevoucher" onclick="return false;"><?php echo e(trans('register.validate')); ?></button></td>
 
 
                                       </tr>
@@ -716,72 +569,49 @@ ul, menu, dir {
                                        
                                         </div>
                                         </div>
-                                        </div>
-                                    <?php endif; ?> 
-
-
-
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        </div> 
+                                    <?php endif; ?> <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                </div>
-    </fieldset>
-        </form>  
     </div>
-   
-   
- </div>
- </div>
+    </div>
+    </fieldset>
+    </form>
+</div>
+</div>
+</div>
+</div>
+<?php $__env->stopSection(); ?> <?php $__env->startSection('overscripts'); ?> ##parent-placeholder-cf3aa7a97dccc92dae72236fb07ec31668edf210##
+<script type="text/javascript">
+var joiningfe = <?php echo e($joiningfee); ?>;
+</script>
+<?php $__env->stopSection(); ?> <?php $__env->startSection('scripts'); ?> ##parent-placeholder-16728d18790deb58b3b8c1df74f06e536b532695##
 
-    
-
-
-
-
-
-
-
-
-        <?php $__env->stopSection(); ?>
-
-
-
-<?php $__env->startSection('topscripts'); ?>
-##parent-placeholder-204b327729daa0c40aca3239e7b481cea6da9dc3##
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyAPQXi7ZBZ73SPXi7JfHycSCi30thvQGCg&sensor=false&libraries=places"></script>
-
-<?php $__env->stopSection(); ?>
-
-<?php $__env->startSection('scripts'); ?>
-##parent-placeholder-16728d18790deb58b3b8c1df74f06e536b532695##
- 
-<!--  <script type="text/javascript">
+<script type="text/javascript">
 $(document).on('submit', 'form', function() {
    $(this).find('button:submit, input:submit').attr('disabled','disabled');
  });
-</script> -->
+</script>
+<script src="//www.paypalobjects.com/api/checkout.js" async></script>
 
-<script>
-
-$('.location-picker').on('show.bs.dropdown', function (e) {
-
-   callmap();
-
-    $('.dropdown-menu').click(function(e) {
-          e.stopPropagation();
-    });
-
-});
-
-
-$("#location").on('keyup',function (e){
-      $('.location-picker').addClass('open');
-      callmap();
-});
-
+<script src="https://checkout.stripe.com/checkout.js"></script>
+<script type="text/javascript">
+       $(document).ready(function() {
+           $('#stripe_btn').on('click', function(event) {
+               event.preventDefault();
+               var $button = $(this),
+                   $form = $button.parents('form');
+               var opts = $.extend({}, $button.data(), {
+                   token: function(result) {
+                       $form.append($('<input>').attr({ type: 'hidden', name: 'stripeToken', value: result.id })).submit();
+                   }
+               });
+               StripeCheckout.open(opts);
+           });
+       });
 </script>
 <script type="text/javascript">
    $(document).ready(function() {
@@ -810,19 +640,5 @@ $('#pack_new').val(optionValue);
 });
 
 </script>
-<script type="text/javascript">
-$(document).ready(function(){
-$("#package").change(function(){
-$(this).find("option:selected").each(function(){
-var optionValue = $(this).attr("value");
-$('#pack_new').val(optionValue);
-
-
-});
-}).change();
-});
-
-</script>
 <?php $__env->stopSection(); ?>
-
-<?php echo $__env->make('layouts.auth', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php echo $__env->make('app.admin.layouts.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

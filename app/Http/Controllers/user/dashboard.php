@@ -16,6 +16,8 @@ use App\Payout;
 use App\User;
 use App\Voucher;
 use App\Commission;
+use App\ProfileInfo;
+use App\Packages;
 
 use Illuminate\Http\Request;
 use Auth;
@@ -25,6 +27,13 @@ class dashboard extends UserAdminController{
 
   
     public function index() {
+
+      $current_pack=ProfileInfo::where('user_id','=',Auth::user()->id)->value('package');
+      // dd($current_pack);
+
+      if($current_pack == 1){
+         return redirect('/user/purchasedashboard');
+      }
 
         $title = trans('dashboard.dashboard');       
         $users = User::count();               
@@ -85,6 +94,18 @@ class dashboard extends UserAdminController{
           ->groupBy('date')
           ->get();
           return response()->json($users);
+
+    }
+
+    public function purchasedashboard(){
+        $title = trans('dashboard.dashboard');   
+        $base = trans('dashboard.dashboard');
+        $method = trans('dashboard.dashboard');
+        $sub_title = trans('dashboard.dashboard');
+        $products=Packages::where('id','>',1)->get();
+        // dd($packages);
+
+        return view('app.user.dashboard.purchaseindex', compact('title','sub_title','base','method','products'));
 
     }
 

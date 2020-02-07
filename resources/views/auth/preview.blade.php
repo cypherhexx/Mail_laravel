@@ -44,10 +44,10 @@
                         <td>{{$sponsorUserName}}</td>
                     </tr>
                     
-                    <tr>
+                  <!--   <tr>
                         <th>{{trans('register.package') }}</th>
                         <td>{{$userresult->profile_info->package_detail->package}}</td>
-                    </tr>
+                    </tr> -->
                     <tr>
                         <th>{{trans('register.firstname') }}</th>
                         <td>{{$userresult->name}}</td>

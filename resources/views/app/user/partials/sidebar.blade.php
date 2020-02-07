@@ -42,7 +42,10 @@
 							<ul class="navigation navigation-main navigation-accordion">
 
 								<!-- Main -->
-								<li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li>								
+								<li class="navigation-header"><span>Main</span> <i class="icon-menu" title="Main pages"></i></li>
+                              
+
+                                @if($current_pack > 1)								
 								<li class="{{set_active('user/dashboard')}}">
                         <a href="{{url('user/dashboard')}}">                           
                             <i class="icon-home4"></i>
@@ -50,7 +53,10 @@
                         </a>
                        
                     </li>
+                
                     <li class="navigation-header"><span>Users</span> <i class="icon-menu" title="Users"></i></li>
+
+
                     <li class="has-sub {{set_active('user/genealogy')}}{{set_active('user/sponsortree')}}{{set_active('user/tree')}}">
                         <a href="javascript:;">                           
                             <span class="badge pull-right"></span>
@@ -132,8 +138,22 @@
 
                     </li>
 
+                        @endif
 
-                   
+                         <li class="{{set_active('user/purchasedashboard')}}">
+                        <a href="{{url('user/purchasedashboard')}}">
+                            <i class="icon-home4"></i>
+                            <span class="text"> Dashboard</span>
+                        </a>
+                    </li>  
+
+
+                    <li class="{{set_active('user/runsoftware')}}">
+                        <a href="#">
+                            <i class="glyphicon glyphicon-user"></i>
+                            <span class="text"> Run Software</span>
+                        </a>
+                    </li>  
 
 
                      <li class="{{set_active('user/profile')}}">
@@ -147,9 +167,18 @@
                        <li class="{{set_active('user/compose')}}">
                         <a href="{{url('user/compose')}}">
                             <i class="fa fa-envelope"></i>
-                            <span class="text"> {{ trans('menu.email')}}</span>
+                            <span class="text"> Support</span>
                         </a>
                     </li> 
+
+                     <li class="{{set_active('user/viewnews')}}">
+                        <a href="{{url('user/viewnews')}}">
+                            <i class="fa fa-envelope"></i>
+                            <span class="text"> News</span>
+                        </a>
+                    </li> 
+
+                      @if($current_pack > 1)        
 
                      <li class="{{set_active('user/helpdesk/tickets-dashboard')}}">
                         <a href="{{url('user/helpdesk/tickets-dashboard')}}">
@@ -171,15 +200,19 @@
                             <li class="{{set_active('user/allpayoutrequest')}}"><a href="{{url('user/allpayoutrequest')}}">{{trans('menu.view_my_payout')}}</a></li>
                         </ul>
                     </li>
-                    <li class="has-sub {{set_active('user/documentdownload')}}">
+
+                      @endif        
+                    <li class="has-sub {{set_active('user/documentdownload')}}{{set_active('user/viewvideos')}}">
                         <a  href="javascript:;" >
                             
                             <i class="fa fa-wrench"></i>
-                            <span class="text">{{ trans('menu.Tools')}}</span>
+                            <span class="text">Guides</span>
                         </a>
                         <ul class="sub-menu">
                             
-                              <li class="{{set_active('user/documentdownload')}}"><a href="{{url('user/documentdownload')}}">{{ trans('menu.download')}}</a></li>
+                              <li class="{{set_active('user/documentdownload')}}"><a href="{{url('user/documentdownload')}}">Documents</a></li>
+
+                              <li class="{{set_active('user/viewvideos')}}"><a href="{{url('user/viewvideos')}}">Videos</a></li>
                             
                             
                       

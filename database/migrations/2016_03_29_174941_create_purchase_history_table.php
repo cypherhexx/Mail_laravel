@@ -28,6 +28,7 @@ class CreatePurchaseHistoryTable extends Migration
             $table->string('sales_status')->default('yes');
             $table->string('datas',1000)->default('no');
             $table->double('rs_balance')->default(false);
+             $table->integer('pay_type')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

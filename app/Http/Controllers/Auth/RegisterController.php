@@ -124,7 +124,7 @@ class RegisterController extends Controller
         $placement_user ='admin';
         $country = Country::all();
         $package = Packages::all();
-        $joiningfee = Settings::pluck('joinfee');
+        $joiningfee = Settings::value('joinfee');
         $voucher_code=Voucher::pluck('voucher_code');
         $payment_type=PaymentType::where('status','yes')->get();
         $transaction_pass=self::RandomString();
@@ -145,7 +145,9 @@ class RegisterController extends Controller
 
       
 
-        return view('auth.register',compact('sponsor_name','countries','states','leg','placement_user','package','transaction_pass','package','sponsorname','sponsor','profile','profile_photo','currency_sy','payment_type'));
+
+        return view('auth.register',compact('sponsor_name','countries','states','ip_latitude','ip_longtitude','leg','placement_user','package','transaction_pass','package','sponsorname','sponsor','profile','profile_photo','currency_sy','payment_type','joiningfee'));
+
     }
 
      public function RandomString()
@@ -315,7 +317,7 @@ class RegisterController extends Controller
             $data['passport']         = null;
             $data['location']         = null;
             $data['reg_by']           = 'site';
-            $data['package']          = $request->pack_new;
+            $data['package']          = 1;
             
             $sponsor_id = User::checkUserAvailable($data['sponsor']);
             
@@ -331,8 +333,7 @@ class RegisterController extends Controller
                 return redirect()->back()->withErrors(['The sponsor not exist'])->withInput();
             }
 
-            $userPackage = Packages::find($data['package']);
-            $joiningfee=$userPackage->amount;
+            $joiningfee = Settings::value('joinfee');
 
                if($request->payment == 'paypal'){ 
 
@@ -420,7 +421,7 @@ class RegisterController extends Controller
 
             
 
-             $userPackage = Packages::find($data['package']);
+             // $userPackage = Packages::find($data['package']);
           
 
             $sponsorname = $data['sponsor'];
@@ -431,7 +432,7 @@ class RegisterController extends Controller
 
             Activity::add("Joined as $userresult->username","Joined in system as $userresult->username sponsor as $sponsorname ",$userresult->id);
 
-            Activity::add("Package purchased","Purchased package - $userPackage->package ",$userresult->id);
+            // Activity::add("Package purchased","Purchased package - $userPackage->package ",$userresult->id);
 
 
             $email = Emails::find(1);
@@ -575,8 +576,7 @@ class RegisterController extends Controller
             $email=User::where('email',$item->email)->value('id');
               if($username == null && $email == null){
                 $userresult = User::add($details,$item->sponsor,$item->sponsor);
-                Session::flash('flash_notification', array('level' => 'success', 'message' => 'User Registered Successfully'));
-                return Redirect::to('register');
+                 return redirect("register/preview/" . Crypt::encrypt($userresult->id));
               }
               else{
                 Session::flash('flash_notification', array('level' => 'error', 'message' => 'User Already Exist'));
