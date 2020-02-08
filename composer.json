@@ -9,6 +9,7 @@
         "barryvdh/laravel-debugbar": "~2.4",
         "doctrine/common": "2.7.0",
         "doctrine/dbal": "2.5.13",
+        "cohensive/embed": "5.5.*",
         "dougsisk/laravel-country-state": "^1.1",
         "guzzlehttp/guzzle": "^6.2",
         "htmlmin/htmlmin": "^5.0",

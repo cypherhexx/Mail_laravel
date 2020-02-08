@@ -83,6 +83,7 @@
                         </a>
                     </li>
 
+
                     <li class="has-sub  {{set_active('user/purchase-plan')}}  {{set_active('user/purchase-history')}} ">
                         <a href="javascript:;">
                             
@@ -153,7 +154,7 @@
 
                     <li class="{{set_active('user/runsoftware')}}">
                         <a href="#">
-                            <i class="glyphicon glyphicon-user"></i>
+                            <i class="icon-pushpin"></i>
                             <span class="text"> Run Software</span>
                         </a>
                     </li>  
@@ -174,12 +175,14 @@
                         </a>
                     </li> 
 
-                     <li class="{{set_active('user/viewnews')}}">
-                        <a href="{{url('user/viewnews')}}">
-                            <i class="fa fa-envelope"></i>
-                            <span class="text"> News</span>
-                        </a>
+                  
+                       <li class="{{set_active('user/news_read')}}">
+                            <a href="{{url('user/news_read')}}">
+                                <i class="fa fa-newspaper-o"></i>
+                                <span class="text">News</span>
+                            </a>
                     </li> 
+                    
 
                       @if($current_pack > 1)        
 
@@ -205,7 +208,7 @@
                     </li>
 
                       @endif        
-                    <li class="has-sub {{set_active('user/documentdownload')}}{{set_active('user/viewvideos')}}">
+                    <li class="has-sub {{set_active('user/documentdownload')}}{{set_active('user/allvideos')}}">
                         <a  href="javascript:;" >
                             
                             <i class="fa fa-wrench"></i>
@@ -215,7 +218,7 @@
                             
                               <li class="{{set_active('user/documentdownload')}}"><a href="{{url('user/documentdownload')}}">Documents</a></li>
 
-                              <li class="{{set_active('user/viewvideos')}}"><a href="{{url('user/viewvideos')}}">Videos</a></li>
+                              <li class="{{set_active('user/allvideos')}}"><a href="{{url('user/allvideos')}}">Videos</a></li>
                             
                             
                       

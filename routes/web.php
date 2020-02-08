@@ -231,6 +231,27 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth'], 'namespace' 
     Route::post('getParentGenealogy/{base64}/{levellimit}', 'GenealogyTreeController@getParentGenealogy');
     Route::post('search/autocomplete', 'GenealogyTreeController@autocomplete');
 
+    //news
+
+    Route::get('createnews','UserController@createNews');
+    Route::post('create_news','UserController@News');
+
+    Route::get('read_news','UserController@readNews');
+    Route::get('read_more/{id}','UserController@readMore');
+
+    Route::get('editnews/{id}','UserController@editNews');
+    Route::post('updatenews','UserController@updateNews');
+    Route::get('deletenews/{id}','UserController@deleteNews');
+
+     //videos
+
+    Route::get('addvideos', 'UserController@getVideos');
+    Route::post('postvideos', 'UserController@postVideos');
+    Route::get('editvideo/{id}','UserController@editvideo');
+     Route::post('posteditvideo','UserController@posteditvideo');
+    Route::get('videodelete/{id}','UserController@deletevideo');
+
+
 
 
 
@@ -758,6 +779,10 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth', 'namespace' => 'user']
     Route::post('updatename', 'UserController@updatename');
     Route::post('updateadminpass','UserController@updatepass');
 
+
+    Route::get('news_read','UserController@readNews');
+    Route::get('read_more/{id}','UserController@readMore');
+
     
     Route::get('payoutrequest', 'PayoutController@index');
     Route::post('request', 'PayoutController@request');
@@ -821,6 +846,8 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth', 'namespace' => 'user']
     Route::get('documentdownload', 'DocumentController@download');
     Route::get('download/{name}', 'DocumentController@getDownload');
     #ticket center
+
+      Route::get('allvideos','DocumentController@allvideos');
  
 
       
