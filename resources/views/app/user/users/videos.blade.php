@@ -21,6 +21,8 @@
         </div>
     </div>
     <div class="panel-body">
+
+      $if(count($result) > 0)
     <div class="row">
       @foreach ($result as $key=>$video)
         <div class="col-sm-6">
@@ -35,6 +37,9 @@
 
 
 </div>
+@else
+No Data
+@endif
 </div>
 </div>
 </h4>
