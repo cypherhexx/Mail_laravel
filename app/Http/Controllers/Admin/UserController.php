@@ -21,6 +21,8 @@ use App\Tree_Table;
 use App\User;
 use App\Voucher;
 use App\TypeChange;
+use App\News;
+use App\EventVideos;
 use Auth;
 use Datatables;
 use DB;
@@ -1031,6 +1033,186 @@ else
 
         return redirect()->back();
     }
+
+
+   public function createNews()
+   {
+    
+       $title = 'Create News';
+       $base = 'Create News';
+       $method = 'Create News';
+       $sub_title = 'Create News';
+
+      $create_news = News::orderBy('created_at','desc')->take(5)->get(); 
+
+      return view('app.admin.users.create_news',  compact('title','create_news','base','method','sub_title'));
+    }
+
+    public function News(Request $request){
+
+        // dd($request->all());
+
+       $news=News::create([
+        'title' =>$request->title,
+        'description' => $request->description,
+        ]);
+
+       // dd($news);
+       
+   
+        Session::flash('flash_notification',array('message'=>'News created successfully','level'=>'success'));
+
+        return redirect()->back();  
+    }
+
+    public function readNews()
+    {
+
+        $title = 'Read News';
+        $sub_title='Read News';
+        $base='Read News';
+        $method='Read News';
+
+      $read_news = News::orderBy('created_at','desc')->paginate(10);
+      return view('app.admin.users.news',compact('title','read_news','sub_title','base','method'));
+
+    }
+    public function readMore($id)
+    {
+
+        $title = 'Read News';
+        $sub_title='Read News';
+        $base='Read News';
+        $method='Read News';
+
+        $read_news = News::where('id',$id)->get();   
+        return view('app.admin.users.readnews',compact('title','read_news','sub_title','base','method'));
+
+    }
+
+
+    public function editNews($id){
+
+    $title = 'Edit news';
+    $sub_title = 'Edit news';
+    $base = 'Edit news';
+    $method = 'Edit news';
+
+    $edit_news = News::where('id',$id)->get();
+    return view('app.admin.users.edit_news',compact('title','edit_news','sub_title','base','method'));
+
+   } 
+
+   public function updateNews(Request $request){
+
+    News::where('id',$request->id)->update(array('title'=>$request->title,'description'=>$request->description));
+   Session::flash('flash_notification', array('level' => 'success','message' =>'News Updated Sccessfully'));
+
+   return redirect('admin/read_news');
+   }
+
+
+  public function deleteNews($id){
+
+     $delete_news= News::find($id);
+     $delete_news->delete();
+     Session::flash('flash_notification', array('level' => 'success', 'message' =>'news deleted successfully'));
+
+      return redirect()->back();
+
+   }
+
+        public function getVideos(){
+
+        $title     =  trans('users.videos');
+        $sub_title =  trans('users.videos');
+        $base      =  trans('users.videos');
+        $method    =  trans('users.videos');
+        $videos=EventVideos::all();
+        $result=array();
+        foreach ($videos as $key => $video) {
+          $video_html=EventVideos::getVideoHtmlAttribute($video->url);
+          $result[$video->id]['id']=$video->id;
+          $result[$video->id]['title']=$video->title;
+          $result[$video->id]['url']=$video_html;
+          $result[$video->id]['created']=$video->created_at;
+          # code...
+        }
+
+    
+        return view('app.admin.users.videos', compact('title','sub_title','base','method','result'));
+
+      }
+
+      public function postVideos(Request $request){
+       
+
+          
+               $url=$this::isValidURL(trim($request->videos));
+
+                if($url<>0) {
+               
+                EventVideos::create([
+                    'title'       =>$request->title,
+                    'url'=>$request->videos,
+                    'type'      =>'video', 
+                ]);
+
+                  Session::flash('flash_notification', array('level' => 'success', 'message' => 'Videos Added Successfully'));
+            }
+            else{
+                Session::flash('flash_notification', array('level' => 'error', 'message' => 'Please check the url'));
+            }
+    
+      
+        
+           return redirect()->back();
+      }
+
+      public static function isValidURL($url){
+      return preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i', $url);
+    }
+    public function editvideo($id){
+      $title     =  trans('users.edit_video');
+      $sub_title =  trans('users.edit_video');
+      $base      =  trans('users.edit_video');
+      $method    =  trans('users.edit_video');
+      $editvideo=EventVideos::find($id);
+    return view('app.admin.users.editvideo', compact('title','sub_title','base','method','editvideo'));
+
+    }
+
+    public function posteditvideo(Request $request){
+
+      $video=EventVideos::find($request->id);
+      $url=$this::isValidURL(trim($request->videos));
+
+      if($url<>0){
+
+        $video->title = $request->title;
+        $video->url=$request->videos;
+        $video->save();
+
+
+        Session::flash('flash_notification', array('level' => 'success', 'message' => 'Videos edited Successfully'));
+      }
+      else{
+            Session::flash('flash_notification', array('level' => 'error', 'message' => 'Please check the url'));
+        }
+        
+      return redirect('admin/addvideos');
+    }
+
+    public function deletevideo($id){
+      $delete_video=EventVideos::find($id);
+      $delete_video->delete();
+
+       Session::flash('flash_notification', array('level' => 'success', 'message' => 'Video deleted Sucessfully'));
+     return redirect()->back();
+    }
+
+
+
    
 
     

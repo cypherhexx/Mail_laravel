@@ -10,6 +10,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\DocumentUpload;
+use App\EventVideos;
 
 
 use Auth;
@@ -118,4 +119,24 @@ class DocumentController extends UserAdminController
     {
         //
     }
+
+       public function allvideos(){
+        $title     =  trans('users.videos');
+        $sub_title =  trans('users.videos');
+        $base      =  trans('users.videos');
+        $method    =  trans('users.videos');
+        $videos=EventVideos::all();
+        $result=array();
+        foreach ($videos as $key => $video) {
+          $video_html=EventVideos::getVideoHtmlAttribute($video->url);
+          $result[$video->id]['id']=$video->id;
+          $result[$video->id]['title']=$video->title;
+          $result[$video->id]['url']=$video_html;
+          $result[$video->id]['created']=$video->created_at;
+          # code...
+        }
+        // dd($result);
+        // dd($result);
+        return view('app.user.users.videos', compact('title','sub_title','base','method','result'));
+      }
 }

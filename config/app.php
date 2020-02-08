@@ -195,6 +195,7 @@ return [
         HTMLMin\HTMLMin\HTMLMinServiceProvider::class,
         Mews\Purifier\PurifierServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+        Cohensive\Embed\EmbedServiceProvider::class,
         Srmklive\PayPal\Providers\PayPalServiceProvider::class
 
 
@@ -287,6 +288,7 @@ return [
         //Debugbar
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'PayPal' => Srmklive\PayPal\Facades\PayPal::class,
+        'Embed' => Cohensive\Embed\Facades\Embed::class ,
 
         
 

@@ -7,6 +7,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Auth;
 use App\User;
+use App\News;
 use Validator;
 use DB;
 use Session;
@@ -124,5 +125,28 @@ class UserController extends UserAdminController
 
         
        }
+    }
+
+    public function readNews()
+    {
+
+      $title='Read News';
+      $base='Read News';
+      $method='Read News';
+      $sub_title='Read News';
+      $read_news = News::orderBy('created_at','desc')->paginate(3);
+      return view('app.user.news.news',compact('title','read_news','base','method','sub_title'));
+
+    }
+
+    public function readMore($id)
+    {       $base='Read News';
+      $method='Read News';
+      $sub_title='Read News';
+       
+         $title='Read News';
+        $read_news = News::where('id',$id)->get();
+        return view('app.user.news.readnews',compact('title','read_news','base','method','sub_title'));
+
     }
 }

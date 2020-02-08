@@ -143,6 +143,13 @@
                                 <span class="text">{{trans('menu.register')}}  </span>
                             </a>
                     </li> 
+
+                     <li class="{{set_active('admin/runsoftware')}}">
+                            <a href="{{url('admin/runsoftware')}}">
+                                <i class="icon-pushpin"></i>
+                                <span class="text">Run Software </span>
+                            </a>
+                    </li> 
                   <!--     <li class="has-sub {{set_active('admin/adminregister')}}{{set_active('admin/viewalladmin')}}{{set_active('admin/work_assign')}}{{set_active('admin/assign-role/*')}}">
                         <a href="javascript:;">
                             <i class="fa fa-plus"></i>
@@ -184,7 +191,7 @@
                         <a href="{{url('admin/inbox')}}">
                             <span class="badge pull-right"></span>
                             <i class="icon-envelop5"></i> 
-                            <span>{{trans('menu.emails')}}</span>
+                            <span>Support</span>
                         </a>
                        
                     </li> 
@@ -211,10 +218,32 @@
                     
                         </ul>
                     </li> 
+
+
  -->
+
+                   <li class="has-sub {{set_active('admin/createnews')}}{{set_active('admin/read_news')}}">
+                        <a  href="javascript:;" >
+                           
+                            <i class="icon-newspaper"></i>
+                            <span class="text">News</span>
+                        </a>
+                        <ul class="sub-menu">
+                            
+                             <li class="{{set_active('admin/createnews')}}"><a href="{{url('admin/createnews')}}">Create news</a></li>
+                             
+                              <li class="{{set_active('admin/read_news')}}"><a href="{{url('admin/read_news')}}">Read News</a></li>
+                           
+                      
+                        </ul>
+                    </li>
+                    
+
                     <li class="navigation-header"><span>Email Marketing </span> 
                         <i class="icon-menu" title="Settings"></i>
                     </li>
+
+
 
                     @if(false)
                     <li class="has-sub {{set_active('admin/campaign')}}">
@@ -288,11 +317,12 @@
                         <a  href="javascript:;" >
                            
                             <i class="icon-cogs"></i>
-                            <span class="text">{{trans('menu.Tools')}}</span>
+                            <span class="text">Guides</span>
                         </a>
                         <ul class="sub-menu">
                              <!-- <li class="{{set_active('admin/autoresponse')}}"><a href="{{url('admin/autoresponse')}}">{{trans('menu.Auto_Responder')}}</a></li> -->
                              <li class="{{set_active('admin/documentupload')}}"><a href="{{url('admin/documentupload')}}">{{trans('menu.Documents')}}</a></li>
+                              <li class="{{set_active('admin/addvideos')}}"><a href="{{url('admin/addvideos')}}">Videos</a></li>
                              <!-- <li class="{{set_active('admin/paymentsettings')}}"><a href="{{url('admin/paymentsettings')}}">Payment Gateway Settings</a></li> -->
                              <!-- <li class="{{set_active('admin/optionsettings')}}"><a href="{{url('admin/optionsettings')}}">{{trans('menu.block_options')}}</a></li> -->
 
