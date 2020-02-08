@@ -8,8 +8,7 @@
         <h4 class="panel-title">Read News</h4>
     </div>
             <div class="panel-body">
-                <form action="" method="">
-                    <div class="invoice-content">
+              @if(count($read_news) > 0)
                         <div class="table-responsive">
                             <table class="table table-invoice" id="table">
                                 <thead>
@@ -40,22 +39,16 @@
                                             @endforeach  
 
 
-
-                                                @if(!count($read_news))
-
-                                                <tr><td>No Data</td></tr>
-
-                                                @endif  
-
-                                                          
-
                                     </tbody>
                             </table>
                         </div>
-                    </div>
-                </form>
+               
 
                  {!! $read_news->render() !!} 
+
+                 @else
+                 No data Found
+                 @endif
 
             </div>
             <br>
