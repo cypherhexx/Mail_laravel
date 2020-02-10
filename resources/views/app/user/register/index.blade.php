@@ -145,12 +145,10 @@
                     </div>
                     <div class="col-md-6">
                         <div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('country') ? ' has-error' : '' }}">
-                            {!! Form::label('country', trans("register.country"), array('class' => 'control-label')) !!} {!! Form::select('country', $countries ,'US',['class' => 'form-control','id' => 'country','required' => 'required','data-parsley-required-message' => trans("all.please_select_country"),'data-parsley-group' => 'block-0']) !!}
-                            <div class="form-control-feedback">
-                                <i class="fa fa-flag-o text-muted"></i>
-                            </div>
+                             {!! Form::label('country', trans("all.country"), array('class' => 'control-label')) !!}
+                            <input class="form-control" value="Israel" required="required" data-parsley-required-message="all.please_enter_sponsor_name" name="country" type="text" id="country" data-parsley-group="block-0" data-parsley-country="null" readonly>
                             <span class="help-block">
-                                <small>{!!trans("all.select_country") !!}</small>
+                                <small>{!!trans("all.your_country") !!}</small>
                                 @if ($errors->has('country'))
                                 <strong>{{ $errors->first('country') }}</strong>
                                 @endif
@@ -268,36 +266,13 @@
                         </div>
                     </div>
 
-                          <div class="col-md-6">
-                        <div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('wechat') ? ' has-error' : '' }}">
-                            {!! Form::label('wechat', trans("register.wechat"), array('class' => 'control-label')) !!} {!! Form::text('wechat', Input::old('wechat'), ['class' => 'form-control','id' => 'wechat','data-parsley-required-message' => trans("all.please_enter_wechat"),'data-parsley-group' => 'block-0']) !!}
-                            <span class="help-block">
-                                <small>{!!trans("all.type_your_wechat") !!}</small>
-                                @if ($errors->has('wechat'))
-                                <strong>{{ $errors->first('wechat') }}</strong>
-                                @endif
-                            </span>
-                        </div>
-                    </div>
+                 
                 </div>
                 <div class="row">
                     <!-- begin col-6 -->
               
                     <!-- begin col-4 -->
-                    <div class="col-md-6">
-                        <div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('passport') ? ' has-error' : '' }}">
-                            {!! Form::label('passport', trans("register.national_identification_number"), array('class' => 'control-label')) !!} {!! Form::text('passport', Input::old('passport'), ['class' => 'form-control','required' => 'required','id' => 'passport','data-parsley-required-message' => trans("all.please_enter_passport"),'data-parsley-group' => 'block-0']) !!}
-                            <div class="form-control-feedback">
-                                <i class="icon-user-check text-muted"></i>
-                            </div>
-                            <span class="help-block">
-                                <small>{!!trans("all.type_your_passport_number") !!}</small>
-                                @if ($errors->has('passport'))
-                                <strong>{{ $errors->first('passport') }}</strong>
-                                @endif
-                            </span>
-                        </div>
-                    </div>
+           
                 </div>
                 <div class="row">
                     <div class="col-md-6">
