@@ -142,7 +142,7 @@ class RegisterController extends AdminController
              * [Get States from mmdb]
              * @var [collection]
              */
-            $states = CountryState::getStates('US');
+            $states = CountryState::getStates('IL');
             /**
              * Get all packages from database
              * @var [collection]
@@ -196,7 +196,7 @@ class RegisterController extends AdminController
         $data['passport']         = $request->passport;
         $data['username']         = $request->username;
         $data['gender']           = $request->gender;
-        $data['country']          = $request->country;
+        $data['country']          = 'IL';
         $data['state']            = $request->state;
         $data['city']             = $request->city;
         $data['address']          = $request->address;

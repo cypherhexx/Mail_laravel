@@ -82,7 +82,7 @@ class RegisterController extends UserAdminController
         $base   = trans('all.register');
         $method = trans('all.register');          
         $countries = CountryState::getCountries();          
-        $states = CountryState::getStates('US');
+        $states = CountryState::getStates('IL');
 
         $status=MenuSettings::find(1);
         if($status->status=="no"){
@@ -130,7 +130,7 @@ class RegisterController extends UserAdminController
         $data['passport'] = $request->passport;
         $data['username'] = $request->username;
         $data['gender'] = $request->gender;
-        $data['country'] = $request->country;
+        $data['country'] = 'IL';
         $data['state'] = $request->state;
         $data['city'] = $request->city;
         $data['address'] = $request->address;

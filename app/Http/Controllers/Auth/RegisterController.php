@@ -119,7 +119,7 @@ class RegisterController extends Controller
         // $ip_latitude = $location['lat'];
         // $ip_longtitude = $location['lon'];
         $countries = CountryState::getCountries();
-        $states = CountryState::getStates('US');
+        $states = CountryState::getStates('IL');
         $leg = 'L';
         $placement_user ='admin';
         $country = Country::all();
@@ -319,6 +319,7 @@ class RegisterController extends Controller
             $data['location']         = null;
             $data['reg_by']           = 'site';
             $data['package']          = 1;
+            $data['country']   ='IL';
             
             $sponsor_id = User::checkUserAvailable($data['sponsor']);
             
