@@ -133,6 +133,7 @@ class RegisterController extends Controller
         $profile_photo = $profile[0]->profile;
         $app = AppSettings::find(1);
         $currency_sy = $app->currency;
+        // dd($profile_photo);
 
         if (!Storage::disk('images')->exists($profile_photo)){
             $profile_photo = 'avatar-big.png';
@@ -140,7 +141,7 @@ class RegisterController extends Controller
         if(!$profile_photo){
             $profile_photo = 'avatar-big.png';
         }
-
+// dd($profile_photo);
         
 
       

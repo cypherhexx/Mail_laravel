@@ -94,10 +94,12 @@ ul, menu, dir {
 </style>
 
 <!-- Wizard with validation -->
-
-
-    
-
+<div class="col-md-12">
+	<div class="row">
+<a href="http://vintagehut.in/wordpress-demo/cloud-2162/home/"><img src="img/cache/logo/alg-logo-004.png" width="10%" height="auto"></a>
+<!--<a href="http://vintagehut.in/wordpress-demo/cloud-2162/home/"><img src="{{url('img/cache/logo/alg-logo-004.png')}}"></a>-->
+</div>
+</div>
 
 <div class="col-md-4 side-1 padding-1">
     <div class="panel panel-white" >
