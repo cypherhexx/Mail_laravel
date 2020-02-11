@@ -1642,6 +1642,18 @@ $(function() {
             });
         });
     }
+
+          if ($('#pending-users').length) {
+        $(document).ready(function() {
+            oTable = $('#pending-users').DataTable({
+                "processing": true,
+                "serverSide": true,
+                "ordering": false,
+                "ajax": CLOUDMLMSOFTWARE.siteUrl + "/admin/pendingtransactions/data/",
+                "fnDrawCallback": function(oSettings) {}
+            });
+        });
+    }
       if ($('#ewallet-user-table').length) {
         $(document).ready(function() {
             oTable = $('#ewallet-user-table').DataTable({
@@ -4221,8 +4233,8 @@ $(".steps-planpurchase").parsley();
             
 
             $('input[name="steps_plan_payment"]').val($(this).attr('data-payment'));
-            if( $(this).attr('data-payment') == 'ewallet'){
-                $(".steps-planpurchase a[href='#finish']").hide();
+            if( $(this).attr('data-payment') == 'paypal' || $(this).attr('data-payment') == 'cheque'){
+                $(".steps-planpurchase a[href='#finish']").show();
             }else{
                 $(".steps-planpurchase a[href='#finish']").hide();
             }
@@ -4336,7 +4348,7 @@ if ( $( ".steps-validation" ).length ) {
         $('.bhoechie-tab-content').click(function(e){
 
             $('input[name="col-lg-9 col-md-9 col-sm-9 col-xs-9"]').val($(this).attr('payment'));
-            if($(this).attr('payment') == 'cheque' || $(this).attr('payment') == 'ewallet'){
+            if($(this).attr('payment') == 'cheque' || $(this).attr('payment') == 'paypal'){
                 $(".steps-validation a[href='#finish']").show();
             }else{
                 $(".steps-validation a[href='#finish']").hide();

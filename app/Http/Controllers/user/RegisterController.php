@@ -19,6 +19,7 @@ use App\Voucher;
 use App\Emails;
 use App\User;
 use App\PaypalDetails;
+use App\ProfileInfo;
 
 
 use Illuminate\Http\Request;
@@ -143,6 +144,7 @@ class RegisterController extends UserAdminController
         $data['leg'] = 'L';
         $data['payment']          = $request->payment;
         $data['placement_user'] = $request->placement_user;
+        // dd($data['placement_user']);
         if($data['placement_user'] != null){
             $data['placement_user'] = $data['placement_user'];
         }else{
@@ -181,24 +183,22 @@ class RegisterController extends UserAdminController
             }
            // $request->payment = "paypal";
            
-     $joiningfee = Settings::value('joinfee');
+              $joiningfee = Settings::value('joinfee');
+              $orderid ='Atmor-'. mt_rand();
 
+              $register=PendingTransactions::create([
+                     'order_id' =>$orderid,
+                     'username' =>$request->username,
+                     'email' =>$request->email,
+                     'sponsor' => $sponsor_id,
+                     'request_data' =>json_encode($data),
+                     'payment_method'=>$request->payment,
+                     'payment_type' =>'register',
+                     'amount' => $joiningfee,
+                    ]);
                if($request->payment == 'paypal'){ 
 
-                    $orderid = mt_rand();
-                    $register=PendingTransactions::create([
-                         'order_id' =>$orderid,
-                         'username' =>$request->username,
-                         'email' =>$request->email,
-                         'sponsor' => $sponsor_id,
-                         'request_data' =>json_encode($data),
-                         'payment_method'=>$request->payment,
-                         'payment_type' =>'register',
-                         'amount' => $joiningfee,
-                        ]);
-                    
                     Session::put('paypal_id',$register->id);
-
                     $data = [];
                     $data['items'] = [
                         [
@@ -224,76 +224,80 @@ class RegisterController extends UserAdminController
                  
                     return redirect($response['paypal_link']);
                 }
+
+                if($request->payment == 'cheque'){
+                return redirect()->action('user\RegisterController@regTransferPreview', ['id' =>$register->id]);
+            }
                 
 
 
-             if ($request->payment == 'voucher') {      
+            //  if ($request->payment == 'voucher') {      
 
-                    $voucher_total = Packages::where('id','=',$data['package'])->value('amount');
-                    foreach ($request->voucher as $key => $vouchervalue) {
-                    $voucher = Voucher::where('voucher_code', $vouchervalue)->first();
-                    $voucher_total = $voucher_total - $voucher->balance_amount ;
-                        if($voucher_total <=0 ){
-                        $flag = true;
-                        }
-                    }
+            //         $voucher_total = Packages::where('id','=',$data['package'])->value('amount');
+            //         foreach ($request->voucher as $key => $vouchervalue) {
+            //         $voucher = Voucher::where('voucher_code', $vouchervalue)->first();
+            //         $voucher_total = $voucher_total - $voucher->balance_amount ;
+            //             if($voucher_total <=0 ){
+            //             $flag = true;
+            //             }
+            //         }
 
-                    if($flag){
-                    $package_amount = Packages::where('id','=',$data['package'])->value('amount');
-                        foreach ($request->voucher as $key => $vouchervalue) {
-                        $voucher = Voucher::where('voucher_code', $vouchervalue)->first();                                 
-                            if($package_amount > $voucher->balance_amount){
-                            $package_amount = $package_amount -  $voucher->balance_amount ;
-                            $used_amount =  $voucher->balance_amount;                                    
-                            $voucher->balance_amount = 0 ;
-                            $voucher->save();
-                            }else{
-                            // $package_amount =$voucher->balance_amount - $package_amount  ;
-                            $used_amount =  $voucher->balance_amount - $package_amount;          
-                            $voucher->balance_amount = $used_amount;
-                            $voucher->save();                                    
-                            }
+            //         if($flag){
+            //         $package_amount = Packages::where('id','=',$data['package'])->value('amount');
+            //             foreach ($request->voucher as $key => $vouchervalue) {
+            //             $voucher = Voucher::where('voucher_code', $vouchervalue)->first();                                 
+            //                 if($package_amount > $voucher->balance_amount){
+            //                 $package_amount = $package_amount -  $voucher->balance_amount ;
+            //                 $used_amount =  $voucher->balance_amount;                                    
+            //                 $voucher->balance_amount = 0 ;
+            //                 $voucher->save();
+            //                 }else{
+            //                 // $package_amount =$voucher->balance_amount - $package_amount  ;
+            //                 $used_amount =  $voucher->balance_amount - $package_amount;          
+            //                 $voucher->balance_amount = $used_amount;
+            //                 $voucher->save();                                    
+            //                 }
 
 
-                        }
-                    } 
-            }
+            //             }
+            //         } 
+            // }
 
-                  if ($request->payment == "Stripe") {
-                  try{
-                        Stripe::setApiKey(config('services.stripe.secret'));
-                        $customer=Customer::create([
-                            'email' =>request('stripeEmail'),
-                            'source' =>request('stripeToken')
-                        ]);
+            //       if ($request->payment == "Stripe") {
+            //       try{
+            //             Stripe::setApiKey(config('services.stripe.secret'));
+            //             $customer=Customer::create([
+            //                 'email' =>request('stripeEmail'),
+            //                 'source' =>request('stripeToken')
+            //             ]);
             
-                    $id = $customer->id;
-                    $Charge=Charge::create([
-                        'customer' =>$id,
-                        'amount' => $fee * 100,
-                        'currency' => 'USD'
-                    ]);
-                }
-                catch(\Stripe\Error\Card $e) {
-                    $body = $e->getJsonBody();
-                    $err  = $body['error'];
+            //         $id = $customer->id;
+            //         $Charge=Charge::create([
+            //             'customer' =>$id,
+            //             'amount' => $fee * 100,
+            //             'currency' => 'USD'
+            //         ]);
+            //     }
+            //     catch(\Stripe\Error\Card $e) {
+            //         $body = $e->getJsonBody();
+            //         $err  = $body['error'];
 
-                    echo 'Status is:' . $e->getHttpStatus() . "\n" ;
-                    echo 'Type is:' . $err['type'] . "\n" ;
-                    echo 'Code is:' . $err['code'] . "\n" ;die();
+            //         echo 'Status is:' . $e->getHttpStatus() . "\n" ;
+            //         echo 'Type is:' . $err['type'] . "\n" ;
+            //         echo 'Code is:' . $err['code'] . "\n" ;die();
 
-                } catch (Stripe_InvalidRequestError $e) {
-                    return redirect()->back();
-                } catch (Stripe_AuthenticationError $e) {
-                  return redirect()->back();
-                } catch (Stripe_ApiConnectionError $e) {
-                   return redirect()->back();
-                } catch (Stripe_Error $e) {
-                   return redirect()->back();
-                } catch (Exception $e) {
-                   return redirect()->back();
-                }
-            }
+            //     } catch (Stripe_InvalidRequestError $e) {
+            //         return redirect()->back();
+            //     } catch (Stripe_AuthenticationError $e) {
+            //       return redirect()->back();
+            //     } catch (Stripe_ApiConnectionError $e) {
+            //        return redirect()->back();
+            //     } catch (Stripe_Error $e) {
+            //        return redirect()->back();
+            //     } catch (Exception $e) {
+            //        return redirect()->back();
+            //     }
+            // }
 
              
                 $userresult = User::add($data,$sponsor_id,$placement_id);
@@ -304,22 +308,22 @@ class RegisterController extends UserAdminController
                 // $userPackage = Packages::find($data['package']);
           
 
-                $sponsorname = $userresult->sponsor ? $userresult->sponsor : Auth::user()->username;
-                $placement_username = User::find($placement_id)->username;
-                $legname = $data['leg'] == "L" ? "Left" : "right";            
+                // $sponsorname = $userresult->sponsor ? $userresult->sponsor : Auth::user()->username;
+                // $placement_username = User::find($placement_id)->username;
+                // $legname = $data['leg'] == "L" ? "Left" : "right";            
             
-                Activity::add("Added user $userresult->username","Added $userresult->username sponsor as $sponsorname ");
+                // Activity::add("Added user $userresult->username","Added $userresult->username sponsor as $sponsorname ");
 
-                Activity::add("Joined as $userresult->username","Joined in system as $userresult->username sponsor as $sponsorname ",$userresult->id);
+                // Activity::add("Joined as $userresult->username","Joined in system as $userresult->username sponsor as $sponsorname ",$userresult->id);
 
                 // Activity::add("Package purchased","Purchased package - $userPackage->package ",$userresult->id);
 
 
           
-            $email = Emails::find(1);
+            // $email = Emails::find(1);
             
-            $welcome=welcomeemail::find(1);
-            $app_settings = AppSettings::find(1);
+            // $welcome=welcomeemail::find(1);
+            // $app_settings = AppSettings::find(1);
            
             // Mail::send('emails.register',
             //     ['email'         => $email,
@@ -462,8 +466,11 @@ class RegisterController extends UserAdminController
             $details=json_decode($item->request_data,true);
             $username=User::where('username',$item->username)->value('id');
             $email=User::where('email',$item->email)->value('id');
+            $sponsor_id = User::checkUserAvailable($details['sponsor']);
+            $placement_id =  User::checkUserAvailable($details['placement_user']);
               if($username == null && $email == null){
-                $userresult = User::add($details,$item->sponsor,$item->sponsor);
+                $userresult = User::add($details,$sponsor_id,$placement_id);
+               
                return  redirect("user/register/preview/".Crypt::encrypt($userresult->id));
               }
               else{
@@ -479,6 +486,20 @@ class RegisterController extends UserAdminController
 
 
 }
+
+        public function regTransferPreview(Request $request){
+            $title     = "Payment Details";
+            $sub_title = "Payment Details";
+            $base      = "Payment Details";
+            $method    = "Payment Details";
+            $bank_details = ProfileInfo::where('user_id',1)->first();
+            $data=PendingTransactions::find($request->id);
+            $joiningfee=$data->amount;
+            $orderid=$data->order_id;
+            Session::flash('flash_notification', array('level' => 'success', 'message' => "The account will be activated once the payment has been processed!"));
+            return view('app.user.register.bankpaydetails',compact('title', 'sub_title', 'base', 'method','orderid','bank_details','joiningfee'));
+
+        }
 
                           
     }

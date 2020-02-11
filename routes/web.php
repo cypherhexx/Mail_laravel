@@ -109,6 +109,7 @@ Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('re
 Route::post('register', 'Auth\RegisterController@register');
 Route::get('register/preview/{idencrypt}', 'Auth\RegisterController@preview')->name('preview');
 Route::get('paypal/register', 'Auth\RegisterController@paypalReg');
+Route::get('banktransferPreview','Auth\RegisterController@banktransferPreview');
 
 // Password Reset Routes...
 
@@ -251,9 +252,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth'], 'namespace' 
      Route::post('posteditvideo','UserController@posteditvideo');
     Route::get('videodelete/{id}','UserController@deletevideo');
 
-
-
-
+    Route::get('pendingtransactions','UserController@pendingTransactions');
+    Route::get('pendingtransactions/data','UserController@pendingTransData');
+    Route::get('activatependinguser/{id}','UserController@activatePendingUser');
 
     //tree
     Route::get('tree', 'TreeController@tree');
@@ -331,6 +332,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth'], 'namespace' 
 
     Route::get('paypal/success/{id}','RegisterController@paypalRegSuccess');
     Route::post('paypal/success/{id}','RegisterController@paypalRegSuccess');
+    Route::get('banktransferPreview','RegisterController@banktransferPreview');
 
     
 
@@ -728,6 +730,8 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth', 'namespace' => 'user']
     Route::post('paypal/success/{id}','RegisterController@paypalRegSuccess');
      Route::get('upgrade/success/{id}','productController@productSuccess');
     Route::post('upgrade/success/{id}','productController@productSuccess');
+     Route::get('banktransferPreview','productController@banktransferPreview');
+     Route::get('regbanktransferpre','RegisterController@regTransferPreview');
 
     Route::get('inbox','MailController@index');
     Route::post('mail/delete','MailController@destroy');

@@ -523,7 +523,7 @@
 
 <div class="panel-heading">
 <h6 class="panel-title">
-    {{ trans('profile.payout_info') }}
+  Bank Account details
 </h6>
 
 </div>
@@ -551,37 +551,37 @@
         <div class="row">
             <div class="col-md-6">
                 <label>
-                    {{ trans('register.bank_code') }}
+                   Swift Code
                 </label>
                 <input class="form-control" name="swift" type="text" value="{{ $selecteduser->profile_info->swift }}">
                  
             </div>
             <div class="col-md-6">
                 <label>
-                    {{ trans('register.bank_code') }}
+                   Bank Name
                 </label>
-                <input class="form-control" name="bank_code" type="text" value="{{ $selecteduser->profile_info->bank_code }}">
+
+                <input class="form-control" id="bank_name" name="bank_name" type="text" value="{{ $selecteduser->profile_info->bank_name }}" >
+                    
+                
                 
             </div>
         </div>
     </div>
     <div class="form-group">
         <div class="row">
-            <div class="col-md-6">
+                 <div class="col-md-6">
                 <label>
-                    {{ trans('register.paypal') }}
+                   Bank Address
                 </label>
-                <input class="form-control" name="paypal" type="text" value="{{ $selecteduser->profile_info->paypal }}">
-                 
-            </div>
-            <div class="col-md-6">
-                <label>
-                    {{ trans('register.btc_wallet') }}
-                </label>
-                <input class="form-control" name="btc_wallet" type="text" value="{{ $selecteduser->profile_info->btc_wallet }}">
+
+                <textarea id="bank_address" name="bank_address"  class="form-control">
+                    {{ $selecteduser->profile_info->bank_address }}
+                 </textarea>
                 
             </div>
-        </div>
+    </div>
+        
     </div>
 
     <div class="text-right">

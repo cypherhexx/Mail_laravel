@@ -50,7 +50,9 @@ class CreateProfileInfosTable extends Migration
             $table->string('swift', 200)->default(false)->nullable();;
             $table->string('sort_code', 200)->default(false)->nullable();;
             $table->string('bank_code', 200)->default(false)->nullable();;
-            $table->string('paypal', 200)->default(false)->nullable();;                
+            $table->string('paypal', 200)->default(false)->nullable();; 
+            $table->string('bank_address', 200)->default(false)->nullable();;
+               $table->string('bank_name', 200)->default(false)->nullable();;
             $table->timestamps();
             $table->softDeletes();
         });

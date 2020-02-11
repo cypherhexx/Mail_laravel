@@ -12,7 +12,7 @@
     <meta name="keywords" content="" />
     <meta name="author" content="">    
     <!-- Favicon /-->
-    <link rel="shortcut icon" href="{{ url('img/cache/logo/'.$logo_ico)}}" type="image/x-icon" /> <!-- Favicon /-->
+    <link rel="shortcut icon" href="{{ url('img/cache/original/'.$logo_ico)}}" type="image/x-icon" /> <!-- Favicon /-->
     <!-- Facebook Metadata /-->
     <meta property="fb:page_id" content="" />
     <meta property="og:image" content="" />

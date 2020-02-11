@@ -320,10 +320,11 @@ class RegisterController extends Controller
             $data['reg_by']           = 'site';
             $data['package']          = 1;
             $data['country']   ='IL';
-            
+
             $sponsor_id = User::checkUserAvailable($data['sponsor']);
             
-            $placement_id =  $sponsor_id ;// User::checkUserAvailable($data['placement_user']);
+            $placement_id =  $sponsor_id ;
+            $data['placement_user'] =$data['sponsor'];
             if (!$sponsor_id) {
                 
                 return redirect()->back()->withErrors(['The sponsor not exist'])->withInput();
@@ -336,23 +337,21 @@ class RegisterController extends Controller
             }
 
             $joiningfee = Settings::value('joinfee');
+            $orderid ='Atmor-'. mt_rand();
 
+            $register=PendingTransactions::create([
+                 'order_id' =>$orderid,
+                 'username' =>$request->username,
+                 'email' =>$request->email,
+                 'sponsor' => $sponsor_id,
+                 'request_data' =>json_encode($data),
+                 'payment_method'=>$request->payment,
+                 'payment_type' =>'register',
+                 'amount' => $joiningfee,
+                ]);
                if($request->payment == 'paypal'){ 
-
-                    $orderid = mt_rand();
-                    $register=PendingTransactions::create([
-                         'order_id' =>$orderid,
-                         'username' =>$request->username,
-                         'email' =>$request->email,
-                         'sponsor' => $sponsor_id,
-                         'request_data' =>json_encode($data),
-                         'payment_method'=>$request->payment,
-                         'payment_type' =>'register',
-                         'amount' => $joiningfee,
-                        ]);
                     
                     Session::put('paypal_id',$register->id);
-
                     $data = [];
                     $data['items'] = [
                         [
@@ -379,38 +378,42 @@ class RegisterController extends Controller
                     return redirect($response['paypal_link']);
                 }
 
-
-              if ($request->payment == 'voucher') {      
-
-                    $voucher_total = Packages::where('id','=',$data['package'])->value('amount');
-                    foreach ($request->voucher as $key => $vouchervalue) {
-                    $voucher = Voucher::where('voucher_code', $vouchervalue)->first();
-                    $voucher_total = $voucher_total - $voucher->balance_amount ;
-                        if($voucher_total <=0 ){
-                        $flag = true;
-                        }
-                    }
-
-                    if($flag){
-                    $package_amount = Packages::where('id','=',$data['package'])->value('amount');
-                        foreach ($request->voucher as $key => $vouchervalue) {
-                        $voucher = Voucher::where('voucher_code', $vouchervalue)->first();                                 
-                            if($package_amount > $voucher->balance_amount){
-                            $package_amount = $package_amount -  $voucher->balance_amount ;
-                            $used_amount =  $voucher->balance_amount;                                    
-                            $voucher->balance_amount = 0 ;
-                            $voucher->save();
-                            }else{
-                            // $package_amount =$voucher->balance_amount - $package_amount  ;
-                            $used_amount =  $voucher->balance_amount - $package_amount;          
-                            $voucher->balance_amount = $used_amount;
-                            $voucher->save();                                    
-                            }
+                if($request->payment == 'cheque'){
+                 return redirect()->action('Auth\RegisterController@banktransferPreview', ['id' =>$register->id]);
+                }
 
 
-                        }
-                    } 
-            }
+            //   if ($request->payment == 'voucher') {      
+
+            //         $voucher_total = Packages::where('id','=',$data['package'])->value('amount');
+            //         foreach ($request->voucher as $key => $vouchervalue) {
+            //         $voucher = Voucher::where('voucher_code', $vouchervalue)->first();
+            //         $voucher_total = $voucher_total - $voucher->balance_amount ;
+            //             if($voucher_total <=0 ){
+            //             $flag = true;
+            //             }
+            //         }
+
+            //         if($flag){
+            //         $package_amount = Packages::where('id','=',$data['package'])->value('amount');
+            //             foreach ($request->voucher as $key => $vouchervalue) {
+            //             $voucher = Voucher::where('voucher_code', $vouchervalue)->first();                                 
+            //                 if($package_amount > $voucher->balance_amount){
+            //                 $package_amount = $package_amount -  $voucher->balance_amount ;
+            //                 $used_amount =  $voucher->balance_amount;                                    
+            //                 $voucher->balance_amount = 0 ;
+            //                 $voucher->save();
+            //                 }else{
+            //                 // $package_amount =$voucher->balance_amount - $package_amount  ;
+            //                 $used_amount =  $voucher->balance_amount - $package_amount;          
+            //                 $voucher->balance_amount = $used_amount;
+            //                 $voucher->save();                                    
+            //                 }
+
+
+            //             }
+            //         } 
+            // }
 
             $userresult = User::add($data,$sponsor_id,$placement_id);
 
@@ -603,4 +606,19 @@ class RegisterController extends Controller
           // }
 
     }
+
+    public function banktransferPreview(Request $request){
+    
+        $title     = "Payment Details";
+        $sub_title = "Payment Details";
+        $base      = "Payment Details";
+        $method    = "Payment Details";
+        $bank_details = ProfileInfo::where('user_id',1)->first();
+        $data=PendingTransactions::find($request->id);
+        $joiningfee=$data->amount;
+        $orderid=$data->order_id;
+    Session::flash('flash_notification', array('level' => 'success', 'message' => "The account will be activated once the payment has been processed!"));
+    return view('auth.bankpaydetails',compact('title', 'sub_title', 'base', 'method','orderid','bank_details','joiningfee'));
+
+}
 }

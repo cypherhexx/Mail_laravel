@@ -156,7 +156,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public static function userNameToId($username){
         $user_id =  SELF::where('username', $username)->value('id');
         return $user_id;
-    }  
+    } 
+
+     public static function userEmailToId($email){
+        $user_id =  SELF::where('email', $email)->value('id');
+        return $user_id;
+    }   
    public static function getStates($id){
           $countries = DB::select('select * from life_state where country_id = '+$id);
           
@@ -633,10 +638,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
             PointTable::addPointTable($userresult->id);
             Tree_Table::createVaccant($tree->user_id);
+            $spomsor=User::find($sponsor_id)->username;
             /**
              * adding user to balance table
              */
             $balanceupdate = SELF::insertToBalance($userresult->id);
+
+              Activity::add("Added user $userresult->username","Added $userresult->username sponsor as $spomsor ");
+                Activity::add("Joined as $userresult->username","Joined in system as $userresult->username sponsor as $spomsor ",$userresult->id);
             // dd("00");
 
             // SendAllEmail::dispatch($data['firstname'],$data['lastname'],$data['username'],$data['password'],$data['email'])
@@ -669,6 +678,44 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
       else
         return 0;
 
+    }
+
+    public static function checkrate($amount){
+//       $req_url = 'https://api.exchangerate-api.com/v4/latest/USD';
+//       $response_json = file_get_contents($req_url);
+
+//       // Continuing if we got a result
+//       if(false !== $response_json) {
+
+//           // Try/catch for json_decode operation
+//           try {
+
+//         // Decoding
+//         $response_object = json_decode($response_json);
+
+//         // YOUR APPLICATION CODE HERE, e.g.
+//         $base_price = $amount; // Your price in USD
+//         $EUR_price = round(($base_price * $response_object->rates->EUR), 2);
+
+//           }
+//           catch(Exception $e) {
+//               // Handle JSON parse error...
+//           }
+
+// }
+
+      $url="https://api.exchangerate-api.com/v4/latest/USD";
+      $ch = curl_init();
+      curl_setopt($ch, CURLOPT_AUTOREFERER, TRUE);
+      curl_setopt($ch, CURLOPT_HEADER, 0);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($ch, CURLOPT_URL, $url);
+      curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+      $data = curl_exec($ch);
+      curl_close($ch);
+      $datas=json_decode($data);
+      $EUR_price = round(($amount * $datas->rates->EUR), 2);
+      return $EUR_price;
     }
 
 

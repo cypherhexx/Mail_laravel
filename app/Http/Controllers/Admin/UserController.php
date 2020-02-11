@@ -23,6 +23,8 @@ use App\Voucher;
 use App\TypeChange;
 use App\News;
 use App\EventVideos;
+use App\PendingTransactions;
+use App\ProfileModel;
 use Auth;
 use Datatables;
 use DB;
@@ -604,6 +606,8 @@ else
         $related_profile_info->bank_code           = $request->bank_code;
         $related_profile_info->paypal              = $request->paypal;
         $related_profile_info->about               = $request->about_me;
+         $related_profile_info->bank_address               = $request->bank_address;
+          $related_profile_info->bank_name               = $request->bank_name;
 
         // if ($request->hasFile('profile_pic')) {
         //     $destinationPath = base_path() . "\public\appfiles\images\profileimages";
@@ -1209,6 +1213,145 @@ else
 
        Session::flash('flash_notification', array('level' => 'success', 'message' => 'Video deleted Sucessfully'));
      return redirect()->back();
+    }
+
+    public function pendingTransactions(){
+
+        $title     = 'Pending Transactions';
+        $sub_title =  'Pending Transactions';
+        $base      =  'Pending Transactions';
+        $method    =  'Pending Transactions';
+        return view('app.admin.users.pendingtransactions',  compact('title','sub_title','base','method'));
+
+    }
+
+    public function pendingTransData(){
+         $users = PendingTransactions::select('pending_transactions.id','pending_transactions.order_id','pending_transactions.username','pending_transactions.email','packages.package','pending_transactions.payment_type','pending_transactions.amount','pending_transactions.created_at')
+           ->join('packages','pending_transactions.package','=','packages.id')
+         ->where('payment_status','pending')
+          ->where('payment_method','cheque');
+          
+        return Datatables::of($users)                
+            ->remove_column('id')
+          
+            ->edit_column('created_at', '{{ date("dS F Y",strtotime($created_at)) }}')
+            ->edit_column('package', '@if($package == "member") NA @else {{$package}} @endif')
+           
+            ->add_column('action',  ' 
+                <button type="button"  class="btn btn-primary" data-toggle="modal" data-target="#myModal{{$id}}"> <span class="fa fa-check "></span>   </button>
+
+              <!-- Modal -->
+
+                <div id="myModal{{$id}}" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+              <!-- Modal content-->
+
+                <div class="modal-content">
+                <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                </div>
+
+                <div class="modal-body" style="overflow: auto !important;">
+
+               <center> 
+
+               Do you want to confirm this payment??
+              
+
+                </center>
+
+                
+                </div>                 
+                </form>
+                <div class="modal-footer">
+                <div class="row">
+                <a href="{{{ URL::to(\'admin/activatependinguser/\' . $id) }}}" class="btn btn-success" ></span>Confirm </a>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+                </div>
+                </div>
+                </div>
+                </div>
+                <script type="text/javascript">
+
+                $("#myModal{{$id}}").on("hidden.bs.modal", function () {
+                oTable.ajax.reload();
+                })
+                </script>')
+             ->escapeColumns([])
+             ->make();
+    }
+
+
+    public function activatePendingUser($id){
+       $transaction= PendingTransactions::find($id);
+       $pay_data=json_decode($transaction->request_data,true);
+     
+       if($transaction->payment_type == 'upgrade'){
+
+         $package=Packages::find($transaction->package);
+         $purchase_id= PurchaseHistory::create([
+                        'user_id'=>$transaction->user_id,
+                        'purchase_user_id'=>$transaction->user_id,
+                        'package_id'=>$transaction->package,
+                        'count'=>1,
+                        'pv'=>$package->pv,
+                        'total_amount'=>$transaction->amount,
+                        'pay_by'=>$transaction->payment_method,
+                        'rs_balance'=>$package->rs,
+                        'sales_status'=>'yes',
+                        ]);
+                        RsHistory::create([
+                        'user_id'=>$transaction->user_id,                   
+                        'from_id'=>$transaction->user_id,
+                        'rs_credit'=>$package->rs,
+                        ]);
+
+         $pur_user=PurchaseHistory::find($purchase_id->id);
+         $user=User::join('profile_infos','profile_infos.user_id','=','users.id')
+                   ->join('packages','packages.id','=','profile_infos.package')
+                   ->where('users.id',$pur_user->user_id)
+                   ->select('users.username','users.name','users.lastname','users.email','profile_infos.mobile','profile_infos.address1','packages.package')
+                   ->get();
+          $userpurchase=array();      
+          $userpurchase['name']=$user[0]->name;
+          $userpurchase['lastname']=$user[0]->lastname;
+          $userpurchase['amount']=$transaction->amount;
+          $userpurchase['payment_method']=$purchase_id->pay_by;
+          $userpurchase['mail_address']=$user[0]->email;;
+          $userpurchase['mobile']=$user[0]->mobile;
+          $userpurchase['address']=$user[0]->address1;
+          $userpurchase['invoice_id'] ='0000'.$purchase_id->id;
+          $userpurchase['date_p']=$purchase_id->created_at;
+          $userpurchase['package']=$package->package;
+          PurchaseHistory::where('id','=',$purchase_id->id)->update(['datas'=>json_encode($userpurchase)]);
+          ProfileModel::where('user_id',$transaction->user_id)->update(['package' => $transaction->package]);
+          $transaction->payment_status ='complete';
+          $transaction->save();
+          Session::flash('flash_notification',array('message'=>"You have purchased the plan succesfully ",'level'=>'success'));
+          return redirect()->back();
+       }
+       else{
+
+          // dd($pay_data);
+          $sponsor_id = User::checkUserAvailable($pay_data['sponsor']);
+          $placement_id =  User::checkUserAvailable($pay_data['placement_user']);
+          $username=User::userNameToId($transaction->username);
+          $email=User::userEmailToId($transaction->email);
+          if($sponsor_id <> null && $placement_id <> null && $username == null && $email== null){
+            $userresult=User::add($pay_data,$sponsor_id,$placement_id);
+            $transaction->payment_status ='complete';
+            $transaction->save();
+
+            Session::flash('flash_notification', array('level' => 'success', 'message' => 'User activated Successfully'));
+            return redirect()->back();
+          }else{
+            Session::flash('flash_notification', array('level' => 'error', 'message' => 'User activation Is not possible'));
+            return redirect()->back();
+            }
+       }
     }
 
 
