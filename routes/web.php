@@ -121,6 +121,7 @@ Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 Route::get('register/paypal/success/{id}','Auth\RegisterController@paypalRegSuccess');
 Route::post('register/paypal/success/{id}','Auth\RegisterController@paypalRegSuccess');
+Route::get('get-bankpayment-status/{id}', 'Auth\RegisterController@checkStatus');
 
 
 
@@ -333,6 +334,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth'], 'namespace' 
     Route::get('paypal/success/{id}','RegisterController@paypalRegSuccess');
     Route::post('paypal/success/{id}','RegisterController@paypalRegSuccess');
     Route::get('banktransferPreview','RegisterController@banktransferPreview');
+    Route::get('get-bankpayment-status/{id}', 'RegisterController@checkStatus');
 
     
 
@@ -732,6 +734,8 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth', 'namespace' => 'user']
     Route::post('upgrade/success/{id}','productController@productSuccess');
      Route::get('banktransferPreview','productController@banktransferPreview');
      Route::get('regbanktransferpre','RegisterController@regTransferPreview');
+       Route::get('get-bankpayment-status/{id}', 'RegisterController@checkStatus');
+       Route::get('get-purchasepayment-status/{id}', 'productController@purchaseStatus');
 
     Route::get('inbox','MailController@index');
     Route::post('mail/delete','MailController@destroy');

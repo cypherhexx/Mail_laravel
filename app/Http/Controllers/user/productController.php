@@ -460,13 +460,33 @@ class productController extends UserAdminController
     $package=Packages::find($data->package);
     $diff_amount=$data->amount;
     $euro_amount=User::checkrate($diff_amount);
+    $trans_id=$request->id;
     
     Session::flash('flash_notification', array('level' => 'success', 'message' => "The account will be activated once the payment has been processed!"));
-    return view('app.user.product.bankpaydetails',compact('title', 'sub_title', 'base', 'method','orderid','bank_details','euro_amount','diff_amount','package'));
+    return view('app.user.product.bankpaydetails',compact('title', 'sub_title', 'base', 'method','orderid','bank_details','euro_amount','diff_amount','package','trans_id'));
 
 }
 
+public function purchaseStatus($trans){
+    
 
+    $item = PendingTransactions::where('id',$trans)->first();
 
+    
+    if (is_null($item)) {
+    return response()->json(['valid' => false]);
+  }elseif($item->payment_status == 'complete'){
+        
+        $user_id=PurchaseHistory::max('id');
+        if($user_id <> null){
+        return response()->json(['valid' => true,'status'=>$item->payment_status,'id'=>Crypt::encrypt($user_id)]);
+      }
+    }else{
+         return response()->json(['valid' => true,'status'=>$item->payment_status,'id'=>null]);
+        
+  }
+    
+    return response()->json(['valid' => false]);
+}
 
 }

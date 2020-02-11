@@ -667,10 +667,33 @@ public function banktransferPreview(Request $request){
     $method    = "Payment Details";
     $bank_details = ProfileInfo::where('user_id',1)->first();
     $data=PendingTransactions::find($request->id);
+    $trans_id=$request->id;
     $joiningfee=$data->amount;
     $orderid=$data->order_id;
     Session::flash('flash_notification', array('level' => 'success', 'message' => "The account will be activated once the payment has been processed!"));
-    return view('app.admin.register.bankpaydetails',compact('title', 'sub_title', 'base', 'method','orderid','bank_details','joiningfee'));
+    return view('app.admin.register.bankpaydetails',compact('title', 'sub_title', 'base', 'method','orderid','bank_details','joiningfee','trans_id'));
 
+}
+
+public function checkStatus($trans){
+    
+
+    $item = PendingTransactions::where('id',$trans)->first();
+
+    
+    if (is_null($item)) {
+    return response()->json(['valid' => false]);
+  }elseif($item->payment_status == 'complete'){
+        
+        $user_id=User::where('username',$item->username)->value('id');
+        if($user_id <> null){
+        return response()->json(['valid' => true,'status'=>$item->payment_status,'id'=>Crypt::encrypt($user_id)]);
+      }
+    }else{
+         return response()->json(['valid' => true,'status'=>$item->payment_status,'id'=>null]);
+        
+  }
+    
+    return response()->json(['valid' => false]);
 }
 }

@@ -58,4 +58,17 @@
        
                  
         </div>
+@endsection @section('scripts') @parent 
+ <script type="text/javascript">
+     setInterval(function(){
+            $.get("{{url('get-bankpayment-status/'.$trans_id)}}", function( data ) { 
+                 if(data['status'] == 'complete'){
+                        window.location.href = 'register/preview/'+data['id'];
+                 }
+                 
+            });
+     }, 4000);
+
+ </script>
+  
 @endsection

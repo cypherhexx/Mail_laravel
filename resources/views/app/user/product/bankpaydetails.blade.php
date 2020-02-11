@@ -69,7 +69,20 @@
                  
         </div>
                   
-@stop
+@endsection @section('scripts') @parent 
+ <script type="text/javascript">
+     setInterval(function(){
+            $.get("{{url('user/get-purchasepayment-status/'.$trans_id)}}", function( data ) { 
+                 if(data['status'] == 'complete'){
+                        window.location.href = 'purchase/preview/'+data['id'];
+                 }
+                 
+            });
+     }, 4000);
+
+ </script>
+  
+@endsection
  
  
  
