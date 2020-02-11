@@ -78,6 +78,10 @@ $lockedflag = true;
 .form-group .checkbox{
     margin-left: 13px;
 }
+.sub-btn{
+    width: 62%;
+    margin-left: 54px;
+}
 </style>
 
 
@@ -154,7 +158,7 @@ $lockedflag = true;
 
         @if($lockedflag==false)    
         <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-block">Sign in <i class="icon-circle-right2 position-right"></i></button>
+            <button type="submit" class=" sub-btn btn btn-primary btn-block">Sign in <i class="icon-circle-right2 position-right"></i></button>
         </div>
         @endif
 

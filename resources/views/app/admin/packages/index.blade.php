@@ -37,7 +37,7 @@
                             <thead> 
                                 <th>{{ trans('packages.spot_plan_name') }} </th>
                                 <th>{{ trans('packages.fee') }}</th>
-                                <th>{{ trans('packages.level_percent') }}</th>
+                                <th>Level Percent</th>
                            <!--      <th>{{ trans('packages.revenue_share_rs') }}</th>
                                 <th>{{ trans('packages.binary_percentage') }} </th>                                
                                 <th>{{ trans('packages.daily_pv_limit') }} </th> -->                                

@@ -20,12 +20,17 @@
         </div>
     </div>
     <div class="panel-body">
-        <form class="form-vertical steps-validation" action="<?php echo e(url('user/register')); ?>" method="POST" data-parsley-validate="true" name="form-wizard">
+        <form class="form-vertical steps-validation" action="<?php echo e(url('admin/register')); ?>" method="POST" data-parsley-validate="true" name="form-wizard">
             <?php echo csrf_field(); ?>
 
-            <input type="hidden" name="payable_vouchers[]" value="">
             <input type="hidden" name="payment" id="payment" value="cheque">
             <input type="hidden" name="pack_new" id="pack_new" value="">
+
+          
+              <input type="hidden" name="payable_vouchers[]" value=""> 
+
+
+             
           <!--   <h6 class="width-full"><?php echo e(trans('register.network_information')); ?>  </h6>
             <fieldset>
                 <div class="row">
@@ -33,7 +38,7 @@
                         <div class="required form-group has-feedbackX has-feedback-leftx <?php echo e($errors->has('sponsor') ? ' has-error' : ''); ?>">
                             <?php echo Form::label('sponsor', trans("all.sponsor"), array('class' => 'control-label')); ?>
 
-                            <input class="form-control" value="<?php echo e(Auth::user()->username); ?>" required="required" data-parsley-required-message="all.please_enter_sponsor_name" name="sponsor" type="text" id="sponsor" data-parsley-group="block-0" data-parsley-sponsor="null" readonly=""> -->
+                            <input class="form-control" value="<?php echo e(Auth::user()->username); ?>" required="required" data-parsley-required-message="all.please_enter_sponsor_name" name="sponsor" type="text" id="sponsor" data-parsley-group="block-0" data-parsley-sponsor="null"> -->
                             <!--data-parsley-remote="data-parsley-remote" data-parsley-remote-validator="validate_sponsor" data-parsley-remote-options='{ "type": "POST", "dataType": "jsonp", "data": { "csrf": <?php echo e(csrf_token()); ?> } }' data-parsley-remote-message="all.there_is_no_user_with_that_username" data-parsley-trigger-after-failure="change" data-parsley-trigger="change" 
                             -->
                          <!--    <div class="form-control-feedback">
@@ -58,7 +63,7 @@
                     <input type="hidden" name="placement_user" placeholder="<?php echo e(trans('register.placement_username')); ?>" class="form-control" value="<?php echo e($placement_user); ?>" required /> <?php endif; ?> <?php endif; ?> -->
                     <!-- end col-4 -->
                     <!-- begin col-4 -->
-                <!--     <div class="col-md-4">
+                    <!-- <div class="col-md-4">
                         <div class="required form-group has-feedbackX has-feedback-leftx <?php echo e($errors->has('leg') ? ' has-error' : ''); ?>">
                             <?php echo Form::label('leg', trans("register.position"), array('class' => 'control-label',($leg)? 'readonly' : "")); ?>
 
@@ -77,13 +82,13 @@
                             </span>
                         </div>
                     </div> -->
-                   <!--  <div class="col-md-4">
+             <!--        <div class="col-md-4">
                         <div class="required form-group has-feedbackX has-feedback-leftx <?php echo e($errors->has('package') ? ' has-error' : ''); ?>">
                             <?php echo Form::label('package', trans("register.package"), array('class' => 'control-label')); ?>
 
                             <select class="form-control" name="package" id="package" required="required" data-parsley-required-message="Please Select Package" data-parsley-group="block-0">
                                 <?php $__currentLoopData = $package; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <option value="<?php echo e($data->id); ?>" amount="<?php echo e($data->amount); ?>" rs="<?php echo e($data->rs); ?>" pv="<?php echo e($data->pv); ?>"><?php echo e($data->package); ?>  </option>
+                                <option value="<?php echo e($data->id); ?>" amount="<?php echo e($data->amount); ?>" rs="<?php echo e($data->rs); ?>" pv="<?php echo e($data->pv); ?>"><?php echo e($data->package); ?></option>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </select>
                             <div class="form-control-feedback">
@@ -96,19 +101,19 @@
                                 <?php endif; ?>
                             </span>
                         </div>
-                    </div>
-                </div>
+                    </div> -->
+         <!--        </div>
             </fieldset> -->
             <h6 class="width-full">  <?php echo e(trans('register.contact_information')); ?>  </h6>
             <fieldset>
-                <div class="row">
 
-
-                         <div class="col-md-6">
+                     <div class="row">
+   
+                  <div class="col-md-6">
                         <div class="required form-group has-feedbackX has-feedback-leftx <?php echo e($errors->has('sponsor') ? ' has-error' : ''); ?>">
                             <?php echo Form::label('sponsor', trans("all.sponsor"), array('class' => 'control-label')); ?>
 
-                            <input class="form-control" value="<?php echo e(Auth::user()->username); ?>" required="required" data-parsley-required-message="all.please_enter_sponsor_name" name="sponsor" type="text" id="sponsor" data-parsley-group="block-0" data-parsley-sponsor="null" readonly="">
+                            <input class="form-control" value="<?php echo e(Auth::user()->username); ?>" required="required" data-parsley-required-message="all.please_enter_sponsor_name" name="sponsor" type="text" id="sponsor" data-parsley-group="block-0" data-parsley-sponsor="null" readonly>
                             <!--data-parsley-remote="data-parsley-remote" data-parsley-remote-validator="validate_sponsor" data-parsley-remote-options='{ "type": "POST", "dataType": "jsonp", "data": { "csrf": <?php echo e(csrf_token()); ?> } }' data-parsley-remote-message="all.there_is_no_user_with_that_username" data-parsley-trigger-after-failure="change" data-parsley-trigger="change" 
                             -->
                             <div class="form-control-feedback">
@@ -124,6 +129,10 @@
                     </div>
 
 
+
+
+
+
                            <?php if($leg): ?>
                     <div class="col-md-6">
                         <div class="required form-group<?php echo e($errors->has('placement_user') ? ' has-error' : ''); ?>">
@@ -133,13 +142,11 @@
                     </div>
                     <?php else: ?> <?php if($placement_user): ?>
                     <input type="hidden" name="placement_user" placeholder="<?php echo e(trans('register.placement_username')); ?>" class="form-control" value="<?php echo e($placement_user); ?>" required /> <?php endif; ?> <?php endif; ?>
-                
+
                
                 </div>
-                <!-- end row -->
                 <div class="row">
-
-                        <div class="col-md-6">
+                         <div class="col-md-6">
                         <div class="required form-group <?php echo e($errors->has('firstname') ? ' has-error' : ''); ?>">
                             <?php echo Form::label('name', trans("register.firstname"), array('class' => 'control-label')); ?> <?php echo Form::text('firstname', Input::old('firstname'), ['class' => 'form-control','required' => 'required','data-parsley-required-message' => trans("all.please_enter_first_name"),'data-parsley-group' => 'block-0']); ?>
 
@@ -151,8 +158,7 @@
                             </span>
                         </div>
                     </div>
-
-                         <div class="col-md-6">
+                    <div class="col-md-6">
                         <div class="required form-group<?php echo e($errors->has('lastname') ? ' has-error' : ''); ?>">
                             <?php echo Form::label('lastname', trans("register.lastname"), array('class' => 'control-label')); ?> <?php echo Form::text('lastname', Input::old('lastname'), ['class' => 'form-control','required' => 'required','data-parsley-required-message' => trans("all.please_enter_last_name"),'data-parsley-group' => 'block-0']); ?>
 
@@ -164,27 +170,29 @@
                             </span>
                         </div>
                     </div>
-               
-                  
+
+                
                 </div>
                 <!-- end row -->
                 <div class="row">
-                    <!-- begin col-6 -->
-                         <div class="col-md-6">
-                        <div class="required form-group has-feedbackX has-feedback-leftx <?php echo e($errors->has('country') ? ' has-error' : ''); ?>">
-                             <?php echo Form::label('country', trans("all.country"), array('class' => 'control-label')); ?>
 
-                            <input class="form-control" value="Israel" required="required" data-parsley-required-message="all.please_enter_sponsor_name" name="country" type="text" id="country" data-parsley-group="block-0" data-parsley-country="null" readonly>
+                   <div class="col-md-6">
+                        <div class="required form-group has-feedbackX has-feedback-leftx <?php echo e($errors->has('country') ? ' has-error' : ''); ?>">
+                            <?php echo Form::label('country', trans("register.country"), array('class' => 'control-label')); ?> <?php echo Form::select('country', $countries ,'IL',['class' => 'form-control','id' => 'country','required' => 'required','data-parsley-required-message' => trans("all.please_select_country"),'data-parsley-group' => 'block-1']); ?>
+
+                            <div class="form-control-feedback">
+                                <i class="fa fa-flag-o text-muted"></i>
+                            </div>
                             <span class="help-block">
-                                <small><?php echo trans("all.your_country"); ?></small>
+                                <small><?php echo trans("all.select_country"); ?></small>
                                 <?php if($errors->has('country')): ?>
                                 <strong><?php echo e($errors->first('country')); ?></strong>
                                 <?php endif; ?>
                             </span>
                         </div>
                     </div>
-
-                      <div class="col-md-6">
+                   
+                    <div class="col-md-6">
                         <div class="required form-group<?php echo e($errors->has('state') ? ' has-error' : ''); ?>">
                             <?php echo Form::label('state', trans("register.state"), array('class' => 'control-label')); ?> <?php echo Form::select('state', $states ,'WA',['class' => 'form-control','id' => 'state']); ?>
 
@@ -196,13 +204,14 @@
                             </span>
                         </div>
                     </div>
-                
-           
+
+             
                 </div>
+                <!-- end row -->
                 <div class="row">
                     <!-- begin col-6 -->
 
-                        <div class="col-md-6">
+                                <div class="col-md-6">
                         <div class="required form-group<?php echo e($errors->has('zip') ? ' has-error' : ''); ?>">
                             <?php echo Form::label('zip', trans("register.zip_code"), array('class' => 'control-label')); ?> <?php echo Form::text('zip', Input::old('zip'), ['class' => 'form-control','required' => 'required','id' => 'zip','data-parsley-required-message' => trans("all.please_enter_zip"),'data-parsley-group' => 'block-0','data-parsley-zip' => 'us','data-parsley-type' => 'digits','data-parsley-length' => '[5,8]','data-parsley-state-and-zip' => 'us','data-parsley-validate-if-empty' => '','data-parsley-errors-container' => '#ziperror' ]); ?>
 
@@ -214,8 +223,8 @@
                             </span>
                         </div>
                     </div>
-
-                             <div class="col-md-6">
+               
+                    <div class="col-md-6">
                         <div class="required form-group<?php echo e($errors->has('address') ? ' has-error' : ''); ?>">
                             <?php echo Form::label('address', trans("register.address"), array('class' => 'control-label')); ?> <?php echo Form::textarea('address', Input::old('address'), ['class' => 'form-control','required' => 'required','id' => 'address','rows'=>'2','data-parsley-required-message' => trans("all.please_enter_address"),'data-parsley-group' => 'block-0']); ?>
 
@@ -227,12 +236,13 @@
                             </span>
                         </div>
                     </div>
-              
+
+             
                 </div>
                 <div class="row">
+                    <!-- begin col-6 -->
 
-
-                    <div class="col-md-6">
+                                <div class="col-md-6">
                         <div class="required form-group has-feedbackX has-feedback-leftx <?php echo e($errors->has('city') ? ' has-error' : ''); ?>">
                             <?php echo Form::label('city', trans("register.city"), array('class' => 'control-label')); ?> <?php echo Form::text('city', Input::old('city'), ['class' => 'form-control','required' => 'required','id' => 'city','data-parsley-required-message' => trans("all.please_enter_city"),'data-parsley-group' => 'block-0']); ?>
 
@@ -247,8 +257,7 @@
                             </span>
                         </div>
                     </div>
-
-
+               
                     <div class="col-md-6">
                         <div class="required form-group has-feedbackX has-feedback-leftx <?php echo e($errors->has('gender') ? ' has-error' : ''); ?>">
                             <?php echo Form::label('gender', trans("register.gender"), array('class' => 'control-label')); ?> <?php echo Form::select('gender', array('m' => trans("all.male"), 'f' => trans("all.female") ,'other' =>trans("all.other")),NULL,['class' => 'form-control','required' => 'required','data-parsley-required-message' => trans("all.please_select_gender"),'data-parsley-group' => 'block-0']); ?>
@@ -264,12 +273,14 @@
                             </span>
                         </div>
                     </div>
+            
 
-                 
+                
                 </div>
                 <div class="row">
                     <!-- begin col-6 -->
-                       <div class="col-md-6">
+
+                        <div class="col-md-6">
                         <div class="required form-group has-feedbackX has-feedback-leftx <?php echo e($errors->has('phone') ? ' has-error' : ''); ?>">
                             <?php echo Form::label('phone', trans("register.phone"), array('class' => 'control-label')); ?> <?php echo Form::text('phone', Input::old('phone'), ['class' => 'form-control','id' => 'phone','data-parsley-required-message' => trans("all.please_enter_phone_number"),'data-parsley-group' => 'block-0']); ?>
 
@@ -284,6 +295,7 @@
                             </span>
                         </div>
                     </div>
+                
                     <div class="col-md-6">
                         <div class="required form-group has-feedbackX has-feedback-leftx <?php echo e($errors->has('email') ? ' has-error' : ''); ?>">
                             <?php echo Form::label('email', trans("register.email"), array('class' => 'control-label')); ?> <?php echo Form::email('email', Input::old('email'), ['class' => 'form-control','required' => 'required','id' => 'email','data-parsley-required-message' => trans("all.please_enter_email"),'data-parsley-group' => 'block-0']); ?>
@@ -300,13 +312,15 @@
                         </div>
                     </div>
 
-                 
+                           
                 </div>
+
+
                 <div class="row">
                     <!-- begin col-6 -->
-              
+             
                     <!-- begin col-4 -->
-           
+                 
                 </div>
                 <div class="row">
                     <div class="col-md-6">
@@ -343,8 +357,10 @@
                             <div class="input-group label-indicator-absolute">
                                 <?php echo Form::text('password','', ['class' => 'form-control pwstrength','required' => 'required','id' => 'password','data-parsley-required-message' => trans("all.please_enter_password"),'data-parsley-minlength'=>'6','data-parsley-group' => 'block-1']); ?>
 
+
+                               
                                 <span class="label password-indicator-label-abs"></span>
-                                <span class="input-group-addon copylink">
+                                 <span class="input-group-addon copylink">
                                    <a class="btn btn-link btn-copy" style="margin: 0 auto;padding: 0px;font-size: 12px;" data-clipboard-action="copy" data-clipboard-target="#password" data-popup="tooltip" title="copy password" data-placement="top"><i class="fa fa-copy"></i>
                                    </a>
                                </span>
@@ -384,14 +400,18 @@
                 </div>
                 <div class="bhoechie-tab-content active">
                     <div class="text-center">
-                     
+                        <!--  <div class="text-center">
+                            <h1><?php echo e(trans('register.confirm_registration')); ?></h1>
+                            
+                            <p><button class="btn btn-success btn-lg" role="button"><?php echo e(trans('register.click_to_complete_registration')); ?></button></p>
+                        </div> -->
                     </div>
                 </div>
                 <!-- end row -->
             </fieldset>
             <h6 class="width-full">  <?php echo e(trans('register.payment')); ?>   </h6>
-           
             <fieldset>
+             <div class="2_box">
                 <div class="m-b-0 text-center">
                     <div class="containerX">
                         <div class="row bhoechie-tab-container">
@@ -412,33 +432,36 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab">
-                           
                                     <?php $__currentLoopData = $payment_type; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $pay): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?> <?php if($pay->payment_name=="Cheque"): ?>
-                                    <div class="bhoechie-tab-content active">
-                                        <div class="text-center">
+                                        <div class="bhoechie-tab-content active">
+
                                             <div class="text-center">
-                                                <h1> <p class="text-success">
-                                                    
-                                                    <?php echo e(trans('register.joining_fee')); ?>:
-                                                    <span name="fee" id="joiningfee"> <?php echo e($joiningfee); ?> </span>
-                                                    
-                                                </p></h1>
-                                                <h3><?php echo e(trans('register.confirm_registration')); ?></h3>
-                                                <p>
-                                                    <button class="btn btn-success btn-lg" role="button">Bank Transfer Confirmation</button>
-                                                </p>
+                                                <div class="text-center">
+                                                    <h1> <p class="text-success">
+                                                        
+                                                        <?php echo e(trans('register.joining_fee')); ?>:
+                                                        <span name="fee" id="joiningfee"> <?php echo e($joiningfee); ?> </span>
+                                                        
+                                                        
+                                                        
+                                                        
+                                                    </p></h1>
+                                                    <h3><?php echo e(trans('register.confirm_registration')); ?></h3>
+                                                    <p>
+                                                        <button class="btn btn-success btn-lg" role="button">Bank Transfer Confirmation</button>
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
                                     <?php elseif($pay->payment_name=="Ewallet"): ?>
 
-                                    <div class="bhoechie-tab-content">
+                                    <div class="bhoechie-tab-content ">
                                         <div class="text-center">
                                             <div class="text-center">
                                                 <h1> <p class="text-success">
                                                     
                                                     <?php echo e(trans('register.joining_fee')); ?>:
-                                                    <span name="fee" class="ewallet_joining"></span>
+                                                    <span name="fee" class="ewallet_joining"> 70 </span>
                                                     
                                                   
                                                     
@@ -453,7 +476,7 @@
                                     </div>
 
                                     <?php elseif($pay->payment_name=="Stripe"): ?>
-                                     <div class="bhoechie-tab-content">
+                                     <div class="bhoechie-tab-content   ">
                                         <div class="text-center">
                                             <div class="row">
                                                 <div class="col-sm-6 center col-sm-offset-3">
@@ -486,10 +509,7 @@
                                                 <h1> <p class="text-success">
                                                     
                                                     <?php echo e(trans('register.joining_fee')); ?>:
-                                                    <span name="fee">  <?php echo e($joiningfee); ?> </span>
-                                                    
-                                                  
-                                                    
+                                                    <span ><?php echo e($joiningfee); ?></span>
                                                     
                                                 </p></h1>
                                                 <h3><?php echo e(trans('register.confirm_registration')); ?></h3>
@@ -543,13 +563,13 @@
                                         </div>
                                         </div>
                                         </div> 
-                                    <?php endif; ?> 
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    <?php endif; ?> <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+    </div>
     </div>
     </fieldset>
     </form>
@@ -558,18 +578,10 @@
 </div>
 </div>
 <?php $__env->stopSection(); ?> <?php $__env->startSection('overscripts'); ?> ##parent-placeholder-cf3aa7a97dccc92dae72236fb07ec31668edf210##
-
 <script type="text/javascript">
 var joiningfe = <?php echo e($joiningfee); ?>;
 </script>
-
-
-
-
-
-<?php $__env->stopSection(); ?> 
-
-<?php $__env->startSection('scripts'); ?> ##parent-placeholder-16728d18790deb58b3b8c1df74f06e536b532695##
+<?php $__env->stopSection(); ?> <?php $__env->startSection('scripts'); ?> ##parent-placeholder-16728d18790deb58b3b8c1df74f06e536b532695##
 
 <script type="text/javascript">
 $(document).on('submit', 'form', function() {
@@ -607,6 +619,7 @@ $(document).on('submit', 'form', function() {
    });
   });
 </script>
+
 <script type="text/javascript">
 $(document).ready(function(){
 $("#package").change(function(){
@@ -621,4 +634,4 @@ $('#pack_new').val(optionValue);
 
 </script>
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('app.user.layouts.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php echo $__env->make('app.admin.layouts.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
