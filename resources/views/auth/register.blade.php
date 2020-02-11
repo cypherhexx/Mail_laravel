@@ -96,7 +96,7 @@ ul, menu, dir {
 <!-- Wizard with validation -->
 <div class="col-md-12">
 	<div class="row">
-<a href="http://vintagehut.in/wordpress-demo/cloud-2162/home/"><img src="img/cache/logo/alg-logo-004.png" width="10%" height="auto"></a>
+<a href="http://vintagehut.in/wordpress-demo/cloud-2162/home/"><img src="img/cache/original/alg-logo.png" width="15%" height="auto"></a>
 <!--<a href="http://vintagehut.in/wordpress-demo/cloud-2162/home/"><img src="{{url('img/cache/logo/alg-logo-004.png')}}"></a>-->
 </div>
 </div>
