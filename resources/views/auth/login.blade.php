@@ -64,12 +64,14 @@ $lockedflag = true;
     	/*overflow: hidden;*/
     }
 .ellipse{
-    float: left;
+    
     width: 780px;
     height: 528px;
     margin: 20px;
     shape-outside: ellipse(20% 50%);
     clip-path: ellipse(20% 50%);
+    margin: 0 auto !important;
+
 }
 .form-horizontal .form-group {
     margin-left: -1px;
@@ -81,6 +83,15 @@ $lockedflag = true;
 .sub-btn{
     width: 62%;
     margin-left: 54px;
+}
+.for-pass a{
+ font-size: 11px;
+}
+.panel{
+    background-color:#f0c9b8;
+}
+.icon-login{
+    margin-top: 10px;
 }
 </style>
 
@@ -123,7 +134,7 @@ $lockedflag = true;
             </span>
             @endif
             <div class="form-control-feedback">
-                <i class="icon-user text-muted"></i>
+                <i class="icon-user text-muted icon-login"></i>
             </div>
         </div>
         @endif
@@ -136,7 +147,7 @@ $lockedflag = true;
             </span>
             @endif
             <div class="form-control-feedback">
-                <i class="icon-lock2 text-muted"></i>
+                <i class="icon-lock2 text-muted icon-login"></i>
             </div>
         </div>
         <div class="form-group">
@@ -164,7 +175,7 @@ $lockedflag = true;
 
 
 
-        <div class="text-center">
+        <div class="text-center for-pass">
             <a class="btn btn-link" href="{{ route('password.request') }}">
                 Forgot Your Password?
             </a>
