@@ -1,3 +1,7 @@
+
+<div class="bg">
+	
+
 @extends('layouts.auth')
 @section('content')
 
@@ -25,9 +29,69 @@ $lockedflag = true;
 @endphp
 @endif
 
+<style type="text/css">
+
+
+.icon-object img{
+    animation: rotation 11s infinite linear;
+
+}
+    @keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+.bg{
+      background-image:url('http://cloud2162.cloudmlmdemo.com/img/cache/original/login-bg.jpg');
+        background-repeat: no-repeat;
+        background-size:cover;
+        width: 100%;
+        height: auto;
+       /* Lovepik_com-400062711-golden-halo-material-background.jpg background-size: cover;logo-banner4.jpg logo-banner.jpg*/
+  
+       background-repeat: no-repeat;
+       background-attachment: fixed;
+       background-position: center; 
+        
+
+           
+    }
+    body{
+    	/*overflow: hidden;*/
+    }
+.ellipse{
+    float: left;
+    width: 780px;
+    height: 528px;
+    margin: 20px;
+    shape-outside: ellipse(20% 50%);
+    clip-path: ellipse(20% 50%);
+}
+.form-horizontal .form-group {
+    margin-left: -1px;
+    margin-right: -1px;
+}
+.form-group .checkbox{
+    margin-left: 13px;
+}
+</style>
+
+
+
+
 <!-- Simple login form -->
 <form class="form-horizontal" method="POST" action="{{ route('login') }}">
+
+<div class="col-md-5">
+<a href="http://vintagehut.in/wordpress-demo/cloud-2162/home/"><img src="img/cache/original/alg-logo.png" width="40%" height="auto"></a>
+<!--<a href="http://vintagehut.in/wordpress-demo/cloud-2162/home/"><img src="{{url('img/cache/logo/alg-logo-004.png')}}"></a>-->
+</div>
     {{ csrf_field() }}
+    <div class="ellipse">
     <div class="panel panel-body login-form">
         
         @if($redirectFlag==true) 
@@ -44,7 +108,7 @@ $lockedflag = true;
         
         @if($lockedflag==false)    
         <div class="text-center">
-            <div class="icon-object border-slate-300 text-slate-300"><img src="{{url('img/cache/logo/cloud-pic-febda.png')}}" alt="solidus"></div>
+            <div class="icon-object border-slate-300 text-slate-300"><img src="{{url('img/cache/logo/logo-login.png')}}" alt="solidus"></div>
             <h5 class="content-group">Login to your account <small class="display-block">Enter your credentials below</small></h5>
         </div>
         <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }} has-feedback has-feedback-left" >
@@ -102,6 +166,12 @@ $lockedflag = true;
             </a>
         </div>
     </div>
+   </div>
+    <!--pannel-->
+
+
 </form>
 <!-- /simple login form -->
+</div>
+</div>
 @endsection
