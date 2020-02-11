@@ -82,7 +82,13 @@ class RegisterController extends UserAdminController
         $sub_title = trans('all.register');
         $base   = trans('all.register');
         $method = trans('all.register');          
-        $countries = CountryState::getCountries();          
+       $oldcountries = CountryState::getCountries();
+            // dd($oldcountries);
+            $countries=[];
+            foreach ($oldcountries as $key => $country) {
+               if($key <> 'PS' && $key <> 'US')
+                $countries[$key]=$country;
+                }    
         $states = CountryState::getStates('IL');
 
         $status=MenuSettings::find(1);
@@ -131,7 +137,7 @@ class RegisterController extends UserAdminController
         $data['passport'] = $request->passport;
         $data['username'] = $request->username;
         $data['gender'] = $request->gender;
-        $data['country'] = 'IL';
+        $data['country'] = $request->country;
         $data['state'] = $request->state;
         $data['city'] = $request->city;
         $data['address'] = $request->address;

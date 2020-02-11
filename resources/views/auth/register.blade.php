@@ -297,12 +297,14 @@ ul, menu, dir {
                             </span>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                   <div class="col-md-6">
                         <div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('country') ? ' has-error' : '' }}">
-                             {!! Form::label('country', trans("all.country"), array('class' => 'control-label')) !!}
-                            <input class="form-control" value="Israel" required="required" data-parsley-required-message="all.please_enter_sponsor_name" name="country" type="text" id="country" data-parsley-group="block-0" data-parsley-country="null" readonly>
+                            {!! Form::label('country', trans("register.country"), array('class' => 'control-label')) !!} {!! Form::select('country', $countries ,'IL',['class' => 'form-control','id' => 'country','required' => 'required','data-parsley-required-message' => trans("all.please_select_country"),'data-parsley-group' => 'block-1']) !!}
+                            <div class="form-control-feedback">
+                                <i class="fa fa-flag-o text-muted"></i>
+                            </div>
                             <span class="help-block">
-                                <small>{!!trans("all.your_country") !!}</small>
+                                <small>{!!trans("all.select_country") !!}</small>
                                 @if ($errors->has('country'))
                                 <strong>{{ $errors->first('country') }}</strong>
                                 @endif

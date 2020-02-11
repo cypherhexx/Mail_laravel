@@ -118,7 +118,13 @@ class RegisterController extends Controller
         $location = GeoIP::getLocation();
         $ip_latitude = $location['lat'];
         $ip_longtitude = $location['lon'];
-        $countries = CountryState::getCountries();
+        $oldcountries = CountryState::getCountries();
+            // dd($oldcountries);
+            $countries=[];
+            foreach ($oldcountries as $key => $country) {
+               if($key <> 'PS' && $key <> 'US')
+                $countries[$key]=$country;
+             }
         $states = CountryState::getStates('IL');
         $leg = 'L';
         $placement_user ='admin';
@@ -316,7 +322,7 @@ class RegisterController extends Controller
             $data['location']         = null;
             $data['reg_by']           = 'site';
             $data['package']          = 1;
-            $data['country']   ='IL';
+            
 
             $sponsor_id = User::checkUserAvailable($data['sponsor']);
             
