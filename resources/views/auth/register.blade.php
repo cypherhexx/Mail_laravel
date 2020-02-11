@@ -163,7 +163,7 @@ ul, menu, dir {
             <ul class="icons-list">
                 <li><a data-action="collapse"></a></li>
             </ul>
-        </div><p style="text-align:center;"><img src="{{url('img/cache/logo/atmor.png')}}" alt="logo" style="width:60px;height:60px;" align="middle"></p>
+        </div><p style="text-align:center;"><img src="{{url('img/cache/original/atmor.png')}}" alt="logo" style="width:60px;height:60px;" align="middle"></p>
     </div>
     <div class="panel-body">
 
@@ -524,12 +524,12 @@ ul, menu, dir {
                                         @elseif($payment->payment_name== "Paypal")
                                           <a href="#" payment="{{$payment->code}}" class="list-group-item text-center " class="">
                                             <h4 class="glyphicon glyphicon-send"></h4>
-                                            <br/>Card Payment
+                                            <br/>Bank Transfer
                                           </a>
                                         @else
                                         <a href="#" payment="{{$payment->code}}" class="list-group-item text-center  " class="">
                                             <h4 class="glyphicon glyphicon-send"></h4>
-                                            <br/>{{$payment->payment_name}}
+                                            <br/>Card Payment
                                         </a>
                                         @endif @endforeach
                                     </div>
@@ -545,7 +545,7 @@ ul, menu, dir {
                                               Joining Fee:<span>{{$joiningfee}}</span>
                                                 <h3>{{trans('register.confirm_registration') }}</h3>
                                                 <p>
-                                                    <button class="btn btn-success btn-lg" role="button">{{$pay->payment_name}} payment confirmation</button>
+                                                    <button class="btn btn-success btn-lg" role="button">Bank Transfer</button>
                                                 </p>
                                             </div>
                                         </div>
@@ -573,7 +573,7 @@ ul, menu, dir {
                                             Joining Fee:<span>{{$joiningfee}}</span>
                                             <br>
                                                 <p>
-                                                    <button class="btn btn-success btn-lg" role="button">{{$pay->payment_name}} payment confirmation</button>
+                                                    <button class="btn btn-success btn-lg" role="button">Card payment confirmation</button>
                                                 </p>
                                             </div>
                                         </div>

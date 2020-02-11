@@ -353,7 +353,7 @@
                         </a>
                     </li>
                     <li class="navigation-header"><span>Members Management</span> <i class="icon-menu" title="Forms"></i></li>
-                    <li class="has-sub {{set_active('admin/users')}}{{set_active('admin/users/*')}}">
+                    <li class="has-sub {{set_active('admin/users')}}{{set_active('admin/users/*')}}{{set_active('admin/pendingtransactions')}}">
                         <a href="javascript:;">
                              <!--<b class="caret pull-right"></b>-->
                             <i class="icon-users2"></i>
@@ -361,6 +361,7 @@
                         </a>
                         <ul class="sub-menu">
                              <li class="{{set_active('admin/users')}}"><a href="{{url('admin/users')}}">{{trans('menu.view-all')}}</a></li>
+                              <li class="{{set_active('admin/pendingtransactions')}}"><a href="{{url('admin/pendingtransactions')}}">Pending transactions</a></li>
                              <!-- <li class="{{set_active('admin/users/activate')}}"><a href="{{url('admin/users/activate')}}">{{trans('menu.activate-member')}}</a></li> -->
                              <li class="{{set_active('admin/users/password')}}"><a href="{{url('admin/users/password')}}">Edit Info</a></li>
             

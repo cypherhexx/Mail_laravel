@@ -49,31 +49,14 @@
                 </div>              
               </fieldset>
             <h6>{{trans('products.choose_payment_type')}}</h6>
-            <fieldset> 
 
-              <div class="text-center">
-
-
-     <label class="radio-inline"><input type="radio" name="type"  value="1" checked>Annual Payment</label>
-<label class="radio-inline"><input type="radio" name="type" value="2">Monthly Payment</label>
-      </div>
-  
-
-
-
-             
-                
-              
-            </fieldset>
-
-              <h6>{{trans('products.choose_payment')}}</h6>
             <fieldset> 
 
               <div class="card-body">
                 <ul class="nav nav-tabs nav-tabs-highlight nav-justified">
-                  <li class="nav-item active"><a href="#steps-planpurchase-tab1" class="nav-link  steps-plan-payment active " data-toggle="tab" data-payment='cheque' >cheque</a></li>
-                <!--   <li class="nav-item"><a href="#steps-planpurchase-tab2" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='ewallet'>{{trans('products.ewallet')}}</a></li>
-                   <li class="nav-item"><a href="#steps-planpurchase-tab3" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='Stripe'>Stripe</a></li> -->
+                  <li class="nav-item active"><a href="#steps-planpurchase-tab1" class="nav-link  steps-plan-payment active " data-toggle="tab" data-payment='paypal' >Monthly Payment</a></li>
+                  <li class="nav-item"><a href="#steps-planpurchase-tab2" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='cheque'>Annual Payment</a></li>
+                
                   <!--   <li class="nav-item"><a href="#steps-planpurchase-tab4" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='paypal'>Paypal</a></li> -->
               <!--     <li class="nav-item"><a href="#steps-planpurchase-tab5" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='voucher'>Voucher</a></li> -->
 
@@ -85,13 +68,14 @@
                 </ul> 
 
                 <div class="tab-content">
-                  <div class="tab-pane active  " id="steps-planpurchase-tab1">
-                    <input type="hidden" name="steps_plan_payment" value="cheque" data-parsley-group="block-1">
-                 
-                
-
-                    <center>Pay With cheque</center> 
+                  <div class="tab-pane fade in active" id="steps-planpurchase-tab1">
+                    <input type="hidden" name="steps_plan_payment" value="paypal" data-parsley-group="block-1">
+                    <center>Pay With Paypal</center> 
                      
+                  </div>
+
+                   <div class="tab-pane fade" id="steps-planpurchase-tab2">
+                      <center>Pay With Bank</center> 
                   </div>
 
 

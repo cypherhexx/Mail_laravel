@@ -20,7 +20,7 @@
         <div class="navbar-header media-middle text-center test"style="background-color:white">
             <a class="navbar-brand" href="{{ URL::to('/home') }}">
                 <!-- <img src="{{ url('img/cache/logo/'.$logo)}}" class="inpagelogo-small" alt="{{ config('app.name', 'Cloud MLM Software') }}"> -->
-                <img src="{{ url('img/cache/logo/'.$logo)}}" class="inpagelogo-smallx img-ab" alt="{{ config('app.name', 'Cloud MLM Software') }}">
+                <img src="{{ url('img/cache/original/'.$logo)}}" class="inpagelogo-smallx img-ab" alt="{{ config('app.name', 'Cloud MLM Software') }}">
                 <!-- <span class="brandname">{{ config('app.name', 'Cloud MLM Software') }}</span> -->
             </a>
 

@@ -119,10 +119,7 @@ ul, menu, dir {
                 <?php echo e(trans('register.email')); ?> : <?php echo e($sponsor[0]->email); ?>
 
             </li>
-            <li>
-                <?php echo e(trans('register.phone')); ?> : <?php echo e($profile[0]->mobile); ?>
-
-            </li>
+          
             <li>
                 <?php echo e(trans('register.country')); ?> : <?php echo e($profile[0]->country); ?>
 
@@ -168,7 +165,7 @@ ul, menu, dir {
             <ul class="icons-list">
                 <li><a data-action="collapse"></a></li>
             </ul>
-        </div><p style="text-align:center;"><img src="<?php echo e(url('img/cache/original/logo.png')); ?>" alt="logo" style="width:60px;height:60px;" align="middle"></p>
+        </div><p style="text-align:center;"><img src="<?php echo e(url('img/cache/original/atmor.png')); ?>" alt="logo" style="width:60px;height:60px;" align="middle"></p>
     </div>
     <div class="panel-body">
 
@@ -267,7 +264,7 @@ ul, menu, dir {
                         <div class="required form-group has-feedbackX has-feedback-leftx <?php echo e($errors->has('sponsor') ? ' has-error' : ''); ?>">
                             <?php echo Form::label('sponsor', trans("all.sponsor"), array('class' => 'control-label')); ?>
 
-                            <input class="form-control" value="<?php echo e($sponsor_name); ?>" required="required" data-parsley-required-message="all.please_enter_sponsor_name" name="sponsor" type="text" id="sponsor" data-parsley-group="block-0" data-parsley-sponsor="null">
+                            <input class="form-control" value="<?php echo e($sponsor_name); ?>" required="required" data-parsley-required-message="all.please_enter_sponsor_name" name="sponsor" type="text" id="sponsor" data-parsley-group="block-0" data-parsley-sponsor="null" readonly>
                             <!--data-parsley-remote="data-parsley-remote" data-parsley-remote-validator="validate_sponsor" data-parsley-remote-options='{ "type": "POST", "dataType": "jsonp", "data": { "csrf": <?php echo e(csrf_token()); ?> } }' data-parsley-remote-message="all.there_is_no_user_with_that_username" data-parsley-trigger-after-failure="change" data-parsley-trigger="change" 
                             -->
                             <div class="form-control-feedback">
@@ -312,13 +309,11 @@ ul, menu, dir {
                     </div>
                     <div class="col-md-6">
                         <div class="required form-group has-feedbackX has-feedback-leftx <?php echo e($errors->has('country') ? ' has-error' : ''); ?>">
-                            <?php echo Form::label('country', trans("register.country"), array('class' => 'control-label')); ?> <?php echo Form::select('country', $countries ,'US',['class' => 'form-control','id' => 'country','required' => 'required','data-parsley-required-message' => trans("all.please_select_country"),'data-parsley-group' => 'block-0']); ?>
+                             <?php echo Form::label('country', trans("all.country"), array('class' => 'control-label')); ?>
 
-                            <div class="form-control-feedback">
-                                <i class="fa fa-flag-o text-muted"></i>
-                            </div>
+                            <input class="form-control" value="Israel" required="required" data-parsley-required-message="all.please_enter_sponsor_name" name="country" type="text" id="country" data-parsley-group="block-0" data-parsley-country="null" readonly>
                             <span class="help-block">
-                                <small><?php echo trans("all.select_country"); ?></small>
+                                <small><?php echo trans("all.your_country"); ?></small>
                                 <?php if($errors->has('country')): ?>
                                 <strong><?php echo e($errors->first('country')); ?></strong>
                                 <?php endif; ?>
@@ -442,38 +437,13 @@ ul, menu, dir {
                         </div>
                     </div>
                     <!-- begin col-6 -->
-                    <div class="col-md-6">
-                        <div class="required form-group has-feedbackX has-feedback-leftx <?php echo e($errors->has('wechat') ? ' has-error' : ''); ?>">
-                            <?php echo Form::label('wechat', trans("register.wechat"), array('class' => 'control-label')); ?> <?php echo Form::text('wechat', Input::old('wechat'), ['class' => 'form-control','id' => 'wechat','data-parsley-required-message' => trans("all.please_enter_wechat"),'data-parsley-group' => 'block-0']); ?>
-
-                            <span class="help-block">
-                                <small><?php echo trans("all.type_your_wechat"); ?></small>
-                                <?php if($errors->has('wechat')): ?>
-                                <strong><?php echo e($errors->first('wechat')); ?></strong>
-                                <?php endif; ?>
-                            </span>
-                        </div>
-                    </div>
+            
                     <!-- begin col-4 -->
            
                 </div>
                 <div class="row">
 
-                             <div class="col-md-6">
-                        <div class="required form-group has-feedbackX has-feedback-leftx <?php echo e($errors->has('passport') ? ' has-error' : ''); ?>">
-                            <?php echo Form::label('passport', trans("register.national_identification_number"), array('class' => 'control-label')); ?> <?php echo Form::text('passport', Input::old('passport'), ['class' => 'form-control','required' => 'required','id' => 'passport','data-parsley-required-message' => trans("all.please_enter_passport"),'data-parsley-group' => 'block-0']); ?>
-
-                            <div class="form-control-feedback">
-                                <i class="icon-user-check text-muted"></i>
-                            </div>
-                            <span class="help-block">
-                                <small><?php echo trans("all.type_your_passport_number"); ?></small>
-                                <?php if($errors->has('passport')): ?>
-                                <strong><?php echo e($errors->first('passport')); ?></strong>
-                                <?php endif; ?>
-                            </span>
-                        </div>
-                    </div>
+                 
                     <div class="col-md-6">
                         <div class="form-group">
                             <input type="hidden" name="transaction_pass" class="form-control" placeholder="Transaction Password " value="<?php echo e($transaction_pass); ?>" />
@@ -577,13 +547,12 @@ ul, menu, dir {
                                         <?php elseif($payment->payment_name== "Paypal"): ?>
                                           <a href="#" payment="<?php echo e($payment->code); ?>" class="list-group-item text-center " class="">
                                             <h4 class="glyphicon glyphicon-send"></h4>
-                                            <br/>Card Payment
+                                            <br/>Bank Transfer
                                           </a>
                                         <?php else: ?>
                                         <a href="#" payment="<?php echo e($payment->code); ?>" class="list-group-item text-center  " class="">
                                             <h4 class="glyphicon glyphicon-send"></h4>
-                                            <br/><?php echo e($payment->payment_name); ?>
-
+                                            <br/>Card Payment
                                         </a>
                                         <?php endif; ?> <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </div>
@@ -599,7 +568,7 @@ ul, menu, dir {
                                               Joining Fee:<span><?php echo e($joiningfee); ?></span>
                                                 <h3><?php echo e(trans('register.confirm_registration')); ?></h3>
                                                 <p>
-                                                    <button class="btn btn-success btn-lg" role="button"><?php echo e($pay->payment_name); ?> payment confirmation</button>
+                                                    <button class="btn btn-success btn-lg" role="button">Bank Transfer</button>
                                                 </p>
                                             </div>
                                         </div>
@@ -627,7 +596,7 @@ ul, menu, dir {
                                             Joining Fee:<span><?php echo e($joiningfee); ?></span>
                                             <br>
                                                 <p>
-                                                    <button class="btn btn-success btn-lg" role="button"><?php echo e($pay->payment_name); ?> payment confirmation</button>
+                                                    <button class="btn btn-success btn-lg" role="button">Card payment confirmation</button>
                                                 </p>
                                             </div>
                                         </div>

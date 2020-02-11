@@ -116,7 +116,23 @@
                             </span>
                         </div>
                     </div>
+
+
+                           @if($leg)
                     <div class="col-md-6">
+                        <div class="required form-group{{ $errors->has('placement_user') ? ' has-error' : '' }}">
+                            {!! Form::label('placement_user', trans("all.placement_username"), array('class' => 'control-label')) !!} {!! Form::text('placement_user', $placement_user, ['class' => 'form-control','required' => 'required','data-parsley-required-message' => trans("all.please_enter_placement_username") ,'data-parsley-group' => 'block-0','value' => $placement_user,'readonly']) !!}
+                        </div>
+                    </div>
+                    @else @if($placement_user)
+                    <input type="hidden" name="placement_user" placeholder="{{trans('register.placement_username')}}" class="form-control" value="{{$placement_user}}" required /> @endif @endif
+                
+               
+                </div>
+                <!-- end row -->
+                <div class="row">
+
+                        <div class="col-md-6">
                         <div class="required form-group {{ $errors->has('firstname') ? ' has-error' : '' }}">
                             {!! Form::label('name', trans("register.firstname"), array('class' => 'control-label')) !!} {!! Form::text('firstname', Input::old('firstname'), ['class' => 'form-control','required' => 'required','data-parsley-required-message' => trans("all.please_enter_first_name"),'data-parsley-group' => 'block-0']) !!}
                             <span class="help-block">
@@ -127,10 +143,6 @@
                             </span>
                         </div>
                     </div>
-               
-                </div>
-                <!-- end row -->
-                <div class="row">
 
                          <div class="col-md-6">
                         <div class="required form-group{{ $errors->has('lastname') ? ' has-error' : '' }}">
@@ -143,7 +155,13 @@
                             </span>
                         </div>
                     </div>
-                    <div class="col-md-6">
+               
+                  
+                </div>
+                <!-- end row -->
+                <div class="row">
+                    <!-- begin col-6 -->
+                         <div class="col-md-6">
                         <div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('country') ? ' has-error' : '' }}">
                              {!! Form::label('country', trans("all.country"), array('class' => 'control-label')) !!}
                             <input class="form-control" value="Israel" required="required" data-parsley-required-message="all.please_enter_sponsor_name" name="country" type="text" id="country" data-parsley-group="block-0" data-parsley-country="null" readonly>
@@ -155,11 +173,6 @@
                             </span>
                         </div>
                     </div>
-                  
-                </div>
-                <!-- end row -->
-                <div class="row">
-                    <!-- begin col-6 -->
 
                       <div class="col-md-6">
                         <div class="required form-group{{ $errors->has('state') ? ' has-error' : '' }}">
@@ -172,7 +185,13 @@
                             </span>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                
+           
+                </div>
+                <div class="row">
+                    <!-- begin col-6 -->
+
+                        <div class="col-md-6">
                         <div class="required form-group{{ $errors->has('zip') ? ' has-error' : '' }}">
                             {!! Form::label('zip', trans("register.zip_code"), array('class' => 'control-label')) !!} {!! Form::text('zip', Input::old('zip'), ['class' => 'form-control','required' => 'required','id' => 'zip','data-parsley-required-message' => trans("all.please_enter_zip"),'data-parsley-group' => 'block-0','data-parsley-zip' => 'us','data-parsley-type' => 'digits','data-parsley-length' => '[5,8]','data-parsley-state-and-zip' => 'us','data-parsley-validate-if-empty' => '','data-parsley-errors-container' => '#ziperror' ]) !!}
                             <span class="help-block">
@@ -183,10 +202,6 @@
                             </span>
                         </div>
                     </div>
-           
-                </div>
-                <div class="row">
-                    <!-- begin col-6 -->
 
                              <div class="col-md-6">
                         <div class="required form-group{{ $errors->has('address') ? ' has-error' : '' }}">
@@ -199,7 +214,11 @@
                             </span>
                         </div>
                     </div>
-               
+              
+                </div>
+                <div class="row">
+
+
                     <div class="col-md-6">
                         <div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('city') ? ' has-error' : '' }}">
                             {!! Form::label('city', trans("register.city"), array('class' => 'control-label')) !!} {!! Form::text('city', Input::old('city'), ['class' => 'form-control','required' => 'required','id' => 'city','data-parsley-required-message' => trans("all.please_enter_city"),'data-parsley-group' => 'block-0']) !!}
@@ -214,8 +233,6 @@
                             </span>
                         </div>
                     </div>
-                </div>
-                <div class="row">
 
 
                     <div class="col-md-6">
@@ -233,7 +250,11 @@
                         </div>
                     </div>
 
-                          <div class="col-md-6">
+                 
+                </div>
+                <div class="row">
+                    <!-- begin col-6 -->
+                       <div class="col-md-6">
                         <div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('phone') ? ' has-error' : '' }}">
                             {!! Form::label('phone', trans("register.phone"), array('class' => 'control-label')) !!} {!! Form::text('phone', Input::old('phone'), ['class' => 'form-control','id' => 'phone','data-parsley-required-message' => trans("all.please_enter_phone_number"),'data-parsley-group' => 'block-0']) !!}
                             <div class="form-control-feedback">
@@ -247,10 +268,6 @@
                             </span>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <!-- begin col-6 -->
-              
                     <div class="col-md-6">
                         <div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('email') ? ' has-error' : '' }}">
                             {!! Form::label('email', trans("register.email"), array('class' => 'control-label')) !!} {!! Form::email('email', Input::old('email'), ['class' => 'form-control','required' => 'required','id' => 'email','data-parsley-required-message' => trans("all.please_enter_email"),'data-parsley-group' => 'block-0']) !!}
@@ -363,12 +380,12 @@
                                         @foreach($payment_type as $payment) @if($payment->id==1)
                                         <a href="#" payment="{{$payment->code}}" class="list-group-item text-center active" class="">
                                             <h4 class="glyphicon glyphicon-send"></h4>
-                                            <br/>{{$payment->payment_name}}
+                                            <br/>Bank Transfer
                                         </a>
                                         @else
                                         <a href="#" payment="{{$payment->code}}" class="list-group-item text-center " class="">
                                             <h4 class="glyphicon glyphicon-send"></h4>
-                                            <br/>{{$payment->payment_name}}
+                                            <br/>Card Payment
                                         </a>
                                         @endif @endforeach
                                     </div>
@@ -387,7 +404,7 @@
                                                 </p></h1>
                                                 <h3>{{trans('register.confirm_registration') }}</h3>
                                                 <p>
-                                                    <button class="btn btn-success btn-lg" role="button">{{$pay->payment_name}} payment confirmation</button>
+                                                    <button class="btn btn-success btn-lg" role="button">Bank Transfer Confirmation</button>
                                                 </p>
                                             </div>
                                         </div>
@@ -456,7 +473,7 @@
                                                 </p></h1>
                                                 <h3>{{trans('register.confirm_registration') }}</h3>
                                                 <p>
-                                                    <button class="btn btn-success btn-lg" role="button">{{$pay->payment_name}} payment confirmation</button>
+                                                    <button class="btn btn-success btn-lg" role="button">Card payment confirmation</button>
                                                 </p>
                                             </div>
                                         </div>
