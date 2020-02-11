@@ -137,7 +137,16 @@ class RegisterController extends AdminController
              * Get Countries from mmdb
              * @var [collection]
              */
-            $countries = CountryState::getCountries();
+            $oldcountries = CountryState::getCountries();
+            // dd($oldcountries);
+            $countries=[];
+            foreach ($oldcountries as $key => $country) {
+               if($key <> 'PS' && $key <> 'US')
+                $countries[$key]=$country;
+            }
+            // dd($countries);
+
+
             /**
              * [Get States from mmdb]
              * @var [collection]
@@ -196,7 +205,7 @@ class RegisterController extends AdminController
         $data['passport']         = $request->passport;
         $data['username']         = $request->username;
         $data['gender']           = $request->gender;
-        $data['country']          = 'IL';
+        $data['country']          = $request->country;
         $data['state']            = $request->state;
         $data['city']             = $request->city;
         $data['address']          = $request->address;
