@@ -1,4 +1,6 @@
 @extends('layouts.auth')
+
+<div class="bg-register">
 @section('content')
 
 
@@ -90,6 +92,15 @@ ul, menu, dir {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+}
+.bg-register{
+      background-image:url('http://cloud2162.cloudmlmdemo.com/img/cache/original/5afd3d3c7e7cc.jpg');
+        background-repeat: no-repeat;
+        background-size:cover;
+        width: 100%;
+        height: auto;
+      
+      
 }
 </style>
 

@@ -180,6 +180,7 @@ public static function rankCheck($rankuser){
   $cur_rank=User::find($rankuser)->rank_id;
   $next_rank=$cur_rank+1;
   $rank_det=Ranksetting::find($next_rank);
+  if($rank_det <> null){
   $user_count=Sponsortree::where('sponsor',$rankuser)->where('type','yes')->count('user_id');
     if($rank_det->minimum_ref_for_each1 == 0 && $rank_det->minimum_direct_ref2 == 0 && $rank_det->minimum_direct_ref3 == 0 && $user_count >= $rank_det->minimum_direct_ref1){
         Ranksetting::insertRankHistory($rankuser,$next_rank,$cur_rank,'rank_updated');
@@ -251,6 +252,7 @@ public static function rankCheck($rankuser){
 
   
   
+}
 }
 }
 
