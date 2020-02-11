@@ -491,14 +491,18 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             /**
              * Creates a user with provided data and stores it for temperory usage
              * @var [type]
-             */            
+             */  
+             if($data['payment'] == 'cheque')
+               $pay='Bank Transfer';
+               else   
+               $pay='Card';       
             $userresult = SELF::create([
                 'name'             => $data['firstname'],
                 'lastname'         => $data['lastname'],
                 'email'            => $data['email'],
                 'username'         => $data['username'],
                 'rank_id'          => '1',
-                'register_by'      => $data['reg_by'],
+                'register_by'      => $pay,
                 'cpf'              => $data['cpf'],
                 'transaction_pass' => bcrypt($data['transaction_pass']),
                 'password'         => bcrypt($data['password']),
