@@ -116,9 +116,9 @@ class RegisterController extends Controller
 
 
 
-        $location = GeoIP::getLocation();
-        $ip_latitude = $location['lat'];
-        $ip_longtitude = $location['lon'];
+        // $location = GeoIP::getLocation();
+        // $ip_latitude = $location['lat'];
+        // $ip_longtitude = $location['lon'];
         $oldcountries = CountryState::getCountries();
             // dd($oldcountries);
             $countries=[];
