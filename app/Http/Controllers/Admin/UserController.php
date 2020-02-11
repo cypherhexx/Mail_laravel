@@ -1221,7 +1221,11 @@ else
         $sub_title =  'Pending Transactions';
         $base      =  'Pending Transactions';
         $method    =  'Pending Transactions';
-        return view('app.admin.users.pendingtransactions',  compact('title','sub_title','base','method'));
+        $users = PendingTransactions::select('pending_transactions.id','pending_transactions.order_id','pending_transactions.username','pending_transactions.email','packages.package','pending_transactions.payment_type','pending_transactions.amount','pending_transactions.created_at')
+           ->join('packages','pending_transactions.package','=','packages.id')
+         ->where('payment_status','pending')
+          ->where('payment_method','cheque')->get();
+        return view('app.admin.users.pendingtransactions',  compact('title','sub_title','base','method','users'));
 
     }
 
@@ -1286,6 +1290,8 @@ else
 
 
     public function activatePendingUser($id){
+
+        // dd($id);
        $transaction= PendingTransactions::find($id);
        $pay_data=json_decode($transaction->request_data,true);
      
