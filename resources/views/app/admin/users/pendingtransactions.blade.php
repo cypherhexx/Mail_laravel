@@ -13,9 +13,13 @@
         </div>
     </div>
     <div class="panel-body">
-        <table id="pending-users" class="table datatable-basic table-striped table-hover">
+        <table  class="table datatable-basic table-striped table-hover">
+            <!-- id="pending-users" -->
                     <thead>
                         <tr>
+                             <th>
+                               No
+                            </th>
                           
                             <th>
                                ID
@@ -44,6 +48,60 @@
                         </tr>
                     </thead>
                     <tbody>
+                            @foreach($users as $key=> $user)
+                            <tr>
+                        <td>{{$key +1 }}</td>   
+
+                         <td>{{$user->order_id }}</td>   
+                        <td>{{$user->username}}</td>
+                          <td>{{$user->email}}</td>
+                            <td>{{$user->package}}</td>
+                              <td>{{$user->payment_type}}</td>
+                                 <td>{{$user->amount}}</td>
+                        <td>{{ date('d M Y H:i:s',strtotime($user->created_at))}}</td>
+                                 <td>  <button type="button"  class="btn btn-primary" data-toggle="modal" data-target="#myModal{{$user->id}}"> <span class="fa fa-check "></span>   </button>
+
+                                      <!-- Modal -->
+
+                                <div id="myModal{{$user->id}}" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+
+                              <!-- Modal content-->
+
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                                </div>
+
+                                <div class="modal-body" style="overflow: auto !important;">
+
+                               <center> 
+
+                               Do you want to confirm this payment??
+                              
+
+                                </center>
+
+                                
+                                </div>                 
+                                </form>
+                                <div class="modal-footer">
+                                <div class="row">
+                                
+                                <a href="{{url('admin/activatependinguser/'.$user->id)}}" class="btn btn-success" ></span>Confirm </a>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                                </div>
+                                </div>
+                                </div>
+                                </div>
+
+                                 </td>
+                                        
+                     
+                    </tr>
+                             @endforeach  
                     </tbody>
                         </table>
                     </div>
