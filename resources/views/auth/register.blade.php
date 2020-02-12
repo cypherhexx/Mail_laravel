@@ -184,7 +184,7 @@ ul, menu, dir {
         <form class="form-vertical steps-validation" action="{{url('register')}}" method="POST" data-parsley-validate="true" name="form-wizard">
             {!! csrf_field() !!}
             <input type="hidden" name="payable_vouchers[]" value="">
-            <input type="hidden" name="payment" id="payment" value="cheque">
+            <input type="hidden" name="payment" id="payment" value="paypal">
               <input type="hidden" name="pack_new" id="pack_new" value="">
             <input type="hidden" name="leg" id="leg" value="L">
 
@@ -521,173 +521,23 @@ ul, menu, dir {
                 <!-- end row -->
             </fieldset>
              <fieldset>
-             <div class="2_box">
+                 <div class="2_box">
                 <div class="m-b-0 text-center">
                     <div class="containerX">
-                        <div class="row bhoechie-tab-container">
+                     <div class="text-center">
+                        <h1> <p class="text-success">
                             
-
-
-                            <div class="col-xs-12 test">
-                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bhoechie-tab-menu">
-                                    <div class="list-group">
-                                        @foreach($payment_type as $payment) @if($payment->id==1)
-                                        <a href="#" payment="{{$payment->code}}" class="list-group-item text-center active" class="">
-                                            <h4 class="glyphicon glyphicon-send"></h4>
-                                            <br/>{{$payment->payment_name}}
-                                        </a>
-                                        @elseif($payment->payment_name== "Paypal")
-                                          <a href="#" payment="{{$payment->code}}" class="list-group-item text-center " class="">
-                                            <h4 class="glyphicon glyphicon-send"></h4>
-                                            <br/>Bank Transfer
-                                          </a>
-                                        @else
-                                        <a href="#" payment="{{$payment->code}}" class="list-group-item text-center  " class="">
-                                            <h4 class="glyphicon glyphicon-send"></h4>
-                                            <br/>Card Payment
-                                        </a>
-                                        @endif @endforeach
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab">
-                                    @foreach($payment_type as $pay) @if($pay->payment_name=="Cheque")
-                                    <div class="bhoechie-tab-content active">
-                                        <div class="text-center">
-                                            <div class="text-center">
-                                                <h1> <p class="text-success">   
-                                                </p></h1>
-                                              Joining Fee:<span>{{$joiningfee}}</span>
-                                                <h3>{{trans('register.confirm_registration') }}</h3>
-                                                <p>
-                                                    <button class="btn btn-success btn-lg" role="button">Bank Transfer</button>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    @elseif($pay->payment_name=="Ewallet")
-                                    <div class="bhoechie-tab-content ">
-                                        <div class="text-center">
-                                            <div class="text-center">
-                                                <h1> <p class="text-success">
-                                                  {{trans('register.joining_fee') }}:
-                                                    <span name="fee" class="ewallet_joining"> 0 </span>
-                                                </p></h1>
-                                              
-                                                <p>
-                                                    <button class="btn btn-success btn-lg" role="button">{{$pay->payment_name}} payment confirmation</button>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    @elseif($pay->payment_name=="Paypal")
-                                    <div class="bhoechie-tab-content ">
-                                        <div class="text-center">
-                                            <div class="text-center">
-                                              
-                                            Joining Fee:<span>{{$joiningfee}}</span>
-                                            <br>
-                                                <p>
-                                                    <button class="btn btn-success btn-lg" role="button">Card payment confirmation</button>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                   
-                                    @elseif($pay->payment_name=="Stripe")
-                                    <div class="bhoechie-tab-content   ">
-                                        <div class="text-center">
-                                            <div class="row">
-                                                <div class="col-sm-6 center col-sm-offset-3">
-                                                    <input 
-                                               type="button"
-                                               id="stripe_btn"
-                                               class="btn btn-primary"
-                                               value="Pay with Card"
-                                               data-key="{{config('services.stripe.key')}}"
-                                               data-amount=""
-                                               data-currency="USD"
-                                               data-bitcoin="false"
-                                               data-name="TradingAuto"
-                                               data-description="info@tradingauto.com"
-                                               data-locale="auto"
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div class="row stripe_div" >    
-                                                All transactions are handled securely with <a href="https://stripe.com" >https://stripe.com</a>   
-                                            </div>
-                                        </div>
-                                    </div>
-                                     @elseif($pay->payment_name == "BTC")
-                                     <div class="bhoechie-tab-content ">
-                                        <div class="text-center">
-                                            <div class="text-center">
-                                                <h1> <p class="text-success">
-                                                     {{trans('register.joining_fee') }}:
-                                                    <span name="fee" class="btc_joining"> 0 </span>
-                                                </p></h1>
-                                                <p>
-                                                    <button class="btn btn-success btn-lg" role="button">{{$pay->payment_name}} payment confirmation</button>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div> 
-
-                                         @elseif($pay->payment_name=="Voucher")
-                                         <div class="bhoechie-tab-content ">
-                                          <div class="text-center">
-                                          <div class="text-center">
-                                         
-                                          <h1><p class="text-success">     
-                                      <!--   {{trans('register.joining_fee') }}:$
-                                                        <span name="fee" id="voucher_joining">70  </span> -->
-                                           </p></h1>
-                              <!--   #reg         --> 
-                                 <div class="tab-pane fade in" id="steps-planpurchase-tab1">
-                                   <table class="table table-dark bg-slate-600 table-vouher-regpayment">
-                                    <thead>
-                                      <tr>
-                                        <th>#</th>
-                                        <th>voucher code</th>
-                                        <th>amound used</th>
-                                        <th>balance</th>
-                                        <th>remaining</th>
-                                        <th>validate voucher</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody>
-                                      <tr>
-                                        <td>1</td>
-                                        <td><input type="text" name="voucher[]" class="form-control"></td>
-                                        <td><span class="amount"></span></td>
-                                        <td><span class="balance"></span></td>                             
-                                        <td><span class="remaining"></span></td>                             
-                                        <td class="td-validate-voucher"><button class="btn btn-info validatevoucher" onclick="return false;">validate</button></td>
-
-
-                                      </tr>
-                                      </tbody>
-                                       <p><button id="resulttable" class="btn btn-primary" payment="{{$pay->code}}" role="button" style="border-color:#00bcd4; background-color: #00bcd4" >{{{ trans('all.confirm') }}}</button></p>
-                            </table>
-                        </div>
-
-
-                                   
-                                       
-                                        </div>
-                                        </div>
-                                        </div>
-                                    @endif 
-
-
-
-                                    @endforeach
-                                </div>
-                            </div>
+                            {{trans('register.joining_fee') }}:
+                            <span >{{$joiningfee}}</span>
+                            
+                        </p></h1>
+                        <h3>{{trans('register.confirm_registration') }}</h3>
+                        <p>
+                            <button class="btn btn-success btn-lg" role="button">Card payment confirmation</button>
+                        </p>
+                    </div>
                         </div>
                     </div>
-                </div>
                 </div>
     </fieldset>
         </form>  
