@@ -14,6 +14,10 @@ use App\User;
 use App\Welcome;
 use App\MyRole;
 use App\Roles;
+use App\Packages;
+use App\ProfileModel;
+use App\PurchaseHistory;
+use App\RsHistory;
 use Auth;
 use Artisan;
 use Illuminate\Http\Request;
@@ -21,6 +25,7 @@ use Input;
 use Redirect;
 use Response;
 use Session;
+use Validator;
 use Log;
 use Storage;
 use Datatables;
@@ -878,6 +883,80 @@ static function humanFilesize($size, $precision = 2) {
         return Redirect::action('Admin\SettingsController@viewalladmin'); 
 
     }
+    public function trackPayment(){
+
+        $title     = 'Forced Track payment';
+        $sub_title ='Forced Track payment';
+        $base      = 'Forced Track payment';
+        $method    ='Forced Track payment';
+        $packages=Packages::where('id','>',1)->pluck('package','id');
+
+
+        return view('app.admin.settings.trackpayment', compact('title', 'sub_title', 'base', 'method','packages'));
+    }
+
+    public function upTrackPayment(Request $request){
+   
+           $validator = Validator::make($request->all(), [
+            'username' => 'required|exists:users',
+           ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator);
+            } else {
+
+                $user_id=User::where('username',$request->username)->value('id');
+                $cur_package=ProfileModel::where('user_id',$user_id)->value('package');
+                  if($request->package > $cur_package){
+
+                    $package=Packages::find($request->package);
+                    $purchase_id= PurchaseHistory::create([
+                                    'user_id'=>$user_id,
+                                    'purchase_user_id'=>$user_id,
+                                    'package_id'=>$request->package,
+                                    'count'=>1,
+                                    'pv'=>$package->pv,
+                                    'total_amount'=>$package->amount,
+                                    'pay_by'=>'free',
+                                    'rs_balance'=>$package->rs,
+                                    'sales_status'=>'yes',
+                                    ]);
+                                    RsHistory::create([
+                                    'user_id'=>$user_id,                   
+                                    'from_id'=>1,
+                                    'rs_credit'=>$package->rs,
+                                    ]);
+
+                    $pur_user=PurchaseHistory::find($purchase_id->id);
+                    $user=User::join('profile_infos','profile_infos.user_id','=','users.id')
+                               ->join('packages','packages.id','=','profile_infos.package')
+                               ->where('users.id',$pur_user->user_id)
+                               ->select('users.username','users.name','users.lastname','users.email','profile_infos.mobile','profile_infos.address1','packages.package')
+                               ->get();
+                    $userpurchase=array();      
+                    $userpurchase['name']=$user[0]->name;
+                    $userpurchase['lastname']=$user[0]->lastname;
+                    $userpurchase['amount']=$package->amount;
+                    $userpurchase['payment_method']=$purchase_id->pay_by;
+                    $userpurchase['mail_address']=$user[0]->email;;
+                    $userpurchase['mobile']=$user[0]->mobile;
+                    $userpurchase['address']=$user[0]->address1;
+                    $userpurchase['invoice_id'] ='0000'.$purchase_id->id;
+                    $userpurchase['date_p']=$purchase_id->created_at;
+                    $userpurchase['package']=$package->package;
+                    PurchaseHistory::where('id','=',$purchase_id->id)->update(['datas'=>json_encode($userpurchase)]);
+                    ProfileModel::where('user_id',$user_id)->update(['package' => $request->package]);
+                   
+                    Session::flash('flash_notification',array('message'=>"You have purchased the plan succesfully ",'level'=>'success'));
+                    return redirect()->back();
+                  }else{
+                    Session::flash('flash_notification',array('message'=>"Plan Purchase not possible",'level'=>'error'));
+                    return redirect()->back();
+                  }
+
+
+            }
+     }
         
 
 

@@ -200,6 +200,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth'], 'namespace' 
     Route::get('userprofiles_deactivate/{user}', 'UserController@deactivateUser');
     Route::get('userprofiles_activate/{user}', 'UserController@activateUser');
 
+    Route::get('trackpayment','SettingsController@trackPayment');
+    Route::post('uptrackpayment','SettingsController@upTrackPayment');
+
     Route::post('saveprofile', ['as' => 'admin.saveprofile', 'uses' => 'UserController@saveprofile']);
 
     /**
