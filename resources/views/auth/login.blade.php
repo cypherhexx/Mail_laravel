@@ -93,6 +93,10 @@ $lockedflag = true;
 .icon-login{
     margin-top: 10px;
 }
+.logo-login{
+   margin-left: -20px;
+ 
+}
 </style>
 
 
@@ -123,7 +127,7 @@ $lockedflag = true;
         
         @if($lockedflag==false)    
         <div class="text-center">
-            <div class="icon-object border-slate-300 text-slate-300"><img src="{{url('img/cache/logo/logo-login.png')}}" alt="solidus"></div>
+            <div class="logo-login icon-object border-slate-300 text-slate-300"><img src="{{url('img/cache/logo/logo-login.png')}}" alt="solidus"></div>
             <h5 class="content-group">Login to your account <small class="display-block">Enter your credentials below</small></h5>
         </div>
         <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }} has-feedback has-feedback-left" >
