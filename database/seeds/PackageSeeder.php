@@ -35,6 +35,7 @@ class PackageSeeder extends Seeder
           'top_count'=>0,
           'ref_top_count'=>0,
            'level_percent' => '2',
+           'image' => 'bronze.png',
         ]);
       App\Packages::create([
           'package'=>'Silver',
@@ -47,6 +48,7 @@ class PackageSeeder extends Seeder
           'top_count'=>0,
           'ref_top_count'=>0,
           'level_percent' => '2.5',
+          'image' => 'silver.png',
         ]);
 
        App\Packages::create([
@@ -60,6 +62,7 @@ class PackageSeeder extends Seeder
           'top_count'=>0,
           'ref_top_count'=>0,
            'level_percent' =>'2.75', 
+           'image' => 'gold.png',
         ]);
 
         App\Packages::create([
@@ -73,6 +76,8 @@ class PackageSeeder extends Seeder
           'top_count'=>0,
           'ref_top_count'=>0,
            'level_percent' => '3',
+           'image' => 'diamond.png',
+
         ]);
     }
 }

@@ -144,7 +144,7 @@ class DashboardController extends AdminController
         // $purchases_data = Packages::with('PurchaseHistoryR')
         // ->get();
 
-        $packages_data = Packages::select(['id','package','amount','special'])->withCount('PurchaseHistoryR')->get();
+        $packages_data = Packages::where('id','>',1)->select(['id','package','amount','special','image'])->withCount('PurchaseHistoryR')->get();
         
 
         // $all_activities = Activity::with('user')->paginate(15);

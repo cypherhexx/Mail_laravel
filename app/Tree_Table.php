@@ -105,7 +105,7 @@ class Tree_Table extends Model
                 ->leftJoin('profile_infos', 'profile_infos.user_id', '=', 'tree_table.user_id')
                 ->leftJoin('rank_setting', 'rank_setting.id', '=', 'users.rank_id')
                 ->leftJoin('point_table', 'point_table.user_id', '=', 'tree_table.user_id')
-                ->select('tree_table.*', 'users.username', 'users.active','profile_infos.image','profile_infos.package', 'point_table.left_carry', 'point_table.right_carry', 'point_table.total_left', 'point_table.total_right', 'rank_setting.rank_name')
+                ->select('tree_table.*', 'users.username','users.name','users.lastname', 'users.active','profile_infos.image','profile_infos.package', 'point_table.left_carry', 'point_table.right_carry', 'point_table.total_left', 'point_table.total_right', 'rank_setting.rank_name')
                 ->get();
         } else {
             $data = self::where('placement_id', $placement_id)->orderBy('leg', 'ASC')
@@ -113,7 +113,7 @@ class Tree_Table extends Model
                 ->leftJoin('profile_infos', 'profile_infos.user_id', '=', 'tree_table.user_id')
                 ->leftJoin('rank_setting', 'rank_setting.id', '=', 'users.rank_id')
                 ->leftJoin('point_table', 'point_table.user_id', '=', 'tree_table.user_id')
-                ->select('tree_table.*', 'users.username','users.active', 'profile_infos.image','profile_infos.package', 'point_table.left_carry', 'point_table.right_carry', 'point_table.total_left', 'point_table.total_right', 'rank_setting.rank_name')
+                ->select('tree_table.*', 'users.username','users.name','users.lastname','users.active', 'profile_infos.image','profile_infos.package', 'point_table.left_carry', 'point_table.right_carry', 'point_table.total_left', 'point_table.total_right', 'rank_setting.rank_name')
                 ->get();
         }
 
@@ -142,20 +142,30 @@ class Tree_Table extends Model
                 }
 
                 $username         = $value->username;
+                $name= $value->name;
+                $lastname= $value->lastname;
                 $id         = $value->user_id;
                 $accessid         = Crypt::encrypt($value->user_id);
 
                 // $package_id   = Profileinfo::where('user_id', $value->user_id)->value('package');
 
                    $package_name = Packages::where('id','=',$value->package)->value('package');
+                   if($value->package == 1)
+                    $package_name='No Track';
+
+               
+                   if($value->rank_name == 'Member')
+                    $rank_nm='No Rank';
+
                 // echo "  ---  $value->username   --- $value->package  ,   </br>";
                 // $content = '' . Html::image('http://randomuser.me/api/portraits/men/'.$imgname.'.jpg', $username, array('class'=>$class.' tree-user','style' => 'max-width:50px;cursor:pointer;','data-accessid'=>$accessid)) . '';
-                $content = '' . Html::image(route('imagecache', ['template' => 'profile', 'filename' => self::profilePhoto($username)]), $username, array('class'=>$class.' tree-user','style' => 'max-width:50px;','data-accessid'=>$accessid)) . '';
+                $content = '' . Html::image(route('imagecache', ['template' => 'original', 'filename' => self::profilePhoto($username)]), $username, array('class'=>$class.' tree-user','style' => 'max-width:50px;','data-accessid'=>$accessid)) . '';
                 // $content = 'aa';
 
                 $coverPhoto = '' . Html::image(route('imagecache', ['template' => 'large', 'filename' => self::coverPhoto($username)]), $username, array('class'=>$class.' tree-user','style' => '','data-accessid'=>$accessid)) . '';
 
                 $url="userprofiles/".$value->username;
+
 
                 $viewprofile=NULL;
                 if(Auth::user()->id==1)
@@ -181,10 +191,10 @@ class Tree_Table extends Model
                         </div>
                         <ul class='secondaryinfo'>
                             <li class='rankname'>
-                                <span class='key'>Rank</span> :  <span class='value'>$value->rank_name</span>
+                                <span class='key'>Rank</span> :  <span class='value'>$rank_nm</span>
                             </li class='packagename'>                            
                             <li>
-                                <span class='key'>Package</span> : <span class='value'>$package_name</span>
+                                <span class='key'>Track</span> : <span class='value'>$package_name</span>
                             </li>   
                             <li class='topupcount'>
                             <span class='key'>Top Ups</span> : <span class='value'>".PurchaseHistory::where('user_id', '=', $value->user_id)->sum('count')."</span>
@@ -216,7 +226,7 @@ class Tree_Table extends Model
                 </div>
                 </div>".$viewprofile;
                 $className = $user_active_class;
-                $treearray[$value->id]['name']      = $username;
+                $treearray[$value->id]['name']      = $name.'&nbsp'.$lastname;
                 $treearray[$value->id]['content']   = $content;
                 $treearray[$value->id]['accessid']      =  $accessid;
                 $treearray[$value->id]['id']      =  $id;
@@ -259,15 +269,17 @@ class Tree_Table extends Model
     public static function profilePhoto($user_name)
     {
         $user  = User::where('username', $user_name)->with('profile_info')->first();
-        $image = $user->profile_info->profile;
+        $package = $user->profile_info->package;
+        $img=Packages::find($package)->image;
+        // dd($img);
         //if (!Storage::disk('images')->exists($image)){
         //    $image = 'avatar-big.png';
         //}
-        if(!$image){
-            $image = 'avatar-big.png';
-        }
+        // if(!$img){
+        //     $img = 'avatar-big.png';
+        // }
 
-        return $image;
+        return $img;
     }
 
     public static function coverPhoto($user_name)

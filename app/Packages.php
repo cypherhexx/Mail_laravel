@@ -15,7 +15,7 @@ class Packages extends Model
 
     protected $table = 'packages' ;
 
-    protected $fillable = ['package','pv','rs','amount','code','level_percent'];
+    protected $fillable = ['package','pv','rs','amount','code','level_percent','image'];
 
     public static function TopUPAutomatic($user_id){
     	$user_detils = User::find($user_id);

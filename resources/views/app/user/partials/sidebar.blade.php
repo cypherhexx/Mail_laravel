@@ -70,12 +70,12 @@
                            
                         </ul>
                     </li>
-                     <li class="{{set_active('user/register')}}">
+                   <!--   <li class="{{set_active('user/register')}}">
                             <a href="{{url('user/register')}}">
                                 <i class="icon-add"></i>
                                 <span class="text">{{trans('menu.register')}}  </span>
                             </a>
-                    </li> 
+                    </li> --> 
                     <li class="{{set_active('user/incomereport')}}">
                         <a href="{{url('user/incomereport')}}">
                             <i class="fa fa-sticky-note"></i>

@@ -26,12 +26,11 @@
                                 <h1>{{$item->package}}</h1>
                               </div>
                               <div class="panel-body">
-                                <p><strong>{{$item->pv}}</strong> PV</p>                                     
-                                <p><strong>Endless</strong> Amet</p>
+                               <img src="{{ url('img/cache/original/'.$item->image)}}" class="img-circle" style="width: 112px;">
                               </div>
                               <div class="panel-footer">
                                 <h3>{{$currency_sy}} {{$item->amount}}</h3>
-                                <h4>{{trans('products.one_time_fee')}}</h4>                                  
+                                <h4>Monthly Payment</h4>                                  
                                 <div class="form-check">
                                   <div class="uniform-choice border-indigo-600 text-indigo-800"><span class="checked">
                                     <input type="radio"  required="required"    name="plan" badge-class="{{$item->package}}" class="form-check-input-styled-custom" data-fouc="" data-parsley-group="block-0" value="{{$item->id}}" plan-amount="{{$item->amount}}">

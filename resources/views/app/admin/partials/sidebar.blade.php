@@ -180,6 +180,13 @@
                         </a>
                     </li>
 
+                      <li class="{{set_active('admin/trackpayment')}}">
+                        <a href="{{url('admin/trackpayment')}}">
+                            <i class="icon-cart-add"></i>
+                            <span class="text">Forced Track Payment</span>
+                        </a>
+                    </li>
+
                      <li class="{{set_active('admin/purchase-details')}}">
                         <a href="{{url('admin/purchase-details')}}">
                             <i class="fa fa-shopping-cart"></i>

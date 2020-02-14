@@ -126,7 +126,7 @@ class Sponsortree extends Model
                          ->leftJoin('point_table','sponsortree.user_id','=','point_table.user_id') 
                          ->leftjoin('profile_infos','profile_infos.user_id','=','sponsortree.user_id')
                          ->leftJoin('rank_setting', 'rank_setting.id', '=', 'users.rank_id')
-                         ->select('sponsortree.*','users.username','profile_infos.image','point_table.pv','profile_infos.package', 'point_table.left_carry', 'point_table.right_carry', 'point_table.total_left', 'point_table.total_right', 'rank_setting.rank_name','users.active') 
+                         ->select('sponsortree.*','users.username','users.name','users.lastname','profile_infos.image','point_table.pv','profile_infos.package', 'point_table.left_carry', 'point_table.right_carry', 'point_table.total_left', 'point_table.total_right', 'rank_setting.rank_name','users.active') 
                          ->get();            
              } else {
              $data= self::where('sponsortree.sponsor',$sponsor)
@@ -136,7 +136,7 @@ class Sponsortree extends Model
                         ->leftJoin('point_table','sponsortree.user_id','=','point_table.user_id')
                         ->leftJoin('rank_setting', 'rank_setting.id', '=', 'users.rank_id')
                         ->leftjoin('profile_infos','profile_infos.user_id','=','sponsortree.user_id')
-                        ->select('sponsortree.*','users.username','profile_infos.image','point_table.pv','profile_infos.package', 'point_table.left_carry', 'point_table.right_carry', 'point_table.total_left', 'point_table.total_right', 'rank_setting.rank_name','users.active')
+                        ->select('sponsortree.*','users.username','users.name','users.lastname','profile_infos.image','point_table.pv','profile_infos.package', 'point_table.left_carry', 'point_table.right_carry', 'point_table.total_left', 'point_table.total_right', 'rank_setting.rank_name','users.active')
                         ->get();           
             }
 
@@ -163,10 +163,18 @@ class Sponsortree extends Model
                         } 
                         $username         = $value->username;
                         $id               = $value->user_id;
+                         $name= $value->name;
+                        $lastname= $value->lastname;
 
                         
                         $accessid         = Crypt::encrypt($value->user_id); 
                         $package_name = Packages::where('id','=',$value->package)->value('package');
+                       if($value->package == 1)
+                        $package_name='No Track';
+
+                   
+                       if($value->rank_name == 'Member')
+                        $rank_nm='No Rank';
 
                         
                         $content = '' . Html::image(route('imagecache', ['template' => 'profile', 'filename' => self::profilePhoto($username)]), $username, array('class'=>$class.' tree-user','style' => 'max-width:50px;','data-accessid'=>$accessid)) . '';
@@ -190,10 +198,10 @@ class Sponsortree extends Model
                                                 </div>
                                                 <ul class='secondaryinfo'>
                             <li class='rankname'>
-                                <span class='key'>Rank</span> :  <span class='value'>$value->rank_name</span>
+                                <span class='key'>Rank</span> :  <span class='value'>$rank_nm</span>
                             </li class='packagename'>                            
                             <li>
-                                <span class='key'>Package</span> : <span class='value'>$package_name</span>
+                                <span class='key'>tRACK</span> : <span class='value'>$package_name</span>
                             </li>  
                             
                              <li class='topupcount'>
@@ -226,7 +234,7 @@ class Sponsortree extends Model
                                 </div>";
                 $className = $user_active_class;
                 $treearray[$value->id]['id']      =  $id;
-                $treearray[$value->id]['name']      = $username;
+                $treearray[$value->id]['name']      = $name.'&nbsp'.$lastname;
                 $treearray[$value->id]['content']   = $content;
                 $treearray[$value->id]['accessid']      =  $accessid;
                 $treearray[$value->id]['currentuserid'] = $currentuserid;
@@ -344,15 +352,16 @@ class Sponsortree extends Model
 public static function profilePhoto($user_name)
     {
         $user  = User::where('username', $user_name)->with('profile_info')->first();
-        $image = $user->profile_info->profile;
+         $package = $user->profile_info->package;
+        $img=Packages::find($package)->image;
         //if (!Storage::disk('images')->exists($image)){
          //   $image = 'avatar-big.png';
         //}
-        if(!$image){
-            $image = 'avatar-big.png';
-        }
+        // if(!$image){
+        //     $image = 'avatar-big.png';
+        // }
 
-        return $image;
+        return $img;
     }
 
     public static function coverPhoto($user_name)
