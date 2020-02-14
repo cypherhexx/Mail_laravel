@@ -23,6 +23,7 @@ class PackageSeeder extends Seeder
           'top_count'=>0,
           'ref_top_count'=>0,
            'level_percent' => '0',
+           'image' => 'avatar.png',
         ]);
        App\Packages::create([
           'package'=>'Bronze',

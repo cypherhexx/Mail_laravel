@@ -99,7 +99,11 @@
                     @foreach($packages_data as $package)
                     <div class="col-md-4">
                         <div class="content-group">
-                            <h5 class="text-semibold no-margin"><img src="{{ url('img/cache/original/'.$package->image)}}" class="inpagelogo-smallx img-ab" alt="{{ config('app.name', 'Cloud MLM Software') }}">{{$package->purchase_history_r_count}}
+                            <h5 class="text-semibold no-margin">
+                                  {{$package->purchase_history_r_count}}
+                                  <br>
+                                <img src="{{ url('img/cache/original/'.$package->image)}}" class="img-circle" style="width: 80px;" alt="{{ config('app.name', 'Cloud MLM Software') }}">
+
                             @if($package->special == 'yes')
                             <!-- <span class="label label-flat border-green-400 label-icon text-green-400" style="display: inline-block;"><i class="icon-stars"></i> {{trans('dashboard.special')}}</span> -->
                             @endif
