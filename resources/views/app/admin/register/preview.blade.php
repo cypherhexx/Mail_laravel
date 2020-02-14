@@ -1,7 +1,7 @@
 @extends('app.admin.layouts.default') {{-- Web site Title --}} @section('title') {{{ $title }}} :: @parent @stop @section('styles') @parent @endsection {{-- Content --}} @section('main')
 <div class="alert bg-success alert-styled-left">
     <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
-    <span class="text-semibold">Registration Completed!</span> You have successfully registered <strong>{{$userresult->username}} ({{$userresult->name}} {{$userresult->lastname}})</strong> under sponsor, <strong>{{$sponsorUserName}}</strong>. Payment done via <strong>@if($userresult->register_by == 'cheque')Bank Transfer@else Card Payment.</strong>
+    <span class="text-semibold">Registration Completed!</span> You have successfully registered <strong>{{$userresult->username}} ({{$userresult->name}} {{$userresult->lastname}})</strong> under sponsor, <strong>{{$sponsorUserName}}</strong>. Payment done via <strong>{{$userresult->register_by}}</strong>
 </div>
 <div class="panel">
     <div class="panel-heading bg-primary">

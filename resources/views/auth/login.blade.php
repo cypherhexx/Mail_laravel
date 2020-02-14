@@ -64,13 +64,15 @@ $lockedflag = true;
     	/*overflow: hidden;*/
     }
 .ellipse{
-    
-    width: 780px;
+    width: 320px;
     height: 528px;
     margin: 20px;
     shape-outside: ellipse(20% 50%);
-    clip-path: ellipse(20% 50%);
+    clip-path: ellipse(50% 50%);
     margin: 0 auto !important;
+
+    /* width: 780px;clip-path: ellipse(20% 50%);
+    margin: 0 auto !important;*/
 
 }
 .form-horizontal .form-group {
@@ -94,7 +96,7 @@ $lockedflag = true;
     margin-top: 10px;
 }
 .logo-login{
-   margin-left: -20px;
+  /* margin-left: -20px;*/
  
 }
 </style>
@@ -110,6 +112,7 @@ $lockedflag = true;
 <!--<a href="http://vintagehut.in/wordpress-demo/cloud-2162/home/"><img src="{{url('img/cache/logo/alg-logo-004.png')}}"></a>-->
 </div>
     {{ csrf_field() }}
+    <div class="col-md-12">
     <div class="ellipse">
     <div class="panel panel-body login-form">
         
@@ -186,6 +189,7 @@ $lockedflag = true;
         </div>
     </div>
    </div>
+</div>
     <!--pannel-->
 
 
