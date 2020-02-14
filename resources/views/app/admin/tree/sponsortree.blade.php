@@ -1,4 +1,7 @@
 @extends('app.admin.layouts.default') {{-- Web site Title --}} @section('title') {{{ $title }}} :: @parent @stop @section('styles') @parent @endsection {{-- Content --}} @section('main')
+<style type="text/css">
+    
+</style>
 <div class="panel panel-flat ">
     <div class="panel-heading">
         <h6 class="panel-title">{{trans('tree.sponsor_genealogy')}}<a class="heading-elements-toggle"><i class="icon-more"></i></a></h6>
@@ -54,7 +57,7 @@
                 <div class="badge  bar bar-vacant ">{{trans('tree.vacant')}}</div>
             </div>
         </div>
-        <div class="overflow">
+        <div class="overflow" style="background-image:url('http://cloud2162.cloudmlmdemo.com/img/cache/original/59a9220c74c5a.jpg'); background-repeat: no-repeat; background-size:cover;">
             <div id="sponsortreediv" class="overflow">
             </div>
             <div class="hidden hide">

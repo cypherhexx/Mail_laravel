@@ -102,17 +102,29 @@ ul, menu, dir {
       
       
 }
+.side-1{
+    margin-top:0px;
+}
+.binary-dlt li{
+    font-size: 16px;
+}
 </style>
 
 <!-- Wizard with validation -->
-<div class="col-md-12">
+<div class="row">
+<div class="col-md-4">
 	<div class="row">
-<a href="http://vintagehut.in/wordpress-demo/cloud-2162/home/"><img src="img/cache/original/alg-logo.png" width="15%" height="auto"></a>
+<a href="http://vintagehut.in/wordpress-demo/cloud-2162/home/"><img src="img/cache/original/alg-logo.png" width="40%" height="auto"></a>
 <!--<a href="http://vintagehut.in/wordpress-demo/cloud-2162/home/"><img src="{{url('img/cache/logo/alg-logo-004.png')}}"></a>-->
 </div>
 </div>
-
-<div class="col-md-4 side-1 padding-1">
+<div class="col-md-8">
+    <div class="vide-strap">
+          <p>Welcome , This site is sponsored by <b>{{ $sponsor[0]->username }}</b> </p>
+    </div>
+</div>
+</div>
+<div class="col-md-3 side-1 padding-1">
     <div class="panel panel-white" >
     <h3 class="bdr">
         <i class="fa fa-newspaper-o"></i>Sponsor
@@ -120,7 +132,7 @@ ul, menu, dir {
     </h3>
     <div class="sponse-img">
         <div class="img-circle" id="profilephotopreview" style="width:100px;height:100px;margin:0px auto;background-image:url({{url('img/cache/profile/'.$profile_photo)}}">
-                    </div>
+        </div>
     </div>
     <div class="binary-demo">
         <h3>{{ $sponsor[0]->username }}</h3>
@@ -147,16 +159,13 @@ ul, menu, dir {
     <div class="clear"></div>
     <div class="shadow"></div>
  </div>
-   
-  
-</div>
+ </div>
 
-    <div class="col-md-8">
+
+    <div class="col-md-9">
                     <div class="side-2">
                         <div class="home-page">
-                            <div class="vide-strap">
-                                <p>Welcome , This site is sponsored by <b>{{ $sponsor[0]->username }}</b> </p>
-                            </div>
+                            
                             <script>
     jQuery(document).ready(function()
     {
