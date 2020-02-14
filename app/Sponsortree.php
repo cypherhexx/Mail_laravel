@@ -201,7 +201,7 @@ class Sponsortree extends Model
                                 <span class='key'>Rank</span> :  <span class='value'>$rank_nm</span>
                             </li class='packagename'>                            
                             <li>
-                                <span class='key'>tRACK</span> : <span class='value'>$package_name</span>
+                                <span class='key'>Track</span> : <span class='value'>$package_name</span>
                             </li>  
                             
                              <li class='topupcount'>
