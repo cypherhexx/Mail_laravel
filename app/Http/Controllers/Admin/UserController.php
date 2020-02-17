@@ -1315,6 +1315,19 @@ else
                         'rs_credit'=>$package->rs,
                         ]);
 
+        
+         //commsiiom
+            $sponsor_id=Sponsortree::where('user_id',$transaction->user_id)->value('sponsor');
+            $user_arrs=[];
+            $results=Ranksetting::getthreeupline($transaction->user_id,1,$user_arrs);
+          
+            foreach ($results as $key => $value) {
+                Packages::rankCheck($value);
+            }
+            Packages::levelCommission($transaction->user_id,$transaction->amount);
+            Packages::directReferral($sponsor_id,$transaction->user_id,$transaction->package);
+            //comm
+
          $pur_user=PurchaseHistory::find($purchase_id->id);
          $user=User::join('profile_infos','profile_infos.user_id','=','users.id')
                    ->join('packages','packages.id','=','profile_infos.package')
