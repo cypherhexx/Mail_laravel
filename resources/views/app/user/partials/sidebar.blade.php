@@ -153,7 +153,7 @@
 
 
                     <li class="{{set_active('user/runsoftware')}}">
-                        <a href="#">
+                        <a href="{{url('user/runsoftware')}}">
                             <i class="icon-pushpin"></i>
                             <span class="text"> Run Software</span>
                         </a>
@@ -199,11 +199,11 @@
                         <a href="javascript:;">
                             
                             <i class="fa fa-money"></i>
-                            <span class="text">{{trans('menu.payout')}} </span>
+                            <span class="text">E payment</span>
                         </a>
                         <ul class="sub-menu">
-                            <li class="{{set_active('user/payoutrequest')}}" ><a href="{{url('user/payoutrequest')}}">{{trans('menu.request_payout')}}</a></li>
-                            <li class="{{set_active('user/allpayoutrequest')}}"><a href="{{url('user/allpayoutrequest')}}">{{trans('menu.view_my_payout')}}</a></li>
+                            <li class="{{set_active('user/payoutrequest')}}" ><a href="{{url('user/payoutrequest')}}">Request</a></li>
+                            <li class="{{set_active('user/allpayoutrequest')}}"><a href="{{url('user/allpayoutrequest')}}">View Payment</a></li>
                         </ul>
                     </li>
 

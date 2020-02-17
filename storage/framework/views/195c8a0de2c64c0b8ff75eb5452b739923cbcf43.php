@@ -100,7 +100,11 @@
                     <?php $__currentLoopData = $packages_data; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $package): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <div class="col-md-4">
                         <div class="content-group">
-                            <h5 class="text-semibold no-margin"><img src="<?php echo e(url('img/cache/original/'.$package->image)); ?>" class="inpagelogo-smallx img-ab" alt="<?php echo e(config('app.name', 'Cloud MLM Software')); ?>"><?php echo e($package->purchase_history_r_count); ?>
+                            <h5 class="text-semibold no-margin">
+                                  <?php echo e($package->purchase_history_r_count); ?>
+
+                                  <br>
+                                <img src="<?php echo e(url('img/cache/original/'.$package->image)); ?>" class="img-circle" style="width: 80px;" alt="<?php echo e(config('app.name', 'Cloud MLM Software')); ?>">
 
                             <?php if($package->special == 'yes'): ?>
                             <!-- <span class="label label-flat border-green-400 label-icon text-green-400" style="display: inline-block;"><i class="icon-stars"></i> <?php echo e(trans('dashboard.special')); ?></span> -->

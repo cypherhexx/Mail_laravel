@@ -292,6 +292,8 @@ class ProfileController extends UserAdminController
         $new_user->sort_code=$request->sort_code;
         $new_user->bank_code=$request->bank_code;
         $new_user->paypal=$request->paypal;
+          $new_user->bank_address               = $request->bank_address;
+          $new_user->bank_name               = $request->bank_name;
 
 
       if ($request->hasFile('profile_pic')){
@@ -328,6 +330,42 @@ class ProfileController extends UserAdminController
         $html1 = "<lablel for='state_id'>Select State:</lablel><select name='state_id' id='state_id' class='form-control'>".$html2."</select>";
          //  $html=$html1+$html2;
             return($html1);
+    }
+
+    public function saveDoc(Request $request){
+      // dd($request->all());
+           $validator = Validator::make($request->all(), [
+            'savefile'   => 'mimes:doc,pdf,docx'
+        ]);
+
+        if ($validator->fails()) {
+            Session::flash('flash_notification', array('level' => 'error', 'message' => trans('ticket_config.uploaded_failed')));
+            return Redirect::back();
+        }
+        else{
+      
+
+            if (Input::hasFile('savefile')) {
+
+            $destinationPath = public_path() . '/assets/uploads';
+            $extension       = Input::file('savefile')->getClientOriginalExtension();
+            $fileName        = rand(000011111, 99999999999) . '.' . $extension;
+            Input::file('savefile')->move($destinationPath, $fileName);
+
+            User::where('id',Auth::user()->id)->update(['document' => $fileName]);
+
+           
+
+            Session::flash('flash_notification', array('level' => 'success', 'message' => trans('ticket_config.uploaded_success')));
+            return Redirect::back();
+        }
+
+        }
+
+
+        
+        Session::flash('flash_notification', array('level' => 'error', 'message' => trans('ticket_config.no_file')));
+       return Redirect::back();
     }
 
     

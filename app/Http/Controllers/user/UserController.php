@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use Auth;
 use App\User;
 use App\News;
+use App\BrokerDetails;
+use App\UserBrokerDetails;
 use Validator;
 use DB;
 use Session;
@@ -147,6 +149,48 @@ class UserController extends UserAdminController
          $title='Read News';
         $read_news = News::where('id',$id)->get();
         return view('app.user.news.readnews',compact('title','read_news','base','method','sub_title'));
+
+    }
+
+    public function runSoftware(){
+      $title='Run Software';
+      $base='Run Software';
+      $method='Run Software';
+      $sub_title='Run Software';
+      $broker_users=BrokerDetails::all();
+      $max=UserBrokerDetails::where('user_id',Auth::user()->id)->max('id');
+        if($max <> null){
+          $det=UserBrokerDetails::find($max);
+          $status=$det->status;
+        }else{
+          $status='stopped';
+        }
+        // dd($status);
+   
+      return view('app.user.users.runsoftware',compact('title','base','method','sub_title','broker_users','status'));
+
+    }
+
+    public function saveBrokerDetails(Request $request){
+    
+      UserBrokerDetails::create([
+        'broker_id' => $request->user,
+        'account' => $request->account,
+        'user_id'  =>Auth::user()->id,
+        'password' => $request->password,
+
+      ]);
+
+       Session::flash('flash_notification',array('level'=>'success','message'=>'Details Saved'));
+        return redirect()->back();
+
+    }
+
+    public function changestatus(){
+      $max=UserBrokerDetails::where('user_id',Auth::user()->id)->max('id');
+      UserBrokerDetails::where('id',$max)->update(['status' => 'stopped']);
+       Session::flash('flash_notification',array('level'=>'success','message'=>'Stopped Successully'));
+        return redirect()->back();
 
     }
 }

@@ -144,11 +144,23 @@
                             </a>
                     </li> 
 
-                     <li class="{{set_active('admin/runsoftware')}}">
-                            <a href="{{url('admin/runsoftware')}}">
-                                <i class="icon-pushpin"></i>
-                                <span class="text">Run Software </span>
-                            </a>
+                 
+
+
+                   <li class="has-sub {{set_active('admin/createbrokers')}}{{set_active('admin/brokerrequest')}}">
+                        <a  href="javascript:;" >
+                           
+                            <i class="icon-pushpin"></i>
+                            <span class="text">Broker Details</span>
+                        </a>
+                        <ul class="sub-menu">
+                            
+                             <li class="{{set_active('admin/createbrokers')}}"><a href="{{url('admin/createbrokers')}}">Create Brokers</a></li>
+                             
+                              <li class="{{set_active('admin/brokerrequest')}}"><a href="{{url('admin/brokerrequest')}}">User Request</a></li>
+                           
+                      
+                        </ul>
                     </li> 
                   <!--     <li class="has-sub {{set_active('admin/adminregister')}}{{set_active('admin/viewalladmin')}}{{set_active('admin/work_assign')}}{{set_active('admin/assign-role/*')}}">
                         <a href="javascript:;">
@@ -371,6 +383,8 @@
                               <li class="{{set_active('admin/pendingtransactions')}}"><a href="{{url('admin/pendingtransactions')}}">Pending transactions</a></li>
                              <!-- <li class="{{set_active('admin/users/activate')}}"><a href="{{url('admin/users/activate')}}">{{trans('menu.activate-member')}}</a></li> -->
                              <li class="{{set_active('admin/users/password')}}"><a href="{{url('admin/users/password')}}">Edit Info</a></li>
+
+                             <li class="{{set_active('admin/users/verifyusers')}}"><a href="{{url('admin/users/verifyusers')}}">Verify Users</a></li>
             
               <!--  <li class="{{set_active('admin/users/changeusername')}}"><a href="{{url('admin/users/changeusername')}}">{{trans('menu.Change_Username')}}</a></li> -->
                 <!-- <li class="{{set_active('admin/online_users')}}"><a href="{{url('admin/online_users')}}">Online Users</a></li> -->
@@ -470,7 +484,7 @@
                     <li class="{{set_active('admin/payoutrequest')}}">
                         <a href="{{url('admin/payoutrequest')}}">
                             <i class="icon-paypal2"></i>
-                            <span class="text">{{trans('menu.payout')}}</span>
+                            <span class="text">Epayment</span>
                         </a>
                     </li>
   

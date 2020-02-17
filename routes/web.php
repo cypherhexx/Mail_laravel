@@ -259,6 +259,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth'], 'namespace' 
     Route::get('pendingtransactions','UserController@pendingTransactions');
     Route::get('pendingtransactions/data','UserController@pendingTransData');
     Route::get('activatependinguser/{id}','UserController@activatePendingUser');
+    Route::get('users/verifyusers','UserController@verifyusers');
+    Route::post('verifydocuser','UserController@verifyDocuser');
 
     //tree
     Route::get('tree', 'TreeController@tree');
@@ -339,6 +341,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth'], 'namespace' 
     Route::get('banktransferPreview','RegisterController@banktransferPreview');
     Route::get('get-bankpayment-status/{id}', 'RegisterController@checkStatus');
 
+
+    Route::get('createbrokers','UserController@createBrokers');
+    Route::post('upcreatebrokers','UserController@upCreateBrokers');
+    Route::get('brokerrequest','UserController@brokerRequest');
     
 
     Route::get('view-adds', 'CodeController@index');
@@ -733,12 +739,17 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth', 'namespace' => 'user']
 
     Route::get('paypal/success/{id}','RegisterController@paypalRegSuccess');
     Route::post('paypal/success/{id}','RegisterController@paypalRegSuccess');
-     Route::get('upgrade/success/{id}','productController@productSuccess');
+    Route::get('upgrade/success/{id}','productController@productSuccess');
     Route::post('upgrade/success/{id}','productController@productSuccess');
-     Route::get('banktransferPreview','productController@banktransferPreview');
-     Route::get('regbanktransferpre','RegisterController@regTransferPreview');
-       Route::get('get-bankpayment-status/{id}', 'RegisterController@checkStatus');
-       Route::get('get-purchasepayment-status/{id}', 'productController@purchaseStatus');
+    Route::get('banktransferPreview','productController@banktransferPreview');
+    Route::get('regbanktransferpre','RegisterController@regTransferPreview');
+    Route::get('get-bankpayment-status/{id}', 'RegisterController@checkStatus');
+    Route::get('get-purchasepayment-status/{id}', 'productController@purchaseStatus');
+
+    Route::get('runsoftware','UserController@runSoftware');
+    Route::post('savebrokerdetails','UserController@saveBrokerDetails');
+    Route::get('changestatus','UserController@changestatus');
+    Route::post('savedoc','ProfileController@saveDoc');
 
     Route::get('inbox','MailController@index');
     Route::post('mail/delete','MailController@destroy');

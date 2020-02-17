@@ -19,6 +19,8 @@ use App\Http\Requests;
 use App\Http\Requests\user\getPayoutRquestingRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\user\UserAdminController;
+use App\Settings;
+use App\ProfileInfo;
 
 class PayoutController extends UserAdminController
 {
@@ -38,15 +40,32 @@ class PayoutController extends UserAdminController
         
         $base = trans('payout.payout');
         $method = trans('payout.payout_request');
+        $settings=Settings::find(1);
+        $payout=Payout::where('user_id',Auth::user()->id)->max('id');
+          if($payout <> null){
+            $payout=Payout::find($payout);
+            // dd($payout);
+            $hourly = date("M j, Y 00:00:00", strtotime('+'.$settings->withdraw_days.'days', strtotime($payout->created_at)));
+            $date_today=date('Y-m-d 00:00:00');
+            $date_creat_sum=date('Y-m-d 00:00:00',strtotime('+'.$settings->withdraw_days.'days', strtotime($payout->created_at)));
 
-        $total_payout = Payout::where('user_id','=',Auth::user()->id)
-                            ->where('status','=','released')
-                            ->sum('amount');
-         $total_pending = Payout::where('user_id','=',Auth::user()->id)
-                            ->where('status','=','pending')
-                            ->sum('amount');
+            // dd($date_creat_sum);
+          }
+          else{
+             $hourly = date("M j, Y 00:00:00", strtotime('-'.$settings->withdraw_days.'days', strtotime(date('Y-m-d 00:00:00'))));
+            $date_today=date('Y-m-d 00:00:00');
+            $date_creat_sum=date('Y-m-d 00:00:00',strtotime('+'.$settings->withdraw_days.'days', strtotime($payout->created_at)));
+          }
+
+
+         
+        
        
-        return view('app.user.payout.payout_request',compact('user','title','user_balance','rules','base','method','sub_title','total_payout','total_pending'));
+       $payout_balance=$user_balance*$settings->withdraw_percent*0.01;
+       $bank_details=ProfileInfo::where('user_id',Auth::user()->id)->first();
+       // dd($bank_details);
+       
+        return view('app.user.payout.payout_request',compact('user','title','user_balance','rules','base','method','sub_title','payout_balance','bank_details','hourly','date_today','date_creat_sum'));
     }
 
     /**
@@ -115,7 +134,7 @@ class PayoutController extends UserAdminController
         //
     }
     public function request(Request $request){
-        $validator = Validator::make(Input::all(), array('req_amount' => 'required|numeric','oldpass'=>'required', ));
+        $validator = Validator::make(Input::all(), array('req_amount' => 'required|numeric' ));
 
     
         $current_pass =   $request->oldpass; 
@@ -130,11 +149,12 @@ class PayoutController extends UserAdminController
 
         else{
         
-         if (Hash::check($current_pass, Auth::user()->transaction_pass))
-             {  
+      
         $req_amount = round($request->req_amount,2);
         $user_balance = Balance::getTotalBalance(Auth::user()->id);
-        if($req_amount <= $user_balance and $req_amount > 0 and is_numeric( $request->req_amount )){
+         $settings=Settings::find(1);
+         $payout_balance=$user_balance*$settings->withdraw_percent*0.01;
+        if($req_amount <= $payout_balance and $req_amount > 0 and is_numeric( $request->req_amount )){
              Payout::create([
         'user_id'        => Auth::user()->id,            
         'amount'        => $req_amount,
@@ -149,14 +169,9 @@ class PayoutController extends UserAdminController
             Session::flash('flash_notification',array('level'=>'danger','message'=>trans('payout.invalid_amount')));
         }
     }
-     else{
-             Session::flash('flash_notification', array('message' => "Incorrect password"));
-               return redirect()->back();
-           }
-        
-        return Redirect::action('user\PayoutController@index');
+     
     }
-    }
+ 
     public function viewall(){
         $title = trans('payout.view_all_requests');
         $sub_title = trans('payout.my_requests');

@@ -1,12 +1,10 @@
-@extends('app.user.layouts.default')
-{{-- Web site Title --}}
-@section('title') Member profile:: @parent
-@stop
-{{-- Content --}}
-@section('main')
+<?php $__env->startSection('title'); ?> Member profile:: ##parent-placeholder-3c6de1b7dd91465d437ef415f94f36afc1fbc8a8##
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('main'); ?>
 <!-- Cover area -->
 <div class="profile-cover">
-    <div class="profile-cover-img" style="background-image: url({{url('img/cache/original/'.$cover_photo)}}">
+    <div class="profile-cover-img" style="background-image: url(<?php echo e(url('img/cache/original/'.$cover_photo)); ?>">
     </div>
 
 
@@ -14,15 +12,19 @@
         <div class="media-left">
             <div class="avatar">
                 <div class="avatarin ajxloaderouter">
-                    <div class="img-circle" id="profilephotopreview" style="width:100px;height:100px;margin:0px auto;background-image:url({{url('img/cache/profile/'.$profile_photo)}}">
+                    <div class="img-circle" id="profilephotopreview" style="width:100px;height:100px;margin:0px auto;background-image:url(<?php echo e(url('img/cache/profile/'.$profile_photo)); ?>">
                     </div>
-                    <!--  {{ Html::image(route('imagecache', ['template' => 'profile', 'filename' => $selecteduser->profile_info->image]), 'Admin', array('class' => '','style'=>'img-circle')) }} -->
+                    <!--  <?php echo e(Html::image(route('imagecache', ['template' => 'profile', 'filename' => $selecteduser->profile_info->image]), 'Admin', array('class' => '','style'=>'img-circle'))); ?> -->
                     <div class="profileuploadwrapper">
                         <form id="profilepicform" method="post" name="profilepicform">
-                            {!! Form::file('file', ['class' => 'inputfile profilepic','id'=>'profile']) !!}
-                {!! Form::hidden('type', 'profile') !!}
-                {!! Form::hidden('user_id', $selecteduser->id) !!}
-                {!! csrf_field() !!}
+                            <?php echo Form::file('file', ['class' => 'inputfile profilepic','id'=>'profile']); ?>
+
+                <?php echo Form::hidden('type', 'profile'); ?>
+
+                <?php echo Form::hidden('user_id', $selecteduser->id); ?>
+
+                <?php echo csrf_field(); ?>
+
                             <label for="profile">
                                 <i class="icon-file-plus position-left">
                                 </i>
@@ -36,9 +38,11 @@
         </div>
         <div class="media-body">
             <h1>
-                {{$selecteduser->name}} {{$selecteduser->lastname}}
+                <?php echo e($selecteduser->name); ?> <?php echo e($selecteduser->lastname); ?>
+
                 <small class="display-block">
-                    {{$selecteduser->username}}
+                    <?php echo e($selecteduser->username); ?>
+
                 </small>
             </h1>
         </div>
@@ -46,15 +50,20 @@
             <ul class="list-inline list-inline-condensed no-margin-bottom text-nowrap">
                 <li>
                     <form id="coverpicform" method="post" name="coverpicform">
-                        {!! Form::file('file', ['class' => 'inputfile coverpic','style'=>'display:none;','id'=>'cover']) !!}
-                    {!! Form::hidden('type', 'cover') !!}
-                    {!! Form::hidden('user_id', $selecteduser->id) !!}
-                    {!! csrf_field() !!}
+                        <?php echo Form::file('file', ['class' => 'inputfile coverpic','style'=>'display:none;','id'=>'cover']); ?>
+
+                    <?php echo Form::hidden('type', 'cover'); ?>
+
+                    <?php echo Form::hidden('user_id', $selecteduser->id); ?>
+
+                    <?php echo csrf_field(); ?>
+
                         <label for="cover">
                             <span class="btn btn-default" href="#">
                                 <i class="icon-file-picture position-left">
                                 </i>
-                                {{trans('profile.cover_image')}}
+                                <?php echo e(trans('profile.cover_image')); ?>
+
                             </span>
                         </label>
                     </form>
@@ -81,21 +90,24 @@
                 <a data-toggle="tab" href="#overview">
                     <i class="icon-calendar3 position-left">
                     </i>
-                    {{trans('profile.overview')}}
+                    <?php echo e(trans('profile.overview')); ?>
+
                 </a>
             </li>
             <li>
                 <a data-toggle="tab" href="#activity">
                     <i class="icon-menu7 position-left">
                     </i>
-                   {{trans('profile.activity')}}
+                   <?php echo e(trans('profile.activity')); ?>
+
                 </a>
             </li>
             <li>
                 <a data-toggle="tab" href="#settings">
                     <i class="icon-cog3 position-left">
                     </i>
-                     {{trans('profile.edit_info')}}
+                     <?php echo e(trans('profile.edit_info')); ?>
+
                 </a>
             </li>
               <li>
@@ -103,11 +115,12 @@
                     <i class="icon-cog3 position-left">
                     </i>
                    
-                    {{trans('profile.account_settings')}}
+                    <?php echo e(trans('profile.account_settings')); ?>
+
                 </a>
             </li>
 
-            @if($selecteduser->verified == 'no')
+            <?php if($selecteduser->verified == 'no'): ?>
                <li>
                 <a data-toggle="tab" href="#accountverification">
                     <i class="icon-cog3 position-left">
@@ -116,7 +129,7 @@
                    Account Verification
                 </a>
             </li>
-            @endif
+            <?php endif; ?>
 
          
 
@@ -126,13 +139,15 @@
               <!--   <li>
                      <a data-toggle="tab" href="#notes">
                         <i class="icon-stack-text position-left"></i>
-                        {{trans('profile.notes')}}
+                        <?php echo e(trans('profile.notes')); ?>
+
                     </a>                    
                 </li> -->
                 <li>
                      <a data-toggle="tab" href="#referrals">
                         <i class="icon-collaboration position-left"></i>
-                        {{trans('users.referrals')}}
+                        <?php echo e(trans('users.referrals')); ?>
+
                     </a>
 
                      
@@ -142,7 +157,8 @@
                         <i class="icon-gear">
                         </i>
                         <span class="visible-xs-inline-block position-right">
-                            {{trans('profile.options')}}
+                            <?php echo e(trans('profile.options')); ?>
+
                         </span>
                         <span class="caret">
                         </span>
@@ -152,21 +168,24 @@
                             <a href="#">
                                 <i class="icon-image2">
                                 </i>
-                                {{trans('profile.update_cover')}}
+                                <?php echo e(trans('profile.update_cover')); ?>
+
                             </a>
                         </li>
                         <li>
                             <a href="#">
                                 <i class="icon-clippy">
                                 </i>
-                                {{trans('profile.update_info')}}
+                                <?php echo e(trans('profile.update_info')); ?>
+
                             </a>
                         </li>
                         <li>
                             <a href="#">
                                 <i class="icon-make-group">
                                 </i>
-                                {{trans('profile.manage_sections')}}
+                                <?php echo e(trans('profile.manage_sections')); ?>
+
                             </a>
                         </li>
                         <li class="divider">
@@ -175,14 +194,15 @@
                             <a href="#">
                                 <i class="icon-three-bars">
                                 </i>
-                               {{trans('profile.activity_log')}} 
+                               <?php echo e(trans('profile.activity_log')); ?> 
                             </a>
                         </li>
                         <li>
                             <a href="#">
                                 <i class="icon-cog5">
                                 </i>
-                                {{trans('profile.profile_settings')}}
+                                <?php echo e(trans('profile.profile_settings')); ?>
+
                             </a>
                         </li>
                     </ul>
@@ -200,7 +220,7 @@
             <div class="tabbable">
                 <div class="tab-content">
                     <div class="tab-pane fade in active" id="overview">
-                        @include('app.admin.users.earnings')
+                        <?php echo $__env->make('app.admin.users.earnings', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                         <div class="panel">
                             <div class="panel-body">
                                 <div class="row">
@@ -208,80 +228,97 @@
                                         <div class="content-group user-details-profile">
                                             <div class="form-group">
                                                 <label class="text-semibold">
-                                                    {{trans('register.username') }} :
+                                                    <?php echo e(trans('register.username')); ?> :
                                                 </label>
                                                 <span class="pull-right-sm">
-                                                    {{$selecteduser->username}}
+                                                    <?php echo e($selecteduser->username); ?>
+
                                                 </span>
                                             </div>
                                             <div class="form-group">
                                                 <label class="text-semibold">
-                                                    {{trans('register.email') }} :
+                                                    <?php echo e(trans('register.email')); ?> :
                                                 </label>
                                                 <span class="pull-right-sm">
-                                                    <a href="emailto: {{$selecteduser->email}}">
-                                                        {{$selecteduser->email}}
+                                                    <a href="emailto: <?php echo e($selecteduser->email); ?>">
+                                                        <?php echo e($selecteduser->email); ?>
+
                                                     </a>
                                                 </span>
                                             </div>
                                             <div class="form-group">
                                                 <label class="text-semibold">
-                                                    {{trans('register.sponsor') }}
+                                                    <?php echo e(trans('register.sponsor')); ?>
+
                                                 </label>
                                                 <span class="pull-right-sm">
-                                                    {{$sponsor->username}}
+                                                    <?php echo e($sponsor->username); ?>
+
                                                 </span>
                                             </div>
                                             
                                             
                                             <div class="form-group">
                                                 <label class="text-semibold">
-                                                    {{trans('register.package') }}
+                                                    <?php echo e(trans('register.package')); ?>
+
                                                 </label>
                                                 <span class="pull-right-sm">
-                                                    {{$selecteduser->profile_info->package_detail->package}}
+                                                    <?php echo e($selecteduser->profile_info->package_detail->package); ?>
+
                                                 </span>
                                             </div>
                                             <div class="form-group">
                                                 <label class="text-semibold">
-                                                    {{trans('register.firstname') }}
+                                                    <?php echo e(trans('register.firstname')); ?>
+
                                                 </label>
                                                 <span class="pull-right-sm">
-                                                    {{$selecteduser->name}}
+                                                    <?php echo e($selecteduser->name); ?>
+
                                                 </span>
                                             </div>
                                             <div class="form-group">
                                                 <label class="text-semibold">
-                                                    {{trans('register.lastname')}}
+                                                    <?php echo e(trans('register.lastname')); ?>
+
                                                 </label>
                                                 <span class="pull-right-sm">
-                                                    {{$selecteduser->lastname}}
+                                                    <?php echo e($selecteduser->lastname); ?>
+
                                                 </span>
                                             </div>
                                             <div class="form-group">
                                                 <label class="text-semibold">
-                                                    {{trans('register.gender') }}
+                                                    <?php echo e(trans('register.gender')); ?>
+
                                                 </label>
                                                 <span class="pull-right-sm">
-                                                    @if($selecteduser->profile_info->gender == 'm')  {{trans('register.male') }}
-                                        @else {{trans('register.female') }}
-                                        @endif
+                                                    <?php if($selecteduser->profile_info->gender == 'm'): ?>  <?php echo e(trans('register.male')); ?>
+
+                                        <?php else: ?> <?php echo e(trans('register.female')); ?>
+
+                                        <?php endif; ?>
                                                 </span>
                                             </div>
                                             <div class="form-group">
                                                 <label class="text-semibold">
-                                                    {{trans('register.phone') }}
+                                                    <?php echo e(trans('register.phone')); ?>
+
                                                 </label>
                                                 <span class="pull-right-sm">
-                                                    {{$selecteduser->profile_info->mobile}}
+                                                    <?php echo e($selecteduser->profile_info->mobile); ?>
+
                                                 </span>
                                             </div>
                                             <div class="form-group">
                                                 <label class="text-semibold">
-                                                    {{trans('register.wechat') }}
+                                                    <?php echo e(trans('register.wechat')); ?>
+
                                                 </label>
                                                 <span class="pull-right-sm">
-                                                    {{$selecteduser->id}}
+                                                    <?php echo e($selecteduser->id); ?>
+
                                                 </span>
                                             </div>
                                         </div>
@@ -290,48 +327,53 @@
                                         <div class="content-group user-details-profile">
                                             <div class="form-group">
                                                 <span class="">
-                                                    <div class="flag-icon flag-icon-{{strtolower($selecteduser->profile_info->country)}}" style="width: 250px;height: 188px;">
+                                                    <div class="flag-icon flag-icon-<?php echo e(strtolower($selecteduser->profile_info->country)); ?>" style="width: 250px;height: 188px;">
                                                     </div>
                                                 </span>
                                             </div>
                                             <div class="form-group">
                                                 <label class="text-semibold">
-                                                    {{trans('register.country') }}:
+                                                    <?php echo e(trans('register.country')); ?>:
                                                 </label>
                                                 <span class="pull-right-sm">
-                                                    {{$country}}
+                                                    <?php echo e($country); ?>
+
                                                 </span>
                                             </div>
                                             <div class="form-group">
                                                 <label class="text-semibold">
-                                                    {{trans('register.state') }}:
+                                                    <?php echo e(trans('register.state')); ?>:
                                                 </label>
                                                 <span class="pull-right-sm">
-                                                    {{$state}}
+                                                    <?php echo e($state); ?>
+
                                                 </span>
                                             </div>
                                             <div class="form-group">
                                                 <label class="text-semibold">
-                                                    {{trans('register.zipcode') }}:
+                                                    <?php echo e(trans('register.zipcode')); ?>:
                                                 </label>
                                                 <span class="pull-right-sm">
-                                                    {{$selecteduser->profile_info->zip}}
+                                                    <?php echo e($selecteduser->profile_info->zip); ?>
+
                                                 </span>
                                             </div>
                                             <div class="form-group">
                                                 <label class="text-semibold">
-                                                    {{trans('register.address') }} :
+                                                    <?php echo e(trans('register.address')); ?> :
                                                 </label>
                                                 <span class="">
-                                                    {{$selecteduser->profile_info->address1}}
+                                                    <?php echo e($selecteduser->profile_info->address1); ?>
+
                                                 </span>
                                             </div>
                                             <div class="form-group">
                                                 <label class="text-semibold">
-                                                    {{trans('register.city') }} :
+                                                    <?php echo e(trans('register.city')); ?> :
                                                 </label>
                                                 <span class="pull-right-sm">
-                                                    {{$selecteduser->profile_info->city}}
+                                                    <?php echo e($selecteduser->profile_info->city); ?>
+
                                                 </span>
                                             </div>
                                         </div>
@@ -347,23 +389,26 @@
                         <!-- Timeline -->
                         <div class="timeline timeline-left content-group">
                             <div class="timeline-container">
-                                @foreach($activities as $activity)
+                                <?php $__currentLoopData = $activities; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $activity): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="timeline-row">
                                     <div class="timeline-icon">
                                         <a href="#">
-                                            {{ Html::image(route('imagecache', ['template' => 'profile', 'filename' => $activity->user->profile_info->image]), $activity->user->username, array('class' => '','style'=>'')) }}
+                                            <?php echo e(Html::image(route('imagecache', ['template' => 'profile', 'filename' => $activity->user->profile_info->image]), $activity->user->username, array('class' => '','style'=>''))); ?>
+
                                         </a>
                                     </div>
                                     <div class="panel panel-flat timeline-content">
                                         <div class="panel-heading">
                                             <h6 class="panel-title">
-                                                {{$activity->title}}
+                                                <?php echo e($activity->title); ?>
+
                                             </h6>
                                             <div class="heading-elements">
                                                 <span class="label label-success heading-text">
                                                     <i class="icon-history position-left text-success">
                                                     </i>
-                                                    {{$activity->created_at->diffForHumans()}}
+                                                    <?php echo e($activity->created_at->diffForHumans()); ?>
+
                                                 </span>
                                                 <ul class="icons-list">
                                                     <li>
@@ -374,11 +419,12 @@
                                             </div>
                                         </div>
                                         <div class="panel-body">
-                                            {{$activity->description}}
+                                            <?php echo e($activity->description); ?>
+
                                         </div>
                                     </div>
                                 </div>
-                                @endforeach
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
                         </div>
                         <!-- /timeline -->
@@ -387,9 +433,9 @@
                      <div class="tab-pane fade in " id="notes">
                         <div class="row">
 
-                            @forelse($notes as $notitem)
+                            <?php $__empty_1 = true; $__currentLoopData = $notes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $notitem): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                             <div class="each-note col-sm-4">
-                                <div class="panel {{$notitem->color}}">
+                                <div class="panel <?php echo e($notitem->color); ?>">
                                     <div class="panel-body">
                                         <div class="media">
                                             <div class="media-left">
@@ -398,19 +444,21 @@
                                             </div>
                                             <div class="media-body">
                                                 <h6 class="media-heading text-semibold">
-                                                    {{$notitem->title}} -
+                                                    <?php echo e($notitem->title); ?> -
                                                     <i class="text-xs">
-                                                        {{$notitem->created_at->diffForHumans()}}
+                                                        <?php echo e($notitem->created_at->diffForHumans()); ?>
+
                                                     </i>
                                                 </h6>
-                                        {{ strlen($notitem->description) > 25 ? substr($notitem->description,0,25)."..." : $notitem->title }}
+                                        <?php echo e(strlen($notitem->description) > 25 ? substr($notitem->description,0,25)."..." : $notitem->title); ?>
+
 
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="panel-footer {{$notitem->color}} panel-footer-condensed"><a class="heading-elements-toggle"><i class="icon-more"></i></a>
+                                    <div class="panel-footer <?php echo e($notitem->color); ?> panel-footer-condensed"><a class="heading-elements-toggle"><i class="icon-more"></i></a>
                                         <div class="heading-elements">
-                                            <button class="btn  btn-link btn-xs heading-text text-default btn-delete-note" data-id="{{$notitem->id}}" type="button">
+                                            <button class="btn  btn-link btn-xs heading-text text-default btn-delete-note" data-id="<?php echo e($notitem->id); ?>" type="button">
                                                
                                                 <i class="icon-trash text-size-small position-right">
                                                 </i>
@@ -420,9 +468,9 @@
                                 </div>
                             </div>
 
-                            @empty
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
 
-                            @endforelse
+                            <?php endif; ?>
 
 
                            
@@ -457,8 +505,9 @@
 <div class="panel-body">
 
 
- <form action="{{url('user/savedoc')}}" enctype="multipart/form-data" data-parsley-validate method="POST" data-parsley-validate="true" name="form-wizard">
-     {!! csrf_field() !!}
+ <form action="<?php echo e(url('user/savedoc')); ?>" enctype="multipart/form-data" data-parsley-validate method="POST" data-parsley-validate="true" name="form-wizard">
+     <?php echo csrf_field(); ?>
+
       <div class="form-group row">
                                         <label for="inputEmail3" class="col-sm-4 col-form-label">Proof of Identity: </label>
 
@@ -473,14 +522,16 @@
   
     <div class="text-right">
         <button class="btn btn-primary" type="submit">
-            {{trans('profile.save')}}
+            <?php echo e(trans('profile.save')); ?>
+
             <i class="icon-arrow-right14 position-right">
             </i>
         </button>
     </div>
  </form>
 
-{!! Form::close() !!}
+<?php echo Form::close(); ?>
+
 </div>
 </div>
                         <!-- /timeline -->
@@ -491,7 +542,8 @@
                         <div class="panel panel-flat bg-indigo-400">
                             <div class="panel-heading">
                                 <h6 class="panel-title text-semibold">
-                                    {{trans('users.referrals')}}
+                                    <?php echo e(trans('users.referrals')); ?>
+
                                     <a class="heading-elements-toggle">
                                         <i class="icon-more">
                                         </i>
@@ -507,7 +559,7 @@
                                 </div>
                             </div>
                             <div class="panel-body">
-                                @include('app.admin.users.referrals')
+                                <?php echo $__env->make('app.admin.users.referrals', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
                             </div>
                         </div>
                         
@@ -520,7 +572,8 @@
 <div class="panel panel-flat">
 <div class="panel-heading">
 <h6 class="panel-title">
-    {{trans('ticket_config.change_username')}}
+    <?php echo e(trans('ticket_config.change_username')); ?>
+
 </h6>
 <div class="heading-elements">
     <ul class="icons-list">
@@ -542,20 +595,22 @@
 <div class="panel-body">
 
 
- <form action="{{url('user/updatename')}}" class="smart-wizard form-horizontal" method="post"  >
-     {!! csrf_field() !!}
+ <form action="<?php echo e(url('user/updatename')); ?>" class="smart-wizard form-horizontal" method="post"  >
+     <?php echo csrf_field(); ?>
+
     <div class="form-group">
         <div class="row">
             <div class="col-md-6">
                 <label>
-                    {{trans('profile.username')}}
+                    <?php echo e(trans('profile.username')); ?>
+
                 </label>
-                <input class="form-control" id="username" name="username"type="text" readonly="readonly" value="{{ $selecteduser->username }}">
+                <input class="form-control" id="username" name="username"type="text" readonly="readonly" value="<?php echo e($selecteduser->username); ?>">
                 </input>
             </div>
             <div class="col-md-6">
                 <label>
-                     {{trans('ticket_config.new_username')}}:
+                     <?php echo e(trans('ticket_config.new_username')); ?>:
                 </label>
                <input type="text" id="new_username" name="new_username" class="form-control" required>
                 </input>
@@ -566,20 +621,22 @@
   
     <div class="text-right">
         <button class="btn btn-primary" type="submit">
-            {{trans('profile.save')}}
+            <?php echo e(trans('profile.save')); ?>
+
             <i class="icon-arrow-right14 position-right">
             </i>
         </button>
     </div>
  </form>
 
-{!! Form::close() !!}
+<?php echo Form::close(); ?>
+
 </div>
 </div>
 <div class="panel panel-flat">
 <div class="panel-heading">
 <h6 class="panel-title">
-    {{trans('ticket_config.change_password')}}:
+    <?php echo e(trans('ticket_config.change_password')); ?>:
 </h6>
 <div class="heading-elements">
     <ul class="icons-list">
@@ -601,20 +658,23 @@
 <div class="panel-body">
 
 
- <form action="{{url('user/updateadminpass')}}" class="smart-wizard form-horizontal" method="post"  >
-     {!! csrf_field() !!}
+ <form action="<?php echo e(url('user/updateadminpass')); ?>" class="smart-wizard form-horizontal" method="post"  >
+     <?php echo csrf_field(); ?>
+
     <div class="form-group">
         <div class="row">
             <div class="col-md-6">
                 <label>
-                    {{trans('profile.username')}}
+                    <?php echo e(trans('profile.username')); ?>
+
                 </label>
-                <input class="form-control" id="username" name="username"type="text" value="{{ $selecteduser->username }}">
+                <input class="form-control" id="username" name="username"type="text" value="<?php echo e($selecteduser->username); ?>">
                 </input>
             </div>
             <div class="col-md-6">
                 <label>
-                     {{trans('profile.current_password')}}
+                     <?php echo e(trans('profile.current_password')); ?>
+
                 </label>
                 <input class="form-control" name="oldpass" id="oldpass" type="password" placeholder="Enter current password" >
                 </input>
@@ -625,14 +685,16 @@
         <div class="row">
             <div class="col-md-6">
                 <label>
-                     {{trans('profile.new_password')}}
+                     <?php echo e(trans('profile.new_password')); ?>
+
                 </label>
                 <input class="form-control" placeholder="Enter new password" type="password" id="newpass" name="newpass">
                 </input>
             </div>
             <div class="col-md-6">
                 <label>
-                    {{trans('profile.repeat_password')}}
+                    <?php echo e(trans('profile.repeat_password')); ?>
+
                 </label>
                 <input class="form-control" placeholder="Repeat new password" type="password" id="confpass" name="confpass" data-parsley-equalto ="new_password">
                 </input>
@@ -642,20 +704,22 @@
   
     <div class="text-right">
         <button class="btn btn-primary" type="submit">
-            {{trans('profile.save')}}
+            <?php echo e(trans('profile.save')); ?>
+
             <i class="icon-arrow-right14 position-right">
             </i>
         </button>
     </div>
  </form>
 
-{!! Form::close() !!}
+<?php echo Form::close(); ?>
+
 </div>
 </div>
 <div class="panel panel-flat">
 <div class="panel-heading">
 <h6 class="panel-title">
-    {{trans('ticket_config.transaction_password')}}:
+    <?php echo e(trans('ticket_config.transaction_password')); ?>:
 </h6>
 <div class="heading-elements">
     <ul class="icons-list">
@@ -677,20 +741,23 @@
 <div class="panel-body">
 
 
- <form action="{{url('user/updatetransactionpassword')}}" class="smart-wizard form-horizontal" method="post"  >
-     {!! csrf_field() !!}
+ <form action="<?php echo e(url('user/updatetransactionpassword')); ?>" class="smart-wizard form-horizontal" method="post"  >
+     <?php echo csrf_field(); ?>
+
     <div class="form-group">
         <div class="row">
             <div class="col-md-6">
                 <label>
-                    {{trans('profile.username')}}
+                    <?php echo e(trans('profile.username')); ?>
+
                 </label>
-                <input class="form-control" id="username" name="username"type="text" value="{{ $selecteduser->username }}">
+                <input class="form-control" id="username" name="username"type="text" value="<?php echo e($selecteduser->username); ?>">
                 </input>
             </div>
             <div class="col-md-6">
                 <label>
-                     {{trans('profile.current_transaction_password')}}
+                     <?php echo e(trans('profile.current_transaction_password')); ?>
+
                 </label>
                 <input class="form-control" name="oldpass" id="oldpass" type="password" placeholder="Enter current password" >
                 </input>
@@ -701,14 +768,16 @@
         <div class="row">
             <div class="col-md-6">
                 <label>
-                     {{trans('profile.new_transaction_password')}}
+                     <?php echo e(trans('profile.new_transaction_password')); ?>
+
                 </label>
                 <input class="form-control" placeholder="Enter new transaction password" type="password" id="newpass" name="newpass">
                 </input>
             </div>
             <div class="col-md-6">
                 <label>
-                    {{trans('profile.repeat_transaction_password')}}
+                    <?php echo e(trans('profile.repeat_transaction_password')); ?>
+
                 </label>
                 <input class="form-control" placeholder="Repeat new transaction password" type="password" id="confpass" name="confpass" data-parsley-equalto ="new_password">
                 </input>
@@ -718,14 +787,16 @@
   
     <div class="text-right">
         <button class="btn btn-primary" type="submit">
-            {{trans('profile.save')}}
+            <?php echo e(trans('profile.save')); ?>
+
             <i class="icon-arrow-right14 position-right">
             </i>
         </button>
     </div>
  </form>
 
-{!! Form::close() !!}
+<?php echo Form::close(); ?>
+
 </div>
 </div>
 <!-- /account settings -->
@@ -735,7 +806,8 @@
                         <div class="panel panel-flat">
                             <div class="panel-heading">
                                 <h6 class="panel-title">
-                                    {{trans('profile.profile_information')}}
+                                    <?php echo e(trans('profile.profile_information')); ?>
+
                                 </h6>
                                 <div class="heading-elements">
                                     <ul class="icons-list">
@@ -759,48 +831,51 @@
     <div class="tab-pane fade in " id="settings">
         <div class="panel panel-flat">
 
-             {!!  Form::model($selecteduser, array('route' => array('user.saveprofile', $selecteduser->id))) !!} 
-   <form action="{{ url('user/profile/edit/'.$selecteduser->id) }}" method="post">
-    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+             <?php echo Form::model($selecteduser, array('route' => array('user.saveprofile', $selecteduser->id))); ?> 
+   <form action="<?php echo e(url('user/profile/edit/'.$selecteduser->id)); ?>" method="post">
+    <input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>">
       <div class="panel-body">
       <div class="row">
 <div class="col-md-4">
-<div class="required form-group {{ $errors->has('firstname') ? ' has-error' : '' }}">
-    {!! Form::label('name', trans("register.firstname"), array('class' => 'control-label')) !!} {!! Form::text('name', Input::old('name'), ['class' => 'form-control','required' => 'required','data-parsley-required-message' => trans("all.please_enter_first_name"),'data-parsley-group' => 'block-1']) !!}
+<div class="required form-group <?php echo e($errors->has('firstname') ? ' has-error' : ''); ?>">
+    <?php echo Form::label('name', trans("register.firstname"), array('class' => 'control-label')); ?> <?php echo Form::text('name', Input::old('name'), ['class' => 'form-control','required' => 'required','data-parsley-required-message' => trans("all.please_enter_first_name"),'data-parsley-group' => 'block-1']); ?>
+
     <span class="help-block">
-        <small>{!! trans("all.your_firstname") !!}</small>
-        @if ($errors->has('name'))
-        <strong>{{ $errors->first('name') }}</strong>
-        @endif
+        <small><?php echo trans("all.your_firstname"); ?></small>
+        <?php if($errors->has('name')): ?>
+        <strong><?php echo e($errors->first('name')); ?></strong>
+        <?php endif; ?>
     </span>
 </div>
 </div>
 
 
 <div class="col-md-4">
-<div class="required form-group{{ $errors->has('lastname') ? ' has-error' : '' }}">
-    {!! Form::label('lastname', trans("register.last_name"), array('class' => 'control-label')) !!} {!! Form::text('lastname', Input::old('lastname'), ['class' => 'form-control','required' => 'required','data-parsley-required-message' => trans("all.please_enter_last_name"),'data-parsley-group' => 'block-1']) !!}
+<div class="required form-group<?php echo e($errors->has('lastname') ? ' has-error' : ''); ?>">
+    <?php echo Form::label('lastname', trans("register.last_name"), array('class' => 'control-label')); ?> <?php echo Form::text('lastname', Input::old('lastname'), ['class' => 'form-control','required' => 'required','data-parsley-required-message' => trans("all.please_enter_last_name"),'data-parsley-group' => 'block-1']); ?>
+
     <span class="help-block">
-        <small>{!! trans("all.your_last_name") !!}</small>
-        @if ($errors->has('lastname'))
-        <strong>{{ $errors->first('lastname') }}</strong>
-        @endif
+        <small><?php echo trans("all.your_last_name"); ?></small>
+        <?php if($errors->has('lastname')): ?>
+        <strong><?php echo e($errors->first('lastname')); ?></strong>
+        <?php endif; ?>
     </span>
 </div>
 </div>
 <!-- begin col-6 -->
 
 <div class="col-md-4">
-<div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('gender') ? ' has-error' : '' }}">
-    {!! Form::label('gender', trans("register.gender"), array('class' => 'control-label')) !!} {!! Form::select('gender', array('m' => trans("all.male"), 'f' => trans("all.female") ,'other' =>trans("all.trans")),null !==(Input::old('gender')) ? Input::old('gender') : $selecteduser->profile_info->gender,['class' => 'form-control','required' => 'required','data-parsley-required-message' => trans("all.please_select_gender"),'data-parsley-group' => 'block-1']) !!}
+<div class="required form-group has-feedbackX has-feedback-leftx <?php echo e($errors->has('gender') ? ' has-error' : ''); ?>">
+    <?php echo Form::label('gender', trans("register.gender"), array('class' => 'control-label')); ?> <?php echo Form::select('gender', array('m' => trans("all.male"), 'f' => trans("all.female") ,'other' =>trans("all.trans")),null !==(Input::old('gender')) ? Input::old('gender') : $selecteduser->profile_info->gender,['class' => 'form-control','required' => 'required','data-parsley-required-message' => trans("all.please_select_gender"),'data-parsley-group' => 'block-1']); ?>
+
     <div class="form-control-feedback">
         <i class="fa fa-neuter text-muted"></i>
     </div>
     <span class="help-block">
-        <small>{!! trans("all.select_your_gender_from_list") !!}</small>
-        @if ($errors->has('gender'))
-        <strong>{{ $errors->first('gender') }}</strong>
-        @endif
+        <small><?php echo trans("all.select_your_gender_from_list"); ?></small>
+        <?php if($errors->has('gender')): ?>
+        <strong><?php echo e($errors->first('gender')); ?></strong>
+        <?php endif; ?>
     </span>
 </div>
 </div>
@@ -810,42 +885,45 @@
 <div class="row">
 
 <div class="col-md-4">
-<div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('country') ? ' has-error' : '' }}">
-    {!! Form::label('country', trans("register.country"), array('class' => 'control-label')) !!} {!! Form::select('country', $countries ,null !==(Input::old('country')) ? Input::old('country') : $selecteduser->profile_info->country,['class' => 'form-control','id' => 'country','required' => 'required','data-parsley-required-message' => trans("all.please_select_country"),'data-parsley-group' => 'block-1']) !!}
+<div class="required form-group has-feedbackX has-feedback-leftx <?php echo e($errors->has('country') ? ' has-error' : ''); ?>">
+    <?php echo Form::label('country', trans("register.country"), array('class' => 'control-label')); ?> <?php echo Form::select('country', $countries ,null !==(Input::old('country')) ? Input::old('country') : $selecteduser->profile_info->country,['class' => 'form-control','id' => 'country','required' => 'required','data-parsley-required-message' => trans("all.please_select_country"),'data-parsley-group' => 'block-1']); ?>
+
     <div class="form-control-feedback">
         <i class="fa fa-flag-o text-muted"></i>
     </div>
     <span class="help-block">
-        <small>{!! trans("all.select_country") !!}</small>
-        @if ($errors->has('country'))
-        <strong>{{ $errors->first('country') }}</strong>
-        @endif
+        <small><?php echo trans("all.select_country"); ?></small>
+        <?php if($errors->has('country')): ?>
+        <strong><?php echo e($errors->first('country')); ?></strong>
+        <?php endif; ?>
     </span>
 </div>
 </div>
 
 <div class="col-md-4">
-<div class="required form-group{{ $errors->has('state') ? ' has-error' : '' }}">
-    {!! Form::label('state', trans("register.state"), array('class' => 'control-label')) !!} {!! Form::select('state', $states ,null !==(Input::old('state')) ? Input::old('state') : $selecteduser->profile_info->state,['class' => 'form-control','id' => 'state']) !!}
+<div class="required form-group<?php echo e($errors->has('state') ? ' has-error' : ''); ?>">
+    <?php echo Form::label('state', trans("register.state"), array('class' => 'control-label')); ?> <?php echo Form::select('state', $states ,null !==(Input::old('state')) ? Input::old('state') : $selecteduser->profile_info->state,['class' => 'form-control','id' => 'state']); ?>
+
     <span class="help-block">
-        <small>{!! trans("all.select_your_state") !!}</small>
-        @if ($errors->has('state'))
-        <strong>{{ $errors->first('state') }}</strong>
-        @endif
+        <small><?php echo trans("all.select_your_state"); ?></small>
+        <?php if($errors->has('state')): ?>
+        <strong><?php echo e($errors->first('state')); ?></strong>
+        <?php endif; ?>
     </span>
 </div>
 </div>
 <div class="col-md-4">
-<div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('city') ? ' has-error' : '' }}">
-    {!! Form::label('city', trans("register.city"), array('class' => 'control-label')) !!} {!! Form::text('city', null !==(Input::old('city')) ? Input::old('city') : $selecteduser->profile_info->city, ['class' => 'form-control','required' => 'required','id' => 'city','data-parsley-required-message' => trans("all.please_enter_city"),'data-parsley-group' => 'block-1']) !!}
+<div class="required form-group has-feedbackX has-feedback-leftx <?php echo e($errors->has('city') ? ' has-error' : ''); ?>">
+    <?php echo Form::label('city', trans("register.city"), array('class' => 'control-label')); ?> <?php echo Form::text('city', null !==(Input::old('city')) ? Input::old('city') : $selecteduser->profile_info->city, ['class' => 'form-control','required' => 'required','id' => 'city','data-parsley-required-message' => trans("all.please_enter_city"),'data-parsley-group' => 'block-1']); ?>
+
     <div class="form-control-feedback">
         <i class="icon-city text-muted"></i>
     </div>
     <span class="help-block">
-        <small>{!! trans("all.your_city") !!}</small>
-        @if ($errors->has('city'))
-        <strong>{{ $errors->first('city') }}</strong>
-        @endif
+        <small><?php echo trans("all.your_city"); ?></small>
+        <?php if($errors->has('city')): ?>
+        <strong><?php echo e($errors->first('city')); ?></strong>
+        <?php endif; ?>
     </span>
 </div>
 </div>
@@ -855,13 +933,14 @@
 <div class="row">
     <!-- begin col-6 -->
 <div class="col-md-6">
-<div class="required form-group{{ $errors->has('zip') ? ' has-error' : '' }}">
-    {!! Form::label('zip', trans("register.zip_code"), array('class' => 'control-label')) !!} {!! Form::text('zip', null !==(Input::old('zip')) ? Input::old('zip') : $selecteduser->profile_info->zip, ['class' => 'form-control','required' => 'required','id' => 'zip','data-parsley-required-message' => trans("all.please_enter_zip"),'data-parsley-group' => 'block-1','data-parsley-zip' => 'us','data-parsley-type' => 'digits','data-parsley-length' => '[5,8]','data-parsley-state-and-zip' => 'us','data-parsley-validate-if-empty' => '','data-parsley-errors-container' => '#ziperror' ]) !!}
+<div class="required form-group<?php echo e($errors->has('zip') ? ' has-error' : ''); ?>">
+    <?php echo Form::label('zip', trans("register.zip_code"), array('class' => 'control-label')); ?> <?php echo Form::text('zip', null !==(Input::old('zip')) ? Input::old('zip') : $selecteduser->profile_info->zip, ['class' => 'form-control','required' => 'required','id' => 'zip','data-parsley-required-message' => trans("all.please_enter_zip"),'data-parsley-group' => 'block-1','data-parsley-zip' => 'us','data-parsley-type' => 'digits','data-parsley-length' => '[5,8]','data-parsley-state-and-zip' => 'us','data-parsley-validate-if-empty' => '','data-parsley-errors-container' => '#ziperror' ]); ?>
+
     <span class="help-block">
         <span id="ziplocation"><span></span></span>
     <span id="ziperror"></span>
-    <small>{!! trans("all.your_zip") !!}</small> @if ($errors->has('zip'))
-    <strong>{{ $errors->first('zip') }}</strong> @endif
+    <small><?php echo trans("all.your_zip"); ?></small> <?php if($errors->has('zip')): ?>
+    <strong><?php echo e($errors->first('zip')); ?></strong> <?php endif; ?>
     </span>
 </div>
 </div>
@@ -870,24 +949,26 @@
 <div class="row">
 
 <div class="col-md-6">
-<div class="required form-group{{ $errors->has('address1') ? ' has-error' : '' }}">
-    {!! Form::label('address1', 'Address1', array('class' => 'control-label')) !!} {!! Form::textarea('address1', null !==(Input::old('address1')) ? Input::old('address1') : $selecteduser->profile_info->address1, ['class' => 'form-control','required' => 'required','id' => 'address1','rows'=>'2','data-parsley-required-message' => trans("all.please_enter_address1"),'data-parsley-group' => 'block-1']) !!}
+<div class="required form-group<?php echo e($errors->has('address1') ? ' has-error' : ''); ?>">
+    <?php echo Form::label('address1', 'Address1', array('class' => 'control-label')); ?> <?php echo Form::textarea('address1', null !==(Input::old('address1')) ? Input::old('address1') : $selecteduser->profile_info->address1, ['class' => 'form-control','required' => 'required','id' => 'address1','rows'=>'2','data-parsley-required-message' => trans("all.please_enter_address1"),'data-parsley-group' => 'block-1']); ?>
+
     <span class="help-block">
-        <small>{!! trans("all.your_address") !!}</small>
-        @if ($errors->has('address'))
-        <strong>{{ $errors->first('address1') }}</strong>
-        @endif
+        <small><?php echo trans("all.your_address"); ?></small>
+        <?php if($errors->has('address')): ?>
+        <strong><?php echo e($errors->first('address1')); ?></strong>
+        <?php endif; ?>
     </span>
 </div>
 </div>
 <div class="col-md-6">
-<div class="required form-group{{ $errors->has('address2') ? ' has-error' : '' }}">
-    {!! Form::label('address2', 'Address2', array('class' => 'control-label')) !!} {!! Form::textarea('address2', null !==(Input::old('address2')) ? Input::old('address2') : $selecteduser->profile_info->address2, ['class' => 'form-control','required' => 'required','id' => 'address2','rows'=>'2','data-parsley-required-message' => trans("all.please_enter_address2"),'data-parsley-group' => 'block-1']) !!}
+<div class="required form-group<?php echo e($errors->has('address2') ? ' has-error' : ''); ?>">
+    <?php echo Form::label('address2', 'Address2', array('class' => 'control-label')); ?> <?php echo Form::textarea('address2', null !==(Input::old('address2')) ? Input::old('address2') : $selecteduser->profile_info->address2, ['class' => 'form-control','required' => 'required','id' => 'address2','rows'=>'2','data-parsley-required-message' => trans("all.please_enter_address2"),'data-parsley-group' => 'block-1']); ?>
+
     <span class="help-block">
-        <small>{!! trans("all.your_address") !!}</small>
-        @if ($errors->has('address'))
-        <strong>{{ $errors->first('address1') }}</strong>
-        @endif
+        <small><?php echo trans("all.your_address"); ?></small>
+        <?php if($errors->has('address')): ?>
+        <strong><?php echo e($errors->first('address1')); ?></strong>
+        <?php endif; ?>
     </span>
 </div>
 </div>
@@ -896,74 +977,79 @@
 <div class="row">
 <!-- begin col-6 -->
 <div class="col-md-6">
-<div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('phone') ? ' has-error' : '' }}">
-    {!! Form::label('phone', trans("register.phone"), array('class' => 'control-label')) !!} {!! Form::text('phone', null !==(Input::old('phone')) ? Input::old('phone') : $selecteduser->profile_info->mobile, ['class' => 'form-control','id' => 'phone','data-parsley-required-message' => trans("all.please_enter_phone_number"),'data-parsley-group' => 'block-1']) !!}
+<div class="required form-group has-feedbackX has-feedback-leftx <?php echo e($errors->has('phone') ? ' has-error' : ''); ?>">
+    <?php echo Form::label('phone', trans("register.phone"), array('class' => 'control-label')); ?> <?php echo Form::text('phone', null !==(Input::old('phone')) ? Input::old('phone') : $selecteduser->profile_info->mobile, ['class' => 'form-control','id' => 'phone','data-parsley-required-message' => trans("all.please_enter_phone_number"),'data-parsley-group' => 'block-1']); ?>
+
     <div class="form-control-feedback">
         <i class=" icon-mobile3 text-muted"></i>
     </div>
     <span class="help-block">
-        <small>{!! trans("all.enter_your_phone_number") !!}</small>
-        @if ($errors->has('phone'))
-        <strong>{{ $errors->first('phone') }}</strong>
-        @endif
+        <small><?php echo trans("all.enter_your_phone_number"); ?></small>
+        <?php if($errors->has('phone')): ?>
+        <strong><?php echo e($errors->first('phone')); ?></strong>
+        <?php endif; ?>
     </span>
 </div>
 </div>
 <div class="col-md-6">
-<div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('email') ? ' has-error' : '' }}">
-    {!! Form::label('email', trans("register.email"), array('class' => 'control-label')) !!} {!! Form::email('email', Input::old('email'), ['class' => 'form-control','required' => 'required','id' => 'email','data-parsley-required-message' => trans("all.please_enter_email"),'data-parsley-group' => 'block-1']) !!}
+<div class="required form-group has-feedbackX has-feedback-leftx <?php echo e($errors->has('email') ? ' has-error' : ''); ?>">
+    <?php echo Form::label('email', trans("register.email"), array('class' => 'control-label')); ?> <?php echo Form::email('email', Input::old('email'), ['class' => 'form-control','required' => 'required','id' => 'email','data-parsley-required-message' => trans("all.please_enter_email"),'data-parsley-group' => 'block-1']); ?>
+
     <div class="form-control-feedback">
         <i class="icon-mail5 text-muted"></i>
     </div>
     <span class="help-block">
-        <small>{!! trans("all.type_your_email") !!}</small>
-        @if ($errors->has('email'))
-        <strong>{{ $errors->first('email') }}</strong>
-        @endif
+        <small><?php echo trans("all.type_your_email"); ?></small>
+        <?php if($errors->has('email')): ?>
+        <strong><?php echo e($errors->first('email')); ?></strong>
+        <?php endif; ?>
     </span>
 </div>
 
 </div>
 <br>
-<p><h5>{{trans('register.bank_account_settings')}}</h5></p><br>
+<p><h5><?php echo e(trans('register.bank_account_settings')); ?></h5></p><br>
 </div>
 <div class="row">
 <!-- begin col-6 -->
 <div class="col-md-6">
-<div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('account_number') ? ' has-error' : '' }}">
-    {!! Form::label('account number', trans("register.account_number"), array('class' => 'control-label')) !!} {!! Form::text('account_number', null !==(Input::old('account_number')) ? Input::old('account_number') : $selecteduser->profile_info->account_number, ['class' => 'form-control','id' => 'account_number','data-parsley-required-message' => trans("all.please_enter_account_number"),'data-parsley-group' => 'block-1']) !!}
+<div class="required form-group has-feedbackX has-feedback-leftx <?php echo e($errors->has('account_number') ? ' has-error' : ''); ?>">
+    <?php echo Form::label('account number', trans("register.account_number"), array('class' => 'control-label')); ?> <?php echo Form::text('account_number', null !==(Input::old('account_number')) ? Input::old('account_number') : $selecteduser->profile_info->account_number, ['class' => 'form-control','id' => 'account_number','data-parsley-required-message' => trans("all.please_enter_account_number"),'data-parsley-group' => 'block-1']); ?>
+
   
     <span class="help-block">
-        <small>{!! trans("all.enter_your_account_number") !!}</small>
-        @if ($errors->has('account_number'))
-        <strong>{{ $errors->first('account_number') }}</strong>
-        @endif
+        <small><?php echo trans("all.enter_your_account_number"); ?></small>
+        <?php if($errors->has('account_number')): ?>
+        <strong><?php echo e($errors->first('account_number')); ?></strong>
+        <?php endif; ?>
     </span>
 </div>
 </div>
 <div class="col-md-6">
-<div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('account_number') ? ' has-error' : '' }}">
-    {!! Form::label('Account holder name', trans("register.account_holder_name"), array('class' => 'control-label')) !!} {!! Form::text('account_holder_name', null !==(Input::old('account_holder_name')) ? Input::old('account_holder_name') : $selecteduser->profile_info->account_holder_name, ['class' => 'form-control','id' => 'account_holder_name','data-parsley-required-message' => trans("all.please_enter_account_holder_name"),'data-parsley-group' => 'block-1']) !!}
+<div class="required form-group has-feedbackX has-feedback-leftx <?php echo e($errors->has('account_number') ? ' has-error' : ''); ?>">
+    <?php echo Form::label('Account holder name', trans("register.account_holder_name"), array('class' => 'control-label')); ?> <?php echo Form::text('account_holder_name', null !==(Input::old('account_holder_name')) ? Input::old('account_holder_name') : $selecteduser->profile_info->account_holder_name, ['class' => 'form-control','id' => 'account_holder_name','data-parsley-required-message' => trans("all.please_enter_account_holder_name"),'data-parsley-group' => 'block-1']); ?>
+
   
     <span class="help-block">
-        <small>{!! trans("all.enter_account_holder_name") !!}</small>
-        @if ($errors->has('account_holder_name'))
-        <strong>{{ $errors->first('account_holder_name') }}</strong>
-        @endif
+        <small><?php echo trans("all.enter_account_holder_name"); ?></small>
+        <?php if($errors->has('account_holder_name')): ?>
+        <strong><?php echo e($errors->first('account_holder_name')); ?></strong>
+        <?php endif; ?>
     </span>
 </div>
 </div>
 </div>
 <div class="row">
     <div class="col-md-6">
-<div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('account_number') ? ' has-error' : '' }}">
-    {!! Form::label('Bank code', trans("register.bank_code"), array('class' => 'control-label')) !!} {!! Form::text('swift', null !==(Input::old('swift')) ? Input::old('swift') : $selecteduser->profile_info->swift, ['class' => 'form-control','id' => 'swift','data-parsley-required-message' => trans("all.please_enter_bank_code"),'data-parsley-group' => 'block-1']) !!}
+<div class="required form-group has-feedbackX has-feedback-leftx <?php echo e($errors->has('account_number') ? ' has-error' : ''); ?>">
+    <?php echo Form::label('Bank code', trans("register.bank_code"), array('class' => 'control-label')); ?> <?php echo Form::text('swift', null !==(Input::old('swift')) ? Input::old('swift') : $selecteduser->profile_info->swift, ['class' => 'form-control','id' => 'swift','data-parsley-required-message' => trans("all.please_enter_bank_code"),'data-parsley-group' => 'block-1']); ?>
+
   
     <span class="help-block">
-        <small>{!! trans("all.enter_your_bank_code") !!}</small>
-        @if ($errors->has('account_number'))
-        <strong>{{ $errors->first('bank_code') }}</strong>
-        @endif
+        <small><?php echo trans("all.enter_your_bank_code"); ?></small>
+        <?php if($errors->has('account_number')): ?>
+        <strong><?php echo e($errors->first('bank_code')); ?></strong>
+        <?php endif; ?>
     </span>
 </div>
 </div>
@@ -973,7 +1059,7 @@
                    Bank Name
                 </label>
 
-                <input class="form-control" id="bank_name" name="bank_name" type="text" value="{{ $selecteduser->profile_info->bank_name }}" >
+                <input class="form-control" id="bank_name" name="bank_name" type="text" value="<?php echo e($selecteduser->profile_info->bank_name); ?>" >
                     
                 
                 
@@ -989,7 +1075,8 @@
                 </label>
 
                 <textarea id="bank_address" name="bank_address"  class="form-control">
-                    {{ $selecteduser->profile_info->bank_address }}
+                    <?php echo e($selecteduser->profile_info->bank_address); ?>
+
                  </textarea>
                 
             </div>
@@ -1027,7 +1114,8 @@
                             </i>
                         </p>
                         <h5 class="text-semibold no-margin">
-                            {{$user_rank_name}}
+                            <?php echo e($user_rank_name); ?>
+
                         </h5>
                         <span class="text-muted text-size-small">
                             Rank
@@ -1039,10 +1127,12 @@
                             </i>
                         </p>
                         <h5 class="text-semibold no-margin">
-                            {{$total_referalz}}
+                            <?php echo e($total_referalz); ?>
+
                         </h5>
                         <span class="text-muted text-size-small">
-                            {{trans('all.referrals')}}
+                            <?php echo e(trans('all.referrals')); ?>
+
                         </span>
                     </div>
                     <div class="col-xs-4">
@@ -1051,16 +1141,18 @@
                             </i>
                         </p>
                         <h5 class="text-semibold no-margin">
-                            {{$balance}}
+                            <?php echo e($balance); ?>
+
                         </h5>
                         <span class="text-muted text-size-small">
-                            {{trans('all.balance')}}
+                            <?php echo e(trans('all.balance')); ?>
+
                         </span>
                     </div>
                 </div>
             </div>
             <div class="content-group">
-                @if(isset($sponsor->username))
+                <?php if(isset($sponsor->username)): ?>
                 <div background-size:="" class="panel-body bg-blue border-radius-top text-center" contain;"="">
                     <div class="content-group-sm">
                         <h5 class="text-semibold no-margin-bottom">
@@ -1074,7 +1166,8 @@
                             Sponsor name:
                         </label>
                         <span class="pull-right-sm">
-                            {{$sponsor->name}}
+                            <?php echo e($sponsor->name); ?>
+
                         </span>
                     </div>
                     <div class="form-group mt-5">
@@ -1082,7 +1175,8 @@
                             Sponsor username:
                         </label>
                         <span class="pull-right-sm">
-                            {{$sponsor->username}}
+                            <?php echo e($sponsor->username); ?>
+
                         </span>
                     </div>
                     <div class="form-group mt-5">
@@ -1090,7 +1184,8 @@
                             Sponsor Country:
                         </label>
                         <span class="pull-right-sm">
-                            {{$sponsor->profile_info->country}}
+                            <?php echo e($sponsor->profile_info->country); ?>
+
                         </span>
                     </div>
                     <div class="form-group mt-5">
@@ -1098,11 +1193,12 @@
                             Date Joined:
                         </label>
                         <span class="pull-right-sm">
-                            {{$sponsor->profile_info->created_at->toFormattedDateString()}}
+                            <?php echo e($sponsor->profile_info->created_at->toFormattedDateString()); ?>
+
                         </span>
                     </div>
                 </div>
-                @endif
+                <?php endif; ?>
             </div>
     <!-- Share your thoughts -->
               <!--        <div class="panel panel-flat">
@@ -1159,10 +1255,10 @@
         </div>
     </div>
 </div>
-@endsection 
-{{-- Scripts --}}
-@section('scripts')
-@parent
+<?php $__env->stopSection(); ?> 
+
+<?php $__env->startSection('scripts'); ?>
+##parent-placeholder-16728d18790deb58b3b8c1df74f06e536b532695##
 <script type="text/javascript">
      $('.submit-user-note').click(function () {
         $('.usernotesform').submit();
@@ -1264,13 +1360,15 @@
     }
 });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('styles')
-@parent
+<?php $__env->startSection('styles'); ?>
+##parent-placeholder-bf62280f159b1468fff0c96540f3989d41279669##
 <style type="text/css">
     div#profilephotopreview {
     background-size: cover;
 }
 </style>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('app.user.layouts.default', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
