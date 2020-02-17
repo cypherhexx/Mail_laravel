@@ -27,6 +27,8 @@ class SettingsTable extends Migration
             $table->double('direct_referral');
             $table->double('three_friends');
             $table->double('eight_friends');
+            $table->double('withdraw_percent');
+            $table->integer('withdraw_days');
              $table->string('removed');
             $table->timestamps();
         });

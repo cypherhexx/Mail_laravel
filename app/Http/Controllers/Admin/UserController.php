@@ -25,6 +25,8 @@ use App\News;
 use App\EventVideos;
 use App\PendingTransactions;
 use App\ProfileModel;
+use App\BrokerDetails;
+use App\UserBrokerDetails;
 use Auth;
 use Datatables;
 use DB;
@@ -1371,6 +1373,79 @@ else
             return redirect()->back();
             }
        }
+    }
+
+    public function createBrokers(){
+
+    $title     = 'Broker Details';
+    $sub_title =  'Broker Details';
+    $base      =  'Broker Details';
+    $method    =  'Broker Details';
+        
+      return view('app.admin.users.createbroker',  compact('title','sub_title','base','method'));
+
+    }
+
+     public function upCreateBrokers(Request $request){
+
+        $url=$this::isValidURL(trim($request->url));
+           if($url<>0){
+                BrokerDetails::create([
+                    'name' =>$request->name,
+                    'url' => $request->url,
+                    'status' =>$request->status,
+                 ]);
+                Session::flash('flash_notification', array('level' => 'success', 'message' => 'User added successfully'));
+                return redirect()->back();
+            }
+            else{
+                Session::flash('flash_notification', array('level' => 'error', 'message' => 'Please check the url'));
+                return redirect()->back();
+            }
+        
+    }
+
+     public function brokerRequest(){
+        $title     = 'User Requests';
+        $sub_title =  'User Requests';
+        $base      = 'User Requests';
+        $method    =  'User Requests';
+        $all_req=UserBrokerDetails::join('users','user_broker_details.user_id','=','users.id')
+                                  ->join('broker_details','broker_details.id','=','user_broker_details.broker_id')
+                                  ->select('users.username','broker_details.name','user_broker_details.account','user_broker_details.password','user_broker_details.status','user_broker_details.created_at')->paginate(10);
+        
+      return view('app.admin.users.userbrokerrequest',  compact('title','sub_title','base','method','all_req'));
+        
+    }
+
+    public function verifyusers(){
+        $title     = 'Verify Users';
+        $sub_title =  'Verify Users';
+        $base      = 'Verify Users';
+        $method    = 'Verify Users';
+
+        $users=User::where('verified','no')->where('id','>',1)->paginate(10);
+
+
+         return view('app.admin.users.verifyuserdoc',  compact('title','sub_title','base','method','all_req','users'));
+
+    }
+
+    public function verifyDocuser(Request $request){
+        // dd($request->all());
+        $ver_count=User::where('verification_number',$request->verification_number)->count();
+        if($ver_count < 4){
+        User::where('id',$request->user_id)->update(['verification_number' => $request->verification_number,'verified' => 'yes']);
+
+         Session::flash('flash_notification', array('level' => 'success', 'message' => 'User Verified successfully'));
+                return redirect()->back();
+            }
+            else{
+
+         Session::flash('flash_notification', array('level' => 'error', 'message' => 'Verification Number is not valid'));
+                return redirect()->back();
+            }
+
     }
 
 

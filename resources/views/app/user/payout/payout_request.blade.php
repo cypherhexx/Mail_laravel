@@ -34,28 +34,19 @@
 
                {!!  Form::label('req_amount', trans("payout.request_amount") ,array('class'=>'control-label'))  !!}  
 
-            {!!  Form::text('req_amount',$user_balance, array('class'=>'form-control','required'=>'true' ))  !!}
+            {!!  Form::text('req_amount',$payout_balance, array('class'=>'form-control','required'=>'true' ))  !!}
 
               </div>
 
             </div>
 
-             <div class="row">
+            @if($bank_details->account_number != NULL && $bank_details->account_holder_name != NULL && $bank_details->swift != NULL && $bank_details->bank_address != NULL && $date_today >= $date_creat_sum)
 
-                 <div class="col-sm-4 col-md-offset-3">
-
-               {!!  Form::label('current_password', trans("profile.current_transaction_password") ,array('class'=>'control-label'))  !!}  
-
-            {!!  Form::password('oldpass', array('class'=>'form-control','required'=>'true' ))  !!}
-
-              </div>
-            
-
-            </div>
+          
             <div class="row">
                 <div class="col-sm-4 col-md-offset-5">
 
-              {!! Form::submit(trans('payout.request'),array('class'=>'btn btn-success','style'=>'MARGIN: 20PX ;')
+              {!! Form::submit(trans('payout.request'),array('class'=>'btn btn-success','style'=>'MARGIN: 20PX ;margin-left:-50px;')
 
                   ) !!}
 
@@ -63,6 +54,19 @@
 
               </div>
             </div>
+            @else
+            <br>
+
+              <div class="row">
+        <div class="col-sm-6">
+            <div class="alert alert-warning fade in m-b-15">
+                <strong> {{trans('wallet.caution')}}!</strong>
+                    Please save bank details
+                    <span class="close" data-dismiss="alert">×</span>
+            </div>
+        </div>
+            </div>
+            @endif
 
             
 
@@ -81,6 +85,40 @@
 $(document).on('submit', 'form', function() {
    $(this).find('button:submit, input:submit').attr('disabled','disabled');
  });
+</script>
+
+  <script type="text/javascript">
+// Set the date we're counting down to
+
+var tim="{{$hourly}}"
+var countDownDate = new Date(tim).getTime();
+console.log(countDownDate);
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+  // Get today's date and time
+  var now = new Date().getTime();
+
+  // Find the distance between now and the count down date
+  var distance = countDownDate - now;
+
+  // Time calculations for days, hours, minutes and seconds
+   var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+  // Output the result in an element with id="demo"
+  document.getElementById("demo").innerHTML = days + "d " + hours + "h "
+  + minutes + "m " + seconds + "s ";
+    
+  // If the count down is over, write some text 
+  if (distance < 0) {
+    clearInterval(x);
+    document.getElementById("demo").innerHTML = "EXPIRED";
+  }
+}, 1000);
 </script>
 @stop
 

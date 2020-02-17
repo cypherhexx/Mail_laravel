@@ -107,6 +107,19 @@
                 </a>
             </li>
 
+            @if($selecteduser->verified == 'no')
+               <li>
+                <a data-toggle="tab" href="#accountverification">
+                    <i class="icon-cog3 position-left">
+                    </i>
+                   
+                   Account Verification
+                </a>
+            </li>
+            @endif
+
+         
+
       <!--   </ul>
         <div class="navbar-right navbar-collapse collapse">
             <ul class="nav navbar-nav"> -->
@@ -415,6 +428,63 @@
                            
                         </div>
                      </div>
+
+
+                         <div class="tab-pane fade in " id="accountverification">
+                        <!-- Timeline -->
+             <div class="panel panel-flat">
+<div class="panel-heading">
+<h6 class="panel-title">
+  Upload Document
+</h6>
+<div class="heading-elements">
+    <ul class="icons-list">
+        <li>
+            <a data-action="collapse">
+            </a>
+        </li>
+        <li>
+            <a data-action="reload">
+            </a>
+        </li>
+        <li>
+            <a data-action="close">
+            </a>
+        </li>
+    </ul>
+</div>
+</div>
+<div class="panel-body">
+
+
+ <form action="{{url('user/savedoc')}}" enctype="multipart/form-data" data-parsley-validate method="POST" data-parsley-validate="true" name="form-wizard">
+     {!! csrf_field() !!}
+      <div class="form-group row">
+                                        <label for="inputEmail3" class="col-sm-4 col-form-label">Proof of Identity: </label>
+
+                                        <div class="col-sm-5">
+                                                  
+                                        <input id="input-711" name="savefile" type="file"  multiple class="file-loading" required>
+                                    
+
+                                        </div>                
+                                    </div>
+
+  
+    <div class="text-right">
+        <button class="btn btn-primary" type="submit">
+            {{trans('profile.save')}}
+            <i class="icon-arrow-right14 position-right">
+            </i>
+        </button>
+    </div>
+ </form>
+
+{!! Form::close() !!}
+</div>
+</div>
+                        <!-- /timeline -->
+                    </div>
                      <div class="tab-pane fade in " id="referrals">
                         <!-- Timeline -->
 
@@ -887,7 +957,7 @@
 <div class="row">
     <div class="col-md-6">
 <div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('account_number') ? ' has-error' : '' }}">
-    {!! Form::label('Bank code', trans("register.bank_code"), array('class' => 'control-label')) !!} {!! Form::text('bank_code', null !==(Input::old('bank_code')) ? Input::old('bank_code') : $selecteduser->profile_info->bank_code, ['class' => 'form-control','id' => 'bank_code','data-parsley-required-message' => trans("all.please_enter_bank_code"),'data-parsley-group' => 'block-1']) !!}
+    {!! Form::label('Bank code', trans("register.bank_code"), array('class' => 'control-label')) !!} {!! Form::text('swift', null !==(Input::old('swift')) ? Input::old('swift') : $selecteduser->profile_info->swift, ['class' => 'form-control','id' => 'swift','data-parsley-required-message' => trans("all.please_enter_bank_code"),'data-parsley-group' => 'block-1']) !!}
   
     <span class="help-block">
         <small>{!! trans("all.enter_your_bank_code") !!}</small>
@@ -898,7 +968,34 @@
 </div>
 </div>
 
+  <div class="col-md-6">
+                <label>
+                   Bank Name
+                </label>
+
+                <input class="form-control" id="bank_name" name="bank_name" type="text" value="{{ $selecteduser->profile_info->bank_name }}" >
+                    
+                
+                
+            </div>
+
 </div>
+
+    <div class="form-group">
+        <div class="row">
+                 <div class="col-md-6">
+                <label>
+                   Bank Address
+                </label>
+
+                <textarea id="bank_address" name="bank_address"  class="form-control">
+                    {{ $selecteduser->profile_info->bank_address }}
+                 </textarea>
+                
+            </div>
+    </div>
+        
+    </div>
    <div class="text-right">
         <button class="btn btn-primary" type="submit">
             Save
@@ -916,6 +1013,7 @@
                         </div>
                       
                     </div>
+
                     
                 </div>
             </div>

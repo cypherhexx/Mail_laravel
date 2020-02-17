@@ -59,7 +59,7 @@ class Packages extends Model
               $package=ProfileInfo::where('user_id',$upuser)->value('package');
               $pack=Packages::find($package);
               $level_commission=$package_am*$pack->level_percent*0.01;
-              if($commision > 0){
+              if($level_commission > 0){
                 $commision = Commission::create([
                 'user_id'        => $upuser,
                 'from_id'        => $user_id,
@@ -85,7 +85,7 @@ class Packages extends Model
         if($rank > 1){
            $rankgain=Ranksetting::find($rank)->gain;
            $rank_commission=$amount*$rankgain*0.01;
-           if($commision > 0){
+           if($rank_commission > 0){
                     $commision = Commission::create([
                     'user_id'        => $user,
                     'from_id'        => $from,

@@ -59,6 +59,40 @@
                                         </div>
                                     </div>   
 
+                                      <h4>Withdraw Settings</h4>
+
+                                                               <div class="form-group">
+                                         <div class="row">
+                                            <div class="col-sm-6">
+                                                <label for="">Withdraw Percent (%):</label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                 <a class="settings form-control"  id="withdraw_percent" data-type='text' data-pk="{{$settings->id}}" data-title='withdraw percent' data-name="withdraw_percent">
+                                                 {{ $settings->withdraw_percent}}
+                                                </a>
+
+
+                                            </div>
+                                           
+                                        </div>
+                                    </div>   
+
+                                         <div class="form-group">
+                                         <div class="row">
+                                            <div class="col-sm-6">
+                                                <label for="">Withdra Period (days):</label>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                 <a class="settings form-control"  id="withdraw_days" data-type='number' data-pk="{{$settings->id}}" data-title='Days' data-name="withdraw_days">
+                                                 {{ $settings->withdraw_days}}
+                                                </a>
+
+
+                                            </div>
+                                           
+                                        </div>
+                                    </div>  
+
 
                                   
                                     <!--   <div class="form-group">

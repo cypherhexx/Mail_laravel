@@ -23,6 +23,8 @@ class settingsTableSeeder extends Seeder
             'direct_referral' =>'25',
             'three_friends' => '1',
             'eight_friends' => '1',
+            'withdraw_percent' => '5',
+            'withdraw_days' => '10',
             
         ]); 
     }

@@ -25,12 +25,11 @@
                                 <h1><?php echo e($item->package); ?></h1>
                               </div>
                               <div class="panel-body">
-                                <p><strong><?php echo e($item->pv); ?></strong> PV</p>                                     
-                                <p><strong>Endless</strong> Amet</p>
+                                 <img src="<?php echo e(url('img/cache/original/'.$item->image)); ?>" class="img-circle" style="width: 112px;">
                               </div>
                               <div class="panel-footer">
                                 <h3><?php echo e($currency_sy); ?> <?php echo e($item->amount); ?></h3>
-                                <h4><?php echo e(trans('products.one_time_fee')); ?></h4>                                  
+                                <h4>Monthly Payment</h4>                                  
                                 <div class="form-check">
                                   <div class="uniform-choice border-indigo-600 text-indigo-800"><span class="checked">
                                     <input type="radio"  required="required"    name="plan" badge-class="<?php echo e($item->package); ?>" class="form-check-input-styled-custom" data-fouc="" data-parsley-group="block-0" value="<?php echo e($item->id); ?>" plan-amount="<?php echo e($item->amount); ?>">
