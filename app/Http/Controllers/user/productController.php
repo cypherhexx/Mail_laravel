@@ -23,6 +23,7 @@ use App\Voucher;
 use App\User;
 use App\PaypalDetails;
 use App\ProfileInfo;
+use App\Ranksetting;
 
 use Validator;
 use Session;
@@ -418,6 +419,18 @@ class productController extends UserAdminController
                 'from_id'=>$item->user_id,
                 'rs_credit'=>$package->rs,
               ]);
+  
+         //commsiiom
+            $sponsor_id=Sponsortree::where('user_id',$item->user_id)->value('sponsor');
+            $user_arrs=[];
+            $results=Ranksetting::getthreeupline($item->user_id,1,$user_arrs);
+          
+            foreach ($results as $key => $value) {
+                Packages::rankCheck($value);
+            }
+            Packages::levelCommission($item->user_id,$item->amount);
+            Packages::directReferral($sponsor_id,$item->user_id,$item->package);
+            //comm
 
             $pur_user=PurchaseHistory::find($purchase_id->id);
             $user=User::join('profile_infos','profile_infos.user_id','=','users.id')
