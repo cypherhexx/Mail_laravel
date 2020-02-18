@@ -123,7 +123,7 @@
 
 
 
-                     <li class="has-sub {{set_active('user/requestvoucher')}} {{set_active('user/myvoucher')}} ">
+          <!--            <li class="has-sub {{set_active('user/requestvoucher')}} {{set_active('user/myvoucher')}} ">
                         <a href="javascript:;">
                             
                             <span class="badge pull-right"></span>
@@ -137,7 +137,7 @@
                            
                         </ul>
 
-                    </li>
+                    </li> -->
 
                         @endif
 

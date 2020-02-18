@@ -352,7 +352,7 @@
                     </li>  
                   <!--   <li class="navigation-header"><span>Voucher Management</span> <i class="icon-menu" title="Voucher Management"></i></li> -->
                     
-                     <li class="has-sub {{set_active('admin/voucherlist')}} {{set_active('admin/voucherrequest')}}">
+                 <!--     <li class="has-sub {{set_active('admin/voucherlist')}} {{set_active('admin/voucherrequest')}}">
                         <a  href="javascript:;" >
                             <i class="icon-file-text"></i>
                             <span class="text">{{trans('menu.Voucher')}}</span>
@@ -363,7 +363,7 @@
                             
                       
                         </ul>
-                    </li> 
+                    </li>  -->
                    <li class="navigation-header"><span>Profile Management</span> <i class="icon-menu" title="Profile Management"></i></li>
                      <li class="{{set_active('admin/userprofiles/*')}}">
                         <a href="{{url('admin/userprofiles/'.Auth::user()->username)}}">
