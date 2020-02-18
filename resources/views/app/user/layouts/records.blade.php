@@ -7,14 +7,40 @@
             color: #fdfdfd;
 
     }
+    .bg-success-400{
+        background-color: #8e948e;
+        border-color:#8e948e;
+    }
 
+    .grant-bg-image{
+        background-image: url('/img/cache/original/grant.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+            color: #1b0e0e;
+
+    }
+
+    .rem-bg-image{
+        background-image: url('/img/cache/original/remtab.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+            color: #1b0e0e;
+
+    }
+  .panel[class*=bg-] .text-muted, .panel[class*=bg-] .help-block, .panel[class*=bg-] .help-inline {
+    color: rgb(48, 14, 13);
+}
+
+  .panel[class*=bg-] .text-mut, .panel[class*=bg-] .help-block, .panel[class*=bg-] .help-inline {
+    color: rgb(255, 255, 255);
+}
 </style>
 
 <div class="row">
                         <div class="col-lg-4">
 
                             <!-- Area chart in colored panel -->
-                            <div class="panel bg-indigo-400 has-bg-image">
+                            <div class="panel bg-success-400 grant-bg-image">
                                 <div class="panel-body">
                                     <div class="heading-elements">
                                         
@@ -34,7 +60,7 @@
                         <div class="col-lg-4">
 
                             <!-- Area chart in colored panel -->
-                            <div class="panel bg-indigo-400 has-bg-image">
+                            <div class="panel bg-success-400 rem-bg-image">
                                 <div class="panel-body">
                                     <div class="heading-elements">
                                         
@@ -54,7 +80,7 @@
                         <div class="col-lg-4">
 
                             <!-- Bar chart in colored panel -->
-                            <div class="panel bg-danger-400 has-bg-image">
+                            <div class="panel bg-success-400 rem-bg-image">
                                 <div class="panel-body">
                                     <div class="heading-elements">
                                         
@@ -76,7 +102,7 @@
                         <div class="col-lg-4">
 
                             <!-- Line chart in colored panel -->
-                            <div class="panel bg-blue-400 has-bg-image">
+                            <div class="panel bg-success-400 rem-bg-image">
                                 <div class="panel-body">
                                     <div class="heading-elements">
                                        
@@ -98,7 +124,7 @@
                         <div class="col-lg-4">
 
                             <!-- Sparklines in colored panel -->
-                            <div class="panel bg-success-400 has-bg-image">
+                            <div class="panel bg-success-400 rem-bg-image">
                                 <div class="panel-body">
                                     <div class="heading-elements">
                                         
@@ -118,7 +144,7 @@
                         <div class="col-lg-4">
 
                             <!-- Sparklines in colored panel -->
-                            <div class="panel rank-bg-image">
+                            <div class="panel bg-success-400 rank-bg-image">
                                 <div class="panel-body">
                                     <div class="heading-elements">
                                         
@@ -126,7 +152,7 @@
 
                                     <h3 class="no-margin text-semibold">{{$rank_name}}</h3>
                                  My Rank
-                                    <div class="text-muted text-size-small">My Rank</div>
+                                    <div class="text-mut text-size-small">My Rank</div>
                                 </div>
 
                                 <div id="sparklines_color"></div>
