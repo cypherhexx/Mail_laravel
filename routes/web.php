@@ -345,6 +345,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth'], 'namespace' 
     Route::get('createbrokers','UserController@createBrokers');
     Route::post('upcreatebrokers','UserController@upCreateBrokers');
     Route::get('brokerrequest','UserController@brokerRequest');
+    Route::get('editbroker/{id}','UserController@editBroker');
+    Route::post('savededitbroker','UserController@saveeditBroker');
+    Route::get('deletebroker/{id}','UserController@deleteBroker');
     
 
     Route::get('view-adds', 'CodeController@index');

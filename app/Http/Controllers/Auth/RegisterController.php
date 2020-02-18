@@ -578,9 +578,10 @@ class RegisterController extends Controller
           $response = self::$provider->getExpressCheckoutDetails($request->token);
           $item = PendingTransactions::find($id);
           $item->payment_response_data = json_encode($response);
-          $item->save();
           $express_data=json_decode($item->paypal_express_data,true);
           $response = self::$provider->doExpressCheckoutPayment($express_data, $request->token, $request->PayerID);
+          $item->paypal_recurring_reponse = json_encode($response);
+          $item->save();
           if($response['ACK'] == 'Success'){
             $item->payment_status='complete';
             $item->save();

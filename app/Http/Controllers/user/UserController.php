@@ -157,7 +157,7 @@ class UserController extends UserAdminController
       $base='Run Software';
       $method='Run Software';
       $sub_title='Run Software';
-      $broker_users=BrokerDetails::all();
+      $broker_users=BrokerDetails::where('status','enabled')->get();
       $max=UserBrokerDetails::where('user_id',Auth::user()->id)->max('id');
         if($max <> null){
           $det=UserBrokerDetails::find($max);

@@ -59,6 +59,73 @@
     </div>
 </div>
 
+@if(count($all_brokers) > 0)
+
+ <div class="panel panel-flat" data-sortable-id="ui-widget-11">
+    <div class="panel-heading">
+        <h4 class="panel-title">All Brokers</h4>
+    </div>
+            <div class="panel-body">
+                <form action="" method="">
+                    <div class="invoice-content">
+                        <div class="table-responsive">
+                            <table class="table table-invoice" id="table">
+                                <thead>
+                                    <tr>
+
+                                        <th>No</th>
+                                        <th>Name</th> 
+                                        <th>URL</th>  
+                                        <th>Status</th>  
+                                        <th>Created</th> 
+                                        <th>Action</th>
+
+                                    </tr>
+
+                                </thead>
+                                    <tbody>
+
+                                            @foreach($all_brokers as $key=> $broker)
+
+                                                <tr>
+
+                                                <td>{{$key + 1}}</td>
+                                                <td>{{$broker->name}}</td>
+                                                <td><a href="{{$broker->url}}" target="_blank"> {{$broker->url}}</a></td>
+                                                <td>{{$broker->status}}</td>
+
+
+                                               <td> {{ date('d M Y H:i:s',strtotime($broker->created_at))}}</td>
+                                                <td>
+                                               
+
+                                                 <a  class="btn btn-sm btn-primary m-b-10" href="{{ URL::to('admin/editbroker/'.$broker->id) }}"><i class="icon-pencil4"></i></a>
+
+                                                  <a class="btn btn-sm btn-primary m-b-10" href="{{ URL::to('admin/deletebroker/'.$broker->id) }}"><i class="fa fa-trash"></i></a>
+
+                                                </td>
+                                              
+                                                </tr>
+
+                                            @endforeach  
+
+                                               
+
+                                                          
+
+                                    </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </form>
+
+                 {!! $all_brokers->render() !!} 
+
+            </div>
+        </div>
+
+        @endif
+
 
 @endsection @section('overscripts') @parent
 

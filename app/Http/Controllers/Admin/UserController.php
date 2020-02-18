@@ -1381,8 +1381,9 @@ else
     $sub_title =  'Broker Details';
     $base      =  'Broker Details';
     $method    =  'Broker Details';
+    $all_brokers=BrokerDetails::paginate(10);
         
-      return view('app.admin.users.createbroker',  compact('title','sub_title','base','method'));
+      return view('app.admin.users.createbroker',  compact('title','sub_title','base','method','all_brokers'));
 
     }
 
@@ -1446,6 +1447,41 @@ else
                 return redirect()->back();
             }
 
+    }
+
+    public function editBroker($id){
+         $title     = 'Edit Broker';
+        $sub_title =  'Edit Broker';
+        $base      = 'Edit Broker';
+        $method    = 'Edit Broker';
+        $broker=BrokerDetails::find($id);
+        return view('app.admin.users.editbroker',  compact('title','sub_title','base','method','broker'));
+    }
+
+    public function saveeditBroker(Request $request){
+
+        $url=$this::isValidURL(trim($request->url));
+           if($url<>0){
+                $broker_det=BrokerDetails::find($request->id);
+                $broker_det->name =$request->name;
+                $broker_det->url = $request->url;
+                $broker_det->status =$request->status;
+                $broker_det->save();
+                
+                Session::flash('flash_notification', array('level' => 'success', 'message' => 'Broker Details updated successfully'));
+                return redirect('admin/createbrokers');
+            }
+            else{
+                Session::flash('flash_notification', array('level' => 'error', 'message' => 'Please check the url'));
+                return redirect()->back();
+            }
+    }
+
+    public function deleteBroker($id){
+         $broker_det=BrokerDetails::find($id);
+         $broker_det->delete();
+          Session::flash('flash_notification', array('level' => 'success', 'message' => 'Broker details Deleted Successfully'));
+                return redirect()->back();
     }
 
 
