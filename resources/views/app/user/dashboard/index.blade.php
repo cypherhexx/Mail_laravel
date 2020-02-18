@@ -1,9 +1,5 @@
 @extends('app.user.layouts.default') {{-- Web site Title --}} @section('title') {{{ $title }}} :: @parent @stop @section('styles') @parent 
-<style type="text/css">
-    .has-bg-image{
-        background-image: url('http://atmor.dev/img/cache/original/rankatmor.jpg');
-    }
-</style>
+
 @endsection {{-- Content --}} @section('main') @include('app.user.layouts.records')
 <div class="row">
     <div class="col-sm-6">

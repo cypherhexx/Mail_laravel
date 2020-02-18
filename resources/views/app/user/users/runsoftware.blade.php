@@ -1,5 +1,8 @@
 @extends('app.user.layouts.default') {{-- Web site Title --}} @section('title') {{{ $title }}} :: @parent @stop {{-- Content --}} @section('styles') @parent
 <style type="text/css">
+.run-table{
+  margin-top: 675px;
+}
 </style>
 @endsection @section('main')
 @include('flash::message') 
@@ -11,9 +14,18 @@
           Run Software
         </h4>
     </div>
+
     <div class="panel-body">
       <div class="row">
+        <div class="col-sm-12">
+          
+          <img src="http://cloud2162.cloudmlmdemo.com/img/cache/original/runsoft.jpg" width="100%" height="auto">
+        </div>
+
+      <div class="run-table">
     <div class="col-sm-6">
+
+       @if(count($broker_users) > 0)
 
                      <table class="table" id="table">
                                 <thead>
@@ -39,20 +51,20 @@
                                                  
                                             @endforeach  
 
-                                                @if(!count($broker_users))
-
-                                                <tr><td>No Data</td></tr>
-
-                                                @endif  
+                                              
 
                                                           
 
                                     </tbody>
                             </table>
+                            @else
+                            No data Found
+                            @endif
+
      
       
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-6 text-center">
    
 
           @if($status == "stopped")
@@ -131,6 +143,7 @@
       </div>
 
  
+        </div>
         </div>
 
       

@@ -1,4 +1,12 @@
+<style type="text/css">
+    
+.rank-bg-image{
+        background-image: url('http://cloud2162.cloudmlmdemo.com/img/cache/original/rankatmor.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
 
+</style>
 
 <div class="row">
                         <div class="col-lg-4">
@@ -108,7 +116,7 @@
                         <div class="col-lg-4">
 
                             <!-- Sparklines in colored panel -->
-                            <div class="panel bg-success-400 has-bg-image">
+                            <div class="panel bg-success-400 rank-bg-image">
                                 <div class="panel-body">
                                     <div class="heading-elements">
                                         
