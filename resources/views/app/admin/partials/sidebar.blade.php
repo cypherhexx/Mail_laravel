@@ -122,6 +122,14 @@
                         </a>
                        
                     </li>
+
+                        <li class="navigation-header"><span>Profile Management</span> <i class="icon-menu" title="Profile Management"></i></li>
+                     <li class="{{set_active('admin/userprofiles/*')}}">
+                        <a href="{{url('admin/userprofiles/'.Auth::user()->username)}}">
+                            <i class="icon-profile"></i>
+                            <span class="text">{{trans('menu.profile')}} </span>
+                        </a>
+                    </li>
                     <li class="navigation-header"><span>Users</span> <i class="icon-menu" title="Users"></i></li>
                     <li class="has-sub {{set_active('admin/genealogy')}}{{set_active('admin/sponsortree')}}{{set_active('admin/tree')}}">
                         <a href="javascript:;">
@@ -364,13 +372,7 @@
                       
                         </ul>
                     </li>  -->
-                   <li class="navigation-header"><span>Profile Management</span> <i class="icon-menu" title="Profile Management"></i></li>
-                     <li class="{{set_active('admin/userprofiles/*')}}">
-                        <a href="{{url('admin/userprofiles/'.Auth::user()->username)}}">
-                            <i class="icon-profile"></i>
-                            <span class="text">{{trans('menu.profile')}} </span>
-                        </a>
-                    </li>
+               
                     <li class="navigation-header"><span>Members Management</span> <i class="icon-menu" title="Forms"></i></li>
                     <li class="has-sub {{set_active('admin/users')}}{{set_active('admin/users/*')}}{{set_active('admin/pendingtransactions')}}">
                         <a href="javascript:;">

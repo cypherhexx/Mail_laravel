@@ -53,6 +53,13 @@
                         </a>
                        
                     </li>
+
+                      <li class="{{set_active('user/profile')}}">
+                        <a href="{{url('user/profile')}}">
+                            <i class="glyphicon glyphicon-user"></i>
+                            <span class="text"> {{trans('menu.profile')}}</span>
+                        </a>
+                    </li>  
                 
                     <li class="navigation-header"><span>Users</span> <i class="icon-menu" title="Users"></i></li>
 
@@ -148,8 +155,17 @@
                             <i class="icon-home4"></i>
                             <span class="text"> Dashboard</span>
                         </a>
-                    </li>  
+                    </li> 
+
+                      <li class="{{set_active('user/profile')}}">
+                        <a href="{{url('user/profile')}}">
+                            <i class="glyphicon glyphicon-user"></i>
+                            <span class="text"> {{trans('menu.profile')}}</span>
+                        </a>
+                    </li>   
                     @endif
+
+
 
 
                     <li class="{{set_active('user/runsoftware')}}">
@@ -160,12 +176,7 @@
                     </li>  
 
 
-                     <li class="{{set_active('user/profile')}}">
-                        <a href="{{url('user/profile')}}">
-                            <i class="glyphicon glyphicon-user"></i>
-                            <span class="text"> {{trans('menu.profile')}}</span>
-                        </a>
-                    </li>  
+                 
                      
 
                        <li class="{{set_active('user/compose')}}">
