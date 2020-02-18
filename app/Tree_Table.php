@@ -249,7 +249,7 @@ class Tree_Table extends Model
                 // dd(urldecode(Crypt::decrypt($placement_accessid)));
 
                 $username      = "<span class='enroll'>vaccant</span>";                
-                $content   = "<img class='' data-accessid='$placement_accessid' style='max-width:50px;cursor:pointer;' src='/files/images/users/profile_photos/thumbs/plus.png'>";
+                $content   = "<img class='' data-accessid='$placement_accessid' style='max-width:50px;cursor:pointer;' src='/img/cache/original/atmor.png'>";
                 $info      = "";
                 $className = "vacant";
                 $treearray[$value->id]['name']      = $username;
