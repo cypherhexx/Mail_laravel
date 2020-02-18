@@ -33,13 +33,13 @@
                   </label>
                  </div>
                   </span>
-                    <span class="input-group-addon">
+                <!--     <span class="input-group-addon">
                    <div class="checkbox checkbox-switch">
                   <label>
                       <input id="toggle-grid" type="checkbox" data-on-color="success" data-off-color="danger" data-on-text="Grid On" data-off-text="Grid Off" class="switch">                     
                   </label>
                  </div>
-                  </span>
+                  </span> -->
                     <span class="input-group-addon">
 
                     <button data-action="reloads" type="button" id="btn-restart-node" class="btn btn-default btn-ladda btn-ladda-spinner" data-style="expand-left" data-spinner-color="#333" data-spinner-size="20"><span class="ladda-label"><i class="icon-spinner4 position-left"></i>{{trans('tree.reset_tree')}}</span></button>
