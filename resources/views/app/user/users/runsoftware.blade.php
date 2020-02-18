@@ -1,7 +1,12 @@
 @extends('app.user.layouts.default') {{-- Web site Title --}} @section('title') {{{ $title }}} :: @parent @stop {{-- Content --}} @section('styles') @parent
 <style type="text/css">
 .run-table{
-  margin-top: 675px;
+  margin-top: 340px;
+}
+
+.border{
+  border: 1px solid #000000;
+  padding: 20px;
 }
 </style>
 @endsection @section('main')
@@ -19,11 +24,11 @@
       <div class="row">
         <div class="col-sm-12">
           
-          <img src="http://cloud2162.cloudmlmdemo.com/img/cache/original/runsoft.jpg" width="100%" height="auto">
+          <img src="{{url('img/cache/original/runsoft.jpg')}}" width="100%" height="300px">
         </div>
 
       <div class="run-table">
-    <div class="col-sm-6">
+<!--     <div class="col-sm-6">
 
        @if(count($broker_users) > 0)
 
@@ -63,12 +68,16 @@
 
      
       
-    </div>
-    <div class="col-sm-6 text-center">
+    </div> -->
+    <div class="col-sm-4 col-sm-offset-4 text-center border">
+      <p><h4>Run Software</h4></p>
    
 
           @if($status == "stopped")
         <a class="btn btn-success" data-toggle="modal" data-target="#myModalstart">Start</span> </a>
+        &nbsp
+
+         <button type="button" class="btn btn-danger" disabled>Stop</button>
        
               <!-- Modal -->
 
@@ -131,6 +140,9 @@
                 </div>
                 </div>
                 </div>
+
+
+
 
                  @endif
 
