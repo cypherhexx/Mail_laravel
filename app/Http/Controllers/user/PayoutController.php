@@ -54,7 +54,7 @@ class PayoutController extends UserAdminController
           else{
              $hourly = date("M j, Y 00:00:00", strtotime('-'.$settings->withdraw_days.'days', strtotime(date('Y-m-d 00:00:00'))));
             $date_today=date('Y-m-d 00:00:00');
-            $date_creat_sum=date('Y-m-d 00:00:00',strtotime('+'.$settings->withdraw_days.'days', strtotime($payout->created_at)));
+            $date_creat_sum=date('Y-m-d 00:00:00',strtotime('+'.$settings->withdraw_days.'days', strtotime(date('Y-m-d 00:00:00'))));
           }
 
 
