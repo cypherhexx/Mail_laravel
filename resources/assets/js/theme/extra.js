@@ -395,16 +395,25 @@ $(document).ready(function() {
                 $('#treediv').removeClass('no-images');
                 $('#sponsortreediv').removeClass('no-images');
                 $('#toggle-images').bootstrapSwitch('state', true);
+                $('#treediv').addClass('no-grid');
+                $('#sponsortreediv').addClass('no-grid');
+                $('#toggle-grid').bootstrapSwitch('state', false);
             } else {
                 $('#treediv').addClass('no-images');
                 $('#sponsortreediv').addClass('no-images');
                 $('#toggle-images').bootstrapSwitch('state', false);
+                $('#treediv').addClass('no-grid');
+                $('#sponsortreediv').addClass('no-grid');
+                $('#toggle-grid').bootstrapSwitch('state', false);
             }
         } else {
             $.cookie("tree_images", "true");
             $('#treediv').removeClass('no-images');
             $('#sponsortreediv').removeClass('no-images');
             $('#toggle-images').bootstrapSwitch();
+            $('#treediv').addClass('no-grid');
+            $('#sponsortreediv').addClass('no-grid');
+            $('#toggle-grid').bootstrapSwitch('state', false);
         }
     }
 });
@@ -414,21 +423,31 @@ $('#toggle-images').on('switchChange.bootstrapSwitch', function() {
         if (state == true) {
             $.cookie("tree_images", "true");
             $('#treediv').removeClass('no-images'); // activate     
-            $('#sponsortreediv').removeClass('no-images'); // activate     
+            $('#sponsortreediv').removeClass('no-images'); // activate  
+            $('#treediv').addClass('no-grid');
+            $('#sponsortreediv').addClass('no-grid');
+            $('#toggle-grid').bootstrapSwitch('state', false);   
         } else {
             $.cookie("tree_images", "false");
             $('#treediv').addClass('no-images'); // deactivate
             $('#sponsortreediv').addClass('no-images'); // deactivate
+            $('#treediv').addClass('no-grid');
+            $('#sponsortreediv').addClass('no-grid');
+            $('#toggle-grid').bootstrapSwitch('state', false);
         }
     } else {
         $.cookie("tree_images", "true");
         $('#treediv').removeClass('no-images'); // activate  
         $('#sponsortreediv').removeClass('no-images'); // activate  
+        $('#treediv').addClass('no-grid');
+        $('#sponsortreediv').addClass('no-grid');
+        $('#toggle-grid').bootstrapSwitch('state', false);
     }
 });
 $(document).ready(function() {
     if ($('#toggle-grid').length) {
         $('#toggle-grid').bootstrapSwitch();
+        // alert(typeof $.cookie("tree_grid"));
         if (typeof $.cookie("tree_grid") != 'undefined') {
             if ($.cookie("tree_grid") === 'true') {
                 $('#treediv').removeClass('no-grid');
@@ -439,11 +458,14 @@ $(document).ready(function() {
                 $('#sponsortreediv').addClass('no-grid');
                 $('#toggle-grid').bootstrapSwitch('state', false);
             }
-        } else {
+        }
+         else {
             $.cookie("tree_grid", "true");
             $('#treediv').removeClass('no-grid');
             $('#sponsortreediv').removeClass('no-grid');
             $('#toggle-grid').bootstrapSwitch();
+
+            
         }
     }
 });
@@ -861,38 +883,38 @@ $(document).ready(function() {
             }
             oc.init(options);
         });
-        $('#treediv').on('click', '.vacant img', function() {
-            var accessid = $(this).data('accessid');
-            var redirectPath = CLOUDMLMSOFTWARE.siteUrl + '/admin/register/' + accessid;
-            console.log(redirectPath);
-            window.location = redirectPath
-        });
-        $('#treediv').on('click', '.node.vacant .title', function(e) {
-            e.preventDefault();
-            var accessid = $(this).parent('.node').find('.content img').data('accessid');
-            var redirectPath = CLOUDMLMSOFTWARE.siteUrl + '/admin/register/' + accessid;
-            window.location = redirectPath
-        });
+        // $('#treediv').on('click', '.vacant img', function() {
+        //     var accessid = $(this).data('accessid');
+        //     var redirectPath = CLOUDMLMSOFTWARE.siteUrl + '/admin/register/' + accessid;
+        //     console.log(redirectPath);
+        //     window.location = redirectPath
+        // });
+        // $('#treediv').on('click', '.node.vacant .title', function(e) {
+        //     e.preventDefault();
+        //     var accessid = $(this).parent('.node').find('.content img').data('accessid');
+        //     var redirectPath = CLOUDMLMSOFTWARE.siteUrl + '/admin/register/' + accessid;
+        //     window.location = redirectPath
+        // });
         
-             $('#treediv').on('click', '.vacant img', function() {
-          var accessid = $(this).data('accessid');
-          console.log(accessid);
-          if(CLOUDMLMSOFTWARE.admin == 1)
-              var redirectPath = CLOUDMLMSOFTWARE.siteUrl + '/admin/register/' + accessid;
-          else
-              var redirectPath = CLOUDMLMSOFTWARE.siteUrl + '/user/register/' + accessid;
-          console.log(redirectPath);
-          window.location = redirectPath
-      });
-      $('#treediv').on('click', '.node.vacant .title', function(e) {
-          e.preventDefault();
-          var accessid = $(this).parent('.node').find('.content img').data('accessid');
-          if(CLOUDMLMSOFTWARE.admin == 1)
-              var redirectPath = CLOUDMLMSOFTWARE.siteUrl + '/admin/register/' + accessid;
-          else
-              var redirectPath = CLOUDMLMSOFTWARE.siteUrl + '/user/register/' + accessid;
-          window.location = redirectPath
-      });
+      //        $('#treediv').on('click', '.vacant img', function() {
+      //     var accessid = $(this).data('accessid');
+      //     console.log(accessid);
+      //     if(CLOUDMLMSOFTWARE.admin == 1)
+      //         var redirectPath = CLOUDMLMSOFTWARE.siteUrl + '/admin/register/' + accessid;
+      //     else
+      //         var redirectPath = CLOUDMLMSOFTWARE.siteUrl + '/user/register/' + accessid;
+      //     console.log(redirectPath);
+      //     window.location = redirectPath
+      // });
+      // $('#treediv').on('click', '.node.vacant .title', function(e) {
+      //     e.preventDefault();
+      //     var accessid = $(this).parent('.node').find('.content img').data('accessid');
+      //     if(CLOUDMLMSOFTWARE.admin == 1)
+      //         var redirectPath = CLOUDMLMSOFTWARE.siteUrl + '/admin/register/' + accessid;
+      //     else
+      //         var redirectPath = CLOUDMLMSOFTWARE.siteUrl + '/user/register/' + accessid;
+      //     window.location = redirectPath
+      // });
 
 
 

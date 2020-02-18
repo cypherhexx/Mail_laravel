@@ -13,7 +13,9 @@
             <div class="col-sm-12">
                 <span class="input-group">   
                     <input type="text" class="form-control" id="key-word" name="key-word" placeholder="Search Member">
+
                     <input type="hidden" id="key_user_hidden" name="key_user_hidden" >
+                       
                     <span class="input-group-btn">                    
                         <button class="btn-icon btn btn-info" type="button" id="btn-filter-node"><i class="fa fa-search position-left"></i>Search </button>
                     </span>
@@ -33,13 +35,7 @@
                   </label>
                  </div>
                   </span>
-                    <span class="input-group-addon">
-                   <div class="checkbox checkbox-switch">
-                  <label>
-                      <input id="toggle-grid" type="checkbox" data-on-color="success" data-off-color="danger" data-on-text="Grid On" data-off-text="Grid Off" class="switch">                     
-                  </label>
-                 </div>
-                  </span>
+          
                     <span class="input-group-addon">
 
                     <button data-action="reloads" type="button" id="btn-restart-genealogy-node" class="btn btn-default btn-ladda btn-ladda-spinner" data-style="expand-left" data-spinner-color="#333" data-spinner-size="20"><span class="ladda-label"><i class="icon-spinner4 position-left"></i>{{trans('tree.reset_tree')}}</span></button>
