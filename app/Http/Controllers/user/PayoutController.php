@@ -49,6 +49,8 @@ class PayoutController extends UserAdminController
             $date_today=date('Y-m-d 00:00:00');
             $date_creat_sum=date('Y-m-d 00:00:00',strtotime('+'.$settings->withdraw_days.'days', strtotime($payout->created_at)));
 
+
+
             // dd($date_creat_sum);
           }
           else{
@@ -58,14 +60,22 @@ class PayoutController extends UserAdminController
           }
 
 
+
+
          
         
        
        $payout_balance=$user_balance*$settings->withdraw_percent*0.01;
        $bank_details=ProfileInfo::where('user_id',Auth::user()->id)->first();
-       // dd($bank_details);
+
+        if(!$bank_details->account_number == 0 && !$bank_details->account_holder_name ==0 && !$bank_details->swift ==0 && !$bank_details->bank_address ==0){
+            $flag=0;
+        }else{
+            $flag=1;
+        }
+       // dd($flag,$date_creat_sum);
        
-        return view('app.user.payout.payout_request',compact('user','title','user_balance','rules','base','method','sub_title','payout_balance','bank_details','hourly','date_today','date_creat_sum'));
+        return view('app.user.payout.payout_request',compact('user','title','user_balance','rules','base','method','sub_title','payout_balance','bank_details','hourly','date_today','date_creat_sum','flag'));
     }
 
     /**
@@ -164,9 +174,11 @@ class PayoutController extends UserAdminController
                 Balance::updateBalance(Auth::user()->id, $req_amount);
                 Activity::add("payout requested by ".Auth::user()->username, Auth::user()->username ." requested payout  an amount of $req_amount ");
             Session::flash('flash_notification',array('level'=>'success','message'=>trans('payout.request_completed')));
+             return redirect()->back();
         }
         else{
             Session::flash('flash_notification',array('level'=>'danger','message'=>trans('payout.invalid_amount')));
+             return redirect()->back();
         }
     }
      

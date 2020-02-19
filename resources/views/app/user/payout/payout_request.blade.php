@@ -40,7 +40,7 @@
 
             </div>
 
-            @if($bank_details->account_number != NULL && $bank_details->account_holder_name != NULL && $bank_details->swift != NULL && $bank_details->bank_address != NULL && $date_today >= $date_creat_sum)
+            @if($flag == 0 && $date_today >= $date_creat_sum)
 
           
             <div class="row">
@@ -54,7 +54,8 @@
 
               </div>
             </div>
-            @else
+                  @endif
+            @if($flag == 1)
             <br>
 
               <div class="row">
@@ -62,6 +63,20 @@
             <div class="alert alert-warning fade in m-b-15">
                 <strong> {{trans('wallet.caution')}}!</strong>
                     Please save bank details
+                    <span class="close" data-dismiss="alert">×</span>
+            </div>
+        </div>
+            </div>
+            @endif
+
+             @if($date_today < $date_creat_sum)
+            <br>
+
+              <div class="row">
+        <div class="col-sm-6">
+            <div class="alert alert-warning fade in m-b-15">
+                <strong> {{trans('wallet.caution')}}!</strong>
+                   Please Wait until the specified time
                     <span class="close" data-dismiss="alert">×</span>
             </div>
         </div>
