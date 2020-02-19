@@ -4,27 +4,48 @@
  * Created by Raza Mehdi <srmk@outlook.com>.
  */
 
-return [
-    'mode'    => env('PAYPAL_MODE', 'sandbox'), // Can only be 'sandbox' Or 'live'. If empty or invalid, 'live' will be used.
-    'sandbox' => [
-        'username'    => env('PAYPAL_SANDBOX_API_USERNAME', ''),
-        'password'    => env('PAYPAL_SANDBOX_API_PASSWORD', ''),
-        'secret'      => env('PAYPAL_SANDBOX_API_SECRET', ''),
-        'certificate' => env('PAYPAL_SANDBOX_API_CERTIFICATE', ''),
-        'app_id'      => 'APP-80W284485P519543T', // Used for testing Adaptive Payments API in sandbox mode
-    ],
-    'live' => [
-        'username'    => env('PAYPAL_LIVE_API_USERNAME', ''),
-        'password'    => env('PAYPAL_LIVE_API_PASSWORD', ''),
-        'secret'      => env('PAYPAL_LIVE_API_SECRET', ''),
-        'certificate' => env('PAYPAL_LIVE_API_CERTIFICATE', ''),
-        'app_id'      => '', // Used for Adaptive Payments API
-    ],
+return array(
 
-    'payment_action' => 'Sale', // Can only be 'Sale', 'Authorization' or 'Order'
-    'currency'       => env('PAYPAL_CURRENCY', 'USD'),
-    'billing_type'   => 'MerchantInitiatedBilling',
-    'notify_url'     => '', // Change this accordingly for your application.
-    'locale'         => '', // force gateway language  i.e. it_IT, es_ES, en_US ... (for express checkout only)
-    'validate_ssl'   => true, // Validate SSL when creating api client.
-];
+    /**
+     * Set our Sandbox and Live credentials
+     */
+    'sandbox_client_id' => env('PAYPAL_SANDBOX_CLIENT_ID', ''),
+    'sandbox_secret' => env('PAYPAL_SANDBOX_SECRET', ''),
+    'live_client_id' => env('PAYPAL_LIVE_CLIENT_ID', ''),
+    'live_secret' => env('PAYPAL_LIVE_SECRET', ''),
+
+    
+    /**
+     * SDK configuration settings
+     */
+    'settings' => array(
+
+        /** 
+         * Payment Mode
+         *
+         * Available options are 'sandbox' or 'live'
+         */
+        'mode' => env('PAYPAL_MODE', 'sandbox'),
+        
+        // Specify the max connection attempt (3000 = 3 seconds)
+        'http.ConnectionTimeOut' => 3000,
+       
+        // Specify whether or not we want to store logs
+        'log.LogEnabled' => true,
+        
+        // Specigy the location for our paypal logs
+        'log.FileName' => storage_path() . '/logs/paypal.log',
+        
+        /** 
+         * Log Level
+         *
+         * Available options: 'DEBUG', 'INFO', 'WARN' or 'ERROR'
+         * 
+         * Logging is most verbose in the DEBUG level and decreases 
+         * as you proceed towards ERROR. WARN or ERROR would be a 
+         * recommended option for live environments.
+         * 
+         */
+        'log.LogLevel' => 'DEBUG'
+    ),
+);

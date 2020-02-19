@@ -47,6 +47,20 @@ use PayPal\Api\ExecutePayment;
 use PayPal\Api\PaymentExecution;
 use PayPal\Api\Transaction;
 
+use PayPal\Api\ChargeModel;
+use PayPal\Api\Currency;
+use PayPal\Api\MerchantPreferences;
+use PayPal\Api\PaymentDefinition;
+use PayPal\Api\Plan;
+use PayPal\Api\Patch;
+use PayPal\Api\PatchRequest;
+use PayPal\Common\PayPalModel;
+
+// use to process billing agreements
+use PayPal\Api\Agreement;
+use PayPal\Api\ShippingAddress;
+
+
 
 //stripe
 
@@ -75,17 +89,27 @@ class productController extends UserAdminController
      */
 
     protected static  $provider;
+    private $apiContext;
+    private $mode;
+    private $client_id;
+    private $secret;
 
-    // private $_api_context;
+   
     public function __construct()
     {
-        // parent::__construct();
-        
-        // /** setup PayPal api context **/
-        // $paypal_conf = \Config::get('paypal');
-        // $this->_api_context = new ApiContext(new OAuthTokenCredential($paypal_conf['client_id'], $paypal_conf['secret']));
-        // $this->_api_context->setConfig($paypal_conf['settings']);
+       
        self::$provider = new ExpressCheckout;  
+        if(config('paypal.settings.mode') == 'live'){
+            $this->client_id = config('paypal.live_client_id');
+            $this->secret = config('paypal.live_secret');
+        } else {
+            $this->client_id = config('paypal.sandbox_client_id');
+            $this->secret = config('paypal.sandbox_secret');
+        }
+        
+        // Set the Paypal API Context/Credentials
+        $this->apiContext = new ApiContext(new OAuthTokenCredential($this->client_id, $this->secret));
+        $this->apiContext->setConfig(config('paypal.settings'));
     }
     
     public function index()
@@ -163,32 +187,129 @@ class productController extends UserAdminController
              'payment_type' =>'upgrade',
              'amount' => $diff_amount,
             ]);
-            if($request->steps_plan_payment == 'paypal'){ 
+            // if($request->steps_plan_payment == 'paypal'){ 
 
-                Session::put('paypal_id',$purchase->id);
-                $data = [];
-                $data['items'] = [
-                    [
-                        'name' => "Monthly Subscription",
-                        'price' => $diff_amount,
-                        'qty' => 1
-                    ]
-                ];
-                $data['invoice_id'] = time();
-                $data['subscription_desc'] = "Monthly Subscription #1";
-                $data['invoice_description'] = "Order #{$data['invoice_id']} Invoice";
-                $data['return_url'] = url('/user/upgrade/success',$purchase->id);
-                $data['cancel_url'] = url('register');
+            //     Session::put('paypal_id',$purchase->id);
+            //     $data = [];
+            //     $data['items'] = [
+            //         [
+            //             'name' => "Monthly Subscription",
+            //             'price' => $diff_amount,
+            //             'qty' => 1
+            //         ]
+            //     ];
+            //     $data['invoice_id'] = time();
+            //     $data['subscription_desc'] = "Monthly Subscription #1";
+            //     $data['invoice_description'] = "Order #{$data['invoice_id']} Invoice";
+            //     $data['return_url'] = url('/user/upgrade/success',$purchase->id);
+            //     $data['cancel_url'] = url('register');
 
-                $total = 0;
-                foreach($data['items'] as $item) {
-                    $total += $item['price']*$item['qty'];
+            //     $total = 0;
+            //     foreach($data['items'] as $item) {
+            //         $total += $item['price']*$item['qty'];
+            //     }
+
+            //     $data['total'] = $total;
+            //     $response = self::$provider->setExpressCheckout($data, true);
+            //     PendingTransactions::where('id',$purchase->id)->update(['payment_data' => json_encode($response),'paypal_express_data' => json_encode($data)]);
+            //     return redirect($response['paypal_link']);
+
+
+            // }
+
+            if($request->steps_plan_payment == 'paypal'){
+
+                $plan = new Plan();
+                $plan->setName('Atmor Monthly Billing')
+                  ->setDescription('Monthly Subscription to the Atmor Track Purchase')
+                  ->setType('infinite');
+
+                // Set billing plan definitions
+                $paymentDefinition = new PaymentDefinition();
+                $paymentDefinition->setName('Atmor Track Subscriptions')
+                  ->setType('REGULAR')
+                  ->setFrequency('Day')
+                  ->setFrequencyInterval('1')
+                  ->setCycles('0')
+                  ->setAmount(new Currency(array('value' => $diff_amount, 'currency' => 'USD')));
+
+                // Set merchant preferences
+                $merchantPreferences = new MerchantPreferences();
+                $merchantPreferences->setReturnUrl(url('/user/paypalupgrade/paypalsuccess',$purchase->id))
+                  ->setCancelUrl(url('/user/paypalupgrade/paypalsuccess',$purchase->id))
+                  ->setAutoBillAmount('yes')
+                  ->setInitialFailAmountAction('CONTINUE')
+                  ->setMaxFailAttempts('0');
+
+                $plan->setPaymentDefinitions(array($paymentDefinition));
+                $plan->setMerchantPreferences($merchantPreferences);
+
+                //create the plan
+                try {
+                    $createdPlan = $plan->create($this->apiContext);
+
+                    try {
+                        $patch = new Patch();
+                        $value = new PayPalModel('{"state":"ACTIVE"}');
+                        $patch->setOp('replace')
+                          ->setPath('/')
+                          ->setValue($value);
+                        $patchRequest = new PatchRequest();
+                        $patchRequest->addPatch($patch);
+                        $createdPlan->update($patchRequest, $this->apiContext);
+                        $plan = Plan::get($createdPlan->getId(), $this->apiContext);
+
+                        // Output plan id
+                        // echo 'Plan ID:' . $plan->getId();
+                    } catch (PayPal\Exception\PayPalConnectionException $ex) {
+                        echo $ex->getCode();
+                        echo $ex->getData();
+                        die($ex);
+                    } catch (Exception $ex) {
+                        die($ex);
+                    }
+                } catch (PayPal\Exception\PayPalConnectionException $ex) {
+                    echo $ex->getCode();
+                    echo $ex->getData();
+                    die($ex);
+                } catch (Exception $ex) {
+                    die($ex);
                 }
 
-                $data['total'] = $total;
-                $response = self::$provider->setExpressCheckout($data, true);
-                PendingTransactions::where('id',$purchase->id)->update(['payment_data' => json_encode($response),'paypal_express_data' => json_encode($data)]);
-                return redirect($response['paypal_link']);
+             
+                $cur_plan_id=$plan->getId();
+                PendingTransactions::where('id',$purchase->id)->update(['paypal_plan_id' => $cur_plan_id]);
+
+                $agreement = new Agreement();
+                $agreement->setName('App Name Monthly Subscription Agreement')
+                  ->setDescription('Basic Subscription')
+                  ->setStartDate(\Carbon\Carbon::now()->addMinutes(5)->toIso8601String());
+
+                // Set plan id
+                $plan = new Plan();
+                $plan->setId($cur_plan_id);
+                $agreement->setPlan($plan);
+
+                // Add payer type
+                $payer = new Payer();
+                $payer->setPaymentMethod('paypal');
+                $agreement->setPayer($payer);
+                try {
+                    // Create agreement
+                    $agreement = $agreement->create($this->apiContext);
+
+                    // Extract approval URL to redirect user
+                    $approvalUrl = $agreement->getApprovalLink();
+
+                    return redirect($approvalUrl);
+                  } catch (PayPal\Exception\PayPalConnectionException $ex) {
+                    echo $ex->getCode();
+                    echo $ex->getData();
+                    die($ex);
+                  } catch (Exception $ex) {
+                    die($ex);
+                  }
+
             }
             
                 
@@ -459,6 +580,83 @@ class productController extends UserAdminController
                   return Redirect::to('user/purchase-plan');
             }
 
+    }
+
+    public function paypalSuccess(Request $request,$id){
+      // dd($request->all());
+        $token = $request->token;
+        $agreement = new \PayPal\Api\Agreement();
+
+        try {
+            // Execute agreement
+            $result = $agreement->execute($token, $this->apiContext);
+            
+            $item = PendingTransactions::find($id);
+            $item->role = 'subscriber';
+            $item->paypal = 1;
+            if(isset($result->id)){
+                $item->paypal_agreement_id = $result->id;
+            }
+            $amount = $item->amount;
+            $item->payment_status='complete';
+            $item->save();
+            $package=Packages::find($item->package);
+            $purchase_id= PurchaseHistory::create([
+                            'user_id'=>$item->user_id,
+                            'purchase_user_id'=>$item->user_id,
+                            'package_id'=>$item->package,
+                            'count'=>1,
+                            'pv'=>$package->pv,
+                            'total_amount'=>$item->amount,
+                            'pay_by'=>$item->payment_method,
+                            'rs_balance'=>$package->rs,
+                            'sales_status'=>'yes',
+                          ]);
+              RsHistory::create([
+                'user_id'=>$item->user_id,                   
+                'from_id'=>$item->user_id,
+                'rs_credit'=>$package->rs,
+              ]);
+  
+         //commsiiom
+            $sponsor_id=Sponsortree::where('user_id',$item->user_id)->value('sponsor');
+            $user_arrs=[];
+            $results=Ranksetting::getthreeupline($item->user_id,1,$user_arrs);
+          
+            foreach ($results as $key => $value) {
+                Packages::rankCheck($value);
+            }
+            Packages::levelCommission($item->user_id,$item->amount);
+            Packages::directReferral($sponsor_id,$item->user_id,$item->package);
+            //comm
+
+            $pur_user=PurchaseHistory::find($purchase_id->id);
+            $user=User::join('profile_infos','profile_infos.user_id','=','users.id')
+                       ->join('packages','packages.id','=','profile_infos.package')
+                       ->where('users.id',$pur_user->user_id)
+                       ->select('users.username','users.name','users.lastname','users.email','profile_infos.mobile','profile_infos.address1','packages.package')
+                       ->get();
+             $userpurchase=array();      
+             $userpurchase['name']=$user[0]->name;
+             $userpurchase['lastname']=$user[0]->lastname;
+             $userpurchase['amount']=$item->amount;
+             $userpurchase['payment_method']=$purchase_id->pay_by;
+             $userpurchase['mail_address']=$user[0]->email;;
+             $userpurchase['mobile']=$user[0]->mobile;
+             $userpurchase['address']=$user[0]->address1;
+             $userpurchase['invoice_id'] ='0000'.$purchase_id->id;
+             $userpurchase['date_p']=$purchase_id->created_at;
+             $userpurchase['package']=$package->package;
+             PurchaseHistory::where('id','=',$purchase_id->id)->update(['datas'=>json_encode($userpurchase)]);
+             ProfileModel::where('user_id',$item->user_id)->update(['package' => $item->package]);
+             Session::flash('flash_notification',array('message'=>"You have purchased the plan succesfully ",'level'=>'success'));
+             return  redirect("user/purchase/preview/".Crypt::encrypt($purchase_id->id));
+            // echo 'New Subscriber Created and Billed';
+
+        } catch (\PayPal\Exception\PayPalConnectionException $ex) {
+            Session::flash('flash_notification', array('level' => 'error', 'message' => 'Error In payment'));
+                  return Redirect::to('user/purchase-plan');
+        }
     }
 
     public function banktransferPreview(Request $request){

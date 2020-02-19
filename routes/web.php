@@ -645,6 +645,7 @@ Route::group(['prefix' => 'cron'], function()
 
    
    Route::get('testmail','CronController@testmail');
+   Route::get('testcurl','CronController@testcurl');
  
    
 });
@@ -744,6 +745,10 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth', 'namespace' => 'user']
     Route::post('paypal/success/{id}','RegisterController@paypalRegSuccess');
     Route::get('upgrade/success/{id}','productController@productSuccess');
     Route::post('upgrade/success/{id}','productController@productSuccess');
+    
+    Route::post('paypalupgrade/paypalsuccess/{id}','productController@paypalSuccess');
+     Route::get('paypalupgrade/paypalsuccess/{id}','productController@paypalSuccess');
+
     Route::get('banktransferPreview','productController@banktransferPreview');
     Route::get('regbanktransferpre','RegisterController@regTransferPreview');
     Route::get('get-bankpayment-status/{id}', 'RegisterController@checkStatus');

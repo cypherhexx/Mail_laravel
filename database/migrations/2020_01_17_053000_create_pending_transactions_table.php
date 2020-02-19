@@ -37,6 +37,10 @@ class CreatePendingTransactionsTable extends Migration
              $table->string('profile_id')->nullable();
              $table->string('payment_status')->default('pending');
              $table->string('approved_by')->nullable();
+             $table->string('paypal_plan_id')->nullable();
+             $table->string('role')->nullable();
+             $table->string('paypal')->nullable();
+             $table->string('paypal_agreement_id')->nullable();
              $table->timestamps();
              $table->softDeletes();
         });

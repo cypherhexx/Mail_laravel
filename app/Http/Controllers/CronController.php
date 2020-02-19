@@ -600,6 +600,43 @@ working now ----total sale 3000.00 monthly_loaylty sale 6000 Completed loyalty b
          dd("ddd");
        }
 
+       public function testcurl(){
+         $url = "http://limitlessoffice.cloudmlmdemo.com/api/addmlmuser";
+       $fields = array(
+           // "service_version"=>"1.0",
+           "sign" => "a",
+           "partner_code"=>"ZT800016",
+           "partner_orderid"=>"a",
+           "member_id"=>"test",
+           // "member_ip"=>"112.133.236.31",
+           "currency"=>"MYR",
+           "amount"=>"200000",
+           "backend_url" => "http://whatspay.cloudmlmdemo.com/transaction/backend",
+           "redirect_url" =>"http://whatspay.cloudmlmdemo.com/transaction/redirect",
+           // "bank_code"=>"HLB",
+           // "trans_time"=>"2019-5-30 13:10:00",
+           // "remarks" => "buy",
+           
+       );
+
+       $fields_string = null;
+       $ch = curl_init();
+       curl_setopt($ch,CURLOPT_URL, $url);
+       curl_setopt($ch,CURLOPT_POST, count($fields));
+       curl_setopt($ch,CURLOPT_POSTFIELDS, http_build_query($fields));
+       curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
+       // if(curl_exec($ch) === false){
+       //  echo 'Curl error: ' . curl_error($ch);}
+       // else{
+       //  echo 'Operation completed without any errors';}
+       echo $result = curl_exec($ch);die();
+       $result = curl_exec($ch);
+       $result = json_decode($result);
+       // echo "eee";
+       curl_close($ch);
+       // dd("ASdf");
+       }
+
               
 
              
