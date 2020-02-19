@@ -236,7 +236,7 @@ class productController extends UserAdminController
                 // Set merchant preferences
                 $merchantPreferences = new MerchantPreferences();
                 $merchantPreferences->setReturnUrl(url('/user/paypalupgrade/paypalsuccess',$purchase->id))
-                  ->setCancelUrl(url('/user/paypalupgrade/paypalsuccess',$purchase->id))
+                  ->setCancelUrl(url('/user/purchase-plan'))
                   ->setAutoBillAmount('yes')
                   ->setInitialFailAmountAction('CONTINUE')
                   ->setMaxFailAttempts('0');
