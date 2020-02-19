@@ -114,7 +114,7 @@ ul, menu, dir {
 <div class="row">
 <div class="col-md-4">
 	<div class="row">
-<a href="http://vintagehut.in/wordpress-demo/cloud-2162/home/"><img src="img/cache/original/alg-logo.png" width="40%" height="auto"></a>
+<a href="https://algolight.net/"><img src="img/cache/original/alg-logo.png" width="40%" height="auto"></a>
 <!--<a href="http://vintagehut.in/wordpress-demo/cloud-2162/home/"><img src="{{url('img/cache/logo/alg-logo-004.png')}}"></a>-->
 </div>
 </div>

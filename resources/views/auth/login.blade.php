@@ -108,7 +108,7 @@ $lockedflag = true;
 <form class="form-horizontal" method="POST" action="{{ route('login') }}">
 
 <div class="col-md-5">
-<a href="http://vintagehut.in/wordpress-demo/cloud-2162/home/"><img src="img/cache/original/alg-logo.png" width="40%" height="auto"></a>
+<a href="https://algolight.net/"><img src="img/cache/original/alg-logo.png" width="40%" height="auto"></a>
 <!--<a href="http://vintagehut.in/wordpress-demo/cloud-2162/home/"><img src="{{url('img/cache/logo/alg-logo-004.png')}}"></a>-->
 </div>
     {{ csrf_field() }}

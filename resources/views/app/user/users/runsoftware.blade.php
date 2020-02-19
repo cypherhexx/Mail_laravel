@@ -24,7 +24,7 @@
       <div class="row">
         <div class="col-sm-12">
           
-          <img src="{{url('img/cache/original/runsoft.jpg')}}" width="100%" height="300px">
+          <img src="{{url('img/cache/original/runsoftware.jpg')}}" width="100%" height="300px">
         </div>
 
       <div class="run-table">
