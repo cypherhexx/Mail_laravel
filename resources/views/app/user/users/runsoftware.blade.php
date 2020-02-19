@@ -5,9 +5,16 @@
 }
 
 .border{
-  border: 1px solid #000000;
+  border: 2px solid #000000;
   padding: 20px;
 }
+.run-backg{
+        background-image: url('/img/cache/original/runsoftware.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+            /*color: #fdfdfd;*/
+
+    }
 </style>
 @endsection @section('main')
 @include('flash::message') 
@@ -21,11 +28,12 @@
     </div>
 
     <div class="panel-body">
+      <div class="run-backg">
       <div class="row">
-        <div class="col-sm-12">
+     <!--    <div class="col-sm-12">
           
           <img src="{{url('img/cache/original/runsoftware.jpg')}}" width="100%" height="300px">
-        </div>
+        </div> -->
 
       <div class="run-table">
 <!--     <div class="col-sm-6">
@@ -70,7 +78,7 @@
       
     </div> -->
     <div class="col-sm-4 col-sm-offset-4 text-center border">
-      <p><h4>Run Software</h4></p>
+      <p><h4 style="color: red;">Run Software</h4></p>
    
 
           @if($status == "stopped")
@@ -156,6 +164,7 @@
 
  
         </div>
+      </div>
         </div>
 
       

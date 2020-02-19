@@ -48,7 +48,7 @@
 
                                     <h3 class="no-margin text-semibold">{{$total_grants or 0}}</h3>
                                      My Grants
-                                    <div class="text-muted text-size-small"> My Grants</div>
+                                    <!-- <div class="text-muted text-size-small"> My Grants</div> -->
                                 </div>
 
                                 <div id="chart_area_color"></div>
@@ -68,7 +68,7 @@
 
                                     <h3 class="no-margin text-semibold">{{$balance or 0}}</h3>
                                       My Money
-                                    <div class="text-muted text-size-small"> My Money</div>
+                                    <!-- <div class="text-muted text-size-small"> My Money</div> -->
                                 </div>
 
                                 <div id="chart_area_color"></div>
@@ -88,7 +88,7 @@
 
                                     <h3 class="no-margin text-semibold">{{$pending_payout or 0}} </h3>
                                  Available For Withdrawal
-                                    <div class="text-muted text-size-small">  Available For Withdrawal</div>
+                                    <!-- <div class="text-muted text-size-small">  Available For Withdrawal</div> -->
                                 </div>
 
                                 <div class="container-fluid">
@@ -111,10 +111,12 @@
                                     <h3 class="no-margin text-semibold">{{$pack_name}} {{$level_percent}}%</h3>
 
                                    My Track
-                                    <div class="text-muted text-size-small">  My Track</div>
+                                     <img src="{{url('img/cache/original/'.$pac_image)}}" style="width: 36px;">
+                                    <!-- <div class="text-muted text-size-small">  My Track</div> -->
                                 </div>
 
                                 <div id="line_chart_color"></div>
+
 
                             </div>
                             <!-- /line chart in colored panel -->
@@ -132,7 +134,7 @@
 
                                     <h3 class="no-margin text-semibold"> My Category</h3>
                                    My Category
-                                    <div class="text-muted text-size-small">   My Category</div>
+                                    <!-- <div class="text-muted text-size-small">   My Category</div> -->
                                 </div>
 
                                 <div id="sparklines_color"></div>
@@ -152,7 +154,7 @@
 
                                     <h3 class="no-margin text-semibold">{{$rank_name}}</h3>
                                  My Rank
-                                    <div class="text-mut text-size-small">My Rank</div>
+                                    <!-- <div class="text-mut text-size-small">My Rank</div> -->
                                 </div>
 
                                 <div id="sparklines_color"></div>

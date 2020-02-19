@@ -71,6 +71,7 @@ class dashboard extends UserAdminController{
         $pack=ProfileInfo::where('user_id',Auth::user()->id)->value('package');
         $pack_name=Packages::find($pack)->package;
       $level_percent=Packages::find($pack)->level_percent;
+       $pac_image=Packages::find($pack)->image;
          $ran=User::where('id',Auth::user()->id)->value('rank_id');
           $rank_name=Ranksetting::find($ran)->rank_name;
           if($ran == 1)
@@ -89,7 +90,7 @@ class dashboard extends UserAdminController{
         $method = trans('dashboard.dashboard');
         $sub_title = trans('dashboard.dashboard');
 
-       return view('app.user.dashboard.index', compact('count_new','new_users','title','point_details', 'users', 'balance','percentage_released','percentage_balance','total_bonus','sub_title','right_bv','left_bv','total_bv','total_top_up','total_rs','base','method','USER_CURRENCY','payout','weekly_users_count','monthly_users_count','yearly_users_count','total_invest','total_grants','pending_payout','pack_name','rank_name','level_percent'));
+       return view('app.user.dashboard.index', compact('count_new','new_users','title','point_details', 'users', 'balance','percentage_released','percentage_balance','total_bonus','sub_title','right_bv','left_bv','total_bv','total_top_up','total_rs','base','method','USER_CURRENCY','payout','weekly_users_count','monthly_users_count','yearly_users_count','total_invest','total_grants','pending_payout','pack_name','rank_name','level_percent','pac_image'));
     }
 
   
