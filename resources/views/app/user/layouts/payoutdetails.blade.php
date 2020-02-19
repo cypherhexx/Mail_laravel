@@ -44,7 +44,7 @@
         <!-- /members online -->
     </div>
 
-    @if($date_today >= $date_creat_sum)
+    @if($date_today < $date_creat_sum)
 
         <div class="col-lg-4">
         <!-- Members online -->
