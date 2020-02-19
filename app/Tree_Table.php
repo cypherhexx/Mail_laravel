@@ -156,6 +156,8 @@ class Tree_Table extends Model
                
                    if($value->rank_name == 'Member')
                     $rank_nm='No Rank';
+                else
+                    $rank_nm=$value->rank_name;
 
                 // echo "  ---  $value->username   --- $value->package  ,   </br>";
                 // $content = '' . Html::image('http://randomuser.me/api/portraits/men/'.$imgname.'.jpg', $username, array('class'=>$class.' tree-user','style' => 'max-width:50px;cursor:pointer;','data-accessid'=>$accessid)) . '';
