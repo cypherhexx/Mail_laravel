@@ -104,18 +104,17 @@
                             <!-- Line chart in colored panel -->
                             <div class="panel bg-success-400 rem-bg-image">
                                 <div class="panel-body">
-                                    <div class="heading-elements">
-                                       
-                                    </div>
-
-                                    <h3 class="no-margin text-semibold">{{$pack_name}} {{$level_percent}}%</h3>
+                                  
+                                    <h3 class="no-margin text-semibold">{{$pack_name}} {{$level_percent}}%</h3> 
 
                                    My Track
-                                     <img src="{{url('img/cache/original/'.$pac_image)}}" style="width: 36px;">
+                                     <img src="{{url('img/cache/original/'.$pac_image)}}" style="width: 60px;margin-top: -41px;float:right;">
                                     <!-- <div class="text-muted text-size-small">  My Track</div> -->
                                 </div>
 
-                                <div id="line_chart_color"></div>
+                                <div id="line_chart_color">
+                                    
+                                </div>
 
 
                             </div>
