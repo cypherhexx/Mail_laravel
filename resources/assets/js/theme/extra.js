@@ -4255,7 +4255,7 @@ $(".steps-planpurchase").parsley();
             
 
             $('input[name="steps_plan_payment"]').val($(this).attr('data-payment'));
-            if( $(this).attr('data-payment') == 'paypal' || $(this).attr('data-payment') == 'cheque'){
+            if( $(this).attr('data-payment') == 'paypal' || $(this).attr('data-payment') == 'cheque'  || $(this).attr('data-payment') == 'bitcoin'){
                 $(".steps-planpurchase a[href='#finish']").show();
             }else{
                 $(".steps-planpurchase a[href='#finish']").hide();

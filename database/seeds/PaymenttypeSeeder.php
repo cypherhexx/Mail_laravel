@@ -14,7 +14,7 @@ class PaymenttypeSeeder extends Seeder
       App\PaymentType::create([
           'payment_name'=>'Cheque',
           'code'=>'cheque',
-          'status'=>'yes',
+       
           
         ]);
        App\PaymentType::create([
@@ -40,6 +40,14 @@ class PaymenttypeSeeder extends Seeder
       App\PaymentType::create([
           'payment_name'=>'Voucher',
           'code'=>'voucher',
+          
+          
+        ]);
+
+       App\PaymentType::create([
+          'payment_name'=>'Bitcoin',
+          'code'=>'bitcoin',
+           'status' => 'yes',
           
           
         ]);
