@@ -320,6 +320,28 @@ class productController extends UserAdminController
                return redirect()->action('user\productController@banktransferPreview', ['id' =>$purchase->id]);
             }
 
+             if($request->steps_plan_payment == 'bitcoin'){
+
+                $title='Bitaps Payment';
+                $sub_title='Bitaps Payment';
+                $base='Bitaps Payment';
+                $method='Bitaps Payment';
+                $url ='https://api.bitaps.com/btc/v1//create/payment/address' ;
+                $payment_details = $this->url_get_contents($url,[
+                                        'forwarding_address'=>'1GwyMojNcB6yoChGy8KeAyEXfDLKxVQg1G',
+                                        'callback_link'=>url('purchasebitaps/paymentnotify'),
+                                        'confirmations'=>3
+                                        ]);
+
+                $conversion = $this->url_get_contents('https://api.bitaps.com/market/v1/ticker/btcusd',false);
+                $package_amount = $diff_amount/$conversion->data->last;
+                $package_amount=round($package_amount,8);
+                PendingTransactions::where('id',$purchase->id)->update(['payment_code'=>$payment_details->payment_code,'invoice'=>$payment_details->invoice,'payment_address'=>$payment_details->address,'payment_data'=>json_encode($payment_details)]);
+                 $trans_id=$purchase->id;
+
+                return view('app.user.product.bitaps',compact('title','sub_title','base','method','payment_details','data','package_amount','setting','trans_id'));
+            }
+
             // if($flag){
 
             //     $package = Packages::find($request->plan); 
@@ -700,4 +722,25 @@ public function purchaseStatus($trans){
     return response()->json(['valid' => false]);
 }
 
+
+  function url_get_contents ($Url,$params) {
+        if (!function_exists('curl_init')){ 
+            die('CURL is not installed!');
+        }
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $Url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        if($params){
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS,json_encode($params));
+        }
+
+          
+
+         $output = curl_exec($ch);
+
+        curl_close($ch);
+        return  json_decode($output);
+        }
 }

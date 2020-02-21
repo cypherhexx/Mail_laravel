@@ -122,6 +122,13 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 Route::get('register/paypal/success/{id}','Auth\RegisterController@paypalRegSuccess');
 Route::post('register/paypal/success/{id}','Auth\RegisterController@paypalRegSuccess');
 Route::get('get-bankpayment-status/{id}', 'Auth\RegisterController@checkStatus');
+Route::get('ajax/get-bitaps-status/{id}', 'Auth\RegisterController@bitaps');
+//bitaps response start-shilpa
+Route::get('bitaps/paymentnotify', 'Auth\RegisterController@bitapssuccess');
+Route::post('bitaps/paymentnotify', 'Auth\RegisterController@bitapssuccess');
+Route::get('purchasebitaps/paymentnotify', 'Auth\RegisterController@purchaseBitaps');
+Route::post('purchasebitaps/paymentnotify', 'Auth\RegisterController@purchaseBitaps');
+
 
 
 
@@ -567,6 +574,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth'], 'namespace' 
     Route::get('voucherverify', 'RegisterController@voucherverify');
     Route::get('register/preview/{idencrypt}', 'RegisterController@preview');
     Route::get('paypal/register', 'RegisterController@paypalReg');
+    Route::get('ajax/get-bitaps-status/{id}', 'Auth\RegisterController@bitaps');
 
     //Admin register
 

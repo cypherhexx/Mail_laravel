@@ -18,6 +18,11 @@ use App\Emails;
 use App\User;
 use App\PaypalDetails;
 use App\PendingTransactions;
+use App\ProfileModel;
+use App\PurchaseHistory;
+use App\RsHistory;
+use App\Sponsortree;
+use App\Ranksetting;
 
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Validator;
@@ -423,6 +428,28 @@ class RegisterController extends Controller
             //         } 
             // }
 
+            if($request->payment == 'bitcoin'){
+
+                $title='Bitaps Payment';
+                $sub_title='Bitaps Payment';
+                $base='Bitaps Payment';
+                $method='Bitaps Payment';
+                $url ='https://api.bitaps.com/btc/v1//create/payment/address' ;
+                $payment_details = $this->url_get_contents($url,[
+                                        'forwarding_address'=>'1GwyMojNcB6yoChGy8KeAyEXfDLKxVQg1G',
+                                        'callback_link'=>url('bitaps/paymentnotify'),
+                                        'confirmations'=>3
+                                        ]);
+
+                $conversion = $this->url_get_contents('https://api.bitaps.com/market/v1/ticker/btcusd',false);
+                $package_amount = $joiningfee/$conversion->data->last;
+                $package_amount=round($package_amount,8);
+                PendingTransactions::where('id',$register->id)->update(['payment_code'=>$payment_details->payment_code,'invoice'=>$payment_details->invoice,'payment_address'=>$payment_details->address,'payment_data'=>json_encode($payment_details)]);
+                 $trans_id=$register->id;
+
+                return view('auth.bitaps',compact('title','sub_title','base','method','payment_details','data','package_amount','setting','trans_id'));
+            }
+
             $userresult = User::add($data,$sponsor_id,$placement_id);
 
             if(!$userresult){
@@ -653,4 +680,134 @@ public function checkStatus($trans){
     
     return response()->json(['valid' => false]);
 }
+
+
+        function url_get_contents ($Url,$params) {
+        if (!function_exists('curl_init')){ 
+            die('CURL is not installed!');
+        }
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $Url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        if($params){
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS,json_encode($params));
+        }
+
+          
+
+         $output = curl_exec($ch);
+
+        curl_close($ch);
+        return  json_decode($output);
+        }
+
+    public function bitaps(Request $request,$paymentid)
+    {
+
+        // dd($request->all());
+        $item = PendingTransactions::where('id',$paymentid)->first();
+        if (is_null($item)) {
+          return response()->json(['valid' => false]);
+        }elseif($item->payment_status == 'complete'){
+          $user_id=User::where('username',$item->username)->value('id');
+            if($user_id <> null){
+                if($item->payment_type == 'upgrade'){
+                   return response()->json(['valid' => true,'status'=>$item->payment_status,'id'=>Crypt::encrypt($item->purchase_id)]); 
+                }else{
+              return response()->json(['valid' => true,'status'=>$item->payment_status,'id'=>Crypt::encrypt($user_id)]);
+          }
+          }
+        }else{
+             return response()->json(['valid' => true,'status'=>$item->payment_status,'id'=>null]);
+       }
+        return response()->json(['valid' => false]);
+
+
+    }
+
+       public function bitapssuccess(Request $request){
+       
+         $item = PendingTransactions::where('payment_code',$request->code)->first();
+         if($request->confirmations >=3 && $item->payment_status == 'pending'){
+            $item->payment_response_data = json_encode($request->all());
+            $item->save();
+            $details=json_decode($item->request_data,true);
+            $username=User::where('username',$item->username)->value('id');
+            $email=User::where('email',$item->email)->value('id');
+              if($username == null && $email == null){
+                 $userresult = User::add($details,$item->sponsor,$item->sponsor);
+                 $item->payment_status ='complete';
+                 $item->save();
+              }
+         }
+
+         dd("done");
+
+       }
+
+       public function purchaseBitaps(Request $request){
+
+         $item = PendingTransactions::where('payment_code',$request->code)->first();
+         if($request->confirmations >=3 && $item->payment_status == 'pending'){
+            $item->payment_response_data = json_encode($request->all());
+            $item->payment_status='complete';
+            $item->save();
+            $package=Packages::find($item->package);
+            $purchase_id= PurchaseHistory::create([
+                            'user_id'=>$item->user_id,
+                            'purchase_user_id'=>$item->user_id,
+                            'package_id'=>$item->package,
+                            'count'=>1,
+                            'pv'=>$package->pv,
+                            'total_amount'=>$item->amount,
+                            'pay_by'=>$item->payment_method,
+                            'rs_balance'=>$package->rs,
+                            'sales_status'=>'yes',
+                          ]);
+              RsHistory::create([
+                'user_id'=>$item->user_id,                   
+                'from_id'=>$item->user_id,
+                'rs_credit'=>$package->rs,
+              ]);
+  
+         //commsiiom
+            $sponsor_id=Sponsortree::where('user_id',$item->user_id)->value('sponsor');
+            $user_arrs=[];
+            $results=Ranksetting::getthreeupline($item->user_id,1,$user_arrs);
+          
+            foreach ($results as $key => $value) {
+                Packages::rankCheck($value);
+            }
+            Packages::levelCommission($item->user_id,$item->amount);
+            Packages::directReferral($sponsor_id,$item->user_id,$item->package);
+            //comm
+
+            $pur_user=PurchaseHistory::find($purchase_id->id);
+            $user=User::join('profile_infos','profile_infos.user_id','=','users.id')
+                       ->join('packages','packages.id','=','profile_infos.package')
+                       ->where('users.id',$pur_user->user_id)
+                       ->select('users.username','users.name','users.lastname','users.email','profile_infos.mobile','profile_infos.address1','packages.package')
+                       ->get();
+             $userpurchase=array();      
+             $userpurchase['name']=$user[0]->name;
+             $userpurchase['lastname']=$user[0]->lastname;
+             $userpurchase['amount']=$item->amount;
+             $userpurchase['payment_method']=$purchase_id->pay_by;
+             $userpurchase['mail_address']=$user[0]->email;;
+             $userpurchase['mobile']=$user[0]->mobile;
+             $userpurchase['address']=$user[0]->address1;
+             $userpurchase['invoice_id'] ='0000'.$purchase_id->id;
+             $userpurchase['date_p']=$purchase_id->created_at;
+             $userpurchase['package']=$package->package;
+             PurchaseHistory::where('id','=',$purchase_id->id)->update(['datas'=>json_encode($userpurchase)]);
+             ProfileModel::where('user_id',$item->user_id)->update(['package' => $item->package]);
+              $item->purchase_id=$purchase_id->id;
+            $item->save();
+       }
+
+       dd("done");
+   }
+
 }

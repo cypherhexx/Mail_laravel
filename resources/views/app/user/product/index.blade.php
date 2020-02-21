@@ -53,8 +53,9 @@
 
               <div class="card-body">
                 <ul class="nav nav-tabs nav-tabs-highlight nav-justified">
-                  <li class="nav-item active"><a href="#steps-planpurchase-tab1" class="nav-link  steps-plan-payment active " data-toggle="tab" data-payment='paypal' >Monthly Payment</a></li>
-                  <li class="nav-item"><a href="#steps-planpurchase-tab2" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='cheque'>Annual Payment</a></li>
+                  <li class="nav-item active"><a href="#steps-planpurchase-tab1" class="nav-link  steps-plan-payment active " data-toggle="tab" data-payment='paypal' >Paypal(Monthky)</a></li>
+                  <li class="nav-item"><a href="#steps-planpurchase-tab2" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='cheque'>Bank Transfer(Annual)</a></li>
+                   <li class="nav-item"><a href="#steps-planpurchase-tab3" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='bitcoin'>Bitaps(Annual)</a></li>
                 
                   <!--   <li class="nav-item"><a href="#steps-planpurchase-tab4" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='paypal'>Paypal</a></li> -->
               <!--     <li class="nav-item"><a href="#steps-planpurchase-tab5" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='voucher'>Voucher</a></li> -->
@@ -75,6 +76,9 @@
 
                    <div class="tab-pane fade" id="steps-planpurchase-tab2">
                       <center>Pay With Bank</center> 
+                  </div>
+                   <div class="tab-pane fade" id="steps-planpurchase-tab3">
+                      <center>Pay With Bitaps</center> 
                   </div>
 
 

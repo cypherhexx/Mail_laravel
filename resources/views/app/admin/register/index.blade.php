@@ -389,27 +389,174 @@
                 <!-- end row -->
             </fieldset>
             <h6 class="width-full">  {{trans('register.payment') }}   </h6>
-            <fieldset>
-             <div class="2_box">
+             <fieldset>
+
                 <div class="m-b-0 text-center">
                     <div class="containerX">
-                     <div class="text-center">
-                        <h1> <p class="text-success">
-                            
-                            {{trans('register.joining_fee') }}:
-                            <span >{{$joiningfee}}</span>
-                            
-                        </p></h1>
-                        <h3>{{trans('register.confirm_registration') }}</h3>
-                        <p>
-                            <button class="btn btn-success btn-lg" role="button">Card payment confirmation</button>
-                        </p>
-                    </div>
+                        <div class="row bhoechie-tab-container">
+                            <div class="col-xs-12 ">
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bhoechie-tab-menu">
+                                    <div class="list-group">
+                                        @foreach($payment_type as $payment) @if($payment->id==4)
+                                        <a href="#" payment="paypal" class="list-group-item text-center active" class="">
+                                            <h4 class="glyphicon glyphicon-send"></h4>
+                                            <br/>Card
+                                        </a>
+                                        @else
+                                        <a href="#" payment="{{$payment->code}}" class="list-group-item text-center" class="">
+                                            <h4 class="glyphicon glyphicon-send"></h4>
+                                            <br/>{{$payment->payment_name}}
+                                        </a>
+                                        @endif @endforeach
+                                    </div>
+                                </div>
+                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab">
+                                    @foreach($payment_type as $pay) @if($pay->payment_name=="Cheque")
+                                    <div class="bhoechie-tab-content active">
+                                        <div class="text-center">
+                                            <div class="text-center">
+                                                <h1> <p class="text-body">
+                                                    
+                                                    {{trans('register.joining_fee') }}:$
+                                                    <span name="fee" id="joiningfee"> 70 </span>
+                                                    
+                                                    
+                                                    
+                                                </p></h1>
+                                               
+                                                <p>
+                                                    <button class="btn btn-success btn-lg" role="button" style="background-color: #00bcd4; border-color: #00bcd4;">{{$pay->payment_name}} payment confirmation</button>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @elseif($pay->payment_name=="Ewallet")
+                                    <div class="bhoechie-tab-content ">
+                                        <div class="text-center">
+                                            <div class="text-center">
+                                                <h1> <p class="text-body">
+                                                    
+                                                    {{trans('register.joining_fee') }}:$
+                                                    <span name="fee" class="ewallet_joining"> 70 </span>
+                                                    
+                                                </p></h1>
+                                               
+                                                <p>
+                                                    <button class="btn btn-success btn-lg"  role="button" style="background-color: #00bcd4; border-color: #00bcd4;">{{$pay->payment_name}} payment confirmation</button>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    @elseif($pay->payment_name=="Paypal")
+                                    <div class="bhoechie-tab-content active">
+                                        <div class="text-center">
+                                             <div class="text-center">
+                                                <h1> <p class="text-body">
+                                                    
+                                                    {{trans('register.joining_fee') }}:$
+                                                    <span name="fee" class="ewallet_joining"> {{$joiningfee}} </span>
+                                                    
+                                                </p></h1>
+                                               
+                                                <p>
+                                                    <button class="btn btn-success btn-lg"  role="button" style="background-color: #00bcd4; border-color: #00bcd4;">Card payment confirmation</button>
+                                                </p>
+                                            </div>
+                                            <div id="myContainer" style="margin-top:100px">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                         @elseif($pay->payment_name=="Bitcoin")
+                                    <div class="bhoechie-tab-content">
+                                        <div class="text-center">
+                                            <div class="text-center">
+                                                <h1> <p class="text-body">
+                                                    
+                                                    {{trans('register.joining_fee') }}:$
+                                                    <span name="fee" class="ewallet_joining"> {{$joiningfee}} </span>
+                                                    
+                                                </p></h1>
+                                               
+                                                <p>
+                                                    <button class="btn btn-success btn-lg"  role="button" style="background-color: #00bcd4; border-color: #00bcd4;">{{$pay->payment_name}} payment confirmation</button>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @else
+                                  
+                         
+                            <div class="bhoechie-tab-content ">
+                              <div class="text-center">
+                              <div class="text-center">
+                              <h1><p class="text-success">     
+                          <!--   {{trans('register.joining_fee') }}:$
+                                            <span name="fee" id="voucher_joining">70  </span> -->
+                               </p></h1>
+                  <!--   #reg         --> 
+                     <div class="tab-pane fade in active" id="steps-planpurchase-tab1">
+                       <table class="table table-dark bg-slate-600 table-vouher-regpayment">
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Voucher code</th>
+                            <th>Amount  used</th>
+                            <th>Voucher balance</th>
+                            <th>Remaining</th>
+                            <th>Validate Voucher</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>1</td>
+                            <td><input type="text" name="voucher[]" class="form-control"></td>
+                            <td><span class="amount"></span></td>
+                            <td><span class="balance"></span></td>                             
+                            <td><span class="remaining"></span></td>                             
+                            <td class="td-validate-voucher"><button class="btn btn-info validatevoucher" onclick="return false;">Validate</button></td>
+
+
+                          </tr>
+                          </tbody>
+                           <p><button id="resulttable" class="btn btn-primary" payment="{{$pay->code}}" role="button" style="border-color:#00bcd4; background-color: #00bcd4" >{{{ trans('all.confirm') }}}</button></p>
+                </table>
+            </div>
+
+
+                          <!--   <div class="row">
+                            <div class="col-sm-2">
+                            <h5 style="color:silver";>Voucher No.</h5>
+                            </div>
+                            <div   class="col-sm-4">
+                            <input type="text" name="key" id="key" placeholder="{{{ trans('all.voucher_key') }}}" class="form-control" />
+                            </div>
+                            <div   class="col-sm-2">
+                            <a href="" id="verify" class="btn btn-default">{{{ trans('all.verify') }}}</a>
+                            </div>
+                            <div class="col-sm-4">
+                            <div id ="err"></div>
+                            </div>
+                            </div>   -->
+
+
+                           <!--  <table class="table" id="resulttable">
+
+                            </table><br> -->
+                           
+                            </div>
+                            </div>
+                            </div> 
+
+
+                                    @endif 
+                                    @endforeach
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-    </div>
-    </div>
     </fieldset>
     </form>
 </div>

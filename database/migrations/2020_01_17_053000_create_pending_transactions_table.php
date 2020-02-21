@@ -41,6 +41,8 @@ class CreatePendingTransactionsTable extends Migration
              $table->string('role')->nullable();
              $table->string('paypal')->nullable();
              $table->string('paypal_agreement_id')->nullable();
+             $table->string('purchase_id')->nullable();
+             
              $table->timestamps();
              $table->softDeletes();
         });
