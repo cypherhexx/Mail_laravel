@@ -33,7 +33,7 @@
                     </input>
                 </div>
             </div>
-             <div class="form-group">
+      <!--        <div class="form-group">
                 <label class="col-sm-3 control-label" for="current_password">
                     {{trans('ewallet.transaction_password')}} 
                 </label>
@@ -41,7 +41,7 @@
                 <input class="form-control" name="oldpass" id="oldpass" autocomplete="new-password"  type="password"  >
                 </input>
                 </div>
-            </div>
+            </div> -->
             <div class="col-sm-offset-2">
                 <div class="form-group" style="float: left; margin-right: 0px;">
                     <div class="col-sm-2">
@@ -94,7 +94,7 @@
 
                                                     <td>{{$item->username}}</td>
 
-                                                    <td>{{$currency_sy}}{{$item->payable_amount}}</td>
+                                                    <td>{{$currency_sy}} {{$item->payable_amount}}</td>
 
                                                     
 
