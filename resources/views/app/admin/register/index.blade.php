@@ -399,13 +399,12 @@
                                     <div class="list-group">
                                         @foreach($payment_type as $payment) @if($payment->id==4)
                                         <a href="#" payment="paypal" class="list-group-item text-center active" class="">
-                                            <h4 class="glyphicon glyphicon-send"></h4>
-                                            <br/>Card
+
+                                           <img src="{{url('img/cache/original/paypallogo.png')}}" style="width: 76px;height: 60px;">
                                         </a>
                                         @else
                                         <a href="#" payment="{{$payment->code}}" class="list-group-item text-center" class="">
-                                            <h4 class="glyphicon glyphicon-send"></h4>
-                                            <br/>{{$payment->payment_name}}
+                                              <img src="{{url('img/cache/original/bit.png')}}" style="width: 90px;height: 63px;">
                                         </a>
                                         @endif @endforeach
                                     </div>
@@ -454,7 +453,7 @@
                                              <div class="text-center">
                                                 <h1> <p class="text-body">
                                                     
-                                                    {{trans('register.joining_fee') }}:$
+                                                    {{trans('register.joining_fee') }}:{{$currency_sy}}
                                                     <span name="fee" class="ewallet_joining"> {{$joiningfee}} </span>
                                                     
                                                 </p></h1>
@@ -474,7 +473,7 @@
                                             <div class="text-center">
                                                 <h1> <p class="text-body">
                                                     
-                                                    {{trans('register.joining_fee') }}:$
+                                                    {{trans('register.joining_fee') }}:{{$currency_sy}}
                                                     <span name="fee" class="ewallet_joining"> {{$joiningfee}} </span>
                                                     
                                                 </p></h1>
@@ -561,8 +560,7 @@
     </form>
 </div>
 </div>
-</div>
-</div>
+
 @endsection @section('overscripts') @parent
 <script type="text/javascript">
 var joiningfe = {{ $joiningfee }};

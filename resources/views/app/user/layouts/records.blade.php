@@ -46,7 +46,7 @@
                                         
                                     </div>
 
-                                    <h3 class="no-margin text-semibold">{{$total_grants or 0}}</h3>
+                                    <h3 class="no-margin text-semibold">{{$currency_sy}}{{$total_grants or 0}}</h3>
                                      My Grants
                                     <!-- <div class="text-muted text-size-small"> My Grants</div> -->
                                 </div>
@@ -66,7 +66,7 @@
                                         
                                     </div>
 
-                                    <h3 class="no-margin text-semibold">{{$balance or 0}}</h3>
+                                    <h3 class="no-margin text-semibold">{{$currency_sy}}{{$balance or 0}}</h3>
                                       My Money
                                     <!-- <div class="text-muted text-size-small"> My Money</div> -->
                                 </div>
@@ -86,7 +86,7 @@
                                         
                                     </div>
 
-                                    <h3 class="no-margin text-semibold">{{$pending_payout or 0}} </h3>
+                                    <h3 class="no-margin text-semibold">{{$currency_sy}}{{$pending_payout or 0}} </h3>
                                  Available For Withdrawal
                                     <!-- <div class="text-muted text-size-small">  Available For Withdrawal</div> -->
                                 </div>

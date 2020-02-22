@@ -18,7 +18,7 @@ class AppSeeder extends Seeder
            'logo' => 'atmor.png',
            'logo_ico' => 'atmor.png',
            'theme' => 'default',
-           'currency' => '$',
+           'currency' => '€',
            'site_mode' => 'yes',
           ]);
     }

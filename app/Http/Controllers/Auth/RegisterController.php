@@ -711,6 +711,7 @@ public function checkStatus($trans){
         if (is_null($item)) {
           return response()->json(['valid' => false]);
         }elseif($item->payment_status == 'complete'){
+          // dd($item->username);
           $user_id=User::where('username',$item->username)->value('id');
             if($user_id <> null){
                 if($item->payment_type == 'upgrade'){
@@ -730,6 +731,7 @@ public function checkStatus($trans){
        public function bitapssuccess(Request $request){
        
          $item = PendingTransactions::where('payment_code',$request->code)->first();
+         // dd($item);
          if($request->confirmations >=3 && $item->payment_status == 'pending'){
             $item->payment_response_data = json_encode($request->all());
             $item->save();

@@ -1,7 +1,7 @@
 @extends('app.user.layouts.default') {{-- Web site Title --}} @section('title') {{{ $title }}} :: @parent @stop @section('styles') @parent 
 
 @endsection {{-- Content --}} @section('main') @include('app.user.layouts.records')
-<div class="row">
+<!-- <div class="row">
     <div class="col-sm-6">
         <div class="panel ">
             <div class="panel-heading">
@@ -45,7 +45,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <!-- <div class="col-sm-6">
     <div class="panel border-top-purple-300 border-bottom-purple-300">
         <div class="panel-heading">
@@ -90,7 +90,7 @@
     </div>
 </div>
 </div> -->
-</div>
+<!-- </div> -->
 <div class="row">
 <div class="col-lg-12">
 <div class="panel panel-flat">

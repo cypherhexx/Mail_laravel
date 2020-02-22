@@ -106,7 +106,7 @@ class EwalletController extends AdminController
 
          $ewallet_count = $users1->union($users2)->union($users3)->union($users4)->orderBy('created_at', 'DESC')->get()->count();
         $users = $users1->union($users2)->union($users3)->union($users4)->orderBy('created_at', 'DESC');
-        dd($users);
+        // dd($users);
             // ->offset($request->start)
             // ->limit($request->length)
             // ->get();
@@ -187,8 +187,8 @@ class EwalletController extends AdminController
 
             return redirect()->back()->withErrors($validator);
         } else {
-             if (Hash::check($current_pass, Auth::user()->transaction_pass))
-               {    
+             // if (Hash::check($current_pass, Auth::user()->transaction_pass))
+             //   {    
             
        
                   $user_id = User::where('username', $request->username)->value('id');
@@ -205,14 +205,14 @@ class EwalletController extends AdminController
 
             return redirect()->back();
            }
-           else{
-             Session::flash('flash_notification', array('message' => "Incorrect password", 'level' => 'danger'));
-               return redirect()->back();
-           }
+           // else{
+           //   Session::flash('flash_notification', array('message' => "Incorrect password", 'level' => 'danger'));
+           //     return redirect()->back();
+           // }
        
         }
 
-    }
+    // }
 
     public function rs_wallet()
     {

@@ -692,7 +692,8 @@ class productController extends UserAdminController
     $orderid=$data->order_id;
     $package=Packages::find($data->package);
     $diff_amount=$data->amount;
-    $euro_amount=User::checkrate($diff_amount);
+    $euro_amount=$diff_amount;
+    // $euro_amount=User::checkrate($diff_amount);
     $trans_id=$request->id;
     
     Session::flash('flash_notification', array('level' => 'success', 'message' => "The account will be activated once the payment has been processed!"));
