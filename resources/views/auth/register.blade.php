@@ -112,13 +112,13 @@ ul, menu, dir {
 
 <!-- Wizard with validation -->
 <div class="row">
-<div class="col-md-4">
+<!--<div class="col-md-4">
 	<div class="row">
 <a href="https://algolight.net/"><img src="img/cache/original/algo-logo.png" width="40%" height="auto"></a>
-<!--<a href="http://vintagehut.in/wordpress-demo/cloud-2162/home/"><img src="{{url('img/cache/logo/alg-logo-004.png')}}"></a>-->
+<a href="http://vintagehut.in/wordpress-demo/cloud-2162/home/"><img src="{{url('img/cache/logo/alg-logo-004.png')}}"></a>
 </div>
-</div>
-<div class="col-md-8">
+</div>-->
+<div class="col-md-8 col-md-offset-4">
     <div class="vide-strap">
           <p>Welcome , This site is sponsored by <b>{{ $sponsor[0]->username }}</b> </p>
     </div>
