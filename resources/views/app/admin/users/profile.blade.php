@@ -193,7 +193,12 @@
                                                     {{ trans('register.sponsor') }}
                                                 </label>
                                                 <span class="pull-right-sm">
-                                                    {{ Auth::user()->username }}
+
+                                                    @if($sponsor == null)
+                                                    NA
+                                                    @else
+                                                  {{ $sponsor->username }}
+                                                  @endif
                                                 </span>
                                             </div>
                                             
