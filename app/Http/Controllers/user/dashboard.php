@@ -119,9 +119,10 @@ class dashboard extends UserAdminController{
         $method = trans('dashboard.dashboard');
         $sub_title = trans('dashboard.dashboard');
         $products=Packages::where('id','>',1)->get();
+        $pac_am=0;
         // dd($packages);
 
-        return view('app.user.dashboard.purchaseindex', compact('title','sub_title','base','method','products'));
+        return view('app.user.dashboard.purchaseindex', compact('title','sub_title','base','method','products','pac_am'));
 
     }
 
