@@ -124,7 +124,8 @@ class productController extends UserAdminController
         $products = Packages::where('id','>',$package)->get();  
         $balance =  Balance::where('user_id',Auth::user()->id)->value('balance');
         $min_amount =  Packages::min('amount');
-        return view('app.user.product.index',compact('title','products','rules','base','method','sub_title','balance','min_amount'));    
+        $pac_am= Packages::find($package)->amount;  
+        return view('app.user.product.index',compact('title','products','rules','base','method','sub_title','balance','min_amount','pac_am'));    
     }
 
 
@@ -334,7 +335,8 @@ class productController extends UserAdminController
                                         ]);
 
                 $conversion = $this->url_get_contents('https://api.bitaps.com/market/v1/ticker/btcusd',false);
-                $package_amount = $diff_amount/$conversion->data->last;
+                $diff=$diff_amount*11;
+                $package_amount = $diff/$conversion->data->last;
                 $package_amount=round($package_amount,8);
                 PendingTransactions::where('id',$purchase->id)->update(['payment_code'=>$payment_details->payment_code,'invoice'=>$payment_details->invoice,'payment_address'=>$payment_details->address,'payment_data'=>json_encode($payment_details)]);
                  $trans_id=$purchase->id;
@@ -691,8 +693,9 @@ class productController extends UserAdminController
     $bank_details = ProfileInfo::where('user_id',1)->first();
     $orderid=$data->order_id;
     $package=Packages::find($data->package);
-    $diff_amount=$data->amount;
+    $diff_amount=$data->amount*11;
     $euro_amount=$diff_amount;
+    // dd($euro_amount)
     // $euro_amount=User::checkrate($diff_amount);
     $trans_id=$request->id;
     
