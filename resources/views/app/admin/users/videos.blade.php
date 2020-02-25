@@ -23,7 +23,7 @@
     <div class="panel-body">
         <!-- @include('utils.errors.list') -->
      
-        <form class="form-horizontal" method="post" enctype="multipart/form-data" action="{{url('admin/postvideos')}}" onsubmit="return checkForm(this);">
+        <form class="form-horizontal" id="form2" method="post" enctype="multipart/form-data" action="{{url('admin/postvideos')}}" onsubmit="return checkForm(this);">
             <input type="hidden" name="_token" value="{{csrf_token()}}">
             
             <div class="form-group">
@@ -53,7 +53,7 @@
             <div class="form-group">
                 
                 <div class="col-md-6 col-md-offset-3">
-                    <button type="submit" name="add_video" id="add_video" class="btn btn-sm btn-success">{{trans('users.add')}}</button>
+                    <button type="submit" name="add_video" id="add" class="btn btn-sm btn-success">{{trans('users.add')}}</button>
                 </div>
             </div>
             
@@ -135,4 +135,19 @@
                                   @endif
 
 @endsection
+@section('scripts') @parent
 
+ <script type="text/javascript">
+         $(document).ready(function () {
+         
+             $("#form2").submit(function (e) {
+                 $("#add").attr("disabled", true);
+                 return true;
+         
+             });
+         });
+         
+      </script>
+   
+</script>
+@endsection

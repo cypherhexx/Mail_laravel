@@ -525,7 +525,7 @@ else
          * [Get States from mmdb]
          * @var [collection]
          */
-        $states = CountryState::getStates('US');
+        $states = CountryState::getStates('');
         /**
          * Get all packages from database
          * @var [collection]
