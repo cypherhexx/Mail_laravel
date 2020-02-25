@@ -1573,7 +1573,7 @@ $(document).ready(function() {
             // confirm('Are you sure you want to delete the note?','confirmation','yes','no');
             swal({
                 title: "Are you sure?",
-                text: "Your will not be able to recover this note!",
+                text: "You will not be able to recover this note!",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonClass: "btn-danger",

@@ -10,7 +10,7 @@
     <form class="wizard-form steps-planpurchase" action="{{url('user/purchase-plan')}}" method="post"  data-parsley-validate="true">
         {!! csrf_field() !!}
 
-            <h6>{{trans('products.choose_pacakge')}} </h6>
+            <h6>{{trans('products.choose_package')}} </h6>
             <fieldset>
                <div class="col-md-12">                
                     <div class="d-flex align-items-start flex-column flex-md-row">   
