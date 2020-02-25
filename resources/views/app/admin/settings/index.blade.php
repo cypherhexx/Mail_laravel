@@ -46,7 +46,7 @@
                                       <div class="form-group">
                                          <div class="row">
                                             <div class="col-sm-6">
-                                                <label for="">Joininf Fee Referral (%):</label>
+                                                <label for="">Joining Fee Referral (%):</label>
                                             </div>
                                             <div class="col-sm-4">
                                                  <a class="settings form-control"  id="joinfee" data-type='text' data-pk="{{$settings->id}}" data-title='Joining Fee' data-name="joinfee">
@@ -80,7 +80,7 @@
                                          <div class="form-group">
                                          <div class="row">
                                             <div class="col-sm-6">
-                                                <label for="">Withdra Period (days):</label>
+                                                <label for="">Withdraw Period (days):</label>
                                             </div>
                                             <div class="col-sm-4">
                                                  <a class="settings form-control"  id="withdraw_days" data-type='number' data-pk="{{$settings->id}}" data-title='Days' data-name="withdraw_days">

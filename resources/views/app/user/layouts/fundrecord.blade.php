@@ -28,7 +28,7 @@
 
                                     <h3 class="no-margin text-semibold">  {{$currency_sy}}{{ $total_transfer}}  </h3>
                                    <!--  {{trans('dashboard.members_income')}} -->
-                                    <div class="text-muted text-size-small">{{trans('ewallet.total_transfered_amount')}}</div>
+                                    <div class="text-muted text-size-small">{{trans('ewallet.total_transferred_amount')}}</div>
                                 </div>
 
                                 <div class="container-fluid">

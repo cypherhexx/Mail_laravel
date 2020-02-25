@@ -12,7 +12,7 @@
 <!-- Wizard with validation -->
 <div class="panel panel-white">
     <div class="panel-heading">
-        <h6 class="panel-title">{{trans('register.register_new_memeber') }}</h6>
+        <h6 class="panel-title">{{trans('register.register_new_member') }}</h6>
         <div class="heading-elements">
             <ul class="icons-list">
                 <li><a data-action="collapse"></a></li>
@@ -246,7 +246,7 @@
                
                     <div class="col-md-6">
                         <div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('gender') ? ' has-error' : '' }}">
-                            {!! Form::label('gender', trans("register.gender"), array('class' => 'control-label')) !!} {!! Form::select('gender', array('m' => trans("all.male"), 'f' => trans("all.female") ,'other' =>trans("all.other")),NULL,['class' => 'form-control','required' => 'required','data-parsley-required-message' => trans("all.please_select_gender"),'data-parsley-group' => 'block-0']) !!}
+                            {!! Form::label('gender', trans("register.gender"), array('class' => 'control-label')) !!} {!! Form::select('gender', array('m' => trans("all.male"), 'f' => trans("all.female")),NULL,['class' => 'form-control','required' => 'required','data-parsley-required-message' => trans("all.please_select_gender"),'data-parsley-group' => 'block-0']) !!}
                             <div class="form-control-feedback">
                                 <i class="fa fa-neuter text-muted"></i>
                             </div>

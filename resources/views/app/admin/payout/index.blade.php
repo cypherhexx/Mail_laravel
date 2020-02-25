@@ -1,7 +1,7 @@
 @extends('app.admin.layouts.default')
 
 {{-- Web site Title --}}
-@section('title')  @parent
+@section('title') {{{ $title }}} @parent
 @stop
 
 

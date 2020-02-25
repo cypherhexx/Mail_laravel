@@ -1,6 +1,9 @@
 @extends('app.admin.layouts.default')
  @section('styles')
   @parent
+  {{-- Web site Title --}}
+@section('title') {{{ $title }}} :: @parent @stop
+
 <style type="text/css">
 
 .col-md-12 {

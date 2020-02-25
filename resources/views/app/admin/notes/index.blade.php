@@ -1,6 +1,6 @@
 @extends('app.admin.layouts.default')
 {{-- Web site Title --}}
-@section('title') Member profile:: @parent
+@section('title') Notes:: @parent
 @stop
 {{-- Content --}}
 @section('main')

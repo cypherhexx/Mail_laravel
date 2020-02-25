@@ -24,7 +24,7 @@
 
     <div class="panel-body">
 
-    <form class="form-horizontal" role="form" method="POST" action="{{ URL::to('admin/create_news') }}">
+    <form class="form-horizontal" id="form1" role="form" method="POST" action="{{ URL::to('admin/create_news') }}">
 
         <input type="hidden" name="_token"  value="{{csrf_token()}}">       
 
@@ -61,7 +61,7 @@
 
         <div class="col-md-6 col-md-offset-2">
 
-                <button class="btn btn-primary" type="submit">Save</button>
+                <button class="btn btn-primary" id="btn-submit" type="submit">Save</button>
 
         </div>
 
@@ -125,9 +125,22 @@
     </div>
 
 
-
 @endsection
 @section('scripts') @parent
+
+ <script type="text/javascript">
+         $(document).ready(function () {
+         
+             $("#form1").submit(function (e) {
+                 $("#btn-submit").attr("disabled", true);
+                 return true;
+         
+             });
+         });
+         
+      </script>
+   
+</script>
    
       <script type="text/javascript"> 
 

@@ -189,7 +189,7 @@ class UserController extends UserAdminController
     public function changestatus(){
       $max=UserBrokerDetails::where('user_id',Auth::user()->id)->max('id');
       UserBrokerDetails::where('id',$max)->update(['status' => 'stopped']);
-       Session::flash('flash_notification',array('level'=>'success','message'=>'Stopped Successully'));
+       Session::flash('flash_notification',array('level'=>'success','message'=>'Stopped Successfully'));
         return redirect()->back();
 
     }

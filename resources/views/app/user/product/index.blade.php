@@ -10,7 +10,7 @@
     <form class="wizard-form steps-planpurchase" action="{{url('user/purchase-plan')}}" method="post"  data-parsley-validate="true">
         {!! csrf_field() !!}
 
-            <h6>{{trans('products.choose_pacakge')}} </h6>
+            <h6>{{trans('products.choose_package')}} </h6>
             <fieldset>
                <div class="col-md-12">                
                     <div class="d-flex align-items-start flex-column flex-md-row">   
@@ -33,7 +33,7 @@
                                 <h4>Monthly Payment</h4>                                  
                                 <div class="form-check">
                                   <div class="uniform-choice border-indigo-600 text-indigo-800"><span class="checked">
-                                    <input type="radio"  required="required"    name="plan" badge-class="{{$item->package}}" class="form-check-input-styled-custom" data-fouc="" data-parsley-group="block-0" value="{{$item->id}}" plan-amount="{{$item->amount}}">
+                                    <input type="radio"  required="required"    name="plan" badge-class="{{$item->package}}"  class="form-check-input-styled-custom" data-fouc="" data-parsley-group="block-0" value="{{$item->id}}" plan-amount="{{$item->amount}}">
                                     <span class="checkmark"></span>
                                   </div>
                                 </div>
@@ -71,15 +71,28 @@
                   <div class="tab-pane fade in active" id="steps-planpurchase-tab1">
                     <input type="hidden" name="steps_plan_payment" value="paypal" data-parsley-group="block-1">
                     <center>Pay With Paypal</center> 
-                     
+
+                 <center> <b><p style="color:red;">Fee:
+                  <span name="fee" class="paypal"></span></p></b></center>
+               
                   </div>
 
                    <div class="tab-pane fade" id="steps-planpurchase-tab2">
                       <center>Pay With Bank</center> 
+                     
+                 <center> <b><p style="color:red;">Fee:
+                  <span name="fee" class="bank"></span></p></b></center>
+                
+                     
                   </div>
                    <div class="tab-pane fade" id="steps-planpurchase-tab3">
                       <center>Pay With Bitaps</center> 
+                 <center> <b ><p style="color:red;">Fee:
+                  <span name="fee" class="bitap"></span></p></b></center>
+                
                   </div>
+                   
+                     
 
 
                 </div>
@@ -133,6 +146,18 @@ $(document).on('submit', 'form', function() {
                StripeCheckout.open(opts);
            });
        });
+</script>
+<script type="text/javascript">
+  $("input[name='plan']").change(function(){
+   var real_amount=$(this).attr("plan-amount");
+   var prev_amount={{$pac_am}};
+   var diff=real_amount-prev_amount;
+   var other=diff*11;
+  
+    $('.paypal').html(diff); 
+    $('.bank').html(other);  
+    $('.bitap').html(other);
+});
 </script>
 
 

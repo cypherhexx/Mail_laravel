@@ -525,7 +525,7 @@ else
          * [Get States from mmdb]
          * @var [collection]
          */
-        $states = CountryState::getStates('US');
+        $states = CountryState::getStates('');
         /**
          * Get all packages from database
          * @var [collection]
@@ -626,7 +626,7 @@ else
         // }
 
         if ($related_profile_info->save()) {
-            Session::flash('flash_notification', array('message' => "Profile updated succesfully", 'level' => 'success'));
+            Session::flash('flash_notification', array('message' => "Profile updated successfully", 'level' => 'success'));
             return redirect()->back();
         } else {
             return redirect()->back()->withErrors(['Whoops, looks like something went wrong']);
@@ -1112,7 +1112,7 @@ else
    public function updateNews(Request $request){
 
     News::where('id',$request->id)->update(array('title'=>$request->title,'description'=>$request->description));
-   Session::flash('flash_notification', array('level' => 'success','message' =>'News Updated Sccessfully'));
+   Session::flash('flash_notification', array('level' => 'success','message' =>'News Updated Successfully'));
 
    return redirect('admin/read_news');
    }
@@ -1213,7 +1213,7 @@ else
       $delete_video=EventVideos::find($id);
       $delete_video->delete();
 
-       Session::flash('flash_notification', array('level' => 'success', 'message' => 'Video deleted Sucessfully'));
+       Session::flash('flash_notification', array('level' => 'success', 'message' => 'Video deleted Successfully'));
      return redirect()->back();
     }
 
@@ -1351,7 +1351,7 @@ else
           ProfileModel::where('user_id',$transaction->user_id)->update(['package' => $transaction->package]);
           $transaction->payment_status ='complete';
           $transaction->save();
-          Session::flash('flash_notification',array('message'=>"You have purchased the plan succesfully ",'level'=>'success'));
+          Session::flash('flash_notification',array('message'=>"You have purchased the plan successfully ",'level'=>'success'));
           return redirect()->back();
        }
        else{

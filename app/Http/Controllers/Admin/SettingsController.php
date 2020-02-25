@@ -947,7 +947,7 @@ static function humanFilesize($size, $precision = 2) {
                     PurchaseHistory::where('id','=',$purchase_id->id)->update(['datas'=>json_encode($userpurchase)]);
                     ProfileModel::where('user_id',$user_id)->update(['package' => $request->package]);
                    
-                    Session::flash('flash_notification',array('message'=>"You have purchased the plan succesfully ",'level'=>'success'));
+                    Session::flash('flash_notification',array('message'=>"You have purchased the plan successfully ",'level'=>'success'));
                     return redirect()->back();
                   }else{
                     Session::flash('flash_notification',array('message'=>"Plan Purchase not possible",'level'=>'error'));
