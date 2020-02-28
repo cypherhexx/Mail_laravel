@@ -214,14 +214,14 @@
                         </a>
                     </li>
                    <li class="navigation-header"><span>Communication</span> <i class="icon-menu" title="Forms"></i></li>
-                   <li class="has-sub {{set_active('admin/inbox')}}">
+             <!--       <li class="has-sub {{set_active('admin/inbox')}}">
                         <a href="{{url('admin/inbox')}}">
                             <span class="badge pull-right"></span>
                             <i class="icon-envelop5"></i> 
                             <span>Support</span>
                         </a>
                        
-                    </li> 
+                    </li>  -->
 
                     <li class="has-sub {{set_active('admin/ticketdashboard')}} {{set_active('admin/view_ticket')}} {{set_active('admin/ticket_configuration')}} {{set_active('admin/get-faq')}}{{set_active('admin/helpdesk/tickets-dashboard')}}">
                         <a href="{{url('admin/helpdesk/tickets-dashboard')}}">

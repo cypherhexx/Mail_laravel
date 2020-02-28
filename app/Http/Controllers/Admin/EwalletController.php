@@ -180,10 +180,12 @@ class EwalletController extends AdminController
 
         $validator = Validator::make($request->all(), [
             'username' => 'required|exists:users',
-            'amount'   => 'required|numeric',
+            'amount'   => 'required|numeric|min:1|not_in:1',
         ]);
 
         if ($validator->fails()) {
+            
+
 
             return redirect()->back()->withErrors($validator);
         } else {

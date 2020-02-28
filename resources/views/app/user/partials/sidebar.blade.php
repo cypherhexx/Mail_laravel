@@ -179,12 +179,12 @@
                  
                      
 
-                       <li class="{{set_active('user/compose')}}">
+                   <!--     <li class="{{set_active('user/compose')}}">
                         <a href="{{url('user/compose')}}">
                             <i class="fa fa-envelope"></i>
                             <span class="text"> Support</span>
                         </a>
-                    </li> 
+                    </li>  -->
 
                   
                        <li class="{{set_active('user/news_read')}}">

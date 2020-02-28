@@ -64,3 +64,16 @@
     </div>
 </div>
 @endsection
+{{-- Scripts --}}
+@section('scripts')
+@parent
+
+<script>
+    $(document).ready(function(){
+        $('#btn-cancel').click(function(){  
+            $(' #input[type="text"]').val('');
+            $(' #key-word-user-binary').val('');
+        });
+    });
+</script>
+@endsection

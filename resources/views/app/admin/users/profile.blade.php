@@ -18,13 +18,13 @@
     <div id="searchuser" class="row mb-10">
             <div class="col-sm-12">
                 <span class="input-group">   
-                    <input type="text" class="form-control" name="username" placeholder="Search User">
+                    <input type="text" class="form-control" id="clear1" name="username" placeholder="Search User">
                 
                     <span class="input-group-btn">                    
                         <button class="btn-icon btn btn-info" type="submit" id="btn-filter-node"  ><i class="fa fa-search position-left"></i>{{trans('profile.search')}}</button>
                     </span>
                 <span class="input-group-btn">
-                        <button class="btn btn-danger" type="button"  id="btn-cancel"><i class="icon-cross"></i></button>
+                        <button class="btn btn-danger" type="button"  id="btnClear"><i class="icon-cross"></i></button>
                     </span>
                 </span>
             </div>
@@ -965,8 +965,14 @@ Save
 {{-- Scripts --}}
 @section('scripts')
 @parent
-<script type="text/javascript">
-  
+
+<script>
+    $(document).ready(function(){
+        $('#btnClear').click(function(){  
+            $('#usersearch input[type="text"]').val('');
+            $('#usersearch #clear1').val('');
+        });
+    });
 </script>
 @endsection
 
@@ -977,4 +983,5 @@ Save
     background-size: cover;
 }
 </style>
+
 @endsection
