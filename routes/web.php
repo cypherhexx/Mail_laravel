@@ -216,6 +216,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth'], 'namespace' 
 
     Route::get('trackpayment','SettingsController@trackPayment');
     Route::post('uptrackpayment','SettingsController@upTrackPayment');
+    Route::post('updatpackage_image', 'SettingsController@updatpackage_image');
 
     Route::post('saveprofile', ['as' => 'admin.saveprofile', 'uses' => 'UserController@saveprofile']);
 
