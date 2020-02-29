@@ -66,6 +66,10 @@ Route::get('binary_calculate_demo', 'RegisterController@binary_calculate_demo');
 //CHAT CONTROLLER
 Route::post('chat/setPresence', 'ChatController@setPresence');
 
+
+/*vincy*/
+Route::get('store_sponsor/{username}','Auth\RegisterController@store_sponsor');
+/*vincy*/
 /*
 |--------------------------------------------------------------------------
 | // SITE FRONT
@@ -150,6 +154,9 @@ Route::get('image/{file}', ['as'=>'image', 'uses'=>'ImageController@getFile']);
 
 
 Route::get('/{sponsorname}', 'Auth\RegisterController@showRegistrationForm')->name('register');
+
+
+Route::post('username_validate', 'Api\RegisterController@username_verification');
 /*
 |--------------------------------------------------------------------------
 | // Admin routes...
