@@ -18,6 +18,7 @@ use App\Packages;
 use App\ProfileModel;
 use App\PurchaseHistory;
 use App\RsHistory;
+use App\Activity;
 use Auth;
 use Artisan;
 use Illuminate\Http\Request;
@@ -90,6 +91,7 @@ class SettingsController extends AdminController
 
     public function ranksetting()
     {
+        // $settings  = Ranksetting::all();
         $settings  = Ranksetting::where('id','>',1)->get();
         // dd($settings);
         $title     = trans('settings.rank_settings');
@@ -251,6 +253,53 @@ class SettingsController extends AdminController
             return Response::json(array('status' => 1));
         } else {
             return Response::json(array('status' => 0));
+        }
+
+    }
+
+    public function updatpackage_image(Request $request)
+    {
+        
+     // dd($request->all());
+        $changedby=Auth::user()->username;
+        if($request->hasfile('file')){
+
+            // $file=$request->file;
+            // try {
+            //     $mime = $file->getMimeType();
+            // } catch (\Exception $e) {
+            //     $mime = $file->getClientMimeType();
+            // }
+            // //dd($mime);
+            // $validator = Validator::make($request->all(), $this->validationRules);
+       
+            // if ($validator->fails()) {
+
+            //     Session::flash('flash_notification', array('level' => 'error','message' => trans('ticket_config.uploaded_failed')));
+            //     return Redirect::back();
+            // }
+            // else{
+
+
+            $requestid=$request->requestid;
+            $destinationPath = public_path().'/assets/uploads'; 
+
+            $extension = Input::file('file')->getClientOriginalExtension(); 
+            $fileName = rand(000011111,99999999999).'.'.$extension; 
+            Input::file('file')->move($destinationPath, $fileName);
+            // dd($destinationPath);
+// dd($fileName);
+             Ranksetting::where('id',$requestid)->update(['image' => $fileName]);
+             $package_name=Ranksetting::where('id',$requestid)->value('image');
+            Activity::add("Image updated by  $changedby ","package image of $package_name updated  by $changedby","ranksetting");
+            Session::flash('flash_notification',array('message'=>trans('updated'),'level'=>'success'));
+            return redirect()->back();
+            // }
+        }
+        else{
+            
+            Session::flash('flash_notification',array('message'=>trans('No image selected'),'level'=>'danger'));
+            return redirect('/admin/ranksetting');
         }
 
     }
