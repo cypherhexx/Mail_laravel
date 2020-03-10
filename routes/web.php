@@ -753,6 +753,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth', 'namespace' => 'user']
     Route::post('paypal/success/{id}','RegisterController@paypalRegSuccess');
     Route::get('upgrade/success/{id}','productController@productSuccess');
     Route::post('upgrade/success/{id}','productController@productSuccess');
+    Route::get('getplanid','productController@getplanid');
     
     Route::post('paypalupgrade/paypalsuccess/{id}','productController@paypalSuccess');
      Route::get('paypalupgrade/paypalsuccess/{id}','productController@paypalSuccess');
