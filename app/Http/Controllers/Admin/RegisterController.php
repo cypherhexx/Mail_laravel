@@ -315,6 +315,7 @@ class RegisterController extends AdminController
                 }
 
                 $data['total'] = $total; 
+                self::$provider->setCurrency('EUR');
                 $response = self::$provider->setExpressCheckout($data); 
                 PendingTransactions::where('id',$register->id)->update(['payment_data' => json_encode($response),'paypal_express_data' => json_encode($data)]);
              
@@ -648,6 +649,7 @@ class RegisterController extends AdminController
 
     public function paypalRegSuccess(Request $request,$id){
         // dd($request->all());
+          self::$provider->setCurrency('EUR');
           $response = self::$provider->getExpressCheckoutDetails($request->token);
           $item = PendingTransactions::find($id);
           $item->payment_response_data = json_encode($response);

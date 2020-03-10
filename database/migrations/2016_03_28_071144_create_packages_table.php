@@ -26,6 +26,8 @@ class CreatePackagesTable extends Migration
             $table->string('special')->default('no');
             $table->double('level_percent')->default(0);
             $table->string('image')->nullable();
+             $table->string('day_plan')->nullable();
+              $table->string('month_plan')->nullable();
             
             $table->timestamps(); 
             $table->softDeletes();

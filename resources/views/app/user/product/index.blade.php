@@ -33,7 +33,7 @@
                                 <h4>Monthly Payment</h4>                                  
                                 <div class="form-check">
                                   <div class="uniform-choice border-indigo-600 text-indigo-800"><span class="checked">
-                                    <input type="radio"  required="required"    name="plan" badge-class="{{$item->package}}"  class="form-check-input-styled-custom" data-fouc="" data-parsley-group="block-0" value="{{$item->id}}" plan-amount="{{$item->amount}}">
+                                    <input type="radio"  required="true"    name="plan" badge-class="{{$item->package}}"  class="form-check-input-styled-custom" data-fouc="" data-parsley-group="block-0" value="{{$item->id}}" plan-amount="{{$item->amount}}">
                                     <span class="checkmark"></span>
                                   </div>
                                 </div>
@@ -47,6 +47,17 @@
                   </div> 
                 </div>              
               </fieldset>
+
+  <!--                    <h6>Choose Payment Type</h6>
+            <fieldset>
+               <div class="col-md-12">  
+               <div class="row" align="center">          
+                <label class="radio-inline"><input type="radio" name="payment_type" value="month" checked>Monthly</label>
+<label class="radio-inline"><input type="radio" name="payment_type">Annually</label>
+</div>
+
+                </div>              
+              </fieldset> -->
             <h6>{{trans('products.choose_payment_type')}}</h6>
 
             <fieldset> 
@@ -152,7 +163,7 @@ $(document).on('submit', 'form', function() {
    var real_amount=$(this).attr("plan-amount");
    var prev_amount={{$pac_am}};
    var diff=real_amount-prev_amount;
-   var other=diff*11;
+   var other=diff*10;
   
     $('.paypal').html(diff); 
     $('.bank').html(other);  

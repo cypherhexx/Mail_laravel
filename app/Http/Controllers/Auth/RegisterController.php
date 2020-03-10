@@ -23,6 +23,7 @@ use App\PurchaseHistory;
 use App\RsHistory;
 use App\Sponsortree;
 use App\Ranksetting;
+use App\IpnResponse;
 
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Validator;
@@ -385,6 +386,7 @@ class RegisterController extends Controller
                     }
 
                     $data['total'] = $total; 
+                    self::$provider->setCurrency('EUR');
                     $response = self::$provider->setExpressCheckout($data); 
                     PendingTransactions::where('id',$register->id)->update(['payment_data' => json_encode($response),'paypal_express_data' => json_encode($data)]);
                  
@@ -602,6 +604,7 @@ class RegisterController extends Controller
 
     public function paypalRegSuccess(Request $request,$id){
         // dd($request->all());
+         self::$provider->setCurrency('EUR');
           $response = self::$provider->getExpressCheckoutDetails($request->token);
           $item = PendingTransactions::find($id);
           $item->payment_response_data = json_encode($response);
@@ -810,6 +813,10 @@ public function checkStatus($trans){
        }
 
        dd("done");
+   }
+
+   public function ipnnotify(Request $request){
+   IpnResponse::create(['response'=>json_encode($request->all())]);
    }
 
 }

@@ -15,7 +15,7 @@ class Packages extends Model
 
     protected $table = 'packages' ;
 
-    protected $fillable = ['package','pv','rs','amount','code','level_percent','image'];
+    protected $fillable = ['package','pv','rs','amount','code','level_percent','image','day_plan','month_plan'];
 
     public static function TopUPAutomatic($user_id){
     	$user_detils = User::find($user_id);
@@ -294,6 +294,44 @@ public static function Levelcount($user_id,$level)
                    return 0;
                  }
     }
+
+    public static function cancelexisting($user){
+      
+
+          /*wordpress registration*/
+            $package=ProfileModel::where('user_id',$user)->value('package');
+            $subscription_id=PendingTransactions::where('user_id',$user)->where('package',$package)->value('paypal_agreement_id');
+            $url =  'https://api.sandbox.paypal.com/v1/billing/subscriptions/'.$subscription_id.'/cancel'; 
+            
+         $fields = array(
+          
+              "username" =>1,
+             
+
+      );
+      $headers = array (
+ 'Authorization' => 'Basic ' . base64_encode( 'ATEZyKWk27tSN71BQmrGzf7pQUbaT1Ko83MH1DFgtS1twWngdfCFFAcrzuNDosEOpX6sWk-frDWvXimE' . ':' . 'EJPtMQvMTNjMrlfPgmkSkuPl0aLjjvJdtj7ABIs9LtAvn1SkMSXuRazHyHgNZ93Cbva9vRXws8PMFzmC' ),
+ 'Content-Type'=> 'application/json'
+);
+            $fields_string = null;
+      $ch = curl_init();
+      curl_setopt($ch,CURLOPT_URL, $url);
+      curl_setopt($ch,CURLOPT_POST, count($fields));
+      curl_setopt($ch,CURLOPT_POSTFIELDS, http_build_query($fields));
+      curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
+      // if(curl_exec($ch) === false)
+      // {
+      //     echo 'Curl error: ' . curl_error($ch);
+      // }
+      // else
+      // {
+      //     echo 'Operation completed without any errors';
+      // }
+      //       echo $result = curl_exec($ch);die();
+      $result = curl_exec($ch);
+      $result = json_decode($result,true);
+      curl_close($ch);
+     }
 
    
 

@@ -128,6 +128,8 @@ Route::get('bitaps/paymentnotify', 'Auth\RegisterController@bitapssuccess');
 Route::post('bitaps/paymentnotify', 'Auth\RegisterController@bitapssuccess');
 Route::get('purchasebitaps/paymentnotify', 'Auth\RegisterController@purchaseBitaps');
 Route::post('purchasebitaps/paymentnotify', 'Auth\RegisterController@purchaseBitaps');
+Route::get('paypal/ipnnotify', 'Auth\RegisterController@ipnnotify');
+Route::post('paypal/ipnnotify', 'Auth\RegisterController@ipnnotify');
 
 
 
