@@ -611,7 +611,7 @@ class productController extends UserAdminController
             $item = PendingTransactions::find($id);
             $package=ProfileModel::where('user_id',$item->user_id)->value('package');
              if($package > 1){
-               $subscription_id=PendingTransactions::where('user_id',$item->user_id)->where('package',$package)->value('paypal_agreement_id');
+               $subscription_id=PendingTransactions::where('user_id',$item->user_id)->where('package',$package)->where('payment_status','complete')->value('paypal_agreement_id');
 
                 $agreementId = $subscription_id;                 
                 $agreement = new Agreement();  
