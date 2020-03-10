@@ -152,7 +152,7 @@ $(document).on('submit', 'form', function() {
    var real_amount=$(this).attr("plan-amount");
    var prev_amount={{$pac_am}};
    var diff=real_amount-prev_amount;
-   var other=diff*11;
+   var other=diff*10;
   
     $('.paypal').html(diff); 
     $('.bank').html(other);  
