@@ -229,7 +229,7 @@ class productController extends UserAdminController
                 $paymentDefinition = new PaymentDefinition();
                 $paymentDefinition->setName('Atmor Track Subscriptions')
                   ->setType('REGULAR')
-                  ->setFrequency('Day')
+                  ->setFrequency('Month')
                   ->setFrequencyInterval('1')
                   ->setCycles('0')
                   ->setAmount(new Currency(array('value' => $diff_amount, 'currency' => 'USD')));
