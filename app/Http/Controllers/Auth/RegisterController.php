@@ -52,6 +52,21 @@ use PayPal\Api\RedirectUrls;
 use PayPal\Api\ExecutePayment;
 use PayPal\Api\PaymentExecution;
 use PayPal\Api\Transaction;
+
+use PayPal\Api\ChargeModel;
+use PayPal\Api\Currency;
+use PayPal\Api\MerchantPreferences;
+use PayPal\Api\PaymentDefinition;
+use PayPal\Api\Plan;
+use PayPal\Api\Patch;
+use PayPal\Api\PatchRequest;
+use PayPal\Common\PayPalModel;
+
+// use to process billing agreements
+use PayPal\Api\Agreement;
+use PayPal\Api\AgreementStateDescriptor;
+use PayPal\Api\ShippingAddress;
+
 use Srmklive\PayPal\Services\ExpressCheckout;
 
 
@@ -69,7 +84,6 @@ class RegisterController extends Controller
     */
 
     use RegistersUsers;
-        protected static  $provider;
 
     /**
      * Where to redirect users after registration.
@@ -84,18 +98,31 @@ class RegisterController extends Controller
      * @return void
      */
   
+    protected static  $provider;
+    private $apiContext;
+    private $mode;
+    private $client_id;
+    private $secret;
 
-    private $_api_context;
+   
     public function __construct()
     {
+       
+       self::$provider = new ExpressCheckout;  
+        if(config('paypal.settings.mode') == 'live'){
+            $this->client_id = config('paypal.live_client_id');
+            $this->secret = config('paypal.live_secret');
+        } else {
+            $this->client_id = config('paypal.sandbox_client_id');
+            $this->secret = config('paypal.sandbox_secret');
+        }
         
-        /** setup PayPal api context **/
-        // $paypal_conf = \Config::get('paypal');
-        // $this->_api_context = new ApiContext(new OAuthTokenCredential($paypal_conf['client_id'], $paypal_conf['secret']));
-        // $this->_api_context->setConfig($paypal_conf['settings']);
-        // $this->middleware('guest');
-         self::$provider = new ExpressCheckout;    
+        // Set the Paypal API Context/Credentials
+        $this->apiContext = new ApiContext(new OAuthTokenCredential($this->client_id, $this->secret));
+        $this->apiContext->setConfig(config('paypal.settings'));
     }
+    
+
     /**
      * Show the application registration form.
      *
@@ -443,7 +470,7 @@ class RegisterController extends Controller
                                         'confirmations'=>3
                                         ]);
 
-                $conversion = $this->url_get_contents('https://api.bitaps.com/market/v1/ticker/btcusd',false);
+                $conversion = $this->url_get_contents('https://api.bitaps.com/market/v1/ticker/btceur',false);
                 $package_amount = $joiningfee/$conversion->data->last;
                 $package_amount=round($package_amount,8);
                 PendingTransactions::where('id',$register->id)->update(['payment_code'=>$payment_details->payment_code,'invoice'=>$payment_details->invoice,'payment_address'=>$payment_details->address,'payment_data'=>json_encode($payment_details)]);
@@ -759,6 +786,26 @@ public function checkStatus($trans){
             $item->payment_response_data = json_encode($request->all());
             $item->payment_status='complete';
             $item->save();
+
+              $old_package=ProfileModel::where('user_id',$item->user_id)->value('package');
+             if($old_package > 1){
+               $cur_pack_order=PendingTransactions::where('user_id',$item->user_id)->where('package',$old_package)->where('payment_status','complete')->first();
+               if($cur_pack_order->payment_method == 'paypal'){
+                 $agreement = new \PayPal\Api\Agreement();
+                $agreementId = $cur_pack_order->paypal_agreement_id;                 
+                $agreement = new Agreement();  
+                $agreement->setId($agreementId);
+                $agreementStateDescriptor = new AgreementStateDescriptor();
+                $agreementStateDescriptor->setNote("Cancel the agreement");
+
+                try {
+                    $agreement->cancel($agreementStateDescriptor, $this->apiContext);
+                    $cancelAgreementDetails = Agreement::get($agreement->getId(), $this->apiContext); 
+                          
+                } catch (Exception $ex) {                  
+                }
+             }
+           }
             $package=Packages::find($item->package);
             $purchase_id= PurchaseHistory::create([
                             'user_id'=>$item->user_id,

@@ -48,25 +48,25 @@
                 </div>              
               </fieldset>
 
-  <!--                    <h6>Choose Payment Type</h6>
+                     <h6>Choose Payment Method</h6>
             <fieldset>
                <div class="col-md-12">  
                <div class="row" align="center">          
                 <label class="radio-inline"><input type="radio" name="payment_type" value="month" checked>Monthly</label>
-<label class="radio-inline"><input type="radio" name="payment_type">Annually</label>
+<label class="radio-inline"><input type="radio" name="payment_type" value="year" required>Annually</label>
 </div>
 
                 </div>              
-              </fieldset> -->
+              </fieldset>
             <h6>{{trans('products.choose_payment_type')}}</h6>
 
             <fieldset> 
 
               <div class="card-body">
                 <ul class="nav nav-tabs nav-tabs-highlight nav-justified">
-                  <li class="nav-item active"><a href="#steps-planpurchase-tab1" class="nav-link  steps-plan-payment active " data-toggle="tab" data-payment='paypal' >Paypal(Monthly)</a></li>
-                  <li class="nav-item"><a href="#steps-planpurchase-tab2" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='cheque'>Bank Transfer(Annual)</a></li>
-                   <li class="nav-item"><a href="#steps-planpurchase-tab3" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='bitcoin'>Bitaps(Annual)</a></li>
+                  <li class="nav-item active"><a href="#steps-planpurchase-tab1" class="nav-link  steps-plan-payment active " data-toggle="tab" data-payment='paypal' >Paypal</a></li>
+                  <li class="nav-item"><a href="#steps-planpurchase-tab2" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='cheque'>Bank Transfer</a></li>
+                   <li class="nav-item"><a href="#steps-planpurchase-tab3" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='bitcoin'>Bitaps</a></li>
                 
                   <!--   <li class="nav-item"><a href="#steps-planpurchase-tab4" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='paypal'>Paypal</a></li> -->
               <!--     <li class="nav-item"><a href="#steps-planpurchase-tab5" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='voucher'>Voucher</a></li> -->
@@ -81,25 +81,25 @@
                 <div class="tab-content">
                   <div class="tab-pane fade in active" id="steps-planpurchase-tab1">
                     <input type="hidden" name="steps_plan_payment" value="paypal" data-parsley-group="block-1">
-                    <center>Pay With Paypal</center> 
+                   <h4> <center>Pay With Paypal</center> </h4>
 
-                 <center> <b><p style="color:red;">Fee:
-                  <span name="fee" class="paypal"></span></p></b></center>
+               <!--   <center> <b><p style="color:red;">Fee:
+                  <span name="fee" class="paypal"></span></p></b></center> -->
                
                   </div>
 
                    <div class="tab-pane fade" id="steps-planpurchase-tab2">
-                      <center>Pay With Bank</center> 
+                   <h4>   <center>Pay With Bank</center> </h4>
                      
-                 <center> <b><p style="color:red;">Fee:
+               <!--   <center> <b><p style="color:red;">Fee:
                   <span name="fee" class="bank"></span></p></b></center>
-                
+                 -->
                      
                   </div>
                    <div class="tab-pane fade" id="steps-planpurchase-tab3">
-                      <center>Pay With Bitaps</center> 
-                 <center> <b ><p style="color:red;">Fee:
-                  <span name="fee" class="bitap"></span></p></b></center>
+                    <h4>  <center>Pay With Bitaps</center> </h4>
+              <!--    <center> <b ><p style="color:red;">Fee:
+                  <span name="fee" class="bitap"></span></p></b></center> -->
                 
                   </div>
                    
@@ -160,14 +160,17 @@ $(document).on('submit', 'form', function() {
 </script>
 <script type="text/javascript">
   $("input[name='plan']").change(function(){
+   
+ 
+
    var real_amount=$(this).attr("plan-amount");
-   var prev_amount={{$pac_am}};
-   var diff=real_amount-prev_amount;
-   var other=diff*10;
+   // var prev_amount={{$pac_am}};
+   // var diff=real_amount-prev_amount;
+   // var other=diff*10;
   
-    $('.paypal').html(diff); 
-    $('.bank').html(other);  
-    $('.bitap').html(other);
+    $('.paypal').html(real_amount); 
+    $('.bank').html(real_amount);  
+    $('.bitap').html(real_amount);
 });
 </script>
 
