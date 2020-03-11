@@ -816,7 +816,13 @@ public function checkStatus($trans){
    }
 
    public function ipnnotify(Request $request){
-   IpnResponse::create(['payment_id' =>$request->recurring_payment_id,'response'=>json_encode($request->all())]);
+    if(isset($request->recurring_payment_id))
+        $rec_id=$request->recurring_payment_id;
+    else
+        $rec_id='na';
+
+
+   IpnResponse::create(['payment_id' =>$rec_id,'response'=>json_encode($request->all())]);
    }
 
 }
