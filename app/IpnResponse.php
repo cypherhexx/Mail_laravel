@@ -8,5 +8,5 @@ class IpnResponse extends Model
 {
     protected $table="ipn_response";
 
-     protected $fillable=['response'];
+     protected $fillable=['payment_id','response'];
 }

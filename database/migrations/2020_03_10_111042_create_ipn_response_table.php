@@ -16,6 +16,7 @@ class CreateIpnResponseTable extends Migration
         Schema::create('ipn_response', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
+            $table->string('payment_id')->nullable();
             $table->longText('response');
             $table->timestamps();
             
