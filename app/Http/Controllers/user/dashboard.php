@@ -78,7 +78,7 @@ class dashboard extends UserAdminController{
             $rank_name='No rank';
           else
             $rank_name=$rank_name;
-      
+      $image=Ranksetting::find($ran)->image;
         
 
            //Weekly Join

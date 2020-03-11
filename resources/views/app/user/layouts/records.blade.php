@@ -153,6 +153,7 @@
 
                                     <h3 class="no-margin text-semibold">{{$rank_name}}</h3>
                                  My Rank
+                                  <img src="{{ url('assets/uploads/'.$image) }}" style="width: 60px;margin-top: -41px;float:right;">
                                     <!-- <div class="text-mut text-size-small">My Rank</div> -->
                                 </div>
 

@@ -34,7 +34,7 @@
                     </div>                     
 
                     <p>
-                     Make your payment <b>BTC {{$package_amount}}</b>to the above wallet, when your payment processed, you will redirect to preview
+                     Make your payment <b>BTC {{$package_amount}}</b> ie <b>€{{$pay_amount}}</b> for the package {{$package->package}} worth amount {{$package->amount}} for payment period {{$period}}ly to the above wallet, when your payment processed, you will redirect to preview
 
                     </p>
 

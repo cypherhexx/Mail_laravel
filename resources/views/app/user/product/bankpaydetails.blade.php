@@ -39,7 +39,7 @@
                         BANK ADDRESS: <b>{{$bank_details->bank_address}}</b><br>
                     <br>
                       </center>
-                      2.Payment Of Amount <b>€{{$euro_amount}}</b> for the Package <b>{{$package->package}}</b> worth €{{$package->amount}}.
+                      2.Payment Of Amount <b>€{{$package_amount}}</b> for the Package <b>{{$package->package}}</b> worth €{{$package->amount}} for {{$period}}ly.
                       <br>
                        <br>
              <!--         3 . USE this as PAYMENT REFERENCE :
