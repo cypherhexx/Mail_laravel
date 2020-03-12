@@ -58,7 +58,6 @@ class Packages extends Model
           foreach ($results as $key => $upuser) {
               $package=ProfileInfo::where('user_id',$upuser)->value('package');
               $pack=Packages::find($package);
-              
               $level_commission=$package_am*$pack->level_percent*0.01;
               if($level_commission > 0){
                 $commision = Commission::create([
