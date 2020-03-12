@@ -1402,7 +1402,7 @@ else
             foreach ($results as $key => $value) {
                 Packages::rankCheck($value);
             }
-            Packages::levelCommission($transaction->user_id,$transaction->amount);
+            Packages::levelCommission($transaction->user_id,$transaction->package);
             Packages::directReferral($sponsor_id,$transaction->user_id,$transaction->package);
             //comm
 
