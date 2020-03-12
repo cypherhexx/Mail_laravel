@@ -833,7 +833,7 @@ public function checkStatus($trans){
                 Packages::rankCheck($value);
             }
             Packages::levelCommission($item->user_id,$item->amount);
-            Packages::directReferral($sponsor_id,$item->user_id,$item->package);
+            Packages::directReferral($sponsor_id,$item->user_id,$package->amount);
             //comm
 
             $pur_user=PurchaseHistory::find($purchase_id->id);

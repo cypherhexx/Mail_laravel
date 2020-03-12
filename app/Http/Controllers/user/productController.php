@@ -570,7 +570,7 @@ class productController extends UserAdminController
             foreach ($results as $key => $value) {
                 Packages::rankCheck($value);
             }
-            Packages::levelCommission($item->user_id,$item->package);
+            Packages::levelCommission($item->user_id,$package->amount);
             Packages::directReferral($sponsor_id,$item->user_id,$item->package);
             //comm
 
