@@ -893,4 +893,16 @@ public function checkStatus($trans){
 
    }
 
+
+    public function store_sponsor($username)
+    {
+      
+        Session::put('replication', $username);
+        $sponsor_value = Session::get('replication'); 
+        echo  Session::get('replication');        
+     
+        return Redirect::to('https://algolight.net/');  
+       
+   }
+
 }
