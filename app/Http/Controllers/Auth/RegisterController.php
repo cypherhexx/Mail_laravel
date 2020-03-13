@@ -99,7 +99,7 @@ class RegisterController extends Controller
      * Show the application registration form.
      *
      * @return \Illuminate\Http\Response
-     */
+//      */
     public function showRegistrationForm($sponsorname = null)
     {
          $block=MenuSettings::where('menu_name','=','Register new')->value('status');
@@ -115,15 +115,15 @@ class RegisterController extends Controller
             $sponsor_name = $sponsorname;  
         }else{
 
-            $sponsor_name = User::find(1)->username;
+            // $sponsor_name = User::find(1)->username;
         }
 
 
 
 
-        // $location = GeoIP::getLocation();
-        // $ip_latitude = $location['lat'];
-        // $ip_longtitude = $location['lon'];
+        $location = GeoIP::getLocation();
+        $ip_latitude = $location['lat'];
+        $ip_longtitude = $location['lon'];
         $oldcountries = CountryState::getCountries();
             // dd($oldcountries);
             $countries=[];
@@ -362,6 +362,7 @@ class RegisterController extends Controller
                  'payment_type' =>'register',
                  'amount' => $joiningfee,
                 ]);
+            // dd($joiningfee);
                if($request->payment == 'paypal'){ 
                     
                     Session::put('paypal_id',$register->id);
@@ -387,7 +388,7 @@ class RegisterController extends Controller
                     $data['total'] = $total; 
                     $response = self::$provider->setExpressCheckout($data); 
                     PendingTransactions::where('id',$register->id)->update(['payment_data' => json_encode($response),'paypal_express_data' => json_encode($data)]);
-                 
+                
                     return redirect($response['paypal_link']);
                 }
 
@@ -589,9 +590,9 @@ class RegisterController extends Controller
             $state = "unknown";
         }
 
-        $sponsorId       = $userresult->sponsor_tree->sponsor;
-        $sponsorUserName = \App\User::find($sponsorId)->username;
-         $leg = Tree_Table::where('user_id','=',$userresult->id)->value('leg');
+        // $sponsorId       = $userresult->sponsor_tree->sponsor;
+        // $sponsorUserName = \App\User::find($sponsorId)->username;
+        //  $leg = Tree_Table::where('user_id','=',$userresult->id)->value('leg');
         if ($userresult) {
             // dd($user);
             return view('auth.preview', compact('title', 'sub_title', 'method', 'base', 'userresult', 'sponsorUserName', 'country', 'state', 'sub_title','leg'));
@@ -606,7 +607,7 @@ class RegisterController extends Controller
           $item = PendingTransactions::find($id);
           $item->payment_response_data = json_encode($response);
           $express_data=json_decode($item->paypal_express_data,true);
-          $response = self::$provider->doExpressCheckoutPayment($express_data, $request->token, $request->PayerID);
+          // $response = self::$provider->doExpressCheckoutPayment($express_data, $request->token, $request->PayerID);
           $item->paypal_recurring_reponse = json_encode($response);
           $item->save();
           if($response['ACK'] == 'Success'){

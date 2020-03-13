@@ -550,8 +550,8 @@ class RegisterController extends AdminController
             $state = "unknown";
         }
 
-        $sponsorId       = $userresult->sponsor_tree->sponsor;
-        $sponsorUserName = \App\User::find($sponsorId)->username;
+        // $sponsorId       = $userresult->sponsor_tree->sponsor;
+        // $sponsorUserName = \App\User::find($sponsorId)->username;
 
 
         if ($userresult) {

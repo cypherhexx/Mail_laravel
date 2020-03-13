@@ -172,7 +172,7 @@ class productController extends UserAdminController
             $cur_package=ProfileModel::where('user_id',Auth::user()->id)->value('package');
             $cur_amount=Packages::find($cur_package)->amount;
             $diff_amount=$fee-$cur_amount;
-            $sponsor_id =Sponsortree::where('user_id',Auth::user()->id)->value('sponsor') ;
+            $sponsor_id ='NA';
             $euro_amount=User::checkrate($diff_amount);
             $orderid ='Atmor-'. mt_rand();
 
@@ -217,6 +217,9 @@ class productController extends UserAdminController
 
 
             // }
+
+             // packages::levelBonus(Auth::user()->id,$package);
+
 
             if($request->steps_plan_payment == 'paypal'){
 
@@ -344,65 +347,65 @@ class productController extends UserAdminController
                 return view('app.user.product.bitaps',compact('title','sub_title','base','method','payment_details','data','package_amount','setting','trans_id'));
             }
 
-            // if($flag){
+            if($flag){
 
-            //     $package = Packages::find($request->plan); 
-            //     $sponsor_id =Sponsortree::where('user_id',Auth::user()->id)->value('sponsor') ;
-            //     $purchase_id=  PurchaseHistory::create([
-            //             'user_id'=>Auth::user()->id,
-            //             'purchase_user_id'=>Auth::user()->id,
-            //             'package_id'=>$package->id,
-            //             'count'=>$package->top_count,
-            //             'pv'=>$package->pv,
-            //             'total_amount'=>$package->amount,
-            //             'pay_by'=>'bank',
-            //             'rs_balance'=>$package->rs,
-            //             'sales_status'=>'yes',
-            //             'pay_type'  =>'Annual',
+                $package = Packages::find($request->plan); 
+                $sponsor_id =Sponsortree::where('user_id',Auth::user()->id)->value('sponsor') ;
+                $purchase_id=  PurchaseHistory::create([
+                        'user_id'=>Auth::user()->id,
+                        'purchase_user_id'=>Auth::user()->id,
+                        'package_id'=>$package->id,
+                        'count'=>$package->top_count,
+                        'pv'=>$package->pv,
+                        'total_amount'=>$package->amount,
+                        'pay_by'=>'bank',
+                        'rs_balance'=>$package->rs,
+                        'sales_status'=>'yes',
+                        'pay_type'  =>'Annual',
 
-            //         ]);
+                    ]);
 
-            //       RsHistory::create([
-            //         'user_id'=>Auth::user()->id,                   
-            //         'from_id'=>Auth::user()->id,
-            //         'rs_credit'=>$package->rs,
-            //       ]);
-            //     /*  Commissions calculation and point distributione */
+                  RsHistory::create([
+                    'user_id'=>Auth::user()->id,                   
+                    'from_id'=>Auth::user()->id,
+                    'rs_credit'=>$package->rs,
+                  ]);
+                /*  Commissions calculation and point distributione */
 
-            //     // Tree_Table::getAllUpline(Auth::user()->id);
-            //     // PointTable::updatePoint($package->pv, Auth::user()->id);
-            //      // Ranksetting::updateRank(Auth::user()->id);
-            //     // Transactions::sponsorcommission($sponsor_id,Auth::user()->id,$package->id);
+                Tree_Table::getAllUpline(Auth::user()->id);
+                PointTable::updatePoint($package->pv, Auth::user()->id);
+                 Ranksetting::updateRank(Auth::user()->id);
+                Transactions::sponsorcommission($sponsor_id,Auth::user()->id,$package->id);
 
-            //     if($sponsor_id>1){
-            //         $second_sponsor = Sponsortree::where('user_id',$sponsor_id)->value('sponsor');
-            //         Transactions::indirectFaststart($second_sponsor,Auth::user()->id,$package->id);
-            //     }
+                if($sponsor_id>1){
+                    $second_sponsor = Sponsortree::where('user_id',$sponsor_id)->value('sponsor');
+                    Transactions::indirectFaststart($second_sponsor,Auth::user()->id,$package->id);
+                }
 
-            //     ProfileInfo::where('user_id',Auth::user()->id)->update(['package'=>$package->id]); 
-            //     $pur_user=PurchaseHistory::find($purchase_id->id);
-            //     $user=User::join('profile_infos','profile_infos.user_id','=','users.id')
-            //               ->join('packages','packages.id','=','profile_infos.package')
-            //               ->where('users.id',$pur_user->user_id)
-            //               ->select('users.username','users.name','users.lastname','users.email','profile_infos.mobile','profile_infos.address1','packages.package')
-            //               ->get();
-            //    $userpurchase=array();      
-            //    $userpurchase['name']=$user[0]->name;
-            //    $userpurchase['lastname']=$user[0]->lastname;
-            //    $userpurchase['amount']=$purchase_id->total_amount;
-            //    $userpurchase['payment_method']=$purchase_id->pay_by;
-            //    $userpurchase['mail_address']=$user[0]->email;;
-            //    $userpurchase['mobile']=$user[0]->mobile;
-            //    $userpurchase['address']=$user[0]->address1;
-            //    $userpurchase['invoice_id'] ='0000'.$purchase_id->id;
-            //    $userpurchase['date_p']=$purchase_id->created_at;
-            //    $userpurchase['package']=$user[0]->package;
-            //    PurchaseHistory::where('id','=',$purchase_id->id)->update(['datas'=>json_encode($userpurchase)]);
+                ProfileInfo::where('user_id',Auth::user()->id)->update(['package'=>$package->id]); 
+                $pur_user=PurchaseHistory::find($purchase_id->id);
+                $user=User::join('profile_infos','profile_infos.user_id','=','users.id')
+                          ->join('packages','packages.id','=','profile_infos.package')
+                          ->where('users.id',$pur_user->user_id)
+                          ->select('users.username','users.name','users.lastname','users.email','profile_infos.mobile','profile_infos.address1','packages.package')
+                          ->get();
+               $userpurchase=array();      
+               $userpurchase['name']=$user[0]->name;
+               $userpurchase['lastname']=$user[0]->lastname;
+               $userpurchase['amount']=$purchase_id->total_amount;
+               $userpurchase['payment_method']=$purchase_id->pay_by;
+               $userpurchase['mail_address']=$user[0]->email;;
+               $userpurchase['mobile']=$user[0]->mobile;
+               $userpurchase['address']=$user[0]->address1;
+               $userpurchase['invoice_id'] ='0000'.$purchase_id->id;
+               $userpurchase['date_p']=$purchase_id->created_at;
+               $userpurchase['package']=$user[0]->package;
+               PurchaseHistory::where('id','=',$purchase_id->id)->update(['datas'=>json_encode($userpurchase)]);
 
-            //    Session::flash('flash_notification',array('message'=>"You have purchased the plan succesfully ",'level'=>'success'));
+               Session::flash('flash_notification',array('message'=>"You have purchased the plan succesfully ",'level'=>'success'));
 
-            //    return  redirect("user/purchase/preview/".Crypt::encrypt($purchase_id->id));
-            // }
+               return  redirect("user/purchase/preview/".Crypt::encrypt($purchase_id->id));
+            }
        }
 }
 
@@ -444,6 +447,7 @@ class productController extends UserAdminController
     }
 
      public function paypalpurchase(Request $request){
+
       $payment_id = Session::get('paypal_payment_id');
       $temp_data=PaypalDetails::where('token','=',$payment_id)->first();
       $data=json_decode($temp_data->regdetails,true);
@@ -530,6 +534,7 @@ class productController extends UserAdminController
 
     public function productSuccess(Request $request,$id){
 
+
           $response = self::$provider->getExpressCheckoutDetails($request->token);
           $item = PendingTransactions::find($id);
           $item->payment_response_data = json_encode($response);
@@ -559,11 +564,28 @@ class productController extends UserAdminController
                             'rs_balance'=>$package->rs,
                             'sales_status'=>'yes',
                           ]);
+
               RsHistory::create([
                 'user_id'=>$item->user_id,                   
                 'from_id'=>$item->user_id,
                 'rs_credit'=>$package->rs,
               ]);
+
+             $user_rank=User::find($item->user_id)->rank_id;
+            //   Tree_Table::where('id',$tree_id)->update(['level'=>$count+1]);
+            // Tree_Table::getAllUpline($userresult->id);
+            // PointTable::updatePoint($userPackage->pv, $userresult->id);
+
+
+
+
+             
+            // PointTable::addPointTable($userresult->id);
+            // Tree_Table::createVaccant($tree->user_id);
+            // $spomsor=User::find($sponsor_id)->username;
+
+
+
   
          //commsiiom
             $sponsor_id=Sponsortree::where('user_id',$item->user_id)->value('sponsor');
@@ -573,7 +595,11 @@ class productController extends UserAdminController
             foreach ($results as $key => $value) {
                 Packages::rankCheck($value);
             }
-            Packages::levelCommission($item->user_id,$item->amount);
+
+
+            Packages::levelCommission($item->user_id,$item->amount,$user_rank);
+            
+
             Packages::directReferral($sponsor_id,$item->user_id,$item->package);
             //comm
 
@@ -636,13 +662,79 @@ class productController extends UserAdminController
                             'rs_balance'=>$package->rs,
                             'sales_status'=>'yes',
                           ]);
-              RsHistory::create([
-                'user_id'=>$item->user_id,                   
-                'from_id'=>$item->user_id,
-                'rs_credit'=>$package->rs,
-              ]);
+              // RsHistory::create([
+              //   'user_id'=>$item->user_id,                   
+              //   'from_id'=>$item->user_id,
+              //   'rs_credit'=>$package->rs,
+              // ]);
+
+
+
   
          //commsiiom
+             $sponsor_id =User::where('id',Auth::user()->id)->value('sponsor') ;
+             // dd($sponsor_id);
+
+
+             // $sponsortreeid = Sponsortree::where('sponsor', $sponsor_id)->where('type', 'vaccant')->orderBy('id', 'desc')->take(1)->value('id');
+             // dd($sponsortreeid);
+              // $sponsortree          = Sponsortree::find($sponsortreeid);
+
+              // $sponsortree->user_id = Auth::user()->id;
+            // $sponsortree->sponsor = $sponsor_id;
+            // $sponsortree->type    = "yes";
+            // $sponsortree->save();
+
+              // $sponsorvaccant = Sponsortree::createVaccant($sponsor_id, $sponsortree->position);
+              // $uservaccant = Sponsortree::createVaccant(Auth::user()->id,0);
+
+             $existing=Tree_Table::where('user_id',Auth::user()->id)->value('id');
+             if($existing == null){
+          
+
+              $placement_id = Tree_Table::gettreePlacementId([$sponsor_id]); 
+            
+              $tree_id = Tree_Table::vaccantId($placement_id);
+
+              $tree          = Tree_Table::find($tree_id);
+            $tree->user_id =Auth::user()->id;
+            $tree->sponsor = $sponsor_id;
+            $tree->type    = 'yes';
+            $tree->save(); 
+            $count=Tree_Table::where('user_id','=',$sponsor_id)->value('level');
+            // dd($count);
+
+            // User::where('id',$sponsor_id)->increment('referral_count',1);
+            // $user_arrs=[];
+
+            
+
+
+
+
+
+              // RsHistory::create([
+              //   'user_id'=>$item->user_id,                   
+              //   'from_id'=>$item->user_id,
+              //   'rs_credit'=>$package->rs,
+              // ]);
+
+
+
+              Tree_Table::where('id',$tree_id)->update(['level'=>$count+1]);
+            Tree_Table::getAllUpline(Auth::user()->id);
+            // PointTable::updatePoint($package->pv, Auth::user()->id);
+
+
+
+
+             
+            // PointTable::addPointTable(Auth::user()->id);
+            Tree_Table::createVaccant($tree->user_id);
+            // $spomsor=User::find($sponsor_id)->username;
+          }
+
+
             $sponsor_id=Sponsortree::where('user_id',$item->user_id)->value('sponsor');
             $user_arrs=[];
             $results=Ranksetting::getthreeupline($item->user_id,1,$user_arrs);
@@ -650,7 +742,10 @@ class productController extends UserAdminController
             foreach ($results as $key => $value) {
                 Packages::rankCheck($value);
             }
-            Packages::levelCommission($item->user_id,$item->amount);
+            $user_rank=User::find($item->user_id)->rank_id;
+            // dd($user_rank);
+            Packages::levelCommission($item->user_id,$item->amount,$user_rank);
+            // packages::levelBonus($item->user_id, $item->package);
             Packages::directReferral($sponsor_id,$item->user_id,$item->package);
             //comm
 
