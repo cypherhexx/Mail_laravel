@@ -351,5 +351,22 @@ public static function Levelcount($user_id,$level)
         return $this->hasMany('App\PurchaseHistory', 'package_id', 'id');
     }
 
+
+     public static function Addtomatrixplan($user_id){
+
+        $sponsor_id = Sponsortree::where('user_id',$user_id)->value('sponsor');
+
+        $placement_id = Tree_Table::gettreePlacementId([$sponsor_id]); 
+        $tree_id = Tree_Table::vaccantId($placement_id);
+        $tree          = Tree_Table::find($tree_id);
+        $tree->user_id = $user_id;
+        $tree->sponsor = $sponsor_id;
+        $tree->type    = 'yes';
+        $tree->save(); 
+        $count=Tree_Table::where('user_id','=',$placement_id)->value('level');
+        Tree_Table::where('id',$tree_id)->update(['level'=>$count+1]);
+        Tree_Table::createVaccant($tree->user_id);
+    }
+
    
 }

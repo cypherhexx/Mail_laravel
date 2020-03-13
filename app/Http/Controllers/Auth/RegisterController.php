@@ -837,6 +837,13 @@ public function checkStatus($trans){
                             'rs_balance'=>$package->rs,
                             'sales_status'=>'yes',
                           ]);
+            /*edited by vincy on match 13 2020*/
+            
+            $check_in_matrix = Tree_Table::where('user_id',$item->user_id)->where('type','yes')->count();
+            if($check_in_matrix == 0){
+                $addtomatrixplan = Packages::Addtomatrixplan($item->user_id);   
+            }
+            /*edited by vincy on match 13 2020*/
               RsHistory::create([
                 'user_id'=>$item->user_id,                   
                 'from_id'=>$item->user_id,
@@ -852,7 +859,7 @@ public function checkStatus($trans){
                 Packages::rankCheck($value);
             }
             Packages::levelCommission($item->user_id,$item->amount);
-            Packages::directReferral($sponsor_id,$item->user_id,$package->amount);
+            // Packages::directReferral($sponsor_id,$item->user_id,$package->amount);
             //comm
 
             $pur_user=PurchaseHistory::find($purchase_id->id);

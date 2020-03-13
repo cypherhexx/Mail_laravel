@@ -507,7 +507,7 @@ class productController extends UserAdminController
 
 
     public function paypalSuccess(Request $request,$id){
-      // dd($request->all());
+      
         $token = $request->token;
         $agreement = new \PayPal\Api\Agreement();
 
@@ -558,6 +558,12 @@ class productController extends UserAdminController
                             'rs_balance'=>$package->rs,
                             'sales_status'=>'yes',
                           ]);
+            /*edited by vincy on match 13 2020*/
+            $check_in_matrix = Tree_Table::where('user_id',Auth::user()->id)->where('type','yes')->count();
+            if($check_in_matrix == 0){
+                $addtomatrixplan = Packages::Addtomatrixplan(Auth::user()->id);   
+            }
+            /*edited by vincy on match 13 2020*/
               RsHistory::create([
                 'user_id'=>$item->user_id,                   
                 'from_id'=>$item->user_id,

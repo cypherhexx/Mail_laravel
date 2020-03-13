@@ -1373,6 +1373,15 @@ else
                         'from_id'=>$transaction->user_id,
                         'rs_credit'=>$package->rs,
                         ]);
+                          
+
+         /*edited by vincy on match 13 2020*/
+            $check_in_matrix = Tree_Table::where('user_id',$transaction->user_id)->where('type','yes')->count();
+            if($check_in_matrix == 0){
+                $addtomatrixplan = Packages::Addtomatrixplan($transaction->user_id);   
+            }
+        /*edited by vincy on match 13 2020*/
+
             $old_package=ProfileModel::where('user_id',$transaction->user_id)->value('package');
              if($old_package > 1){
                $cur_pack_order=PendingTransactions::where('user_id',$transaction->user_id)->where('package',$old_package)->where('payment_status','complete')->first();

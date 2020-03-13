@@ -587,34 +587,20 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
              * if placement id didnt do well, returns sponsor id and will be placed under sponsor
              * @var [userid]
              */
-             $placement_id = Tree_Table::gettreePlacementId([$placement_id]); 
-            /**
-             * Finds the Vaccant Id adn set as tree id
-             * @var [type]
-             */
-            $tree_id = Tree_Table::vaccantId($placement_id);
-            /**
-             * updates the tree table with user id and sponsor, with type yes.
-             * @var [function]
-             */
-            $tree          = Tree_Table::find($tree_id);
-            $tree->user_id = $userresult->id;
-            $tree->sponsor = $sponsor_id;
-            $tree->type    = 'yes';
-            $tree->save(); 
-            $count=Tree_Table::where('user_id','=',$placement_id)->value('level');
-            Tree_Table::where('id',$tree_id)->update(['level'=>$count+1]);
+            // $placement_id = Tree_Table::gettreePlacementId([$placement_id]); 
+          
+            // $tree_id = Tree_Table::vaccantId($placement_id);
+           
+            // $tree          = Tree_Table::find($tree_id);
+            // $tree->user_id = $userresult->id;
+            // $tree->sponsor = $sponsor_id;
+            // $tree->type    = 'yes';
+            // $tree->save(); 
+            // $count=Tree_Table::where('user_id','=',$placement_id)->value('level');
+            // Tree_Table::where('id',$tree_id)->update(['level'=>$count+1]);
 
-             /**
-             * All application specific settings, like commission and packages settings
-             * @var [collection]
-             */
-              /**
-             * Here goes all the commissions calculations on the successful registration
-             */
 
-            Tree_Table::getAllUpline($userresult->id);
-            // PointTable::updatePoint($userPackage->pv, $userresult->id);
+            // Tree_Table::getAllUpline($userresult->id);
            
             self::where('id',$sponsor_id)->increment('referral_count',1);
             $user_arrs=[];
@@ -637,8 +623,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             // $spon_det=User::find($sponsor_id);
            
 
-            PointTable::addPointTable($userresult->id);
-            Tree_Table::createVaccant($tree->user_id);
+            // PointTable::addPointTable($userresult->id);
+            // Tree_Table::createVaccant($tree->user_id);
             $spomsor=User::find($sponsor_id)->username;
             /**
              * adding user to balance table
