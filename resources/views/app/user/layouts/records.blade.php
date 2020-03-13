@@ -1,10 +1,10 @@
 <style type="text/css">
     
 .rank-bg-image{
-        background-image: url('/img/cache/original/rankatmor.jpg');
+        background-image: url('/img/cache/original/norang1-bg.jpg');
         background-repeat: no-repeat;
         background-size: cover;
-            color: #fdfdfd;
+        color: #fdfdfd;
 
     }
     .bg-success-400{
@@ -13,7 +13,7 @@
     }
 
     .grant-bg-image{
-        background-image: url('/img/cache/original/grant.jpg');
+        background-image: url('/img/cache/original/grant1.jpg');
         background-repeat: no-repeat;
         background-size: cover;
             color: #1b0e0e;
@@ -21,7 +21,7 @@
     }
 
     .rem-bg-image{
-        background-image: url('/img/cache/original/remtab.jpg');
+        background-image: url('/img/cache/original/box-bann.jpg');
         background-repeat: no-repeat;
         background-size: cover;
             color: #1b0e0e;

@@ -37,7 +37,7 @@ use Input;
 use Session;
 use Redirect;
 use Auth;
-
+use Response;
 //paypal
 
 use PayPal\Rest\ApiContext;
@@ -104,7 +104,8 @@ class RegisterController extends Controller
     private $client_id;
     private $secret;
 
-   
+
+
     public function __construct()
     {
        
@@ -130,6 +131,19 @@ class RegisterController extends Controller
 //      */
     public function showRegistrationForm($sponsorname = null)
     {
+
+// echo "string";
+ // session_start();
+
+ // print_r($_SESSION);die();
+
+
+ // print_r(Session::all());die();
+        // dd(354345);
+
+         $sponsor_value = Session::get('replication'); 
+
+         // dd($sponsor_value);
          $block=MenuSettings::where('menu_name','=','Register new')->value('status');
           $active = User::where('username','=',$sponsorname)->value('active');
         if($block == 'no'|| $active == 'no')
@@ -141,7 +155,12 @@ class RegisterController extends Controller
 
         if (User::where('username', '=',  $sponsorname)->count() > 0) {
             $sponsor_name = $sponsorname;  
-        }else{
+        }elseif(Session::has('replication')) {
+          
+            User::where('username', '=', trim(Session::get('replication')))->count();
+            $sponsor_name=Session::get('replication');          
+        }
+        else{
 
             // $sponsor_name = User::find(1)->username;
         }
@@ -819,6 +838,13 @@ public function checkStatus($trans){
                             'rs_balance'=>$package->rs,
                             'sales_status'=>'yes',
                           ]);
+            /*edited by vincy on match 13 2020*/
+            
+            $check_in_matrix = Tree_Table::where('user_id',$item->user_id)->where('type','yes')->count();
+            if($check_in_matrix == 0){
+                $addtomatrixplan = Packages::Addtomatrixplan($item->user_id);   
+            }
+            /*edited by vincy on match 13 2020*/
               RsHistory::create([
                 'user_id'=>$item->user_id,                   
                 'from_id'=>$item->user_id,
@@ -834,7 +860,7 @@ public function checkStatus($trans){
                 Packages::rankCheck($value);
             }
             Packages::levelCommission($item->user_id,$item->amount);
-            Packages::directReferral($sponsor_id,$item->user_id,$package->amount);
+            // Packages::directReferral($sponsor_id,$item->user_id,$package->amount);
             //comm
 
             $pur_user=PurchaseHistory::find($purchase_id->id);
@@ -863,6 +889,7 @@ public function checkStatus($trans){
        dd("done");
    }
 
+
    public function ipnnotify(Request $request){
     if(isset($request->recurring_payment_id))
         $rec_id=$request->recurring_payment_id;
@@ -871,6 +898,19 @@ public function checkStatus($trans){
 
 
    IpnResponse::create(['payment_id' =>$rec_id,'response'=>json_encode($request->all())]);
+
+   }
+
+
+    public function store_sponsor($username)
+    {
+      
+        Session::put('replication', $username);
+        $sponsor_value = Session::get('replication'); 
+        echo  Session::get('replication');        
+     
+        return Redirect::to('https://algolight.net/');  
+       
    }
 
 }
