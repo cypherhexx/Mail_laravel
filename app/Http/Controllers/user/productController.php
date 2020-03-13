@@ -24,6 +24,7 @@ use App\User;
 use App\PaypalDetails;
 use App\ProfileInfo;
 use App\Ranksetting;
+use App\IpnResponse;
 
 use Validator;
 use Session;
@@ -58,6 +59,7 @@ use PayPal\Common\PayPalModel;
 
 // use to process billing agreements
 use PayPal\Api\Agreement;
+use PayPal\Api\AgreementStateDescriptor;
 use PayPal\Api\ShippingAddress;
 
 
@@ -150,8 +152,7 @@ class productController extends UserAdminController
 
 
     public function purchase(Request $request){
-
-      // dd($request->all());
+        // dd($request->all());
         
         $title = trans('products.purchased_plan');
         $sub_title = trans('products.purchased_plan'); 
@@ -170,11 +171,74 @@ class productController extends UserAdminController
             $package = Packages::find($request->plan); 
             $fee=$package->amount;
             $cur_package=ProfileModel::where('user_id',Auth::user()->id)->value('package');
+
             $cur_amount=Packages::find($cur_package)->amount;
             $diff_amount=$fee-$cur_amount;
-            $sponsor_id ='NA';
-            $euro_amount=User::checkrate($diff_amount);
+
+            $sponsor_id =Sponsortree::where('user_id',Auth::user()->id)->value('sponsor');
             $orderid ='Atmor-'. mt_rand();
+            if($cur_package > 1){
+              $cur_pack_order=PendingTransactions::where('package',$cur_package)
+                                                 ->where('user_id',Auth::user()->id)
+                                                 ->where('payment_status','complete')
+                                                 ->where('payment_type','upgrade')
+                                                 ->first();
+            }
+
+
+                                                // dd($cur_pack_order);
+
+
+            //   if($cur_pack_order->payment_method == 'paypal' && $cur_package > 1){
+
+            //     $agreementId = $cur_pack_order->paypal_agreement_id;                 
+            //     $agreement = new Agreement();  
+            //     $agreement->setId($agreementId);
+            //     $agreementStateDescriptor = new AgreementStateDescriptor();
+            //     $agreementStateDescriptor->setNote("Cancel the agreement");
+
+            //     try {
+            //         $agreement->cancel($agreementStateDescriptor, $this->apiContext);
+            //         $cancelAgreementDetails = Agreement::get($agreement->getId(), $this->apiContext); 
+                          
+            //     } catch (Exception $ex) {                  
+            //     }
+            //   }
+            if($request->payment_type == 'month'){
+
+                if($cur_package > 1){
+                    $thirty_days= date('Y-m-d 00:00:00',strtotime('+30 days',strtotime($cur_pack_order->created_at)));
+                 if($cur_pack_order->payment_period == 'month'){
+                    if($cur_pack_order->payment_method == 'paypal')
+                       
+                        $pay_amount=$fee;
+                    elseif($cur_pack_order->payment_method == 'bitcoin'){
+                      
+                        if(date('Y-m-d H:i:s') < $thirty_days)
+                             $pay_amount=$fee;
+                        else
+                            $pay_amount=$diff_amount;
+
+                    }else{
+                        
+                        if(date('Y-m-d H:i:s') > $thirty_days)
+                             $pay_amount=$fee;
+                        else
+                            $pay_amount=$diff_amount;
+                    }
+                 }
+                 else{
+                    $pay_amount=$fee;
+                 }
+                }else{
+                    $pay_amount=$fee;
+                }
+
+            }else{
+                $pay_amount=$fee*10;
+            }
+
+           
 
             $purchase=PendingTransactions::create([
              'order_id' =>$orderid,
@@ -185,71 +249,65 @@ class productController extends UserAdminController
              'sponsor' => $sponsor_id,
              'request_data' =>json_encode($request->all()),
              'payment_method'=>$request->steps_plan_payment,
+             'payment_period'=>$request->payment_type,
              'payment_type' =>'upgrade',
-             'amount' => $diff_amount,
+             'amount' => $pay_amount,
             ]);
-            // if($request->steps_plan_payment == 'paypal'){ 
 
-            //     Session::put('paypal_id',$purchase->id);
-            //     $data = [];
-            //     $data['items'] = [
-            //         [
-            //             'name' => "Monthly Subscription",
-            //             'price' => $diff_amount,
-            //             'qty' => 1
-            //         ]
-            //     ];
-            //     $data['invoice_id'] = time();
-            //     $data['subscription_desc'] = "Monthly Subscription #1";
-            //     $data['invoice_description'] = "Order #{$data['invoice_id']} Invoice";
-            //     $data['return_url'] = url('/user/upgrade/success',$purchase->id);
-            //     $data['cancel_url'] = url('register');
-
-            //     $total = 0;
-            //     foreach($data['items'] as $item) {
-            //         $total += $item['price']*$item['qty'];
-            //     }
-
-            //     $data['total'] = $total;
-            //     $response = self::$provider->setExpressCheckout($data, true);
-            //     PendingTransactions::where('id',$purchase->id)->update(['payment_data' => json_encode($response),'paypal_express_data' => json_encode($data)]);
-            //     return redirect($response['paypal_link']);
-
-
-            // }
+            if($request->payment_type == 'month')
+                $period='Month';
+            else
+                $period='Year';
+           
+       
 
              // packages::levelBonus(Auth::user()->id,$package);
 
 
             if($request->steps_plan_payment == 'paypal'){
 
-                $plan = new Plan();
-                $plan->setName('Atmor Monthly Billing')
+              $plan = new Plan();
+              $plan->setName('Atmor Monthly Billing')
                   ->setDescription('Monthly Subscription to the Atmor Track Purchase')
                   ->setType('infinite');
 
+                if($cur_package > 1 && $request->payment_type == 'month'){
+                  $trialPaymentDefinition = new PaymentDefinition();
+                  $trialPaymentDefinition->setName('One-off Trial Payment')
+                   ->setType('TRIAL')
+                   ->setFrequency($period)
+                   ->setFrequencyInterval('1')
+                   ->setCycles('1')
+                   ->setAmount(new Currency(array('value' => $diff_amount, 'currency' => 'EUR')));
+                }
+
                 // Set billing plan definitions
-                $paymentDefinition = new PaymentDefinition();
-                $paymentDefinition->setName('Atmor Track Subscriptions')
-                  ->setType('REGULAR')
-                  ->setFrequency('Day')
-                  ->setFrequencyInterval('1')
-                  ->setCycles('0')
-                  ->setAmount(new Currency(array('value' => $diff_amount, 'currency' => 'USD')));
+                  $paymentDefinition = new PaymentDefinition();
+                  $paymentDefinition->setName($package->amount.' Subscriptions')
+                                    ->setType('REGULAR')
+                                    ->setFrequency($period)
+                                    ->setFrequencyInterval('1')
+                                    ->setCycles('0')
+                                    ->setAmount(new Currency(array('value' => $pay_amount, 'currency' => 'EUR')));
 
                 // Set merchant preferences
-                $merchantPreferences = new MerchantPreferences();
-                $merchantPreferences->setReturnUrl(url('/user/paypalupgrade/paypalsuccess',$purchase->id))
-                  ->setCancelUrl(url('/user/purchase-plan'))
-                  ->setAutoBillAmount('yes')
-                  ->setInitialFailAmountAction('CONTINUE')
-                  ->setMaxFailAttempts('0');
+                  $merchantPreferences = new MerchantPreferences();
+                  $merchantPreferences->setReturnUrl(url('/user/paypalupgrade/paypalsuccess',$purchase->id))
+                                      ->setCancelUrl(url('/user/purchase-plan'))
+                                      ->setAutoBillAmount('yes')
+                                      ->setInitialFailAmountAction('CONTINUE')
+                                      ->setMaxFailAttempts('0');
 
-                $plan->setPaymentDefinitions(array($paymentDefinition));
-                $plan->setMerchantPreferences($merchantPreferences);
+                // $plan->setPaymentDefinitions(array($paymentDefinition,$trialPaymentDefinition));
+                  if($cur_package > 1 && $request->payment_type == 'month'){
+                    $plan->setPaymentDefinitions(array($paymentDefinition,$trialPaymentDefinition));
+                  }else{
+                    $plan->setPaymentDefinitions(array($paymentDefinition));
+                  }
+                  $plan->setMerchantPreferences($merchantPreferences);
 
                 //create the plan
-                try {
+                  try {
                     $createdPlan = $plan->create($this->apiContext);
 
                     try {
@@ -272,21 +330,22 @@ class productController extends UserAdminController
                     } catch (Exception $ex) {
                         die($ex);
                     }
-                } catch (PayPal\Exception\PayPalConnectionException $ex) {
+                  } catch (PayPal\Exception\PayPalConnectionException $ex) {
                     echo $ex->getCode();
                     echo $ex->getData();
                     die($ex);
-                } catch (Exception $ex) {
+                  } catch (Exception $ex) {
                     die($ex);
                 }
 
-             
                 $cur_plan_id=$plan->getId();
                 PendingTransactions::where('id',$purchase->id)->update(['paypal_plan_id' => $cur_plan_id]);
+                 // $next_day=\Carbon\Carbon::now()->addDays(1)->addMinutes(5)->toIso8601String();
+            // $thirty_day=\Carbon\Carbon::now()->addDays(30)->addMinutes(5)->toIso8601String();
 
                 $agreement = new Agreement();
-                $agreement->setName('App Name Monthly Subscription Agreement')
-                  ->setDescription('Basic Subscription')
+                $agreement->setName('Algolight Track '.$period.'ly Subscription Agreement')
+                  ->setDescription($package->package.' Subscription')
                   ->setStartDate(\Carbon\Carbon::now()->addMinutes(5)->toIso8601String());
 
                 // Set plan id
@@ -301,6 +360,7 @@ class productController extends UserAdminController
                 try {
                     // Create agreement
                     $agreement = $agreement->create($this->apiContext);
+                    PendingTransactions::where('id',$purchase->id)->update(['payment_recurring_data' => json_encode($agreement)]);
 
                     // Extract approval URL to redirect user
                     $approvalUrl = $agreement->getApprovalLink();
@@ -337,14 +397,15 @@ class productController extends UserAdminController
                                         'confirmations'=>3
                                         ]);
 
-                $conversion = $this->url_get_contents('https://api.bitaps.com/market/v1/ticker/btcusd',false);
-                $diff=$diff_amount*11;
+                $conversion = $this->url_get_contents('https://api.bitaps.com/market/v1/ticker/btceur',false);
+                $diff=$pay_amount;
                 $package_amount = $diff/$conversion->data->last;
                 $package_amount=round($package_amount,8);
+
                 PendingTransactions::where('id',$purchase->id)->update(['payment_code'=>$payment_details->payment_code,'invoice'=>$payment_details->invoice,'payment_address'=>$payment_details->address,'payment_data'=>json_encode($payment_details)]);
                  $trans_id=$purchase->id;
 
-                return view('app.user.product.bitaps',compact('title','sub_title','base','method','payment_details','data','package_amount','setting','trans_id'));
+                return view('app.user.product.bitaps',compact('title','sub_title','base','method','payment_details','data','package_amount','setting','trans_id','pay_amount','package','period'));
             }
 
             if($flag){
@@ -446,6 +507,7 @@ class productController extends UserAdminController
 
     }
 
+<<<<<<< HEAD
      public function paypalpurchase(Request $request){
 
       $payment_id = Session::get('paypal_payment_id');
@@ -631,6 +693,8 @@ class productController extends UserAdminController
             }
 
     }
+=======
+>>>>>>> 85162416057ba5724bfea2bf3a902bd78142f3b9
 
     public function paypalSuccess(Request $request,$id){
       // dd($request->all());
@@ -638,12 +702,34 @@ class productController extends UserAdminController
         $agreement = new \PayPal\Api\Agreement();
 
         try {
+
+            //cancelexisting
+            $item = PendingTransactions::find($id);
+            $package=ProfileModel::where('user_id',$item->user_id)->value('package');
+             if($package > 1){
+               $cur_pack_order=PendingTransactions::where('user_id',$item->user_id)->where('package',$package)->where('payment_status','complete')->first();
+               if($cur_pack_order->payment_method == 'paypal'){
+                $agreementId = $cur_pack_order->paypal_agreement_id;                 
+                $agreement = new Agreement();  
+                $agreement->setId($agreementId);
+                $agreementStateDescriptor = new AgreementStateDescriptor();
+                $agreementStateDescriptor->setNote("Cancel the agreement");
+
+                try {
+                    $agreement->cancel($agreementStateDescriptor, $this->apiContext);
+                    $cancelAgreementDetails = Agreement::get($agreement->getId(), $this->apiContext); 
+                          
+                } catch (Exception $ex) {                  
+                }
+             }
+           }
+             //cancelexisting
             // Execute agreement
             $result = $agreement->execute($token, $this->apiContext);
             
-            $item = PendingTransactions::find($id);
             $item->role = 'subscriber';
             $item->paypal = 1;
+            $item->paypal_recurring_reponse = json_encode($result);
             if(isset($result->id)){
                 $item->paypal_agreement_id = $result->id;
             }
@@ -742,10 +828,14 @@ class productController extends UserAdminController
             foreach ($results as $key => $value) {
                 Packages::rankCheck($value);
             }
+<<<<<<< HEAD
             $user_rank=User::find($item->user_id)->rank_id;
             // dd($user_rank);
             Packages::levelCommission($item->user_id,$item->amount,$user_rank);
             // packages::levelBonus($item->user_id, $item->package);
+=======
+            Packages::levelCommission($item->user_id,$package->amount);
+>>>>>>> 85162416057ba5724bfea2bf3a902bd78142f3b9
             Packages::directReferral($sponsor_id,$item->user_id,$item->package);
             //comm
 
@@ -778,7 +868,7 @@ class productController extends UserAdminController
         }
     }
 
-    public function banktransferPreview(Request $request){
+public function banktransferPreview(Request $request){
     
     $title     = "Payment Details";
     $sub_title = "Payment Details";
@@ -788,14 +878,13 @@ class productController extends UserAdminController
     $bank_details = ProfileInfo::where('user_id',1)->first();
     $orderid=$data->order_id;
     $package=Packages::find($data->package);
-    $diff_amount=$data->amount*11;
-    $euro_amount=$diff_amount;
-    // dd($euro_amount)
-    // $euro_amount=User::checkrate($diff_amount);
+    $package_amount=$data->amount;
+    $period=$data->payment_period;
+    
     $trans_id=$request->id;
     
     Session::flash('flash_notification', array('level' => 'success', 'message' => "The account will be activated once the payment has been processed!"));
-    return view('app.user.product.bankpaydetails',compact('title', 'sub_title', 'base', 'method','orderid','bank_details','euro_amount','diff_amount','package','trans_id'));
+    return view('app.user.product.bankpaydetails',compact('title', 'sub_title', 'base', 'method','orderid','bank_details','package_amount','period','package','trans_id'));
 
 }
 
@@ -819,6 +908,92 @@ public function purchaseStatus($trans){
   }
     
     return response()->json(['valid' => false]);
+}
+
+
+public function getplanid(){
+
+  
+
+
+    // $packages=Packages::where('id','>',1)->get();
+    // foreach ($packages as $key => $package) {
+    //      $plan = new Plan();
+    // $plan->setName('Atmor Monthly Billing')
+    //   ->setDescription('Monthly Subscription to the Atmor Track Purchase')
+    //   ->setType('infinite');
+
+    // // Set billing plan definitions
+    // $paymentDefinition = new PaymentDefinition();
+    // $paymentDefinition->setName('Atmor Track Subscriptions')
+    //   ->setType('REGULAR')
+    //   ->setFrequency('Day')
+    //   ->setFrequencyInterval('1')
+    //   ->setCycles('0')
+    //   ->setAmount(new Currency(array('value' => $package->amount, 'currency' => 'EUR')));
+
+    // // Set merchant preferences
+    // $merchantPreferences = new MerchantPreferences();
+    // $merchantPreferences->setReturnUrl(url('/user/paypalupgrade/paypalsuccess'))
+    //   ->setCancelUrl(url('/user/purchase-plan'))
+    //   ->setAutoBillAmount('yes')
+    //   ->setInitialFailAmountAction('CONTINUE')
+    //   ->setMaxFailAttempts('0');
+
+    // $plan->setPaymentDefinitions(array($paymentDefinition));
+    // $plan->setMerchantPreferences($merchantPreferences);
+
+    // //create the plan
+    // try {
+    //     $createdPlan = $plan->create($this->apiContext);
+
+    //     try {
+    //         $patch = new Patch();
+    //         $value = new PayPalModel('{"state":"ACTIVE"}');
+    //         $patch->setOp('replace')
+    //           ->setPath('/')
+    //           ->setValue($value);
+    //         $patchRequest = new PatchRequest();
+    //         $patchRequest->addPatch($patch);
+    //         $createdPlan->update($patchRequest, $this->apiContext);
+    //         $plan = Plan::get($createdPlan->getId(), $this->apiContext);
+
+    //         // Output plan id
+    //         // echo 'Plan ID:' . $plan->getId();
+    //     } catch (PayPal\Exception\PayPalConnectionException $ex) {
+    //         echo $ex->getCode();
+    //         echo $ex->getData();
+    //         die($ex);
+    //     } catch (Exception $ex) {
+    //         die($ex);
+    //     }
+    // } catch (PayPal\Exception\PayPalConnectionException $ex) {
+    //     echo $ex->getCode();
+    //     echo $ex->getData();
+    //     die($ex);
+    // } catch (Exception $ex) {
+    //     die($ex);
+    // }
+
+ 
+    // $cur_plan_id=$plan->getId();
+    // echo "plan:".$cur_plan_id."<br>";
+    // Packages::where('id',$package->id)->update(['day_plan' => $cur_plan_id]);
+    // // Packages::where('id',$package->id)->update(['month_plan' => $cur_plan_id]);
+   
+    // }
+    // dd("done");
+
+
+     // $package=ProfileModel::where('user_id',$user)->value('package');
+     //        $subscription_id=PendingTransactions::where('user_id',$user)->where('package',$package)->value('paypal_agreement_id');
+
+    $params = array('page_size' => '11');
+    $planList = Plan::all($params, $this->apiContext);
+    dd($planList);
+      
+
+  
 }
 
 

@@ -24,6 +24,7 @@ class CreatePendingTransactionsTable extends Migration
              $table->text('request_data',1000);
              $table->text('paypal_express_data',1000)->nullable();
              $table->string('payment_method');
+             $table->string('payment_period')->nullable();
              $table->string('payment_type');
              $table->string('invoice')->nullable();
              $table->string('payment_code')->nullable();
@@ -32,6 +33,7 @@ class CreatePendingTransactionsTable extends Migration
              
              $table->string('payment_address')->nullable();
              $table->text('payment_data',1000)->nullable();
+             $table->text('payment_recurring_data',1000)->nullable();
              $table->text('payment_response_data',1000)->nullable();
              $table->text('paypal_recurring_reponse',1000)->nullable();
              $table->string('profile_id')->nullable();

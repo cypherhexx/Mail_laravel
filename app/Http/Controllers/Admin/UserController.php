@@ -44,6 +44,36 @@ use App\Ranksetting;
 use Storage;
 use Hash;
 
+//paypal
+
+use PayPal\Rest\ApiContext;
+use PayPal\Auth\OAuthTokenCredential;
+use PayPal\Api\Amount;
+use PayPal\Api\Details;
+use PayPal\Api\Item;
+use PayPal\Api\ItemList;
+use PayPal\Api\Payer;
+use PayPal\Api\Payment;
+use PayPal\Api\RedirectUrls;
+use PayPal\Api\ExecutePayment;
+use PayPal\Api\PaymentExecution;
+use PayPal\Api\Transaction;
+
+use PayPal\Api\ChargeModel;
+use PayPal\Api\Currency;
+use PayPal\Api\MerchantPreferences;
+use PayPal\Api\PaymentDefinition;
+use PayPal\Api\Plan;
+use PayPal\Api\Patch;
+use PayPal\Api\PatchRequest;
+use PayPal\Common\PayPalModel;
+
+// use to process billing agreements
+use PayPal\Api\Agreement;
+use PayPal\Api\AgreementStateDescriptor;
+use PayPal\Api\ShippingAddress;
+use Srmklive\PayPal\Services\ExpressCheckout;
+
 class UserController extends AdminController
 {
 
@@ -52,6 +82,31 @@ class UserController extends AdminController
      *
      * @return Response
      */
+
+       protected static  $provider;
+    private $apiContext;
+    private $mode;
+    private $client_id;
+    private $secret;
+
+   
+    public function __construct()
+    {
+       
+       self::$provider = new ExpressCheckout;  
+        if(config('paypal.settings.mode') == 'live'){
+            $this->client_id = config('paypal.live_client_id');
+            $this->secret = config('paypal.live_secret');
+        } else {
+            $this->client_id = config('paypal.sandbox_client_id');
+            $this->secret = config('paypal.sandbox_secret');
+        }
+        
+        // Set the Paypal API Context/Credentials
+        $this->apiContext = new ApiContext(new OAuthTokenCredential($this->client_id, $this->secret));
+        $this->apiContext->setConfig(config('paypal.settings'));
+    }
+    
     public function index()
     {
 
@@ -1298,6 +1353,8 @@ else
        $pay_data=json_decode($transaction->request_data,true);
      
        if($transaction->payment_type == 'upgrade'){
+       $package=ProfileModel::where('user_id',$transaction->user_id)->value('package');
+       if($transaction->package > $package){
 
          $package=Packages::find($transaction->package);
          $purchase_id= PurchaseHistory::create([
@@ -1316,6 +1373,25 @@ else
                         'from_id'=>$transaction->user_id,
                         'rs_credit'=>$package->rs,
                         ]);
+            $old_package=ProfileModel::where('user_id',$transaction->user_id)->value('package');
+             if($old_package > 1){
+               $cur_pack_order=PendingTransactions::where('user_id',$transaction->user_id)->where('package',$old_package)->where('payment_status','complete')->first();
+               if($cur_pack_order->payment_method == 'paypal'){
+                $agreement = new \PayPal\Api\Agreement();
+                $agreementId = $cur_pack_order->paypal_agreement_id;                 
+                $agreement = new Agreement();  
+                $agreement->setId($agreementId);
+                $agreementStateDescriptor = new AgreementStateDescriptor();
+                $agreementStateDescriptor->setNote("Cancel the agreement");
+
+                try {
+                    $agreement->cancel($agreementStateDescriptor, $this->apiContext);
+                    $cancelAgreementDetails = Agreement::get($agreement->getId(), $this->apiContext); 
+                          
+                } catch (Exception $ex) {                  
+                }
+             }
+           }
 
         
          //commsiiom
@@ -1326,7 +1402,7 @@ else
             foreach ($results as $key => $value) {
                 Packages::rankCheck($value);
             }
-            Packages::levelCommission($transaction->user_id,$transaction->amount);
+            Packages::levelCommission($transaction->user_id,$package->amount);
             Packages::directReferral($sponsor_id,$transaction->user_id,$transaction->package);
             //comm
 
@@ -1353,6 +1429,10 @@ else
           $transaction->save();
           Session::flash('flash_notification',array('message'=>"You have purchased the plan successfully ",'level'=>'success'));
           return redirect()->back();
+      }else{
+          Session::flash('flash_notification',array('message'=>"Sorry You have already purchased this package",'level'=>'error'));
+          return redirect()->back();
+      }
        }
        else{
 

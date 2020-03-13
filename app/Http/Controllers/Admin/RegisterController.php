@@ -315,6 +315,7 @@ class RegisterController extends AdminController
                 }
 
                 $data['total'] = $total; 
+                self::$provider->setCurrency('EUR');
                 $response = self::$provider->setExpressCheckout($data); 
                 PendingTransactions::where('id',$register->id)->update(['payment_data' => json_encode($response),'paypal_express_data' => json_encode($data)]);
              
@@ -338,7 +339,7 @@ class RegisterController extends AdminController
                                         'confirmations'=>3
                                         ]);
 
-                $conversion = $this->url_get_contents('https://api.bitaps.com/market/v1/ticker/btcusd',false);
+                $conversion = $this->url_get_contents('https://api.bitaps.com/market/v1/ticker/btceur',false);
                 $package_amount = $joiningfee/$conversion->data->last;
                 $package_amount=round($package_amount,8);
                 PendingTransactions::where('id',$register->id)->update(['payment_code'=>$payment_details->payment_code,'invoice'=>$payment_details->invoice,'payment_address'=>$payment_details->address,'payment_data'=>json_encode($payment_details)]);
@@ -648,6 +649,7 @@ class RegisterController extends AdminController
 
     public function paypalRegSuccess(Request $request,$id){
         // dd($request->all());
+          self::$provider->setCurrency('EUR');
           $response = self::$provider->getExpressCheckoutDetails($request->token);
           $item = PendingTransactions::find($id);
           $item->payment_response_data = json_encode($response);
