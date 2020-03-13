@@ -42,7 +42,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @var array
      */
-    protected $fillable = ['user_id','email', 'password','username','sponsor','rank_id','register_by','name','lastname','transaction_pass','created_at','admin','referral_count','document','verified','verification_number'];
+    protected $fillable = ['user_id','email', 'password','username','sponsor','rank_id','register_by','name','lastname','transaction_pass','created_at','admin','referral_count','document','verified','verification_number','sponsor'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -482,7 +482,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public static function add($data,$sponsor_id,$placement_id){
 
-            DB::beginTransaction();
+            // DB::beginTransaction();
 
             try {
 
@@ -503,6 +503,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
                 'cpf'              => $data['cpf'],
                 'transaction_pass' => bcrypt($data['transaction_pass']),
                 'password'         => bcrypt($data['password']),
+               'sponsor'=>$sponsor_id,
 
             ]);
 
@@ -587,23 +588,23 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
              * if placement id didnt do well, returns sponsor id and will be placed under sponsor
              * @var [userid]
              */
-             $placement_id = Tree_Table::gettreePlacementId([$placement_id]); 
+             // $placement_id = Tree_Table::gettreePlacementId([$placement_id]); 
             /**
              * Finds the Vaccant Id adn set as tree id
              * @var [type]
              */
-            $tree_id = Tree_Table::vaccantId($placement_id);
+            // $tree_id = Tree_Table::vaccantId($placement_id);
             /**
              * updates the tree table with user id and sponsor, with type yes.
              * @var [function]
              */
-            $tree          = Tree_Table::find($tree_id);
-            $tree->user_id = $userresult->id;
-            $tree->sponsor = $sponsor_id;
-            $tree->type    = 'yes';
-            $tree->save(); 
-            $count=Tree_Table::where('user_id','=',$placement_id)->value('level');
-            Tree_Table::where('id',$tree_id)->update(['level'=>$count+1]);
+            // $tree          = Tree_Table::find($tree_id);
+            // $tree->user_id = $userresult->id;
+            // $tree->sponsor = $sponsor_id;
+            // $tree->type    = 'yes';
+            // $tree->save(); 
+            // $count=Tree_Table::where('user_id','=',$placement_id)->value('level');
+            // Tree_Table::where('id',$tree_id)->update(['level'=>$count+1]);
 
              /**
              * All application specific settings, like commission and packages settings
@@ -613,11 +614,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
              * Here goes all the commissions calculations on the successful registration
              */
 
-            Tree_Table::getAllUpline($userresult->id);
+            // Tree_Table::getAllUpline($userresult->id);
             // PointTable::updatePoint($userPackage->pv, $userresult->id);
            
-            self::where('id',$sponsor_id)->increment('referral_count',1);
-            $user_arrs=[];
+            // self::where('id',$sponsor_id)->increment('referral_count',1);
+            // $user_arrs=[];
             // $results=Ranksetting::getthreeupline($userresult->id,1,$user_arrs);
           
             // foreach ($results as $key => $value) {
@@ -638,15 +639,16 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
            
 
             PointTable::addPointTable($userresult->id);
-            Tree_Table::createVaccant($tree->user_id);
+            // Tree_Table::createVaccant($tree->user_id);
             $spomsor=User::find($sponsor_id)->username;
             /**
              * adding user to balance table
              */
             $balanceupdate = SELF::insertToBalance($userresult->id);
 
-              Activity::add("Added user $userresult->username","Added $userresult->username sponsor as $spomsor ");
-                Activity::add("Joined as $userresult->username","Joined in system as $userresult->username sponsor as $spomsor ",$userresult->id);
+              // Activity::add("Added user $userresult->username","Added $userresult->username sponsor as 
+              //   $sponsor ");
+                // Activity::add("Joined as $userresult->username","Joined in system as $userresult->username sponsor as $spomsor ",$userresult->id);
             // dd("00");
 
             // SendAllEmail::dispatch($data['firstname'],$data['lastname'],$data['username'],$data['password'],$data['email'])

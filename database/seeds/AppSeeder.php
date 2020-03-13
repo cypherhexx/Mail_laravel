@@ -12,7 +12,7 @@ class AppSeeder extends Seeder
     public function run()
     {
          App\AppSettings::create([ 
-           'company_name' => 'Atmor',
+           'company_name' => 'Algo Light limited',
            'company_address' => 'Mumbai',
            'email_address' => 'info@solidus.cc',
            'logo' => 'atmor.png',

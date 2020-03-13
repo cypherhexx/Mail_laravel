@@ -19,6 +19,8 @@ use App\ProfileModel;
 use App\PurchaseHistory;
 use App\RsHistory;
 use App\Activity;
+use App\settings2;
+
 use Auth;
 use Artisan;
 use Illuminate\Http\Request;
@@ -39,18 +41,25 @@ class SettingsController extends AdminController
      * @return Response
      */
     public function index()
+    
     {
+        
+
+        $sett  = settings2::all();
+        
+       
 
         $title     = trans('settings.settings');
         $sub_title = trans('settings.commission_settings');
         $base      = trans('settings.settings');
         $method    = trans('settings.binary_commission');
         $settings  = Settings::find(1);
+        
         //$unread_count  = Mail::unreadMailCount(Auth::id());
         //$unread_mail  = Mail::unreadMail(Auth::id());
         // $userss = User::getUserDetails(Auth::id());
         // $user   = $userss[0];
-        return view('app.admin.settings.index', compact('title', 'settings', 'user', 'sub_title', 'base', 'method'));
+        return view('app.admin.settings.index', compact('title', 'sett','settings', 'user', 'sub_title', 'base', 'method'));
     }
 
     public function saveTheme(Request $request)
