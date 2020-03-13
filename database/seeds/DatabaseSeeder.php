@@ -55,6 +55,8 @@ class DatabaseSeeder extends Seeder
        // $this->call('ticket_priority');
        // $this->call('ticket_status');
        // $this->call('ticket_tags');
+        $this->call('settings2');
+       
        
 
 

@@ -25,7 +25,10 @@ class settingsTableSeeder extends Seeder
             'eight_friends' => '1',
             'withdraw_percent' => '5',
             'withdraw_days' => '10',
-            
+            'matrix'  =>'3',
+            'trader'  =>'3',
+            'star'  =>'1',
+            'superstar'  =>'2',
         ]); 
     }
 }
