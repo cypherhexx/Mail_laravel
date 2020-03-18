@@ -61,6 +61,8 @@ class Packages extends Model
           foreach ($results as $key => $upuser) {
               $package=ProfileInfo::where('user_id',$upuser)->value('package');
               $pack=Packages::find($package);
+              $cat_id=User::where('id',$user_id)->value('category_id');
+              $category=Category::find($cat_id)->percentage;
               
            // dd($pack);
 
@@ -69,7 +71,7 @@ class Packages extends Model
            // dd($rankgain);
 
               
-              $total=Settings::find(1)->matrix+$pack->level_percent+$rankgain;
+              $total=Settings::find(1)->matrix+$pack->level_percent+$rankgain+$category;
               $level_commission=$package_am*$total*0.01;
               dd($level_commission);
               if($level_commission > 0){
@@ -409,6 +411,7 @@ public static function Levelcount($user_id,$level)
      public static function Addtomatrixplan($user_id){
 
         $sponsor_id = Sponsortree::where('user_id',$user_id)->value('sponsor');
+        // dd($sponsor_id);
 
         $placement_id = Tree_Table::gettreePlacementId([$sponsor_id]); 
         $tree_id = Tree_Table::vaccantId($placement_id);
@@ -421,6 +424,27 @@ public static function Levelcount($user_id,$level)
         Tree_Table::where('id',$tree_id)->update(['level'=>$count+1]);
         Tree_Table::createVaccant($tree->user_id);
     }
+     public static function DirectReferrals($user_id,$package)
+     {
+       $sponsor_id=Sponsortree::where('user_id',$user_id)->value('sponsor');
+       $package_amount=Packages::where('id',$package)->value('amount');
+       $direct_referral=Settings::value('direct_referral');
+       $amount=$package_amount * $direct_referral / 100;
+       $commision = Commission::create([
+                'user_id'        => $sponsor_id,
+                'from_id'        => $user_id,
+                'total_amount'   => $amount,
+                'tds'            => 0,
+                'service_charge' => 0,
+                'payable_amount' => $amount,
+                'payment_type'   => 'direct_referral',
+                'payment_status' => 'Yes',
+          ]);
+          /**
+          * updates the userbalance
+          */
+          User::upadteUserBalance($sponsor_id, $amount);
+     }
 
    
 }
