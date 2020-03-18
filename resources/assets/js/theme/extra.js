@@ -3781,6 +3781,35 @@ if ($('#enable_settings').length) {
         });
     });
 }
+if ($('#enable_settings1').length) {
+    $(function() {
+        $('#enable_settings1').click(function() {
+            $('#settings1 .settings1').editable('toggleDisabled');
+            $('#enable_settings1').text(function(i, text) {
+                return text === "Enable edit mode" ? "Disable edit mode" : "Enable edit mode";
+            });
+        });
+        $.fn.editable.defaults.mode = 'popup';
+        $.fn.editable.defaults.params = function(params) {
+            params._token = $("meta[name=csrf-token]").attr("content");
+            return params;
+        };
+        $('.settings1').editable({
+            validate: function(value) {},
+            type: 'text',
+            url: CLOUDMLMSOFTWARE.siteUrl + '/admin/updatesettings1',
+            placement: 'top',
+            send: 'always',
+            disabled: true,
+            ajaxOptions: {
+                dataType: 'json'
+            },
+            success: function(response, newValue) {
+                $(this).html(newValue);
+            }
+        });
+    });
+}
 if ($('#enable-package-edit').length) {
     $(function() {
         $('#enable-package-edit').click(function() {
