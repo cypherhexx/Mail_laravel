@@ -567,6 +567,8 @@ class productController extends UserAdminController
             /*edited by vincy on match 13 2020*/
             $check_in_matrix = Tree_Table::where('user_id',Auth::user()->id)->where('type','yes')->count();
             if($check_in_matrix == 0){
+
+                Packages::DirectReferrals(Auth::user()->id,$item->package);
                 $addtomatrixplan = Packages::Addtomatrixplan(Auth::user()->id);   
             }
             /*edited by vincy on match 13 2020*/
@@ -589,7 +591,7 @@ class productController extends UserAdminController
             }
 
             Packages::levelCommission($item->user_id,$package->amount);
-            Packages::directReferral($sponsor_id,$item->user_id,$item->package);
+            // Packages::directReferral($sponsor_id,$item->user_id,$item->package);
             //comm
 
             $pur_user=PurchaseHistory::find($purchase_id->id);
