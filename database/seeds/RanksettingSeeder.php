@@ -20,24 +20,24 @@ class RanksettingSeeder extends Seeder
 			'quali_rank_count'   => 0,
 			'rank_bonus'   => "na",
 		]);
-       \App\Ranksetting::create([
-			'rank_name' 	     => "A",
-			'rank_code' 	     => "A",
-			'top_up'   => 0,
-			'quali_rank_id'   => 0,
-			'quali_rank_count'   => 0,
-			'rank_bonus'   => "na",
-			'direct_referral' => 5,
-			'minimum_direct_ref1' => 5,
-			'minimum_ref_for_each1' => 0,
-			'gain'=>'1',
-			'tree_level'=>'10',
+  //      \App\Ranksetting::create([
+		// 	'rank_name' 	     => "A",
+		// 	'rank_code' 	     => "A",
+		// 	'top_up'   => 0,
+		// 	'quali_rank_id'   => 0,
+		// 	'quali_rank_count'   => 0,
+		// 	'rank_bonus'   => "na",
+		// 	'direct_referral' => 5,
+		// 	'minimum_direct_ref1' => 5,
+		// 	'minimum_ref_for_each1' => 0,
+		// 	'gain'=>'1',
+		// 	'tree_level'=>'10',
 
 
-		]);
+		// ]);
         \App\Ranksetting::create([
-			'rank_name' 	     => "B",
-			'rank_code' 	     => "B",
+			'rank_name' 	     => "Reseller",
+			'rank_code' 	     => "Reseller",
 			'top_up'   => 0,
 			'quali_rank_id'   => 0,
 			'quali_rank_count'   => 0,
@@ -51,8 +51,8 @@ class RanksettingSeeder extends Seeder
 		]);
 
 		 \App\Ranksetting::create([
-			'rank_name' 	     => "C",
-			'rank_code' 	     => "C",
+			'rank_name' 	     => "Manager",
+			'rank_code' 	     => "Manager",
 			'top_up'   => 0,
 			'quali_rank_id'   => 0,
 			'quali_rank_count'   => 0,
@@ -69,8 +69,8 @@ class RanksettingSeeder extends Seeder
 		]);
 
 		  \App\Ranksetting::create([
-			'rank_name' 	     => "D",
-			'rank_code' 	     => "D",
+			'rank_name' 	     => "Administrator",
+			'rank_code' 	     => "Administrator",
 			'top_up'   => 0,
 			'quali_rank_id'   => 0,
 			'quali_rank_count'   => 0,
@@ -88,8 +88,8 @@ class RanksettingSeeder extends Seeder
 		]);
 
 		   \App\Ranksetting::create([
-			'rank_name' 	     => "E",
-			'rank_code' 	     => "E",
+			'rank_name' 	     => "Master",
+			'rank_code' 	     => "Master",
 			'top_up'   => 0,
 			'quali_rank_id'   => 0,
 			'quali_rank_count'   => 0,
@@ -105,8 +105,8 @@ class RanksettingSeeder extends Seeder
 		]);
 
 		    \App\Ranksetting::create([
-			'rank_name' 	     => "F",
-			'rank_code' 	     => "F",
+			'rank_name' 	     => "Chief",
+			'rank_code' 	     => "Chief",
 			'top_up'   => 0,
 			'quali_rank_id'   => 0,
 			'quali_rank_count'   => 0,
@@ -123,8 +123,8 @@ class RanksettingSeeder extends Seeder
 		]);
 
 		 \App\Ranksetting::create([
-			'rank_name' 	     => "G",
-			'rank_code' 	     => "G",
+			'rank_name' 	     => "President",
+			'rank_code' 	     => "President",
 			'top_up'   => 0,
 			'quali_rank_id'   => 0,
 			'quali_rank_count'   => 0,

@@ -298,6 +298,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth'], 'namespace' 
     //Settings
     Route::get('settings', 'SettingsController@index');
     Route::post('updatesettings', 'SettingsController@update');
+    Route::post('updatesettings1', 'SettingsController@updatesettings1');
 
     Route::get('site_management', 'SettingsController@site_management');
     Route::post('postsite_mode', 'SettingsController@postsite_mode');

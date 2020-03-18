@@ -51,14 +51,29 @@ class Packages extends Model
     	}
     }
 
-    public static function levelCommission($user_id,$package_am){
+    public static function levelCommission($user_id,$package_am,$rank){
+
+
 
        $user_arrs=[];
        $results=SELF::gettenupllins($user_id,1,$user_arrs);
+       // dd( $results);
           foreach ($results as $key => $upuser) {
               $package=ProfileInfo::where('user_id',$upuser)->value('package');
               $pack=Packages::find($package);
-              $level_commission=$package_am*$pack->level_percent*0.01;
+              $cat_id=User::where('id',$user_id)->value('category_id');
+              $category=Category::find($cat_id)->percentage;
+              
+           // dd($pack);
+
+        if($rank > 1){
+           $rankgain=Ranksetting::find($rank)->gain;
+           // dd($rankgain);
+
+              
+              $total=Settings::find(1)->matrix+$pack->level_percent+$rankgain+$category;
+              $level_commission=$package_am*$total*0.01;
+              dd($level_commission);
               if($level_commission > 0){
                 $commision = Commission::create([
                 'user_id'        => $upuser,
@@ -73,15 +88,55 @@ class Packages extends Model
           /**
           * updates the userbalance
           */
-          User::upadteUserBalance($upuser, $level_commission);
+          User::upadteUserBalance($upuser, $level_commission,$user);
         }
+      }
           self::checkRankbasedCommission($upuser,$package_am,$user_id);
           }
 
-    }
+   
+
+}
+    // public static function levelBonus($user_id,$package){
+
+
+
+    
+
+    
+
+    //    $packs=Packages::find($package)->level_percent;
+    
+    //       $matrix=Settings::find(1)->matrix;
+         
+    //       $level_bonus=$packs+$matrix;
+          // dd($level_bonus);
+        //   $commision = Commission::create([
+        //         'user_id'        => 'NA',
+        //         'from_id'        => $from,
+        //         'total_amount'   => $direct_referral,
+        //         'tds'            => 0,
+        //         'service_charge' =>0,
+        //         'payable_amount' => $direct_referral,
+        //         'payment_type'   => 'direct_referral',
+        //         'payment_status' => 'Yes',
+        //   ]);
+        //   /**
+        //   * updates the userbalance
+        //   */
+        // //   Settings::upadteMatrix($level_bonus);
+        // }
+         
+
+   
+
+
+
+
 
     public static function checkRankbasedCommission($user,$amount,$from){
         $rank=User::find($user)->rank_id;
+
         if($rank > 1){
            $rankgain=Ranksetting::find($rank)->gain;
            $rank_commission=$amount*$rankgain*0.01;
@@ -106,8 +161,9 @@ class Packages extends Model
           $pack=Packages::find($package);
           $direct_ref=Settings::find(1)->direct_referral;
           $direct_referral=$pack->amount*$direct_ref*0.01;
+          // dd( $direct_referral);
           $commision = Commission::create([
-                'user_id'        => $sponsor,
+                'user_id'        => 'NA',
                 'from_id'        => $from,
                 'total_amount'   => $direct_referral,
                 'tds'            => 0,
@@ -355,6 +411,7 @@ public static function Levelcount($user_id,$level)
      public static function Addtomatrixplan($user_id){
 
         $sponsor_id = Sponsortree::where('user_id',$user_id)->value('sponsor');
+        // dd($sponsor_id);
 
         $placement_id = Tree_Table::gettreePlacementId([$sponsor_id]); 
         $tree_id = Tree_Table::vaccantId($placement_id);
@@ -367,6 +424,27 @@ public static function Levelcount($user_id,$level)
         Tree_Table::where('id',$tree_id)->update(['level'=>$count+1]);
         Tree_Table::createVaccant($tree->user_id);
     }
+     public static function DirectReferrals($user_id,$package)
+     {
+       $sponsor_id=Sponsortree::where('user_id',$user_id)->value('sponsor');
+       $package_amount=Packages::where('id',$package)->value('amount');
+       $direct_referral=Settings::value('direct_referral');
+       $amount=$package_amount * $direct_referral / 100;
+       $commision = Commission::create([
+                'user_id'        => $sponsor_id,
+                'from_id'        => $user_id,
+                'total_amount'   => $amount,
+                'tds'            => 0,
+                'service_charge' => 0,
+                'payable_amount' => $amount,
+                'payment_type'   => 'direct_referral',
+                'payment_status' => 'Yes',
+          ]);
+          /**
+          * updates the userbalance
+          */
+          User::upadteUserBalance($sponsor_id, $amount);
+     }
 
    
 }

@@ -45,7 +45,7 @@
             <div class="col-sm-offset-2">
                 <div class="form-group" style="float: left; margin-right: 0px;">
                     <div class="col-sm-2">
-                        <button class="btn btn-info" id="add_amount" name="add_amount" tabindex="4" type="submit" value="{{trans('ewallet.add_amount')}}">
+                        <button class="btn btn-info" id="add_amount" name="add_amount" tabindex="4" type="submit" onclick="checkNegativeValue()" value="{{trans('ewallet.add_amount')}}">
                             {{trans('ewallet.add_amount')}}
                         </button>
                     </div>
@@ -126,6 +126,18 @@
 $(document).on('submit', 'form', function() {
    $(this).find('button:submit, input:submit').attr('disabled','disabled');
  });
+</script>
+
+<script type="text/javascript">
+function checkNegativeValue()
+{
+  var value = parseFloat(document.getElementById("amount").value);
+  if(value<1)
+  {
+   alert("Negative Value is not allowed");
+   return false;
+  }
+}
 </script>
 
  @endsection

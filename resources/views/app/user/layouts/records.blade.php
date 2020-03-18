@@ -131,7 +131,7 @@
                                         
                                     </div>
 
-                                    <h3 class="no-margin text-semibold"> My Category</h3>
+                                    <h3 class="no-margin text-semibold"> {{$category}}</h3>
                                    My Category
                                     <!-- <div class="text-muted text-size-small">   My Category</div> -->
                                 </div>
@@ -153,7 +153,9 @@
 
                                     <h3 class="no-margin text-semibold">{{$rank_name}}</h3>
                                  My Rank
+                                 @if($rank_name != 'No rank')
                                   <img src="{{ url('assets/uploads/'.$image) }}" style="width: 60px;margin-top: -41px;float:right;">
+                                  @endif
                                     <!-- <div class="text-mut text-size-small">My Rank</div> -->
                                 </div>
 

@@ -19,6 +19,7 @@ use App\Commission;
 use App\ProfileInfo;
 use App\Packages;
 use App\Ranksetting;
+use App\Category;
 
 use Illuminate\Http\Request;
 use Auth;
@@ -90,7 +91,10 @@ class dashboard extends UserAdminController{
         $method = trans('dashboard.dashboard');
         $sub_title = trans('dashboard.dashboard');
 
-       return view('app.user.dashboard.index', compact('count_new','new_users','title','point_details', 'users', 'balance','percentage_released','percentage_balance','total_bonus','sub_title','right_bv','left_bv','total_bv','total_top_up','total_rs','base','method','USER_CURRENCY','payout','weekly_users_count','monthly_users_count','yearly_users_count','total_invest','total_grants','pending_payout','pack_name','rank_name','level_percent','pac_image'));
+        $cat_id=User::where('id',Auth::user()->id)->value('category_id');
+        $category=Category::where('id',$cat_id)->value('category_name');
+
+       return view('app.user.dashboard.index', compact('count_new','new_users','title', 'users', 'balance','percentage_released','percentage_balance','sub_title','right_bv','left_bv','total_bv','total_top_up','total_rs','base','method','USER_CURRENCY','payout','weekly_users_count','monthly_users_count','yearly_users_count','total_invest','total_grants','pending_payout','pack_name','rank_name','level_percent','pac_image','category'));
     }
 
   

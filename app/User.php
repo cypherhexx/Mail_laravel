@@ -42,7 +42,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @var array
      */
-    protected $fillable = ['user_id','email', 'password','username','sponsor','rank_id','register_by','name','lastname','transaction_pass','created_at','admin','referral_count','document','verified','verification_number'];
+    protected $fillable = ['user_id','email', 'password','username','sponsor','rank_id','register_by','name','lastname','transaction_pass','created_at','admin','referral_count','document','verified','verification_number','sponsor'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -336,12 +336,23 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             ->get();
 
     }
-
-
-
-
-
-   
+    public static function categoryUpdate($sponsor_id)
+    {
+      $sponsor_count=Sponsortree::where('sponsor',$sponsor_id)->where('type','=','yes')->count();
+       
+      $cat1=Category::where('id','=',2)->value('value');
+      $cat2=Category::where('id','=',3)->value('value');
+      
+     
+      if($sponsor_count == $cat1)
+      {
+        User::where('id',$sponsor_id)->update(['category_id'=>2]);
+      }
+      if($sponsor_count == $cat2)
+      {
+        User::where('id',$sponsor_id)->update(['category_id'=>3]); 
+      }
+    }
 
     public static function hoverCard($user_id)
     {
@@ -482,7 +493,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public static function add($data,$sponsor_id,$placement_id){
 
-            DB::beginTransaction();
+            // DB::beginTransaction();
 
             try {
 
@@ -503,6 +514,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
                 'cpf'              => $data['cpf'],
                 'transaction_pass' => bcrypt($data['transaction_pass']),
                 'password'         => bcrypt($data['password']),
+               // 'sponsor'=>$sponsor_id,
 
             ]);
 
@@ -587,10 +599,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
              * if placement id didnt do well, returns sponsor id and will be placed under sponsor
              * @var [userid]
              */
+
             // $placement_id = Tree_Table::gettreePlacementId([$placement_id]); 
           
             // $tree_id = Tree_Table::vaccantId($placement_id);
            
+
             // $tree          = Tree_Table::find($tree_id);
             // $tree->user_id = $userresult->id;
             // $tree->sponsor = $sponsor_id;
@@ -601,9 +615,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
 
             // Tree_Table::getAllUpline($userresult->id);
+
            
-            self::where('id',$sponsor_id)->increment('referral_count',1);
-            $user_arrs=[];
+            // self::where('id',$sponsor_id)->increment('referral_count',1);
+            // $user_arrs=[];
             // $results=Ranksetting::getthreeupline($userresult->id,1,$user_arrs);
           
             // foreach ($results as $key => $value) {
@@ -623,7 +638,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             // $spon_det=User::find($sponsor_id);
            
 
-            // PointTable::addPointTable($userresult->id);
+
             // Tree_Table::createVaccant($tree->user_id);
             $spomsor=User::find($sponsor_id)->username;
             /**
@@ -631,8 +646,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
              */
             $balanceupdate = SELF::insertToBalance($userresult->id);
 
-              Activity::add("Added user $userresult->username","Added $userresult->username sponsor as $spomsor ");
-                Activity::add("Joined as $userresult->username","Joined in system as $userresult->username sponsor as $spomsor ",$userresult->id);
+            $category_update=SELF::categoryUpdate($sponsor_id);
+            
+              // Activity::add("Added user $userresult->username","Added $userresult->username sponsor as 
+              //   $sponsor ");
+                // Activity::add("Joined as $userresult->username","Joined in system as $userresult->username sponsor as $spomsor ",$userresult->id);
             // dd("00");
 
             // SendAllEmail::dispatch($data['firstname'],$data['lastname'],$data['username'],$data['password'],$data['email'])
