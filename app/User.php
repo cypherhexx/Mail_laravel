@@ -336,12 +336,23 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             ->get();
 
     }
-
-
-
-
-
-   
+    public static function categoryUpdate($sponsor_id)
+    {
+      $sponsor_count=Sponsortree::where('sponsor',$sponsor_id)->where('type','=','yes')->count();
+       
+      $cat1=Category::where('id','=',2)->value('value');
+      $cat2=Category::where('id','=',3)->value('value');
+      
+     
+      if($sponsor_count == $cat1)
+      {
+        User::where('id',$sponsor_id)->update(['category_id'=>2]);
+      }
+      if($sponsor_count == $cat2)
+      {
+        User::where('id',$sponsor_id)->update(['category_id'=>3]); 
+      }
+    }
 
     public static function hoverCard($user_id)
     {
@@ -503,7 +514,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
                 'cpf'              => $data['cpf'],
                 'transaction_pass' => bcrypt($data['transaction_pass']),
                 'password'         => bcrypt($data['password']),
-               'sponsor'=>$sponsor_id,
+               // 'sponsor'=>$sponsor_id,
 
             ]);
 
@@ -635,6 +646,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
              */
             $balanceupdate = SELF::insertToBalance($userresult->id);
 
+            $category_update=SELF::categoryUpdate($sponsor_id);
+            
               // Activity::add("Added user $userresult->username","Added $userresult->username sponsor as 
               //   $sponsor ");
                 // Activity::add("Joined as $userresult->username","Joined in system as $userresult->username sponsor as $spomsor ",$userresult->id);
