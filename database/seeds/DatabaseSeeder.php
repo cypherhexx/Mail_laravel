@@ -50,6 +50,7 @@ class DatabaseSeeder extends Seeder
        $this->call('ticket_category');
        $this->call('TicketDepartmentSeeder');
        $this->call('RolesTableSeeder');
+       $this->call('CategoryTableSeeder');
        // $this->call('TicketFaqSeeder');
        // $this->call('ticket_category');
        // $this->call('ticket_priority');
