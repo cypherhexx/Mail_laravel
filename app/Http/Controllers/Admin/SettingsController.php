@@ -20,6 +20,7 @@ use App\PurchaseHistory;
 use App\RsHistory;
 use App\Activity;
 use App\settings2;
+use App\Category;
 
 use Auth;
 use Artisan;
@@ -54,12 +55,13 @@ class SettingsController extends AdminController
         $base      = trans('settings.settings');
         $method    = trans('settings.binary_commission');
         $settings  = Settings::find(1);
+        $category  = category::get();
         
         //$unread_count  = Mail::unreadMailCount(Auth::id());
         //$unread_mail  = Mail::unreadMail(Auth::id());
         // $userss = User::getUserDetails(Auth::id());
         // $user   = $userss[0];
-        return view('app.admin.settings.index', compact('title', 'sett','settings', 'user', 'sub_title', 'base', 'method'));
+        return view('app.admin.settings.index', compact('title', 'sett','settings', 'sub_title', 'base', 'method','category'));
     }
 
     public function saveTheme(Request $request)
@@ -174,8 +176,9 @@ class SettingsController extends AdminController
      */
     public function update(Request $request)
     {
-
+        
         $settings = Settings::find($request->pk);
+
 
         $data_name = $request->name;
 
@@ -1015,7 +1018,23 @@ static function humanFilesize($size, $precision = 2) {
 
             }
      }
+         public function updatesettings1(Request $request)
+    {
         
+        $settings = Category::find($request->pk);
+        
+
+        $data_name = $request->name;
+
+        $settings->$data_name = $request->value;
+
+        if ($settings->save()) {
+            return Response::json(array('status' => 1));
+        } else {
+            return Response::json(array('status' => 0));
+        }
+
+    }
 
 
    
