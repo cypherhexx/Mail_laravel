@@ -152,7 +152,7 @@ table.minimalistBlack tfoot td {
 
 
 <h3>INVOICE NO:{{$datas['invoice_id']}}</h3>
-Paid:{{$datas['date_p']['date']}}
+
 {{$datas['name']}} {{$datas['lastname']}}
 {{$datas['address']}}
 {{$datas['mail_address']}}
