@@ -51,52 +51,41 @@ class Packages extends Model
     	}
     }
 
-    public static function levelCommission($user_id,$package_am,$rank){
-
-
+    public static function levelCommission($user_id,$package_am,$rank)
+    {
 
        $user_arrs=[];
        $results=SELF::gettenupllins($user_id,1,$user_arrs);
-       // dd( $results);
           foreach ($results as $key => $upuser) {
-              $package=ProfileInfo::where('user_id',$upuser)->value('package');
-              $pack=Packages::find($package);
-              $cat_id=User::where('id',$user_id)->value('category_id');
-              $category=Category::find($cat_id)->percentage;
-              
-           // dd($pack);
+            $package=ProfileInfo::where('user_id',$upuser)->value('package');
+            $pack=Packages::find($package);
+            $cat_id=User::where('id',$upuser)->value('category_id');
+            $category=Category::find($cat_id)->percentage;
+            $rank=User::where('id',$upuser)->value('rank_id');
+            $rankgain=Ranksetting::find($rank)->gain;
 
-        if($rank > 1){
-           $rankgain=Ranksetting::find($rank)->gain;
-           // dd($rankgain);
+            $total=Settings::find(1)->matrix+$pack->level_percent+$rankgain+$category;            
+             
+            $level_commission=$package_am*$total*0.01;
+              if($level_commission > 0){ 
 
-              
-              $total=Settings::find(1)->matrix+$pack->level_percent+$rankgain+$category;
-              $level_commission=$package_am*$total*0.01;
-              dd($level_commission);
-              if($level_commission > 0){
                 $commision = Commission::create([
                 'user_id'        => $upuser,
                 'from_id'        => $user_id,
                 'total_amount'   => $level_commission,
                 'tds'            => 0,
-                'service_charge' =>0,
+                'service_charge' => 0,
                 'payable_amount' => $level_commission,
                 'payment_type'   => 'level_commission',
                 'payment_status' => 'Yes',
-          ]);
-          /**
-          * updates the userbalance
-          */
-          User::upadteUserBalance($upuser, $level_commission,$user);
-        }
-      }
-          self::checkRankbasedCommission($upuser,$package_am,$user_id);
+                ]);
+            /**
+            * updates the userbalance
+            */
+            User::upadteUserBalance($upuser, $level_commission);
           }
-
-   
-
-}
+        }
+    }
     // public static function levelBonus($user_id,$package){
 
 
