@@ -496,7 +496,7 @@ class RegisterController extends Controller
                 PendingTransactions::where('id',$register->id)->update(['payment_code'=>$payment_details->payment_code,'invoice'=>$payment_details->invoice,'payment_address'=>$payment_details->address,'payment_data'=>json_encode($payment_details)]);
                  $trans_id=$register->id;
 
-                return view('auth.bitaps',compact('title','sub_title','base','method','payment_details','data','package_amount','setting','trans_id'));
+                return view('auth.bitaps',compact('title','sub_title','base','method','payment_details','data','package_amount','trans_id'));
             }
 
             $userresult = User::add($data,$sponsor_id,$placement_id);
@@ -643,7 +643,7 @@ class RegisterController extends Controller
         //  $leg = Tree_Table::where('user_id','=',$userresult->id)->value('leg');
         if ($userresult) {
             // dd($user);
-            return view('auth.preview', compact('title', 'sub_title', 'method', 'base', 'userresult', 'sponsorUserName', 'country', 'state', 'sub_title','leg'));
+            return view('auth.preview', compact('title', 'sub_title', 'method', 'base', 'userresult', 'country', 'state', 'sub_title'));
         } else {
             return redirect()->back();
         }
@@ -779,8 +779,8 @@ public function checkStatus($trans){
     }
 
        public function bitapssuccess(Request $request){
-       
-         $item = PendingTransactions::where('payment_code',$request->code)->first();
+      // dd($request->all());
+         $item = PendingTransactions::where('invoice',$request->code)->first();
          // dd($item);
          if($request->confirmations >=3 && $item->payment_status == 'pending'){
             $item->payment_response_data = json_encode($request->all());
@@ -842,6 +842,7 @@ public function checkStatus($trans){
             
             $check_in_matrix = Tree_Table::where('user_id',$item->user_id)->where('type','yes')->count();
             if($check_in_matrix == 0){
+                 Packages::DirectReferrals($item->user_id,$item->package);
                 $addtomatrixplan = Packages::Addtomatrixplan($item->user_id);   
             }
             /*edited by vincy on match 13 2020*/
