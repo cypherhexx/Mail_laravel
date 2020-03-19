@@ -162,7 +162,7 @@ class RegisterController extends Controller
         }
         else{
 
-            // $sponsor_name = User::find(1)->username;
+             $sponsor_name = User::find(1)->username;
         }
 
 
