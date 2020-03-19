@@ -7,7 +7,11 @@
  
 <div class="alert bg-success alert-styled-left">
     <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button>
+<<<<<<< HEAD
     <span class="text-semibold">Registration Completed!</span> You have successfully registered <strong>{{$userresult->username}} ({{$userresult->name}} {{$userresult->lastname}})</strong>  . Payment done via <strong>{{$userresult->register_by}} .</strong>
+=======
+    <span class="text-semibold">Registration Completed!</span> You have successfully registered <strong>{{$userresult->username}} ({{$userresult->name}} {{$userresult->lastname}})</strong>  under sponsor, <strong></strong>. Payment done via <strong>{{$userresult->register_by}} .</strong>
+>>>>>>> 4603d20fd0896c542234d99b462c70beca80b89f
 </div>
 <div class="panel">
     <div class="panel-heading bg-primary">
@@ -39,7 +43,12 @@
                         <th>{{trans('register.password') }}</th>
                         <td>This password is <strong>Encrypted</strong> - You can change in settings if you've forgotten it!</td>
                     </tr>
-                  
+
+                    <tr>
+                        <th class="col-md-2">{{trans('register.sponsor') }}</th>
+                        
+                    </tr>
+
                     
                   <!--   <tr>
                         <th>{{trans('register.package') }}</th>
