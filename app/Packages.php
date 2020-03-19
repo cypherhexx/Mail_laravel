@@ -18,20 +18,20 @@ class Packages extends Model
     protected $fillable = ['package','pv','rs','amount','code','level_percent','image','day_plan','month_plan'];
 
     public static function TopUPAutomatic($user_id){
-    	$user_detils = User::find($user_id);
-    	$balance = Balance::where('user_id',$user_id)->pluck('balance');
-    	$package = self::find($user_detils->package);
+    $user_detils = User::find($user_id);
+    $balance = Balance::where('user_id',$user_id)->pluck('balance');
+    $package = self::find($user_detils->package);
 
-    	if($package->amount <= $balance){
+    if($package->amount <= $balance){
 
-    		Balance::where('user_id',$user_id)->decrement('balance',$package->amount);
-    		PurchaseHistory::create([
+    Balance::where('user_id',$user_id)->decrement('balance',$package->amount);
+    PurchaseHistory::create([
                 'user_id'=>$user_id,
-    			'package_id'=>$user_detils->package,
-    			'count'=>$package->top_count,
-    			'total_amount'=>$package->amount,
-    			]);
-    		 User::where('id',$user_id)->increment('revenue_share',$package->rs);
+    'package_id'=>$user_detils->package,
+    'count'=>$package->top_count,
+    'total_amount'=>$package->amount,
+    ]);
+    User::where('id',$user_id)->increment('revenue_share',$package->rs);
 
              RsHistory::create([
                     'user_id'=> $user_id ,
@@ -40,15 +40,15 @@ class Packages extends Model
                     ]);
 
 
-    		 /* Check for rank upgrade */
+    /* Check for rank upgrade */
 
-    		 Ranksetting::checkRankupdate($user_id,$user_detils->rank_id);
+    Ranksetting::checkRankupdate($user_id,$user_detils->rank_id);
 
-    		return true;
+    return true;
 
-    	}else{
-    		return flase ; 
-    	}
+    }else{
+    return flase ; 
+    }
     }
 
     public static function levelCommission($user_id,$package_am,$rank){
@@ -73,7 +73,7 @@ class Packages extends Model
               
               $total=Settings::find(1)->matrix+$pack->level_percent+$rankgain+$category;
               $level_commission=$package_am*$total*0.01;
-              dd($level_commission);
+              
               if($level_commission > 0){
                 $commision = Commission::create([
                 'user_id'        => $upuser,
@@ -448,3 +448,4 @@ public static function Levelcount($user_id,$level)
 
    
 }
+
