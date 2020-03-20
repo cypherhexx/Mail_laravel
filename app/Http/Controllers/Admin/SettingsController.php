@@ -1035,6 +1035,52 @@ static function humanFilesize($size, $precision = 2) {
         }
 
     }
+     public function updatcategory_image(Request $request)
+    {
+     
+        $changedby=Auth::user()->username;
+        if($request->hasfile('file')){
+
+            // $file=$request->file;
+            // try {
+            //     $mime = $file->getMimeType();
+            // } catch (\Exception $e) {
+            //     $mime = $file->getClientMimeType();
+            // }
+            // //dd($mime);
+            // $validator = Validator::make($request->all(), $this->validationRules);
+       
+            // if ($validator->fails()) {
+
+            //     Session::flash('flash_notification', array('level' => 'error','message' => trans('ticket_config.uploaded_failed')));
+            //     return Redirect::back();
+            // }
+            // else{
+
+
+            $requestid=$request->requestid;
+            $destinationPath = public_path().'/assets/uploads'; 
+
+            $extension = Input::file('file')->getClientOriginalExtension(); 
+            $fileName = rand(000011111,99999999999).'.'.$extension; 
+            Input::file('file')->move($destinationPath, $fileName);
+            // dd($destinationPath);
+// dd($fileName);
+             Category::where('id',$requestid)->update(['image' => $fileName]);
+             $package_name=Category::where('id',$requestid)->value('image');
+            Activity::add("Image updated by  $changedby ","package image of $package_name updated  by $changedby","ranksetting");
+            Session::flash('flash_notification',array('message'=>trans('updated'),'level'=>'success'));
+            return redirect()->back();
+            // }
+        }
+        else{
+            
+            Session::flash('flash_notification',array('message'=>trans('No image selected'),'level'=>'danger'));
+            return redirect()->back();
+        }
+
+    }
+
 
 
    
