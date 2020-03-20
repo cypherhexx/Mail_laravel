@@ -51,7 +51,7 @@ class Packages extends Model
     }
     }
 
-    public static function levelCommission($user_id,$package_am,$rank)
+     public static function levelCommission($user_id,$package_am)
     {
 
        $user_arrs=[];
@@ -69,14 +69,6 @@ class Packages extends Model
             $level_commission=$package_am*$total*0.01;
               if($level_commission > 0){ 
 
-<<<<<<< HEAD
-              
-              $total=Settings::find(1)->matrix+$pack->level_percent+$rankgain+$category;
-              $level_commission=$package_am*$total*0.01;
-              
-              if($level_commission > 0){
-=======
->>>>>>> 4603d20fd0896c542234d99b462c70beca80b89f
                 $commision = Commission::create([
                 'user_id'        => $upuser,
                 'from_id'        => $user_id,
@@ -405,7 +397,7 @@ public static function Levelcount($user_id,$level)
     }
 
 
-     public static function Addtomatrixplan($user_id){
+    public static function Addtomatrixplan($user_id){
 
         $sponsor_id = Sponsortree::where('user_id',$user_id)->value('sponsor');
         // dd($sponsor_id);
@@ -420,10 +412,23 @@ public static function Levelcount($user_id,$level)
         $count=Tree_Table::where('user_id','=',$placement_id)->value('level');
         Tree_Table::where('id',$tree_id)->update(['level'=>$count+1]);
         Tree_Table::createVaccant($tree->user_id);
+
+
+        Tree_Table::$upline_users = [];
+        Tree_Table::getAllUpline($user_id);
+        $variable = Tree_Table::$upline_users;
+        foreach ($variable as $key => $value) {
+           // dd($value);
+          $update_downlinecout=User::where('id',$value['user_id'])->increment('dowlinecount');
+        }
+        Tree_Table::$upline_users = [];
+        return true;
+
     }
      public static function DirectReferrals($user_id,$package)
      {
        $sponsor_id=Sponsortree::where('user_id',$user_id)->value('sponsor');
+
        $package_amount=Packages::where('id',$package)->value('amount');
        $direct_referral=Settings::value('direct_referral');
        $amount=$package_amount * $direct_referral / 100;

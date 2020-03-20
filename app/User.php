@@ -340,8 +340,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
       $sponsor_count=Sponsortree::where('sponsor',$sponsor_id)->where('type','=','yes')->count();
        
-      $cat1=Category::where('id','=',2)->value('value');
-      $cat2=Category::where('id','=',3)->value('value');
+      $cat1=Category::where('id','=',2)->value('percentage');
+      $cat2=Category::where('id','=',3)->value('percentage');
       
      
       if($sponsor_count == $cat1)
