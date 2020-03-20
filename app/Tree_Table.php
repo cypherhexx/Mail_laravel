@@ -166,6 +166,11 @@ class Tree_Table extends Model
 
                 $coverPhoto = '' . Html::image(route('imagecache', ['template' => 'large', 'filename' => self::coverPhoto($username)]), $username, array('class'=>$class.' tree-user','style' => '','data-accessid'=>$accessid)) . '';
 
+                 Tree_Table::$downline_id_list =[];
+                $data=Tree_Table::getDownlineCount($value->user_id);
+
+        // dd($data);
+
                 $url="userprofiles/".$value->username;
 
 
@@ -194,6 +199,10 @@ class Tree_Table extends Model
                         <ul class='secondaryinfo'>
                             <li class='rankname'>
                                 <span class='key'>Rank</span> :  <span class='value'>$rank_nm</span>
+                            </li class='packagename'>    
+
+                            <li class='rankname'>
+                                <span class='key'>Total Count</span> :  <span class='value'>$data</span>
                             </li class='packagename'>                            
                             <li>
                                 <span class='key'>Track</span> : <span class='value'>$package_name</span>
