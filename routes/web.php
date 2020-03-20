@@ -115,7 +115,7 @@ Route::get('register/preview/{idencrypt}', 'Auth\RegisterController@preview')->n
 Route::get('paypal/register', 'Auth\RegisterController@paypalReg');
 Route::get('banktransferPreview','Auth\RegisterController@banktransferPreview');
 
-// Password Reset Routes...
+// Passwordd Reset Routes...
 
 Route::get('lock', 'CloudMLMController@performLogoutToLock');
 
@@ -219,6 +219,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth'], 'namespace' 
     Route::get('trackpayment','SettingsController@trackPayment');
     Route::post('uptrackpayment','SettingsController@upTrackPayment');
     Route::post('updatpackage_image', 'SettingsController@updatpackage_image');
+
+    Route::post('updatcategory_image', 'SettingsController@updatcategory_image');
 
     Route::post('saveprofile', ['as' => 'admin.saveprofile', 'uses' => 'UserController@saveprofile']);
 
