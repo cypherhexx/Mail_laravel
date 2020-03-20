@@ -373,15 +373,19 @@
                                              <legend>{{trans('C-Extra bonus')}}</legend>
 
                                             <table class="table table-striped">
-                            <thead> 
+                            <thead>
+                                 <th>{{ trans('Image') }} </th> 
                                 <th>{{ trans('Category') }} </th>
                                 <th>{{ trans('Percentage') }} </th>
+                                <th>{{trans('Action')}}</th>
                                                               
                             </thead>
                             <tbody>
                                 @foreach($category as $item)
 
                                 <tr>
+                                     <td><img src="{{ url('assets/uploads/'.$item->image) }}" style="width:100px;height:100px;"/>
+                                                </td>   
                                     <td>  
                                   
                                               {{$item->category_name}} 
@@ -389,14 +393,66 @@
                                     <td>  <a class="settings1" id="settings1{{$item->id}}" data-type='text' data-pk="{{$item->id}}" data-title="percentage" data-name="percentage">
                                                 
                                               {{$item->percentage}}  </a> </td>
+                                      <td>  
+                                </form>
+                                    <button type="button" class="btn btn-info updateimage" data-userid="{{$item->id}}" data-toggle="modal" data-target="#myModal{{$item->id}}" >{{trans('update_image')}} </button>
+                                     <div id="myModal{{$item->id}}" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
 
+                          <!-- Modal content-->
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            
+                            </div>
+                            <div class="modal-body">
+                           
+                               <form action="{{url('admin/updatcategory_image')}}" method="POST"  enctype="multipart/form-data" >
+                                <div class="fileupload fileupload-new" data-provides="fileupload">
+                                <input type="hidden" value="{{csrf_token() }}" name="_token">
+
+                                <input type="hidden" value="{{$item->id}}" name="requestid" id="requestid">
+                                  <div class="row">
+
+                                    <div class="form-group">
+
+                                        <label class="col-md-3 control-label">{{trans('select_image')}}:</label>
+
+                                            <div class="col-sm-6 control-label"> 
+                                              <input type="file" name="file">
+                                                                               
+                                            </div>
+
+                                    </div>
+
+                                  </div>
+                            <div class="modal-footer">
+                              <button type="submit" class="btn btn-success" name="submit">{{trans('update')}}</button>
+                              <button type="button" class="btn btn-default" data-dismiss="modal">{{trans('close')}}</button>
+                            </div>
+                            </div>
+                            </form>
+                          </div>
+
+                        </div>
+                       </div>
+                      </div>
+
+
+
+
+
+
+               </td>
+                     
+  </tr>
 
 
                                    @endforeach
-                               </tr>
+                             
                            </tbody>
                        </table>
-                   </form>
+                 
                         
                         
                        

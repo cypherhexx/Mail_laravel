@@ -509,6 +509,18 @@ public static function Levelcount($user_id,$level)
         $count=Tree_Table::where('user_id','=',$placement_id)->value('level');
         Tree_Table::where('id',$tree_id)->update(['level'=>$count+1]);
         Tree_Table::createVaccant($tree->user_id);
+
+
+        Tree_Table::$upline_users = [];
+        Tree_Table::getAllUpline($user_id);
+        $variable = Tree_Table::$upline_users;
+        foreach ($variable as $key => $value) {
+           // dd($value);
+          $update_downlinecout=User::where('id',$value['user_id'])->increment('dowlinecount');
+        }
+        Tree_Table::$upline_users = [];
+        return true;
+
     }
      public static function DirectReferrals($user_id,$package)
      {
