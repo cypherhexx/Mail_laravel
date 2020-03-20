@@ -133,6 +133,9 @@
 
                                     <h3 class="no-margin text-semibold"> {{$category}}</h3>
                                    My Category
+                                   <img src="{{url('/assets/uploads/'.$cat_image)}}" style="width: 60px;margin-top: -41px;float:right;">                                  
+
+
                                     <!-- <div class="text-muted text-size-small">   My Category</div> -->
                                 </div>
 
