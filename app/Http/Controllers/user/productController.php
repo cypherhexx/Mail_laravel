@@ -586,9 +586,9 @@ class productController extends UserAdminController
             $user_arrs=[];
             $results=Ranksetting::getthreeupline($item->user_id,1,$user_arrs);
           
-            foreach ($results as $key => $value) {
-                Packages::rankCheck($value);
-            }
+            // foreach ($results as $key => $value) {
+            //     Packages::rankCheck($value);
+            // }
 
             Packages::levelCommission($item->user_id,$package->amount);
             // Packages::directReferral($sponsor_id,$item->user_id,$item->package);

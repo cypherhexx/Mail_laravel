@@ -340,8 +340,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
       $sponsor_count=Sponsortree::where('sponsor',$sponsor_id)->where('type','=','yes')->count();
        
-      $cat1=Category::where('id','=',2)->value('percentage');
-      $cat2=Category::where('id','=',3)->value('percentage');
+
+      $cat1=Category::where('id','=',2)->value('count');
+      $cat2=Category::where('id','=',3)->value('count');
+
       
      
       if($sponsor_count == $cat1)
@@ -592,6 +594,15 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
              * @var [collection]
              */
             $uservaccant = Sponsortree::createVaccant($userresult->id, 0);
+            self::where('id',$sponsor_id)->increment('referral_count',1);
+
+            $user_arrs=[];
+            $results=Ranksetting::getthreeupline($userresult->id,1,$user_arrs);
+          
+            foreach ($results as $key => $value) {
+                Packages::rankCheck($value);
+            }
+
 
 
             /**
@@ -617,7 +628,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             // Tree_Table::getAllUpline($userresult->id);
 
            
-            // self::where('id',$sponsor_id)->increment('referral_count',1);
+            
             // $user_arrs=[];
             // $results=Ranksetting::getthreeupline($userresult->id,1,$user_arrs);
           
