@@ -29,7 +29,7 @@
                          
                             <th colspan="2">Rule 1</th> 
                             <th colspan="2">Rule 2</th> 
-                            <th colspan="2">Rule 3</th>
+                            <!-- <th colspan="2">Rule 3</th> -->
                              </thead>
 
 
@@ -37,14 +37,14 @@
                                 <th>{{ trans('settings.no') }}</th>
                                  <th>{{trans('Image')}}</th>
                                 <th>{{ trans('settings.rank_name') }}</th>
-                                <th>Direct Referrals</th>
+                                <!-- <th>Direct Referrals</th> -->
                               
                                <th>Min.Users</th>
                                 <th>Referrals For Each</th>
 
-                           
+                           <!-- 
                                <th>Min.Users</th>
-                                <th>Referrals For Each</th>
+                                <th>Referrals For Each</th> -->
 
                           
                                <th>Min.Users</th>
@@ -71,11 +71,11 @@
                                                  {{$rank->rank_name}}
                                         </a>
                                     </td>
-                                    <td>
+                                   <!--  <td>
                                         <a class="settings form-control" data-pk="{{$rank->id}}" data-type='number' id="direct_referral" data-title='Enter count of direct referrals' data-name="direct_referral">
                                                  {{$rank->direct_referral}}
                                         </a>
-                                    </td>
+                                    </td> -->
                                      <td>
                                         <a class="settings form-control" data-pk="{{$rank->id}}" data-type='number' id="minimum_direct_ref1" data-title='Enter count of direct referrals' data-name="minimum_direct_ref1">
                                                  {{$rank->minimum_direct_ref1}}
@@ -86,7 +86,7 @@
                                                  {{$rank->minimum_ref_for_each1}}
                                         </a>
                                     </td>
-                                     <td>
+                               <!--       <td>
                                         <a class="settings form-control" data-pk="{{$rank->id}}" data-type='number' id="minimum_direct_ref2" data-title='Enter count of  referrals' data-name="minimum_direct_ref2">
                                                  {{$rank->minimum_direct_ref2}}
                                         </a>
@@ -95,7 +95,7 @@
                                         <a class="settings form-control" data-pk="{{$rank->id}}" data-type='number' id="minimum_ref_for_each2" data-title='Enter referrals for each' data-name="minimum_ref_for_each2">
                                                  {{$rank->minimum_ref_for_each2}}
                                         </a>
-                                    </td>
+                                    </td> -->
                                          <td>
                                         <a class="settings form-control" data-pk="{{$rank->id}}" data-type='number' id="minimum_direct_ref3" data-title='Enter count of  referrals' data-name="minimum_direct_ref3">
                                                  {{$rank->minimum_direct_ref3}}

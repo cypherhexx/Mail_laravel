@@ -223,87 +223,184 @@ class Packages extends Model
      return SELF::gettenupllins($upline,++$level,$uplines);
    }
 
+   public static function rankCheck($rankuser){
+      $cur_rank=User::find($rankuser)->rank_id;
+      $next_rank=$cur_rank+1;
+      $rank_det=Ranksetting::find($next_rank);
+        if($rank_det <> null){
+          $user_count=User::find($rankuser)->referral_count;
+          $direct_ref1_users=Sponsortree::join('users','sponsortree.user_id','=','users.id')
+                                  ->where('sponsortree.sponsor','=',$rankuser)
+                                  ->where('sponsortree.type','=','yes')
+                                  ->where('users.referral_count','>=',$rank_det->minimum_ref_for_each1)
+                                  ->pluck('users.id');
+          $direct_ref1=count($direct_ref1_users);
+            
+
+          //start minimum_direct_ref1
+
+            if($rank_det->minimum_direct_ref1 == 0)
+              $flag_direct_ref1=1;
+            else{
+              if($user_count >= $rank_det->minimum_direct_ref1)
+                $flag_direct_ref1=1;
+              else
+                $flag_direct_ref1=0;
+            }
+            //end minimum_direct_ref1
+
+            //start minimum_ref_for_each1
+
+            if($rank_det->minimum_ref_for_each1 == 0)
+               $flag_ref_for_each1=1;
+            else{
+               if($direct_ref1 >= $rank_det->minimum_direct_ref1)
+                $flag_ref_for_each1=1;
+               else
+                $flag_ref_for_each1=0;
+            }
+
+            //end  minimum_ref_for_each1
+
+               //start minimum_direct_ref3
+
+            if($rank_det->minimum_direct_ref3 == 0)
+              $flag_direct_ref3=1;
+            else{
+
+              if($direct_ref1 >= $rank_det->minimum_direct_ref1){
+                  $first_user=$direct_ref1_users;
+                  $sum_three=0;
+                
+                    foreach ($first_user as $key => $suser) {
+                      $ref_count=User::find($suser)->referral_count;
+                      
+                      $sum_users=Sponsortree::join('users','sponsortree.user_id','=','users.id')
+                                  ->where('sponsortree.sponsor','=',$suser)
+                                  ->where('sponsortree.type','=','yes')
+                                  ->where('users.referral_count','>=',$rank_det->minimum_ref_for_each3)
+                                  ->pluck('user_id');
+                      $each_user_count=$rank_det->minimum_direct_ref3/$rank_det->minimum_ref_for_each1;
+                                  
+                        if(count($sum_users) >= $each_user_count)
+                          $sum_three=$sum_three+$each_user_count;
+                     }
+                  if($sum_three >= $rank_det->minimum_direct_ref3)
+                    $flag_direct_ref3=1;
+                  else
+                    $flag_direct_ref3=0;
+              }
+              else
+                 $flag_direct_ref3=0;
+             }
+              
+       
+               //end minimum_direct_ref3
+
+               //start minimum_ref_for_each3
+
+            if($rank_det->minimum_ref_for_each3 == 0)
+              $flag_ref_for_each3=1;
+            else{
+              if($direct_ref1 >= $rank_det->minimum_direct_ref1){
+                if($sum_three >= $rank_det->minimum_direct_ref3)
+                  $flag_ref_for_each3=1;
+                else
+                  $flag_ref_for_each3=0;
+              }
+              else
+                 $flag_ref_for_each3=0;
+             }
+             //end minimum_ref_for_each3
+
+             if($flag_direct_ref1 == 1  && $flag_direct_ref3 == 1 && $flag_ref_for_each1 == 1  && $flag_ref_for_each3 == 1){
+               Ranksetting::insertRankHistory($rankuser,$next_rank,$cur_rank,'rank_updated');
+               
+             }
+        }
+      }
   
 
-public static function rankCheck($rankuser){
-  $cur_rank=User::find($rankuser)->rank_id;
-  $next_rank=$cur_rank+1;
-  $rank_det=Ranksetting::find($next_rank);
-  if($rank_det <> null){
-  $user_count=Sponsortree::where('sponsor',$rankuser)->where('type','yes')->count('user_id');
-    if($rank_det->minimum_ref_for_each1 == 0 && $rank_det->minimum_direct_ref2 == 0 && $rank_det->minimum_direct_ref3 == 0 && $user_count >= $rank_det->minimum_direct_ref1){
-        Ranksetting::insertRankHistory($rankuser,$next_rank,$cur_rank,'rank_updated');
-    }
 
-    if($rank_det->minimum_ref_for_each1 > 0){
+    public static function rankCheckold($rankuser){
+      $cur_rank=User::find($rankuser)->rank_id;
+      $next_rank=$cur_rank+1;
+      $rank_det=Ranksetting::find($next_rank);
+      if($rank_det <> null){
+      $user_count=Sponsortree::where('sponsor',$rankuser)->where('type','yes')->count('user_id');
+        if($rank_det->minimum_ref_for_each1 == 0 && $rank_det->minimum_direct_ref2 == 0 && $rank_det->minimum_direct_ref3 == 0 && $user_count >= $rank_det->minimum_direct_ref1){
+            Ranksetting::insertRankHistory($rankuser,$next_rank,$cur_rank,'rank_updated');
+        }
 
-      // dd($rank_det);
-       
-        $direct_ref_users1=Sponsortree::join('users','sponsortree.user_id','=','users.id')
-                                      ->where('sponsortree.sponsor','=',$rankuser)
-                                      ->where('sponsortree.type','=','yes')
-                                      ->where('users.referral_count','>=',$rank_det->minimum_ref_for_each1)
-                                      ->pluck('users.id');
+        if($rank_det->minimum_ref_for_each1 > 0){
 
-                                      // dd($rank_det->minimum_ref_for_each1);
-        $direct_ref1=count($direct_ref_users1);
-              // dd($direct_ref_users1);
+          // dd($rank_det);
+           
+            $direct_ref_users1=Sponsortree::join('users','sponsortree.user_id','=','users.id')
+                                          ->where('sponsortree.sponsor','=',$rankuser)
+                                          ->where('sponsortree.type','=','yes')
+                                          ->where('users.referral_count','>=',$rank_det->minimum_ref_for_each1)
+                                          ->pluck('users.id');
 
-          if($direct_ref1 >= $rank_det->minimum_direct_ref1 && $rank_det->minimum_direct_ref2 == 0 && $rank_det->minimum_direct_ref3 == 0){
-              Ranksetting::insertRankHistory($rankuser,$next_rank,$cur_rank,'rank_updated');
-          }
-          if($rank_det->minimum_ref_for_each2 > 0){
-              // dd("hello");
+                                          // dd($rank_det->minimum_ref_for_each1);
+            $direct_ref1=count($direct_ref_users1);
+                  // dd($direct_ref_users1);
 
-              $direct_ref_users2=Sponsortree::join('users','sponsortree.user_id','=','users.id')
-                                            ->where('sponsortree.sponsor','=',$rankuser)
-                                            ->where('users.referral_count','>=',$rank_det->minimum_ref_for_each2)
-                                            ->where('users.referral_count','<',$rank_det->minimum_ref_for_each1)
-                                            ->whereNotIn('sponsortree.user_id',$direct_ref_users1)
-                                            ->pluck('sponsortree.user_id');
-              $direct_ref2=count($direct_ref_users2);
-              // dd($direct_ref2);
+              if($direct_ref1 >= $rank_det->minimum_direct_ref1 && $rank_det->minimum_direct_ref2 == 0 && $rank_det->minimum_direct_ref3 == 0){
+                  Ranksetting::insertRankHistory($rankuser,$next_rank,$cur_rank,'rank_updated');
+              }
+              if($rank_det->minimum_ref_for_each2 > 0){
+                  // dd("hello");
 
-          if($direct_ref1 >= $rank_det->minimum_direct_ref1 && $direct_ref2 >= $rank_det->minimum_direct_ref2 && $rank_det->minimum_direct_ref3 == 0){
-              Ranksetting::insertRankHistory($rankuser,$next_rank,$cur_rank,'rank_updated');
-          }
-    }
-         
+                  $direct_ref_users2=Sponsortree::join('users','sponsortree.user_id','=','users.id')
+                                                ->where('sponsortree.sponsor','=',$rankuser)
+                                                ->where('users.referral_count','>=',$rank_det->minimum_ref_for_each2)
+                                                ->where('users.referral_count','<',$rank_det->minimum_ref_for_each1)
+                                                ->whereNotIn('sponsortree.user_id',$direct_ref_users1)
+                                                ->pluck('sponsortree.user_id');
+                  $direct_ref2=count($direct_ref_users2);
+                  // dd($direct_ref2);
 
-          if($rank_det->minimum_ref_for_each3 > 0 && $rank_det->minimum_direct_ref2 == 0){
-            // dd($rank_det->minimum_direct_ref1);
+              if($direct_ref1 >= $rank_det->minimum_direct_ref1 && $direct_ref2 >= $rank_det->minimum_direct_ref2 && $rank_det->minimum_direct_ref3 == 0){
+                  Ranksetting::insertRankHistory($rankuser,$next_rank,$cur_rank,'rank_updated');
+              }
+        }
+             
 
-            if($direct_ref1 >= $rank_det->minimum_direct_ref1){
+              if($rank_det->minimum_ref_for_each3 > 0 && $rank_det->minimum_direct_ref2 == 0){
+                // dd($rank_det->minimum_direct_ref1);
 
-              $second_user=self::Levelcount($rankuser,2);
-              // dd($rank_det->minimum_direct_ref3);
+                if($direct_ref1 >= $rank_det->minimum_direct_ref1){
 
-              if(count($second_user) >= $rank_det->minimum_direct_ref3){
+                  $second_user=self::Levelcount($rankuser,2);
+                  // dd($rank_det->minimum_direct_ref3);
 
-                $sum_three=0;
-                foreach ($second_user as $key => $suser) {
-                 $ref_count=User::find($suser)->referral_count;
-               
-                 if($ref_count >= $rank_det->minimum_ref_for_each3){
-                  $sum_three=$sum_three+1;
-                 }
+                  if(count($second_user) >= $rank_det->minimum_direct_ref3){
+
+                    $sum_three=0;
+                    foreach ($second_user as $key => $suser) {
+                     $ref_count=User::find($suser)->referral_count;
+                   
+                     if($ref_count >= $rank_det->minimum_ref_for_each3){
+                      $sum_three=$sum_three+1;
+                     }
+
+                    }
+
+                  if($sum_three >= $rank_det->minimum_direct_ref3){
+                     Ranksetting::insertRankHistory($rankuser,$next_rank,$cur_rank,'rank_updated');
+                  }
+                }
 
                 }
 
-              if($sum_three >= $rank_det->minimum_direct_ref3){
-                 Ranksetting::insertRankHistory($rankuser,$next_rank,$cur_rank,'rank_updated');
               }
-            }
 
-            }
-
-          }
-
-  
-  
-}
-}
-}
+      
+      
+    }
+    }
+    }
 
 public static function Levelcount($user_id,$level)
   {

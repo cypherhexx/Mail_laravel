@@ -14,30 +14,16 @@ class RanksettingSeeder extends Seeder
 
     	\App\Ranksetting::create([
 			'rank_name' 	     => "Member",
-			'rank_code' 	     => "M1",
+			'rank_code' 	     => "M",
 			'top_up'   => 0,
 			'quali_rank_id'   => 0,
 			'quali_rank_count'   => 0,
 			'rank_bonus'   => "na",
 		]);
-  //      \App\Ranksetting::create([
-		// 	'rank_name' 	     => "A",
-		// 	'rank_code' 	     => "A",
-		// 	'top_up'   => 0,
-		// 	'quali_rank_id'   => 0,
-		// 	'quali_rank_count'   => 0,
-		// 	'rank_bonus'   => "na",
-		// 	'direct_referral' => 5,
-		// 	'minimum_direct_ref1' => 5,
-		// 	'minimum_ref_for_each1' => 0,
-		// 	'gain'=>'1',
-		// 	'tree_level'=>'10',
 
-
-		// ]);
         \App\Ranksetting::create([
 			'rank_name' 	     => "Reseller",
-			'rank_code' 	     => "Reseller1",
+			'rank_code' 	     => "RS",
 			'top_up'   => 0,
 			'quali_rank_id'   => 0,
 			'quali_rank_count'   => 0,
@@ -52,7 +38,7 @@ class RanksettingSeeder extends Seeder
 
 		 \App\Ranksetting::create([
 			'rank_name' 	     => "Manager",
-			'rank_code' 	     => "Manager1",
+			'rank_code' 	     => "MG",
 			'top_up'   => 0,
 			'quali_rank_id'   => 0,
 			'quali_rank_count'   => 0,
@@ -70,7 +56,7 @@ class RanksettingSeeder extends Seeder
 
 		  \App\Ranksetting::create([
 			'rank_name' 	     => "Administrator",
-			'rank_code' 	     => "Administrator1",
+			'rank_code' 	     => "AS",
 			'top_up'   => 0,
 			'quali_rank_id'   => 0,
 			'quali_rank_count'   => 0,
@@ -89,15 +75,15 @@ class RanksettingSeeder extends Seeder
 
 		   \App\Ranksetting::create([
 			'rank_name' 	     => "Master",
-			'rank_code' 	     => "Master1",
+			'rank_code' 	     => "MS",
 			'top_up'   => 0,
 			'quali_rank_id'   => 0,
 			'quali_rank_count'   => 0,
 			'rank_bonus'   => "na",
 			'direct_referral' => 5,
 			'minimum_direct_ref1' => 5,
-			'minimum_ref_for_each1' => 0,
-			'minimum_direct_ref3' =>25,
+			'minimum_ref_for_each1' => 5,
+			'minimum_direct_ref3' =>5,
 			'minimum_ref_for_each3'=>1,
 			
 			'gain'=>'0.8',
@@ -108,15 +94,15 @@ class RanksettingSeeder extends Seeder
 
 		    \App\Ranksetting::create([
 			'rank_name' 	     => "Chief",
-			'rank_code' 	     => "Chief1",
+			'rank_code' 	     => "CF",
 			'top_up'   => 0,
 			'quali_rank_id'   => 0,
 			'quali_rank_count'   => 0,
 			'rank_bonus'   => "na",
 			'direct_referral' => 5,
 			'minimum_direct_ref1' => 5,
-			'minimum_ref_for_each1' => 0,
-			'minimum_direct_ref3' => 25,
+			'minimum_ref_for_each1' => 5,
+			'minimum_direct_ref3' => 5,
 			'minimum_ref_for_each3' => 3,
 			'gain'=>'0.9',
 			'tree_level'=>'10',
@@ -126,15 +112,15 @@ class RanksettingSeeder extends Seeder
 
 		 \App\Ranksetting::create([
 			'rank_name' 	     => "President",
-			'rank_code' 	     => "President1",
+			'rank_code' 	     => "PD",
 			'top_up'   => 0,
 			'quali_rank_id'   => 0,
 			'quali_rank_count'   => 0,
 			'rank_bonus'   => "na",
 			'direct_referral' => 5,
 			'minimum_direct_ref1' => 5,
-			'minimum_ref_for_each1' => 0,
-			'minimum_direct_ref3' => 25,
+			'minimum_ref_for_each1' => 5,
+			'minimum_direct_ref3' => 5,
 			'minimum_ref_for_each3' => 5,
 			'gain'=>'1',
 			'tree_level'=>'10',
