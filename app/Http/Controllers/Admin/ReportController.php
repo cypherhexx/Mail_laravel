@@ -11,6 +11,7 @@ use App\Payout;
 use App\User;
 use App\Sponsortree;
 use App\PairingHistory;
+use App\IpnResponse;
 
 use Illuminate\Http\Request;
 use CountryState;
@@ -421,7 +422,7 @@ class ReportController extends AdminController
             $request->username = $request->user_id;
         }
 
-        $title      = trans('report.sales_report');
+        $title      = 'ddfdf';
         $sub_title  = trans('report.sales_report');
         $base       = trans('report.report');
         $method     = trans('report.sales_report');
@@ -574,6 +575,49 @@ class ReportController extends AdminController
                             ->get();
                 }    
             return view('app.admin.report.carryreportview',compact('title','final_arr','date_arr','sub_title','base','method'));
+    }
+
+    public function paymentReport(){
+
+        $title = 'Annual and monthly payment report';
+        $sub_title =  'Annual and monthly payment report';
+        $base =  'Annual and monthly payment report';
+        $method =  'Annual and monthly payment report';
+        return view('app.admin.report.paymentreport',compact('title','sub_title','base','method'));
+
+    }
+
+    public function paymentReportView(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'start' => 'required|date',
+            'end'   => 'required|date|',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator);
+        }
+
+        $title = 'Annual and monthly payment report';
+        $sub_title =  'Annual and monthly payment report';
+        $base =  'Annual and monthly payment report';
+        $method =  'Annual and monthly payment report';
+        $app        = AppSettings::find(1);
+
+        $reportdata = IpnResponse::where('ipn_response.created_at', '>', date('Y-m-d 00:00:00', strtotime($request->start)))
+            ->where('ipn_response.created_at', '<', date('Y-m-d 23:59:59', strtotime($request->end)))
+            ->join('users', 'users.id', '=', 'ipn_response.user_id')
+            ->join('packages', 'packages.id', '=', 'ipn_response.package_id')
+            ->select('packages.package', 'users.username', 'users.name', 'users.lastname', 'users.email', 'ipn_response.payment_cycle','ipn_response.payment_date','ipn_response.next_payment_date','ipn_response.initial_payment_amount','ipn_response.amount_per_cycle','ipn_response.payment_status','ipn_response.created_at')
+        // ->sum('total_amount')
+            // ->take(10)
+            ->get();
+
+          
+
+    
+
+        return view('app.admin.report.paymentreportview', compact('title', 'reportdata', 'sub_title', 'base', 'method','app'));
+
     }
 
     
