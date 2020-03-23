@@ -161,7 +161,9 @@ class RegisterController extends Controller
         }
         else{
 
-             $sponsor_name = User::find(1)->username;
+
+            $sponsor_name = User::find(1)->username;
+
         }
 
 
@@ -782,7 +784,7 @@ public function checkStatus($trans){
 
        public function bitapssuccess(Request $request){
       // dd($request->all());
-         $item = PendingTransactions::where('invoice',$request->code)->first();
+         $item = PendingTransactions::where('payment_code',$request->code)->first();
          // dd($item);
          if($request->confirmations >=3 && $item->payment_status == 'pending'){
             $item->payment_response_data = json_encode($request->all());
@@ -894,13 +896,34 @@ public function checkStatus($trans){
 
 
    public function ipnnotify(Request $request){
-    if(isset($request->recurring_payment_id))
+    if(isset($request->recurring_payment_id)){
         $rec_id=$request->recurring_payment_id;
+        $paypal=PendingTransactions::where('paypal_agreement_id',$rec_id)->first();
+        $package=$paypal->package;
+        $user_id=$paypal->user_id;
+        $payment_cycle=chop($request->payment_cycle,"PDT");
+        $next_payment_date=chop($request->next_payment_date,"PDT");
+
+   IpnResponse::create([
+                'payment_id' =>$rec_id,
+                'package_id' =>$package,
+                'user_id' =>$user_id,
+                'payment_cycle'=>$request->payment_cycle,
+                'payment_date'=>$request->payment_date,
+                'next_payment_date'=>$request->next_payment_date,
+                'initial_payment_amount'=>$request->initial_payment_amount,
+                'amount_per_cycle'=>$request->amount_per_cycle,
+                'payment_status'=>$request->payment_status,
+                'response'=>json_encode($request->all())
+                ]);
+    }
     else
         $rec_id='na';
+       IpnResponse::create(['payment_id' =>$rec_id,'response'=>json_encode($request->all())]);
 
 
-   IpnResponse::create(['payment_id' =>$rec_id,'response'=>json_encode($request->all())]);
+
+
 
    }
 

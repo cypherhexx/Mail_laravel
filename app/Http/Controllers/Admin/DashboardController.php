@@ -160,6 +160,7 @@ class DashboardController extends AdminController
         // Packages::rankCheck(1);
        // $results=Packages::gettenupllins(12,1,$user_arrs);
        // dd($results);
+            $users=1;
         return view('app.admin.dashboard.index', compact('title', 'per_users', 'recent', 'per_payout', 'per_mail', 'per_voucher', 'users', 'all_payout', 'new_users', 'count_new', 'percentage_released', 'percentage_balance', 'total_users', 'total_messages', 'total_voucher', 'total_amount', 'unread_count', 'unread_mail', 'point_details', 'sub_title', 'base', 'method','male_users_count','female_users_count','weekly_users_count','monthly_users_count','yearly_users_count','packages_data','all_activities','top_recruiters','top_earners'));
     }
 
