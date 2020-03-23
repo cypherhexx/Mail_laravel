@@ -127,8 +127,7 @@ class RegisterController extends Controller
     /**
      * Show the application registration form.
      *
-     * @return \Illuminate\Http\Response
-//      */
+     * @return \Illuminate\Http\Response      */
     public function showRegistrationForm($sponsorname = null)
     {
 
@@ -651,8 +650,11 @@ class RegisterController extends Controller
 
     public function paypalRegSuccess(Request $request,$id){
         // dd($request->all());
+        // echo "here";
          self::$provider->setCurrency('EUR');
           $response = self::$provider->getExpressCheckoutDetails($request->token);
+
+          // dd($?response);
           $item = PendingTransactions::find($id);
           $item->payment_response_data = json_encode($response);
           $express_data=json_decode($item->paypal_express_data,true);
