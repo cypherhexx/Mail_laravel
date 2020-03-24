@@ -89,7 +89,7 @@
                                <td>@if($report->profile_status == 'complete')
                             Active
                             @else
-                           Not Active
+                           {{$report->profile_status}}
                           @endif</td>
                                <td>{{$report->payment_status}}</td>
                   
