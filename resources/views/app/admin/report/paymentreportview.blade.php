@@ -55,9 +55,10 @@
                         <th>{{trans('report.email')}}</th>  
                          <th>Package</th>  
                           <th>Payment Cycle</th>  
-                           <th>Payment Date</th>  
-                            <th>Next Payment Date</th>  
-                             <th>Initial Payment Amount</th>  
+                           <th>Payment Method</th>  
+                           <!-- <th>Payment Date</th>   -->
+                            <!-- <th>Next Payment Date</th>   -->
+                             <!-- <th>Initial Payment Amount</th>   -->
                               <th>Amount Per Cycle</th>  
                                <th>Profile Status</th> 
                               <th>Payment Status</th>
@@ -67,7 +68,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($reportdata as $key=> $report) 
+                    @foreach($users as $key=> $report) 
                     <tr>
                         <td>{{ $key +1 }}</td>
                         <td>{{$report->username}}</td>
@@ -76,11 +77,20 @@
                         <td>{{$report->email}}</td>
                          <td>{{$report->package}}</td>
                           <td>{{$report->payment_cycle}}</td>
-                           <td>{{$report->payment_date}}</td>
+                          <td>@if($report->payment_method == 'cheque')
+                            Bank
+                            @else
+                            {{$report->payment_method}}
+                          @endif</td>
+                         <!--   <td>{{$report->payment_date}}</td>
                             <td>{{$report->next_payment_date}}</td>
-                             <td>{{$report->initial_payment_amount}}</td>
+                             <td>{{$report->initial_payment_amount}}</td> -->
                               <td>{{$report->amount_per_cycle}}</td>
-                               <td>{{$report->profile_status}}</td>
+                               <td>@if($report->profile_status == 'complete')
+                            Active
+                            @else
+                           Not Active
+                          @endif</td>
                                <td>{{$report->payment_status}}</td>
                   
                         <td>{{ date('d M Y H:i:s',strtotime($report->created_at))}}</td>

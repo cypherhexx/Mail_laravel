@@ -12,6 +12,7 @@ use App\User;
 use App\Sponsortree;
 use App\PairingHistory;
 use App\IpnResponse;
+use App\PendingTransactions;
 
 use Illuminate\Http\Request;
 use CountryState;
@@ -603,21 +604,32 @@ class ReportController extends AdminController
         $method =  'Annual and monthly payment report';
         $app        = AppSettings::find(1);
 
-        $reportdata = IpnResponse::where('ipn_response.created_at', '>', date('Y-m-d 00:00:00', strtotime($request->start)))
-            ->where('ipn_response.created_at', '<', date('Y-m-d 23:59:59', strtotime($request->end)))
-            ->join('users', 'users.id', '=', 'ipn_response.user_id')
-            ->join('packages', 'packages.id', '=', 'ipn_response.package_id')
-            ->join('pending_transactions','pending_transactions.paypal_agreement_id','=','ipn_response.payment_id')
-            ->select('packages.package', 'users.username', 'users.name', 'users.lastname', 'users.email', 'ipn_response.payment_cycle','ipn_response.payment_date','ipn_response.profile_status','ipn_response.next_payment_date','ipn_response.initial_payment_amount','ipn_response.amount_per_cycle','ipn_response.payment_status','ipn_response.created_at')
-        // ->sum('total_amount')
-            // ->take(10)
-            ->get();
+        $reportdata1 = array();
+        $reportdata2 = array();
+        $reportdata1 = IpnResponse::where('ipn_response.created_at', '>', date('Y-m-d 00:00:00', strtotime($request->start)))
+                                   ->where('ipn_response.created_at', '<', date('Y-m-d 23:59:59', strtotime($request->end)))
+                                   ->join('users', 'users.id', '=', 'ipn_response.user_id')
+                                   ->join('packages', 'packages.id', '=', 'ipn_response.package_id')
+                                   ->join('pending_transactions','pending_transactions.paypal_agreement_id','=','ipn_response.payment_id')
+                                    // ->select('users.username', 'users.name', 'users.lastname', 'users.email','packages.package', 'ipn_response.payment_cycle','ipn_response.payment_date','ipn_response.next_payment_date','ipn_response.profile_status','ipn_response.initial_payment_amount','ipn_response.amount_per_cycle','ipn_response.payment_status','ipn_response.created_at')
+                                   ->select('users.username', 'users.name', 'users.lastname', 'users.email','packages.package', 'ipn_response.payment_cycle','ipn_response.amount_per_cycle','pending_transactions.payment_method','ipn_response.profile_status','ipn_response.payment_status','ipn_response.created_at');
 
-          
+        $reportdata2 = PendingTransactions::where('pending_transactions.created_at', '>', date('Y-m-d 00:00:00', strtotime($request->start)))
+                                   ->where('pending_transactions.created_at', '<', date('Y-m-d 23:59:59', strtotime($request->end)))
+                                   ->where('pending_transactions.payment_type','=','upgrade') 
+                                   ->where('pending_transactions.payment_method','<>','paypal')
+                                   ->where('pending_transactions.payment_status','=','complete')
+                                   ->join('users', 'users.id', '=', 'pending_transactions.user_id')
+                                   ->join('packages', 'packages.id', '=', 'pending_transactions.package')
+                                  
+                                   ->select('users.username', 'users.name', 'users.lastname', 'users.email','packages.package', 'pending_transactions.payment_period','pending_transactions.amount','pending_transactions.payment_method','pending_transactions.payment_status as profile_status','pending_transactions.payment_status','pending_transactions.created_at');
 
-    
+         $users = $reportdata1->union($reportdata2)->orderBy('created_at', 'DESC')->get();
 
-        return view('app.admin.report.paymentreportview', compact('title', 'reportdata', 'sub_title', 'base', 'method','app'));
+         // dd($users);
+
+
+        return view('app.admin.report.paymentreportview', compact('title', 'sub_title', 'base', 'method','app','users'));
 
     }
 
