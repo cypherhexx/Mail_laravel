@@ -26,6 +26,8 @@ class DashboardController extends AdminController
 
     public function index()
     {
+
+
         // $user_id=1;
         // $leg='R';
         // $level=3;
