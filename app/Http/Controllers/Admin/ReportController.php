@@ -607,8 +607,8 @@ class ReportController extends AdminController
             ->where('ipn_response.created_at', '<', date('Y-m-d 23:59:59', strtotime($request->end)))
             ->join('users', 'users.id', '=', 'ipn_response.user_id')
             ->join('packages', 'packages.id', '=', 'ipn_response.package_id')
-            ->join('pending_transactions.paypal_agreement_id','=','ipn_response.payment_id')
-            ->select('packages.package', 'users.username', 'users.name', 'users.lastname', 'users.email', 'ipn_response.payment_cycle','ipn_response.payment_date','ipn_response.next_payment_date','ipn_response.initial_payment_amount','ipn_response.amount_per_cycle','ipn_response.payment_status','ipn_response.created_at')
+            ->join('pending_transactions','pending_transactions.paypal_agreement_id','=','ipn_response.payment_id')
+            ->select('packages.package', 'users.username', 'users.name', 'users.lastname', 'users.email', 'ipn_response.payment_cycle','ipn_response.payment_date','ipn_response.profile_status','ipn_response.next_payment_date','ipn_response.initial_payment_amount','ipn_response.amount_per_cycle','ipn_response.payment_status','ipn_response.created_at')
         // ->sum('total_amount')
             // ->take(10)
             ->get();

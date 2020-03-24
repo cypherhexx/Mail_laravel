@@ -53,13 +53,14 @@
                         <th>{{trans('report.firstname')}}</th>   
                         <th>{{trans('report.last_name')}}</th>   
                         <th>{{trans('report.email')}}</th>  
-                         <th>package</th>  
-                          <th>payment cycle</th>  
-                           <th>payment date</th>  
-                            <th>next payment date</th>  
-                             <th>initial payment amount</th>  
-                              <th>amount per cycle</th>  
-                              <th>payment status</th>
+                         <th>Package</th>  
+                          <th>Payment Cycle</th>  
+                           <th>Payment Date</th>  
+                            <th>Next Payment Date</th>  
+                             <th>Initial Payment Amount</th>  
+                              <th>Amount Per Cycle</th>  
+                               <th>Profile Status</th> 
+                              <th>Payment Status</th>
 
                       
                         <th>{{trans('report.date')}}</th>
@@ -79,6 +80,7 @@
                             <td>{{$report->next_payment_date}}</td>
                              <td>{{$report->initial_payment_amount}}</td>
                               <td>{{$report->amount_per_cycle}}</td>
+                               <td>{{$report->profile_status}}</td>
                                <td>{{$report->payment_status}}</td>
                   
                         <td>{{ date('d M Y H:i:s',strtotime($report->created_at))}}</td>
