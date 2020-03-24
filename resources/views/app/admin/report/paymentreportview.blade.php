@@ -56,10 +56,11 @@
                          <th>Package</th>  
                           <th>Payment Cycle</th>  
                            <th>Payment Method</th>  
+                              <th>Payment Type</th>  
                            <!-- <th>Payment Date</th>   -->
                             <!-- <th>Next Payment Date</th>   -->
                              <!-- <th>Initial Payment Amount</th>   -->
-                              <th>Amount Per Cycle</th>  
+                              <th>Amount </th>  
                                <th>Profile Status</th> 
                               <th>Payment Status</th>
 
@@ -71,16 +72,50 @@
                     @foreach($users as $key=> $report) 
                     <tr>
                         <td>{{ $key +1 }}</td>
-                        <td>{{$report->username}}</td>
-                        <td>{{$report->name}}</td>
-                        <td>{{$report->lastname}}</td>
-                        <td>{{$report->email}}</td>
-                         <td>{{$report->package}}</td>
-                          <td>{{$report->payment_cycle}}</td>
+                         <td>@if($report->username == null)
+                            @php $values=json_decode($report->resp);@endphp
+                           {{$values->username}}
+                            @else
+                            {{$report->username}}
+                          @endif</td>
+                       <td>@if($report->name == null)
+                            @php $values=json_decode($report->resp);@endphp
+                           {{$values->firstname}}
+                            @else
+                            {{$report->name}}
+                          @endif</td>
+                        <td>@if($report->lastname == null)
+                            @php $values=json_decode($report->resp);@endphp
+                           {{$values->lastname}}
+                            @else
+                            {{$report->lastname}}
+                          @endif</td>
+                         <td>@if($report->email == null)
+                            @php $values=json_decode($report->resp);@endphp
+                           {{$values->email}}
+                            @else
+                            {{$report->email}}
+                          @endif</td>
+                        <td>@if($report->package == 'member')
+                           NA
+                            @else
+                            {{$report->package}}
+                          @endif</td>
+                          <td>@if($report->payment_cycle == null)
+                           NA
+                            @else
+                            {{$report->payment_cycle}}
+                          @endif</td>
                           <td>@if($report->payment_method == 'cheque')
                             Bank
                             @else
                             {{$report->payment_method}}
+                          @endif</td>
+
+                           <td>@if(($report->payment_type != 'upgrade') && ($report->payment_type != 'register'))
+                            Upgrade
+                            @else
+                            {{$report->payment_type}}
                           @endif</td>
                          <!--   <td>{{$report->payment_date}}</td>
                             <td>{{$report->next_payment_date}}</td>

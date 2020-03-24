@@ -612,21 +612,24 @@ class ReportController extends AdminController
                                    ->join('packages', 'packages.id', '=', 'ipn_response.package_id')
                                    ->join('pending_transactions','pending_transactions.paypal_agreement_id','=','ipn_response.payment_id')
                                     // ->select('users.username', 'users.name', 'users.lastname', 'users.email','packages.package', 'ipn_response.payment_cycle','ipn_response.payment_date','ipn_response.next_payment_date','ipn_response.profile_status','ipn_response.initial_payment_amount','ipn_response.amount_per_cycle','ipn_response.payment_status','ipn_response.created_at')
-                                   ->select('users.username', 'users.name', 'users.lastname', 'users.email','packages.package', 'ipn_response.payment_cycle','ipn_response.amount_per_cycle','pending_transactions.payment_method','ipn_response.profile_status','ipn_response.payment_status','ipn_response.created_at');
+                                   ->select('users.username', 'users.name', 'users.lastname', 'users.email','packages.package', 'ipn_response.payment_cycle','ipn_response.amount_per_cycle','pending_transactions.payment_method','ipn_response.profile_status','ipn_response.payment_status','ipn_response.profile_status as payment_type','ipn_response.created_at','ipn_response.response as resp');
 
         $reportdata2 = PendingTransactions::where('pending_transactions.created_at', '>', date('Y-m-d 00:00:00', strtotime($request->start)))
                                    ->where('pending_transactions.created_at', '<', date('Y-m-d 23:59:59', strtotime($request->end)))
-                                   ->where('pending_transactions.payment_type','=','upgrade') 
+                                   // ->where('pending_transactions.payment_type','=','upgrade') 
                                    ->where('pending_transactions.payment_method','<>','paypal')
                                    ->where('pending_transactions.payment_status','=','complete')
-                                   ->join('users', 'users.id', '=', 'pending_transactions.user_id')
-                                   ->join('packages', 'packages.id', '=', 'pending_transactions.package')
+                                   ->leftjoin('users', 'users.id', '=', 'pending_transactions.user_id')
+                                   ->leftjoin('packages', 'packages.id', '=', 'pending_transactions.package')
                                   
-                                   ->select('users.username', 'users.name', 'users.lastname', 'users.email','packages.package', 'pending_transactions.payment_period','pending_transactions.amount','pending_transactions.payment_method','pending_transactions.payment_status as profile_status','pending_transactions.payment_status','pending_transactions.created_at');
+                                   ->select('users.username', 'users.name', 'users.lastname', 'users.email','packages.package', 'pending_transactions.payment_period','pending_transactions.amount','pending_transactions.payment_method','pending_transactions.payment_status as profile_status','pending_transactions.payment_status','pending_transactions.payment_type','pending_transactions.created_at','pending_transactions.request_data as resp');
+                        
+         
 
          $users = $reportdata1->union($reportdata2)->orderBy('created_at', 'DESC')->get();
 
          // dd($users);
+
 
 
         return view('app.admin.report.paymentreportview', compact('title', 'sub_title', 'base', 'method','app','users'));
