@@ -578,9 +578,9 @@ class productController extends UserAdminController
                 'rs_credit'=>$package->rs,
               ]);
 
-  
+ 
          //commsiiom
-             $sponsor_id =User::where('id',Auth::user()->id)->value('sponsor') ;
+             // $sponsor_id =User::where('id',Auth::user()->id)->value('sponsor') ;
              // dd($sponsor_id);
             $sponsor_id=Sponsortree::where('user_id',$item->user_id)->value('sponsor');
             $user_arrs=[];

@@ -18,20 +18,20 @@ class Packages extends Model
     protected $fillable = ['package','pv','rs','amount','code','level_percent','image','day_plan','month_plan'];
 
     public static function TopUPAutomatic($user_id){
-    	$user_detils = User::find($user_id);
-    	$balance = Balance::where('user_id',$user_id)->pluck('balance');
-    	$package = self::find($user_detils->package);
+    $user_detils = User::find($user_id);
+    $balance = Balance::where('user_id',$user_id)->pluck('balance');
+    $package = self::find($user_detils->package);
 
-    	if($package->amount <= $balance){
+    if($package->amount <= $balance){
 
-    		Balance::where('user_id',$user_id)->decrement('balance',$package->amount);
-    		PurchaseHistory::create([
+    Balance::where('user_id',$user_id)->decrement('balance',$package->amount);
+    PurchaseHistory::create([
                 'user_id'=>$user_id,
-    			'package_id'=>$user_detils->package,
-    			'count'=>$package->top_count,
-    			'total_amount'=>$package->amount,
-    			]);
-    		 User::where('id',$user_id)->increment('revenue_share',$package->rs);
+    'package_id'=>$user_detils->package,
+    'count'=>$package->top_count,
+    'total_amount'=>$package->amount,
+    ]);
+    User::where('id',$user_id)->increment('revenue_share',$package->rs);
 
              RsHistory::create([
                     'user_id'=> $user_id ,
@@ -40,18 +40,18 @@ class Packages extends Model
                     ]);
 
 
-    		 /* Check for rank upgrade */
+    /* Check for rank upgrade */
 
-    		 Ranksetting::checkRankupdate($user_id,$user_detils->rank_id);
+    Ranksetting::checkRankupdate($user_id,$user_detils->rank_id);
 
-    		return true;
+    return true;
 
-    	}else{
-    		return flase ; 
-    	}
+    }else{
+    return flase ; 
+    }
     }
 
-    public static function levelCommission($user_id,$package_am,$rank)
+     public static function levelCommission($user_id,$package_am)
     {
 
        $user_arrs=[];
@@ -494,7 +494,7 @@ public static function Levelcount($user_id,$level)
     }
 
 
-     public static function Addtomatrixplan($user_id){
+    public static function Addtomatrixplan($user_id){
 
         $sponsor_id = Sponsortree::where('user_id',$user_id)->value('sponsor');
         // dd($sponsor_id);
@@ -525,6 +525,7 @@ public static function Levelcount($user_id,$level)
      public static function DirectReferrals($user_id,$package)
      {
        $sponsor_id=Sponsortree::where('user_id',$user_id)->value('sponsor');
+
        $package_amount=Packages::where('id',$package)->value('amount');
        $direct_referral=Settings::value('direct_referral');
        $amount=$package_amount * $direct_referral / 100;
@@ -546,3 +547,4 @@ public static function Levelcount($user_id,$level)
 
    
 }
+

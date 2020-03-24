@@ -159,6 +159,8 @@ Route::get('/{sponsorname}', 'Auth\RegisterController@showRegistrationForm')->na
 
 
 Route::post('username_validate', 'Api\RegisterController@username_verification');
+
+Route::get('store_sponsor', 'Auth\RegisterController@store_sponsor');
 /*
 |--------------------------------------------------------------------------
 | // Admin routes...
