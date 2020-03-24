@@ -226,7 +226,9 @@ class Packages extends Model
    public static function rankCheck($rankuser){
       $cur_rank=User::find($rankuser)->rank_id;
       $next_rank=$cur_rank+1;
+
       $rank_det=Ranksetting::find($next_rank);
+
         if($rank_det <> null){
           $user_count=User::find($rankuser)->referral_count;
           $direct_ref1_users=Sponsortree::join('users','sponsortree.user_id','=','users.id')
@@ -234,6 +236,7 @@ class Packages extends Model
                                   ->where('sponsortree.type','=','yes')
                                   ->where('users.referral_count','>=',$rank_det->minimum_ref_for_each1)
                                   ->pluck('users.id');
+                     
           $direct_ref1=count($direct_ref1_users);
             
 
@@ -273,18 +276,30 @@ class Packages extends Model
                   $sum_three=0;
                 
                     foreach ($first_user as $key => $suser) {
+                   
+
+                     
                       $ref_count=User::find($suser)->referral_count;
                       
                       $sum_users=Sponsortree::join('users','sponsortree.user_id','=','users.id')
                                   ->where('sponsortree.sponsor','=',$suser)
                                   ->where('sponsortree.type','=','yes')
                                   ->where('users.referral_count','>=',$rank_det->minimum_ref_for_each3)
-                                  ->pluck('user_id');
-                      $each_user_count=$rank_det->minimum_direct_ref3/$rank_det->minimum_ref_for_each1;
+                                  ->pluck('username');
+                                  $s=count($sum_users);
+
+                                 // dd($sum_users);
                                   
-                        if(count($sum_users) >= $each_user_count)
-                          $sum_three=$sum_three+$each_user_count;
+                                
+                               
+                      // $each_user_count=$rank_det->minimum_direct_ref3/$rank_det->minimum_ref_for_each1;
+                                  
+                        if(count($sum_users) >= $rank_det->minimum_direct_ref3)
+                          $sum_three=$sum_three+1;
                      }
+
+
+                   
                   if($sum_three >= $rank_det->minimum_direct_ref3)
                     $flag_direct_ref3=1;
                   else
@@ -293,7 +308,8 @@ class Packages extends Model
               else
                  $flag_direct_ref3=0;
              }
-              
+      
+
        
                //end minimum_direct_ref3
 
@@ -313,6 +329,7 @@ class Packages extends Model
              }
              //end minimum_ref_for_each3
 
+          
              if($flag_direct_ref1 == 1  && $flag_direct_ref3 == 1 && $flag_ref_for_each1 == 1  && $flag_ref_for_each3 == 1){
                Ranksetting::insertRankHistory($rankuser,$next_rank,$cur_rank,'rank_updated');
                
