@@ -512,10 +512,9 @@ public static function Levelcount($user_id,$level)
 
 
         Tree_Table::$upline_users = [];
-        Tree_Table::getAllUpline($user_id);
+        Tree_Table::getAllUplines($user_id);
         $variable = Tree_Table::$upline_users;
         foreach ($variable as $key => $value) {
-           // dd($value);
           $update_downlinecout=User::where('id',$value['user_id'])->increment('dowlinecount');
         }
         Tree_Table::$upline_users = [];
