@@ -1,15 +1,15 @@
 @extends('app.user.layouts.default') {{-- Web site Title --}} @section('title') {{{ $title }}} :: @parent @stop @section('styles') @parent 
 
 @endsection {{-- Content --}} @section('main') @include('app.user.layouts.records')
-<!-- <div class="row">
-    <div class="col-sm-6">
+<div class="row">
+    <div class="col-sm-12">
         <div class="panel ">
             <div class="panel-heading">
                 <h6 class="panel-title">{{trans('dashboard.referral_link')}}</h6>
             </div>
             <div class="panel-body">
                 <div class="input-group">
-                    <input id="replicationlink" type="text" readonly="true" class="selectall copyfrom form-control" spellcheck="false" value="{{url('/'.Auth::user()->username)}}" />
+                    <input id="replicationlink" type="text" readonly="true" class="selectall copyfrom form-control" spellcheck="false" value="https://algolight.net/{{Auth::user()->username}}" />
                     <span class="input-group-addon copylink">
                         <button class="btn btn-link btn-copy"  style="margin: 0 auto;padding: 0px;font-size: 12px;" data-clipboard-target="#replicationlink">
                         <i class="fa fa-copy"></i>
@@ -17,7 +17,7 @@
                     </span>
                 </div>
             </div>
-            <div class="panel-footer"><a class="heading-elements-toggle"><i class="icon-more"></i></a>
+          <!--   <div class="panel-footer"><a class="heading-elements-toggle"><i class="icon-more"></i></a>
             <div class="">
                 <div class="text-semibold text-center">{{trans('dashboard.share')}}</div>
                 <hr class="mb-5 mt-5" />
@@ -42,10 +42,10 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
-</div> -->
+</div> 
 <!-- <div class="col-sm-6">
     <div class="panel border-top-purple-300 border-bottom-purple-300">
         <div class="panel-heading">
