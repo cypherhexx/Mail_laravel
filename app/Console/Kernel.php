@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         'App\Console\Commands\CloudReset',
         'App\Console\Commands\BackupUnilevel',
+        'App\Console\Commands\PurchaseActiveCheck',
     ];
 
     /**
@@ -31,6 +32,8 @@ class Kernel extends ConsoleKernel
 
                 $schedule->command('backup:run',['--only-db'=>'true'])
                 ->everyFiveMinutes();
+                 $schedule->command('check:purchase')
+                ->daily();
     }
 
     /**

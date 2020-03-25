@@ -91,6 +91,29 @@
 </div>
 </div> -->
 <!-- </div> -->
+
+@if($date_diff != 'na' && $numberdays != 'na')
+@if($numberdays < 10 && $numberdays > 0 && $date_diff > 0)
+<div class="row">
+    <div class="col-md-12">
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <button type = "button" class="close" data-dismiss = "alert">x</button>
+  Dear User, Your Package will expire in {{$numberdays}}. Please Upgrade the package on the expiration date to receive commissions.
+</div>
+</div>
+</div>
+@endif
+@if($date_diff < 0)
+<div class="row">
+    <div class="col-md-12">
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <button type = "button" class="close" data-dismiss = "alert">x</button>
+  Your Package Expired, Please Upgrade to receive commissions
+</div>
+</div>
+</div>
+@endif
+    @endif
 <div class="row">
 <div class="col-lg-12">
 <div class="panel panel-flat">
