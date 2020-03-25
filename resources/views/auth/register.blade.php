@@ -193,7 +193,8 @@ ul, menu, dir {
         <form class="form-vertical steps-validation" action="{{url('register')}}" method="POST" data-parsley-validate="true" name="form-wizard">
             {!! csrf_field() !!}
             <input type="hidden" name="payable_vouchers[]" value="">
-            <input type="hidden" name="payment" id="payment" value="paypal">
+            <!-- <input type="hidden" name="payment" id="payment" value="paypal"> -->
+              <input type="hidden" name="payment" id="payment" value="cheque">
               <input type="hidden" name="pack_new" id="pack_new" value="">
             <input type="hidden" name="leg" id="leg" value="L">
 
@@ -533,9 +534,10 @@ ul, menu, dir {
 
                 <div class="m-b-0 text-center">
                     <div class="containerX">
-                        <div class="row bhoechie-tab-container">
-                            <div class="col-xs-12 ">
-                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bhoechie-tab-menu">
+                        <br><br>
+                        <!-- <div class="row bhoechie-tab-container"> -->
+                            <!-- <div class="col-xs-12 "> -->
+                            <!--     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bhoechie-tab-menu">
                                     <div class="list-group">
                                         @foreach($payment_type as $payment) @if($payment->id==4)
                                             <a href="#" payment="paypal" class="list-group-item text-center active" class="">
@@ -548,9 +550,19 @@ ul, menu, dir {
                                         </a>
                                         @endif @endforeach
                                     </div>
-                                </div>
-                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab">
-                                    @foreach($payment_type as $pay) @if($pay->payment_name=="Cheque")
+                                </div> -->
+                                <!-- <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab"> -->
+
+
+                                        <div class="text-center">
+                                            <div class="text-center">
+                                                <p>
+                                                    <button class="btn btn-success btn-lg" role="button" style="background-color: #00bcd4; border-color: #00bcd4;width: 204px;font-size: 20px;">Free Registration</button>
+                                                </p>
+                                            </div>
+                                        </div>
+                                 
+                                   <!--  @foreach($payment_type as $pay) @if($pay->payment_name=="Cheque")
                                     <div class="bhoechie-tab-content active">
                                         <div class="text-center">
                                             <div class="text-center">
@@ -624,18 +636,18 @@ ul, menu, dir {
                                             </div>
                                         </div>
                                     </div>
-                                    @else
+                                    @else -->
                                   
                          
-                            <div class="bhoechie-tab-content ">
+                          <!--   <div class="bhoechie-tab-content ">
                               <div class="text-center">
                               <div class="text-center">
-                              <h1><p class="text-success">     
+                              <h1><p class="text-success">   -->   
                           <!--   {{trans('register.joining_fee') }}:$
                                             <span name="fee" id="voucher_joining">70  </span> -->
-                               </p></h1>
+                               <!-- </p></h1> -->
                   <!--   #reg         --> 
-                     <div class="tab-pane fade in active" id="steps-planpurchase-tab1">
+<!--                      <div class="tab-pane fade in active" id="steps-planpurchase-tab1">
                        <table class="table table-dark bg-slate-600 table-vouher-regpayment">
                         <thead>
                           <tr>
@@ -662,7 +674,7 @@ ul, menu, dir {
                            <p><button id="resulttable" class="btn btn-primary" payment="{{$pay->code}}" role="button" style="border-color:#00bcd4; background-color: #00bcd4" >{{{ trans('all.confirm') }}}</button></p>
                 </table>
             </div>
-
+ -->
 
                           <!--   <div class="row">
                             <div class="col-sm-2">
@@ -684,16 +696,16 @@ ul, menu, dir {
 
                             </table><br> -->
                            
-                            </div>
+                        <!--     </div>
                             </div>
                             </div> 
 
 
                                     @endif 
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
+                                    @endforeach -->
+                                <!-- </div> -->
+                            <!-- </div> -->
+                        <!-- </div> -->
                     </div>
                 </div>
     </fieldset>

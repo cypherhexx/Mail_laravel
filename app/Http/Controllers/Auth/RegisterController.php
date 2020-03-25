@@ -441,43 +441,6 @@ class RegisterController extends Controller
                     return redirect($response['paypal_link']);
                 }
 
-                if($request->payment == 'cheque'){
-                 return redirect()->action('Auth\RegisterController@banktransferPreview', ['id' =>$register->id]);
-                }
-
-
-            //   if ($request->payment == 'voucher') {      
-
-            //         $voucher_total = Packages::where('id','=',$data['package'])->value('amount');
-            //         foreach ($request->voucher as $key => $vouchervalue) {
-            //         $voucher = Voucher::where('voucher_code', $vouchervalue)->first();
-            //         $voucher_total = $voucher_total - $voucher->balance_amount ;
-            //             if($voucher_total <=0 ){
-            //             $flag = true;
-            //             }
-            //         }
-
-            //         if($flag){
-            //         $package_amount = Packages::where('id','=',$data['package'])->value('amount');
-            //             foreach ($request->voucher as $key => $vouchervalue) {
-            //             $voucher = Voucher::where('voucher_code', $vouchervalue)->first();                                 
-            //                 if($package_amount > $voucher->balance_amount){
-            //                 $package_amount = $package_amount -  $voucher->balance_amount ;
-            //                 $used_amount =  $voucher->balance_amount;                                    
-            //                 $voucher->balance_amount = 0 ;
-            //                 $voucher->save();
-            //                 }else{
-            //                 // $package_amount =$voucher->balance_amount - $package_amount  ;
-            //                 $used_amount =  $voucher->balance_amount - $package_amount;          
-            //                 $voucher->balance_amount = $used_amount;
-            //                 $voucher->save();                                    
-            //                 }
-
-
-            //             }
-            //         } 
-            // }
-
             if($request->payment == 'bitcoin'){
 
                 $title='Bitaps Payment';
@@ -500,59 +463,38 @@ class RegisterController extends Controller
                 return view('auth.bitaps',compact('title','sub_title','base','method','payment_details','data','package_amount','trans_id'));
             }
 
-            $userresult = User::add($data,$sponsor_id,$placement_id);
-
-            if(!$userresult){
-
-                return redirect()->back()->withErrors(['Opps something went wrong'])->withInput();
+            if($request->payment == 'cheque'){
+                 // return redirect()->action('Auth\RegisterController@banktransferPreview', ['id' =>$register->id]);
+              $userresult = User::add($data,$sponsor_id,$placement_id);
+                if(!$userresult){
+                    return redirect()->back()->withErrors(['Opps something went wrong'])->withInput();
+                }
+                PendingTransactions::where('id',$register->id)->update(['payment_status' => 'complete']);
+                $sponsorname = $data['sponsor'];
+                $placement_username = User::find($placement_id)->username;
+                $legname = $data['leg'] == "L" ? "Left" : "right";            
                 
+                Activity::add("Added user $userresult->username","Added $userresult->username sponsor as $sponsorname ");
+                Activity::add("Joined as $userresult->username","Joined in system as $userresult->username sponsor as $sponsorname ",$userresult->id);
+                $email = Emails::find(1);
+                $welcome=welcomeemail::find(1);
+                $app_settings = AppSettings::find(1);
+               
+                Mail::send('emails.register',
+                    ['email'         => $email,
+                        'company_name'   => $app_settings->company_name,
+                        'logo'   => $app_settings->logo,
+                        'firstname'      => $data['firstname'],
+                        'name'           => $data['lastname'],
+                        'login_username' => $data['username'],
+                        'password'       => $data['password'],
+                        'welcome'        => $welcome,
+                        'transaction_pass'=>$data['transaction_pass'],
+                    ], function ($m) use ($data, $email) {
+                        $m->to($data['email'], $data['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
+                    });
+                return redirect("register/preview/" . Crypt::encrypt($userresult->id));
             }
-
-
-            
-
-             // $userPackage = Packages::find($data['package']);
-          
-
-            $sponsorname = $data['sponsor'];
-            $placement_username = User::find($placement_id)->username;
-            $legname = $data['leg'] == "L" ? "Left" : "right";            
-            
-            Activity::add("Added user $userresult->username","Added $userresult->username sponsor as $sponsorname ");
-
-            Activity::add("Joined as $userresult->username","Joined in system as $userresult->username sponsor as $sponsorname ",$userresult->id);
-
-            // Activity::add("Package purchased","Purchased package - $userPackage->package ",$userresult->id);
-
-
-            $email = Emails::find(1);
-         
-            $welcome=welcomeemail::find(1);
-            $app_settings = AppSettings::find(1);
-           
-            Mail::send('emails.register',
-                ['email'         => $email,
-                    'company_name'   => $app_settings->company_name,
-                    'firstname'      => $data['firstname'],
-                    'name'           => $data['lastname'],
-                    'login_username' => $data['username'],
-                    'password'       => $data['password'],
-                    'welcome'        => $welcome,
-                    'transaction_pass'=>$data['transaction_pass'],
-                ], function ($m) use ($data, $email) {
-                    $m->to($data['email'], $data['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
-                });
-
-
-            /**
-             * redirects to preview page after successful registration
-             */
-            return redirect("register/preview/" . Crypt::encrypt($userresult->id));
-
-            /***************************************************/
-            /***************************************************/
-            /**/
-
         }
 
        
@@ -639,12 +581,12 @@ class RegisterController extends Controller
             $state = "unknown";
         }
 
-        // $sponsorId       = $userresult->sponsor_tree->sponsor;
-        // $sponsorUserName = \App\User::find($sponsorId)->username;
+        $sponsorId       = $userresult->sponsor_tree->sponsor;
+        $sponsorUserName = User::find($sponsorId)->username;
         //  $leg = Tree_Table::where('user_id','=',$userresult->id)->value('leg');
         if ($userresult) {
             // dd($user);
-            return view('auth.preview', compact('title', 'sub_title', 'method', 'base', 'userresult', 'country', 'state', 'sub_title'));
+            return view('auth.preview', compact('title', 'sub_title', 'method', 'base', 'userresult', 'country', 'state', 'sub_title','sponsorUserName'));
         } else {
             return redirect()->back();
         }
@@ -858,12 +800,12 @@ public function checkStatus($trans){
   
          //commsiiom
             $sponsor_id=Sponsortree::where('user_id',$item->user_id)->value('sponsor');
-            $user_arrs=[];
-            $results=Ranksetting::getthreeupline($item->user_id,1,$user_arrs);
+            // $user_arrs=[];
+            // $results=Ranksetting::getthreeupline($item->user_id,1,$user_arrs);
           
-            foreach ($results as $key => $value) {
-                Packages::rankCheck($value);
-            }
+            // foreach ($results as $key => $value) {
+                Packages::rankCheck($item->user_id);
+            // }
             Packages::levelCommission($item->user_id,$item->amount);
             // Packages::directReferral($sponsor_id,$item->user_id,$package->amount);
             //comm
