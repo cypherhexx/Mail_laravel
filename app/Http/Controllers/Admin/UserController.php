@@ -1376,6 +1376,7 @@ else
                           
 
          /*edited by vincy on match 13 2020*/
+         $rank_id=User::where('id',$transaction->user_id)->value('rank_id');
             $check_in_matrix = Tree_Table::where('user_id',$transaction->user_id)->where('type','yes')->count();
             if($check_in_matrix == 0){
                 $addtomatrixplan = Packages::Addtomatrixplan($transaction->user_id);   
@@ -1408,11 +1409,17 @@ else
             // $user_arrs=[];
             // $results=Ranksetting::getthreeupline($transaction->user_id,1,$user_arrs);
           
+
+       
+            // Packages::levelCommission($transaction->user_id,$package->amount,$rank_id);
+            // Packages::directReferral($sponsor_id,$transaction->user_id,$transaction->package);
+
             // foreach ($results as $key => $value) {
                 Packages::rankCheck($transaction->user_id);
             // }
             Packages::levelCommission($transaction->user_id,$package->amount);
             Packages::directReferral($sponsor_id,$transaction->user_id,$transaction->package);
+
             //comm
 
          $pur_user=PurchaseHistory::find($purchase_id->id);

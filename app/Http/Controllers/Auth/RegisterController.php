@@ -842,29 +842,63 @@ public function checkStatus($trans){
         $rec_id=$request->recurring_payment_id;
         $paypal=PendingTransactions::where('paypal_agreement_id',$rec_id)->first();
         $package=$paypal->package;
-        $user_id=$paypal->user_id;
-        $payment_cycle=chop($request->payment_cycle,"PDT");
-        $next_payment_date=chop($request->next_payment_date,"PDT");
+        $user_id=$paypal->user_id;}
+    else{
+        $rec_id='NA';
+        $package=0;
+        $user_id=0;}
 
-   IpnResponse::create([
-                'payment_id' =>$rec_id,
-                'package_id' =>$package,
-                'user_id' =>$user_id,
-                'payment_cycle'=>$request->payment_cycle,
-                'payment_date'=>$request->payment_date,
-                'next_payment_date'=>$request->next_payment_date,
-                'initial_payment_amount'=>$request->initial_payment_amount,
-                'amount_per_cycle'=>$request->amount_per_cycle,
-                'payment_status'=>$request->payment_status,
-                'response'=>json_encode($request->all())
-                ]);
-    }
+    if(isset($request->payment_cycle))
+        $payment_cycle=$request->payment_cycle;
     else
-        $rec_id='na';
-       IpnResponse::create(['payment_id' =>$rec_id,'response'=>json_encode($request->all())]);
+        $payment_cycle='NA';
 
 
+    if(isset($request->profile_status))
+        $profile_status=$request->profile_status;
+    else
+        $profile_status='NA';
 
+    if(isset($request->payment_date))
+        $payment_date=chop($request->payment_date,"PDT");
+    else
+        $payment_date='NA';
+
+    if(isset($request->next_payment_date))
+        $next_payment_date=chop($request->next_payment_date,"PDT");
+    else
+        $next_payment_date='NA';
+
+    if(isset($request->initial_payment_amount))
+        $initial_payment_amount=$request->initial_payment_amount;
+    else
+        $initial_payment_amount='0.00';
+
+    if(isset($request->amount_per_cycle))
+        $amount_per_cycle=$request->amount_per_cycle;
+    else
+        $amount_per_cycle='0.00';
+
+    if(isset($request->payment_status))
+        $payment_status=$request->payment_status;
+    else
+        $payment_status='Cancelled/No Response';
+
+
+   $result=IpnResponse::create([
+            'payment_id' =>$rec_id,
+            'package_id' =>$package,
+            'user_id' =>$user_id,
+            'payment_cycle'=>$payment_cycle,
+            'payment_date'=>$payment_date,
+            'next_payment_date'=>$next_payment_date,
+            'initial_payment_amount'=>$initial_payment_amount,
+            'amount_per_cycle'=>$amount_per_cycle,
+            'payment_status'=>$payment_status,
+            'profile_status'=>$profile_status,
+            'response'=>json_encode($request->all())
+          ]);
+   dd("done");
 
 
    }
