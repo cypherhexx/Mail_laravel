@@ -64,7 +64,7 @@
                                         </div>
                                     </div>   
 
-                                      <div class="form-group">
+                                 <!--      <div class="form-group">
                                          <div class="row">
                                             <div class="col-sm-6">
                                                 <label for="">Joining Fee Referral (%):</label>
@@ -78,8 +78,9 @@
                                            
                                            
                                         </div>
-                                    </div>        
-
+                                    </div>    
+                                    </div>    
+ -->
                                 </fieldset>                            
                  
                      

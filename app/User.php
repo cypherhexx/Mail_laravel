@@ -42,7 +42,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @var array
      */
-    protected $fillable = ['user_id','email', 'password','username','sponsor','rank_id','register_by','name','lastname','transaction_pass','created_at','admin','referral_count','document','verified','verification_number','sponsor','active_purchase'];
+    protected $fillable = ['user_id','email', 'password','username','sponsor','rank_id','register_by','name','lastname','transaction_pass','created_at','admin','referral_count','document','verified','verification_number','sponsor'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -338,6 +338,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
     public static function categoryUpdate($sponsor_id)
     {
+     
       $sponsor_count=Sponsortree::where('sponsor',$sponsor_id)->where('type','=','yes')->count();
        
 
@@ -596,7 +597,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             $uservaccant = Sponsortree::createVaccant($userresult->id, 0);
             self::where('id',$sponsor_id)->increment('referral_count',1);
 
-           
+            // $user_arrs=[];
+            // $results=Ranksetting::getthreeupline($userresult->id,1,$user_arrs);
+          
+            // foreach ($results as $key => $value) {
+            //     Packages::rankCheck($value);
+            // }
+
+
 
             /**
              * returns placement id, to where user to be added,
