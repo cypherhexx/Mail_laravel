@@ -94,7 +94,7 @@
 
 
 
-            <div class="panel panel-flat" >
+           <!-- <div class="panel panel-flat" >
                 
 
 
@@ -111,10 +111,10 @@
                                 <th>{{ trans('Matrix') }} </th>
                                 <th>{{ trans('Percent (%)') }}</th>
                                 
-                           <!--      <th>{{ trans('packages.revenue_share_rs') }}</th>
+                               <th>{{ trans('packages.revenue_share_rs') }}</th>
                                 <th>{{ trans('packages.binary_percentage') }} </th>                                
                                 <th>{{ trans('packages.daily_pv_limit') }} </th> -->                                
-                            </thead>
+                           <!--  </thead>
                             <tbody>
                                 @foreach($sett as $item)
 
@@ -142,7 +142,7 @@
                           </table>                           
                                         </form>   
                                         </div>
-                                    </div>  
+                                    </div>  --> 
 
                                       <div class="panel panel-flat" >
                         
@@ -386,9 +386,10 @@
                                 <tr>
                                      <td><img src="{{ url('assets/uploads/'.$item->image) }}" style="width:100px;height:100px;"/>
                                                 </td>   
-                                    <td>  
+                                    <td>  <a class="settings1" id="settings1{{$item->id}}" data-type='text' data-pk="{{$item->id}}" data-title="ategory_name" data-name="category_name">
+                                    
                                   
-                                              {{$item->category_name}} 
+                                              {{$item->category_name}} </a>
                                                 </td>    
                                     <td>  <a class="settings1" id="settings1{{$item->id}}" data-type='text' data-pk="{{$item->id}}" data-title="percentage" data-name="percentage">
                                                 
