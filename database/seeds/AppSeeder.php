@@ -14,7 +14,7 @@ class AppSeeder extends Seeder
          App\AppSettings::create([ 
            'company_name' => 'Algo Light limited',
            'company_address' => 'Mumbai',
-           'email_address' => 'info@solidus.cc',
+           'email_address' => 'info@algolight.cc',
            'logo' => 'atmor.png',
            'logo_ico' => 'atmor.png',
            'theme' => 'default',

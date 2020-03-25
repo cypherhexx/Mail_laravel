@@ -16,7 +16,7 @@
 
             <table border="0" cellpadding="0" align="center" cellspacing="0" class="responsive-table">
 
-            <tbody><tr><td align="left" valign="top" style="padding:10px;font:9px/15px Arial;text-align:justify;color:#a6a6a6">You are receiving this mail as a registered member of  cloudmlmsoftware  Please add <a href="mailto:info@cloudmlmsoftware.com" style="text-decoration:underline;color:#a6a6a6" target="_blank">{{$email->from_email}}</a> to your address book to ensure delivery into your inbox.</td></tr>
+            <tbody><tr><td align="left" valign="top" style="padding:10px;font:9px/15px Arial;text-align:justify;color:#a6a6a6">You are receiving this mail as a registered member of  {{$company_name}}. Please add <a href="mailto:info@algolight.com" style="text-decoration:underline;color:#a6a6a6" target="_blank">{{$email->from_email}}</a> to your address book to ensure delivery into your inbox.</td></tr>
 
             </tbody></table>
 
@@ -32,7 +32,7 @@
 
                 <tr>
 
-                <td style="padding:22px 30px 18px 30px; border-bottom:2px solid #1e2064"><img src="{{ url('img/cache/logo/cloud-pic-febda.png') }}" height="60" alt="cloudmlmsoftware"></td>    
+                <td style="padding:22px 30px 18px 30px; border-bottom:2px solid #1e2064"><img align="middle" src="{{ url('img/cache/original/'.$logo) }}" height="60" alt="Algolight" ></td>    
 
 
                 </tr>
@@ -104,4 +104,6 @@ Cheerfully yours, <br>
     
 
 </body>
+
+
   </html>

@@ -22,7 +22,8 @@
     <div class="panel-body">
         <form class="form-vertical steps-validation" action="{{url('admin/register')}}" method="POST" data-parsley-validate="true" name="form-wizard">
             {!! csrf_field() !!}
-            <input type="hidden" name="payment" id="payment" value="paypal">
+            <!-- <input type="hidden" name="payment" id="payment" value="paypal"> -->
+             <input type="hidden" name="payment" id="payment" value="cheque">
             <input type="hidden" name="pack_new" id="pack_new" value="">
 
           
@@ -393,7 +394,16 @@
 
                 <div class="m-b-0 text-center">
                     <div class="containerX">
-                        <div class="row bhoechie-tab-container">
+                         <br><br>
+
+                          <div class="text-center">
+                                            <div class="text-center">
+                                                <p>
+                                                    <button class="btn btn-success btn-lg" role="button" style="background-color: #00bcd4; border-color: #00bcd4;width: 204px;font-size: 20px;">Free Registration</button>
+                                                </p>
+                                            </div>
+                                        </div>
+              <!--           <div class="row bhoechie-tab-container">
                             <div class="col-xs-12 ">
                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bhoechie-tab-menu">
                                     <div class="list-group">
@@ -521,7 +531,7 @@
                           </tbody>
                            <p><button id="resulttable" class="btn btn-primary" payment="{{$pay->code}}" role="button" style="border-color:#00bcd4; background-color: #00bcd4" >{{{ trans('all.confirm') }}}</button></p>
                 </table>
-            </div>
+            </div> -->
 
 
                           <!--   <div class="row">
@@ -543,7 +553,7 @@
                            <!--  <table class="table" id="resulttable">
 
                             </table><br> -->
-                           
+            <!--                
                             </div>
                             </div>
                             </div> 
@@ -553,7 +563,7 @@
                                     @endforeach
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
     </fieldset>
@@ -567,11 +577,11 @@ var joiningfe = {{ $joiningfee }};
 </script>
 @endsection @section('scripts') @parent
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 $(document).on('submit', 'form', function() {
    $(this).find('button:submit, input:submit').attr('disabled','disabled');
  });
-</script>
+</script> -->
 <script src="//www.paypalobjects.com/api/checkout.js" async></script>
 
 <script src="https://checkout.stripe.com/checkout.js"></script>

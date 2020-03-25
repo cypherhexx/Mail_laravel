@@ -588,7 +588,7 @@ else
 
  
 
-        return view('app.admin.users.profile', compact('title','sub_title', 'base', 'method', 'mail_count', 'voucher_count', 'balance', 'referrals', 'countries', 'selecteduser', 'state_list', 'sponsor', 'referals', 'unread_count', 'unread_mail',  'left_bv', 'right_bv', 'user_package','profile_infos','countries','country','states','state','sponsorId','sponsorUserName','referrals_count','user_rank_name','profile_photo','cover_photo','total_payout'));
+        return view('app.admin.users.profile', compact('title','sub_title', 'base', 'method', 'mail_count', 'voucher_count', 'balance', 'referrals', 'countries', 'selecteduser', 'sponsor', 'referals',  'left_bv', 'right_bv', 'user_package','profile_infos','countries','country','states','state','referrals_count','user_rank_name','profile_photo','cover_photo','total_payout'));
     }
     public function profile(Request $request)
     {
@@ -1406,14 +1406,20 @@ else
         
          //commsiiom
             $sponsor_id=Sponsortree::where('user_id',$transaction->user_id)->value('sponsor');
-            $user_arrs=[];
-            $results=Ranksetting::getthreeupline($transaction->user_id,1,$user_arrs);
+            // $user_arrs=[];
+            // $results=Ranksetting::getthreeupline($transaction->user_id,1,$user_arrs);
           
-            foreach ($results as $key => $value) {
-                Packages::rankCheck($value);
-            }
-            Packages::levelCommission($transaction->user_id,$package->amount,$rank_id);
+
+       
+            // Packages::levelCommission($transaction->user_id,$package->amount,$rank_id);
             // Packages::directReferral($sponsor_id,$transaction->user_id,$transaction->package);
+
+            // foreach ($results as $key => $value) {
+                Packages::rankCheck($transaction->user_id);
+            // }
+            Packages::levelCommission($transaction->user_id,$package->amount);
+            Packages::directReferral($sponsor_id,$transaction->user_id,$transaction->package);
+
             //comm
 
          $pur_user=PurchaseHistory::find($purchase_id->id);
