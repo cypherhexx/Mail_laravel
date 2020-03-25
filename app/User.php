@@ -596,14 +596,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             $uservaccant = Sponsortree::createVaccant($userresult->id, 0);
             self::where('id',$sponsor_id)->increment('referral_count',1);
 
-            $user_arrs=[];
-            $results=Ranksetting::getthreeupline($userresult->id,1,$user_arrs);
-          
-            foreach ($results as $key => $value) {
-                Packages::rankCheck($value);
-            }
-
-
+           
 
             /**
              * returns placement id, to where user to be added,
