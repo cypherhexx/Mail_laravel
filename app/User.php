@@ -338,6 +338,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
     public static function categoryUpdate($sponsor_id)
     {
+     
       $sponsor_count=Sponsortree::where('sponsor',$sponsor_id)->where('type','=','yes')->count();
        
 
