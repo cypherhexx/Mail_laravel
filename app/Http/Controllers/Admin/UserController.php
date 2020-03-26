@@ -1407,7 +1407,8 @@ else
          //commsiiom
             $sponsor_id=Sponsortree::where('user_id',$transaction->user_id)->value('sponsor');
             $user_arrs=[];
-            $results=Ranksetting::getthreeupline($transaction->user_id,1,$user_arrs);
+            $results=Ranksetting::getTreeUplinePackage($transaction->user_id,1,$user_arrs);
+            array_push($results, $transaction->user_id);
           
 
        
