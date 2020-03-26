@@ -20,6 +20,7 @@ use App\ProfileInfo;
 use App\Packages;
 use App\Ranksetting;
 use App\Category;
+use App\PendingTransactions;
 
 use Illuminate\Http\Request;
 use Auth;

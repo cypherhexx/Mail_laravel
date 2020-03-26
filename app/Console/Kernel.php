@@ -30,8 +30,8 @@ class Kernel extends ConsoleKernel
          // $schedule->command(Artisan::call('backup:run',['--only-db'=>'true']))
          //        ->everyMinute();
 
-                $schedule->command('backup:run',['--only-db'=>'true'])
-                ->everyFiveMinutes();
+                // $schedule->command('backup:run',['--only-db'=>'true'])
+                // ->everyFiveMinutes();
                  $schedule->command('check:purchase')
                 ->daily();
     }
