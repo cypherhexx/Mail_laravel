@@ -26,6 +26,9 @@
                                         {{trans('ewallet.amount_type')}}
                                     </th>
                                     <th>
+                                        {{trans('Package Name')}}
+                                    </th>
+                                    <th>
                                     {{trans('ewallet.debit')}} ({{$currency_sy}})
                                     </th>
                                     <th>

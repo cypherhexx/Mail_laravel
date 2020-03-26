@@ -1,4 +1,3 @@
-
 @extends('app.admin.layouts.default')
 
 
@@ -65,7 +64,7 @@
                                         </div>
                                     </div>   
 
-                                 <!--      <div class="form-group">
+                                      <div class="form-group">
                                          <div class="row">
                                             <div class="col-sm-6">
                                                 <label for="">Joining Fee Referral (%):</label>
@@ -79,9 +78,8 @@
                                            
                                            
                                         </div>
-                                    </div>    
-                                    </div>    
- -->
+                                    </div>        
+
                                 </fieldset>                            
                  
                      
@@ -95,56 +93,7 @@
           </div>
 
 
-
-            <div class="panel panel-flat" >
-                
-
-
-
-                  
-
-                                   <div class="panel-body"> 
-                                    <legend>{{trans('  B - Trading volume level Bonus plan')}}</legend>
-                          <form id="settings">
-                                             <legend>{{trans('Monthly-profits')}}</legend>
-
-                                            <table class="table table-striped">
-                            <thead> 
-                                <th>{{ trans('Matrix') }} </th>
-                                <th>{{ trans('Percent (%)') }}</th>
-                                
-                           <!--      <th>{{ trans('packages.revenue_share_rs') }}</th>
-                                <th>{{ trans('packages.binary_percentage') }} </th>                                
-                                <th>{{ trans('packages.daily_pv_limit') }} </th> -->                                
-                            </thead>
-                            <tbody>
-                                @foreach($sett as $item)
-
-                                <tr>
-                                    <td>  <a class="settings" id="settings{{$item->id}}" data-type='text' data-pk="{{$item->id}}" data-title="Enter  matrix level " data-name="package">
-                                                
-                                              {{$item->matrixlevel}}  </a> </td>
-
-                                    
-
-                                    <td><a class="settings" id="level_percent{{$item->id}}" data-type='text' data-pk="{{$item->id}}" data-title="Enter level percent" data-name="level_percent">
-                                                
-                                           {{$item->percent}} </a> </td>
-
-                                
-                                           
-                                </tr> 
-
-
-                                @endforeach
-                                
-                            </tbody>
-
-
-                          </table>                           
-                                        </form>   
-                                        </div>
-                                    </div>  
+  
 
                                       <div class="panel panel-flat" >
                         
@@ -268,10 +217,7 @@
   </div>
  -->
 
-                      <div class="panel panel-flat" >
-                        <div class="panel-body"> 
-                          <form id="settings">                             
-                        
+                   
                                  
                             <!--  <form id="settings">
                                              <legend>{{trans('C-Extra bonus')}}</legend>
@@ -316,48 +262,7 @@
                                     
 
 
-                                            <br><br> <br><br> 
-
-                                            <table class="table table-striped">
-                            <thead> 
-                                <th>{{ trans('Matrix') }} </th>
-                                <th>{{ trans('Percent (%)') }}</th>
-                                
-                                                          
-                            </thead>
-                            <tbody>
-                                @foreach($sett as $item)
-
-                                <tr>
-                                    <td>  <a class="settings" id="settings{{$item->id}}" data-type='text' data-pk="{{$item->id}}" data-title="Enter  matrix level " data-name="package">
-                                                
-                                              {{$item->matrixlevel}}  </a> </td>
-
-                                    
-
-                                    <td><a class="settings" id="level_percent{{$item->id}}" data-type='text' data-pk="{{$item->id}}" data-title="Enter level percent" data-name="level_percent">
-                                                
-                                           {{$item->cpercent}} </a> </td>
-
-                                
-                                           
-                                </tr> 
-
-
-                                @endforeach
-                                
-                            </tbody>
-
-
-                          </table>                           
-                                           
-                                        </div>
-                                    </div>        
-
-                                </fieldset>                            
-                 
-                     
-                    </form>
+                                            
 
                    <div class="panel panel-flat" >
                     <div class="panel-heading">
@@ -378,7 +283,9 @@
                             <thead>
                                  <th>{{ trans('Image') }} </th> 
                                 <th>{{ trans('Category') }} </th>
+                                 <th>{{ trans('Count') }} </th>
                                 <th>{{ trans('Percentage') }} </th>
+                               
                                 <th>{{trans('Action')}}</th>
                                                               
                             </thead>
@@ -392,10 +299,14 @@
                                   
                                               {{$item->category_name}} 
                                                 </td>    
+                                     <td>  <a class="settings1" id="settings1{{$item->id}}" data-type='text' data-pk="{{$item->id}}" data-title="count" data-name="count">
+                                                
+                                              {{$item->count}}  </a> </td>            
                                     <td>  <a class="settings1" id="settings1{{$item->id}}" data-type='text' data-pk="{{$item->id}}" data-title="percentage" data-name="percentage">
                                                 
                                               {{$item->percentage}}  </a> </td>
-                                      <td>  
+                                      <td> 
+
                                 </form>
                                     <button type="button" class="btn btn-info updateimage" data-userid="{{$item->id}}" data-toggle="modal" data-target="#myModal{{$item->id}}" >{{trans('update_image')}} </button>
                                      <div id="myModal{{$item->id}}" class="modal fade" role="dialog">
@@ -477,5 +388,4 @@
 
             
 @endsection
-
 
