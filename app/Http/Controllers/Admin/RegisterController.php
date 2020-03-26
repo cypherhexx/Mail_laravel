@@ -58,11 +58,13 @@ use PayPal\Api\PaymentExecution;
 use PayPal\Api\Transaction;
 use Srmklive\PayPal\Services\ExpressCheckout;
 use App\PendingTransactions;
+use App\Jobs\SendAllEmail;
+
+use Carbon;
 
 class RegisterController extends AdminController
 {
     /*
-    |--------------------------------------------------------------------------
     | Register Controller - Admin
     |--------------------------------------------------------------------------
     |
@@ -222,11 +224,11 @@ class RegisterController extends AdminController
          * it will set as placement_user, else the placement will be under sponsor
          *
          */
-        if ($request->placement_user) {
-            $data['placement_user'] = $request->placement_user;
-        } else {
+        // if ($request->placement_user) {
+        //     $data['placement_user'] = $request->placement_user;
+        // } else {
             $data['placement_user'] = $request->sponsor;
-        }
+        // }
         /**
          * Validation custom messages
          * @var [array]
@@ -356,28 +358,35 @@ class RegisterController extends AdminController
                 }
                 PendingTransactions::where('id',$register->id)->update(['payment_status' => 'complete']);
                 $sponsorname = $data['sponsor'];
+
+                
                 $placement_username = User::find($placement_id)->username;
-                $legname = $data['leg'] == "L" ? "Left" : "right";            
+                $legname = $data['leg'] == "L" ? "Left" : "right";   
+
                 
                 Activity::add("Added user $userresult->username","Added $userresult->username sponsor as $sponsorname ");
                 Activity::add("Joined as $userresult->username","Joined in system as $userresult->username sponsor as $sponsorname ",$userresult->id);
-                $email = Emails::find(1);
-                $welcome=welcomeemail::find(1);
-                $app_settings = AppSettings::find(1);
+
+                SendAllEmail::dispatch($data['firstname'],$data['lastname'],$data['username'],$data['password'],$data['email'])
+                        ->delay(Carbon::now()->addSeconds(10));
+              
+                // $email = Emails::find(1);
+                // $welcome=welcomeemail::find(1);
+                // $app_settings = AppSettings::find(1);
                
-                Mail::send('emails.register',
-                    ['email'         => $email,
-                        'company_name'   => $app_settings->company_name,
-                        'logo'   => $app_settings->logo,
-                        'firstname'      => $data['firstname'],
-                        'name'           => $data['lastname'],
-                        'login_username' => $data['username'],
-                        'password'       => $data['password'],
-                        'welcome'        => $welcome,
-                        'transaction_pass'=>$data['transaction_pass'],
-                    ], function ($m) use ($data, $email) {
-                        $m->to($data['email'], $data['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
-                    });
+                // Mail::send('emails.register',
+                //     ['email'         => $email,
+                //         'company_name'   => $app_settings->company_name,
+                //         'logo'   => $app_settings->logo,
+                //         'firstname'      => $data['firstname'],
+                //         'name'           => $data['lastname'],
+                //         'login_username' => $data['username'],
+                //         'password'       => $data['password'],
+                //         'welcome'        => $welcome,
+                //         'transaction_pass'=>$data['transaction_pass'],
+                //     ], function ($m) use ($data, $email) {
+                //         $m->to($data['email'], $data['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
+                //     });
                 return redirect("admin/register/preview/" . Crypt::encrypt($userresult->id));
             }
              
