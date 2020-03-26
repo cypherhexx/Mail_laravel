@@ -280,9 +280,12 @@ class RegisterController extends AdminController
                 return redirect()->back()->withErrors(['The username not exist'])->withInput();
             }
 
+            $joiningfee = Settings::value('joinfee');
+            if($request->payment == 'cheque' && $joiningfee > 0){ 
+                $request->payment='paypal';
+            }
 
             $orderid ='Atmor-'. mt_rand();
-            $joiningfee = Settings::value('joinfee');
             $register=PendingTransactions::create([
                      'order_id' =>$orderid,
                      'username' =>$request->username,

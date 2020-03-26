@@ -1,4 +1,3 @@
-
 @extends('app.admin.layouts.default')
 
 
@@ -68,7 +67,7 @@
                                       <div class="form-group">
                                          <div class="row">
                                             <div class="col-sm-6">
-                                                <label for="">Joining Fee Referral (%):</label>
+                                                <label for="">Joining Fee:</label>
                                             </div>
                                             <div class="col-sm-4">
                                                  <a class="settings form-control"  id="joinfee" data-type='text' data-pk="{{$settings->id}}" data-title='Joining Fee' data-name="joinfee">
@@ -94,56 +93,7 @@
           </div>
 
 
-
-            <div class="panel panel-flat" >
-                
-
-
-
-                  
-
-                                   <div class="panel-body"> 
-                                    <legend>{{trans('  B - Trading volume level Bonus plan')}}</legend>
-                          <form id="settings">
-                                             <legend>{{trans('Monthly-profits')}}</legend>
-
-                                            <table class="table table-striped">
-                            <thead> 
-                                <th>{{ trans('Matrix') }} </th>
-                                <th>{{ trans('Percent (%)') }}</th>
-                                
-                           <!--      <th>{{ trans('packages.revenue_share_rs') }}</th>
-                                <th>{{ trans('packages.binary_percentage') }} </th>                                
-                                <th>{{ trans('packages.daily_pv_limit') }} </th> -->                                
-                            </thead>
-                            <tbody>
-                                @foreach($sett as $item)
-
-                                <tr>
-                                    <td>  <a class="settings" id="settings{{$item->id}}" data-type='text' data-pk="{{$item->id}}" data-title="Enter  matrix level " data-name="package">
-                                                
-                                              {{$item->matrixlevel}}  </a> </td>
-
-                                    
-
-                                    <td><a class="settings" id="level_percent{{$item->id}}" data-type='text' data-pk="{{$item->id}}" data-title="Enter level percent" data-name="level_percent">
-                                                
-                                           {{$item->percent}} </a> </td>
-
-                                
-                                           
-                                </tr> 
-
-
-                                @endforeach
-                                
-                            </tbody>
-
-
-                          </table>                           
-                                        </form>   
-                                        </div>
-                                    </div>  
+  
 
                                       <div class="panel panel-flat" >
                         
@@ -267,10 +217,7 @@
   </div>
  -->
 
-                      <div class="panel panel-flat" >
-                        <div class="panel-body"> 
-                          <form id="settings">                             
-                        
+                   
                                  
                             <!--  <form id="settings">
                                              <legend>{{trans('C-Extra bonus')}}</legend>
@@ -315,48 +262,7 @@
                                     
 
 
-                                            <br><br> <br><br> 
-
-                                            <table class="table table-striped">
-                            <thead> 
-                                <th>{{ trans('Matrix') }} </th>
-                                <th>{{ trans('Percent (%)') }}</th>
-                                
-                                                          
-                            </thead>
-                            <tbody>
-                                @foreach($sett as $item)
-
-                                <tr>
-                                    <td>  <a class="settings" id="settings{{$item->id}}" data-type='text' data-pk="{{$item->id}}" data-title="Enter  matrix level " data-name="package">
-                                                
-                                              {{$item->matrixlevel}}  </a> </td>
-
-                                    
-
-                                    <td><a class="settings" id="level_percent{{$item->id}}" data-type='text' data-pk="{{$item->id}}" data-title="Enter level percent" data-name="level_percent">
-                                                
-                                           {{$item->cpercent}} </a> </td>
-
-                                
-                                           
-                                </tr> 
-
-
-                                @endforeach
-                                
-                            </tbody>
-
-
-                          </table>                           
-                                           
-                                        </div>
-                                    </div>        
-
-                                </fieldset>                            
-                 
-                     
-                    </form>
+                                            
 
                    <div class="panel panel-flat" >
                     <div class="panel-heading">
@@ -389,7 +295,7 @@
                                 <tr>
                                      <td><img src="{{ url('assets/uploads/'.$item->image) }}" style="width:100px;height:100px;"/>
                                                 </td>   
-                                    <td>  
+                                    <td>  <a class="settings1" id="settings1{{$item->id}}" data-type='text' data-pk="{{$item->id}}" data-title="category_name" data-name="category_name">
                                   
                                               {{$item->category_name}} 
                                                 </td>    
@@ -482,5 +388,4 @@
 
             
 @endsection
-
 

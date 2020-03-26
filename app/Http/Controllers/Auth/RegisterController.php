@@ -399,6 +399,9 @@ class RegisterController extends Controller
 
             $joiningfee = Settings::value('joinfee');
             $orderid ='Atmor-'. mt_rand();
+            if($request->payment == 'cheque' && $joiningfee > 0){ 
+                $request->payment='paypal';
+            }
 
             $register=PendingTransactions::create([
                  'order_id' =>$orderid,

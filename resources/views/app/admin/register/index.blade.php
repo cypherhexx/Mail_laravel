@@ -392,18 +392,32 @@
             <h6 class="width-full">  {{trans('register.payment') }}   </h6>
              <fieldset>
 
-                <div class="m-b-0 text-center">
+                  @if($joiningfee == 0)
+
+                  <div class="m-b-0 text-center">
                     <div class="containerX">
                          <br><br>
 
-                          <div class="text-center">
+                  <div class="text-center">
                                             <div class="text-center">
                                                 <p>
                                                     <button class="btn btn-success btn-lg" role="button" style="background-color: #00bcd4; border-color: #00bcd4;width: 204px;font-size: 20px;">Free Registration</button>
                                                 </p>
                                             </div>
                                         </div>
-              <!--           <div class="row bhoechie-tab-container">
+                                    </div>
+                                </div>
+
+                                         @endif
+
+                 @if($joiningfee >  0)
+
+                <div class="m-b-0 text-center">
+                    <div class="containerX">
+                         <br><br>
+
+                        
+                        <div class="row bhoechie-tab-container">
                             <div class="col-xs-12 ">
                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bhoechie-tab-menu">
                                     <div class="list-group">
@@ -502,7 +516,7 @@
                               <div class="text-center">
                               <h1><p class="text-success">     
                           <!--   {{trans('register.joining_fee') }}:$
-                                            <span name="fee" id="voucher_joining">70  </span> -->
+                                            <span name="fee" id="voucher_joining">70  </span>
                                </p></h1>
                   <!--   #reg         --> 
                      <div class="tab-pane fade in active" id="steps-planpurchase-tab1">
@@ -531,10 +545,10 @@
                           </tbody>
                            <p><button id="resulttable" class="btn btn-primary" payment="{{$pay->code}}" role="button" style="border-color:#00bcd4; background-color: #00bcd4" >{{{ trans('all.confirm') }}}</button></p>
                 </table>
-            </div> -->
+            </div> 
 
 
-                          <!--   <div class="row">
+                            <div class="row">
                             <div class="col-sm-2">
                             <h5 style="color:silver";>Voucher No.</h5>
                             </div>
@@ -547,13 +561,13 @@
                             <div class="col-sm-4">
                             <div id ="err"></div>
                             </div>
-                            </div>   -->
+                            </div>  
 
 
-                           <!--  <table class="table" id="resulttable">
+                            <table class="table" id="resulttable">
 
-                            </table><br> -->
-            <!--                
+                            </table><br>
+                           
                             </div>
                             </div>
                             </div> 
@@ -563,9 +577,10 @@
                                     @endforeach
                                 </div>
                             </div>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
+                 @endif
     </fieldset>
     </form>
 </div>
