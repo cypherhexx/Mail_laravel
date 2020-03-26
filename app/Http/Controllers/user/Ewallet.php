@@ -66,17 +66,18 @@ class Ewallet extends UserAdminController
         $users1 = array();
         $users2 = array();
         //echo $user_id;die();
-        $users1 = Commission::select('commission.id', 'user.username', 'fromuser.username as fromuser', 'commission.payment_type', 'commission.user_id', 'commission.payable_amount', 'commission.created_at')
-            ->join('users as fromuser', 'fromuser.id', '=', 'commission.from_id')
-            ->join('users as user', 'user.id', '=', 'commission.user_id')
-            ->where('commission.user_id','=',Auth::user()->id)
-            ->orderBy('commission.id', 'desc');
-        $users2 = Payout::select('payout_request.id', 'users.username', 'users.username as fromuser', 'payout_request.status as payment_type', 'payout_request.user_id', 'payout_request.amount as payable_amount', 'payout_request.created_at')
+       $users1 = Commission::select('commission.id', 'user.username', 'fromuser.username as fromuser', 'commission.payment_type', 'commission.user_id', 'commission.payable_amount', 'commission.created_at','packages.package')
+         ->join('users as fromuser', 'fromuser.id', '=', 'commission.from_id')
+         ->join('users as user', 'user.id', '=', 'commission.user_id')
+         ->join('packages', 'packages.id', '=','commission.package')
+         ->where('commission.user_id','=',Auth::user()->id)
+         ->orderBy('commission.id', 'desc');
+        $users2 = Payout::select('payout_request.id', 'users.username', 'users.username as fromuser', 'payout_request.status as payment_type', 'payout_request.user_id', 'payout_request.amount as payable_amount', 'payout_request.created_at','payout_request.created_at as payout_created')
             ->join('users', 'users.id', '=', 'payout_request.user_id')
             ->where('payout_request.user_id','=',Auth::user()->id)
             ->orderBy('payout_request.id', 'desc');
 
-        $users3 = UserDebit::select('user_debit.id', 'fromuser.username as fromuser', 'user.username', 'user_debit.payment_type', 'user_debit.user_id', 'user_debit.debit_amount', 'user_debit.created_at')
+        $users3 = UserDebit::select('user_debit.id', 'fromuser.username as fromuser', 'user.username', 'user_debit.payment_type', 'user_debit.user_id', 'user_debit.debit_amount', 'user_debit.created_at','user_debit.created_at as debit_created')
             ->join('users as fromuser', 'fromuser.id', '=', 'user_debit.from_id')
             ->join('users as user', 'user.id', '=', 'user_debit.user_id')
             ->where('user_debit.user_id','=',Auth::user()->id)
@@ -89,12 +90,12 @@ class Ewallet extends UserAdminController
             // ->limit($request->length)
             ->get();
 
-
       // die();
 
         return Datatables::of($users)
             ->edit_column('fromuser', '@if ($payment_type =="released") Adminuser @else {{$fromuser}} @endif')
             ->edit_column('user_id', '@if ($payment_type =="released" || $payment_type =="fund_transfer" || $payment_type =="plan_purchase" || $payment_type == "register") <span >{!!$payable_amount!!}</span> @else <span class="">0</span>@endif')
+
             ->edit_column('payable_amount', '@if ($payment_type =="released" || $payment_type =="fund_transfer" || $payment_type == "plan_purchase"|| $payment_type == "register") <span>0</span> @else <span class="">{{round($payable_amount,2)}}</span>@endif')
             ->edit_column('payment_type', ' @if ($payment_type =="released") Payout released @else <?php  echo str_replace("_", " ", "$payment_type") ;  ?> @endif')
             ->remove_column('id')

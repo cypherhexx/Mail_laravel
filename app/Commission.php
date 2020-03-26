@@ -16,7 +16,7 @@ class Commission extends Model
 
     protected $table = 'commission';
 
-    protected $fillable = ['user_id', 'from_id','total_amount','tds','service_charge','payable_amount','payment_type','payment_status'];
+    protected $fillable = ['user_id', 'from_id','total_amount','tds','service_charge','payable_amount','payment_type','payment_status','matrix','level_percent','rankgain','category','package'];
 
 
     public  function sponsorcommission($sponsor_id,$from_id){

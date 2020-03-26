@@ -63,9 +63,11 @@ class Packages extends Model
             $category=Category::find($cat_id)->percentage;
             $rank=User::where('id',$upuser)->value('rank_id');
             $rankgain=Ranksetting::find($rank)->gain;
+            $matrix=Settings::find(1)->matrix;
 
-            $total=Settings::find(1)->matrix+$pack->level_percent+$rankgain+$category;            
-             
+
+            $total=$matrix+$pack->level_percent+$rankgain+$category;            
+              // dd($pack->package,$matrix,$pack->level_percent,$rankgain,$category);
             $level_commission=$package_am*$total*0.01;
               if($level_commission > 0){ 
 
@@ -78,6 +80,11 @@ class Packages extends Model
                 'payable_amount' => $level_commission,
                 'payment_type'   => 'level_commission',
                 'payment_status' => 'Yes',
+                'matrix'         => $matrix,
+                'level_percent'  => $pack->level_percent,
+                'rankgain'       => $rankgain,
+                'category'       => $category,
+                'package'        => $pack->id, 
                 ]);
             /**
             * updates the userbalance

@@ -108,7 +108,7 @@
                                     <h3 class="no-margin text-semibold">{{$pack_name}} {{$level_percent}}%</h3> 
 
                                    My Track
-                                     <img src="{{url('img/cache/original/'.$pac_image)}}" style="width: 60px;margin-top: -41px;float:right;">
+                                     <img src="{{url('img/cache/original/'.$pac_image)}}" style="width: 80px;margin-top: -41px;float:right;">
                                     <!-- <div class="text-muted text-size-small">  My Track</div> -->
                                 </div>
 
@@ -133,7 +133,7 @@
 
                                     <h3 class="no-margin text-semibold"> {{$category}}</h3>
                                    My Category
-                                   <img src="{{url('/assets/uploads/'.$cat_image)}}" style="width: 60px;margin-top: -41px;float:right;">                                  
+                                   <img src="{{url('/assets/uploads/'.$cat_image)}}" style="width: 80px;margin-top: -41px;float:right;">                                  
 
 
                                     <!-- <div class="text-muted text-size-small">   My Category</div> -->
@@ -157,7 +157,7 @@
                                     <h3 class="no-margin text-semibold">{{$rank_name}}</h3>
                                  My Rank
                                  @if($rank_name != 'No rank')
-                                  <img src="{{ url('assets/uploads/'.$image) }}" style="width: 60px;margin-top: -41px;float:right;">
+                                  <img src="{{ url('assets/uploads/'.$rank_image) }}" style="width: 80px;margin-top: -41px;float:right;">
                                   @endif
                                     <!-- <div class="text-mut text-size-small">My Rank</div> -->
                                 </div>

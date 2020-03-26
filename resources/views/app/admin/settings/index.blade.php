@@ -64,7 +64,7 @@
                                         </div>
                                     </div>   
 
-                                 <!--      <div class="form-group">
+                                      <div class="form-group">
                                          <div class="row">
                                             <div class="col-sm-6">
                                                 <label for="">Joining Fee Referral (%):</label>
@@ -78,9 +78,8 @@
                                            
                                            
                                         </div>
-                                    </div>    
-                                    </div>    
- -->
+                                    </div>        
+
                                 </fieldset>                            
                  
                      
@@ -377,7 +376,9 @@
                             <thead>
                                  <th>{{ trans('Image') }} </th> 
                                 <th>{{ trans('Category') }} </th>
+                                 <th>{{ trans('Count') }} </th>
                                 <th>{{ trans('Percentage') }} </th>
+                               
                                 <th>{{trans('Action')}}</th>
                                                               
                             </thead>
@@ -391,10 +392,14 @@
                                   
                                               {{$item->category_name}} 
                                                 </td>    
+                                     <td>  <a class="settings1" id="settings1{{$item->id}}" data-type='text' data-pk="{{$item->id}}" data-title="count" data-name="count">
+                                                
+                                              {{$item->count}}  </a> </td>            
                                     <td>  <a class="settings1" id="settings1{{$item->id}}" data-type='text' data-pk="{{$item->id}}" data-title="percentage" data-name="percentage">
                                                 
                                               {{$item->percentage}}  </a> </td>
-                                      <td>  
+                                      <td> 
+
                                 </form>
                                     <button type="button" class="btn btn-info updateimage" data-userid="{{$item->id}}" data-toggle="modal" data-target="#myModal{{$item->id}}" >{{trans('update_image')}} </button>
                                      <div id="myModal{{$item->id}}" class="modal fade" role="dialog">

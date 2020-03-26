@@ -29,6 +29,10 @@
                                         {{trans('ewallet.amount_type')}}
                                     </th>
                                     <th>
+                                        {{trans('ewallet.package_name')}}
+                                    </th>
+
+                                    <th>
                                         {{trans('ewallet.debit')}} ({{$currency_sy}})
                                     </th>
                                     <th>
@@ -52,6 +56,10 @@
                                      <td>
 
                                             {{str_replace("_", " ",$report->payment_type)}}
+                                    </td>
+                                     <td>
+
+                                            {{$report->package}}
                                     </td>
                                      <td>
                                            @if ($report->payment_type =="released" || $report->payment_type =="fund_transfer" || $report->payment_type =="plan_purchase")
