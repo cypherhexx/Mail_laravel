@@ -1,3 +1,4 @@
+
 @extends('app.admin.layouts.default') {{-- Web site Title --}} @section('title') {{{ $title }}} :: @parent @stop {{-- Content --}} @section('styles') @parent
 
 
@@ -89,4 +90,5 @@
    $('#ewallet').DataTable();
 } );
 </script>
+
 @stop
