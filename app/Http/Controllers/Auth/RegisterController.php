@@ -800,6 +800,7 @@ public function checkStatus($trans){
   
          //commsiiom
             $sponsor_id=Sponsortree::where('user_id',$item->user_id)->value('sponsor');
+             ProfileModel::where('user_id',$item->user_id)->update(['package' => $item->package]);
             $user_arrs=[];
             $results=Ranksetting::getTreeUplinePackage($item->user_id,1,$user_arrs);
             array_push($results, $item->user_id);
@@ -829,7 +830,6 @@ public function checkStatus($trans){
              $userpurchase['date_p']=$purchase_id->created_at;
              $userpurchase['package']=$package->package;
              PurchaseHistory::where('id','=',$purchase_id->id)->update(['datas'=>json_encode($userpurchase)]);
-             ProfileModel::where('user_id',$item->user_id)->update(['package' => $item->package]);
               $item->purchase_id=$purchase_id->id;
             $item->save();
        }

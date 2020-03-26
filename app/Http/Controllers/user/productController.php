@@ -582,10 +582,10 @@ class productController extends UserAdminController
              // $sponsor_id =User::where('id',Auth::user()->id)->value('sponsor') ;
              // dd($sponsor_id);
             $sponsor_id=Sponsortree::where('user_id',$item->user_id)->value('sponsor');
+             ProfileModel::where('user_id',$item->user_id)->update(['package' => $item->package]);
             $user_arrs=[];
             $results=Ranksetting::getTreeUplinePackage($item->user_id,1,$user_arrs);
             array_push($results, $item->user_id);
-          
             foreach ($results as $key => $value) {
                 Packages::rankCheck($value);
             }
@@ -612,7 +612,6 @@ class productController extends UserAdminController
              $userpurchase['date_p']=$purchase_id->created_at;
              $userpurchase['package']=$package->package;
              PurchaseHistory::where('id','=',$purchase_id->id)->update(['datas'=>json_encode($userpurchase)]);
-             ProfileModel::where('user_id',$item->user_id)->update(['package' => $item->package]);
              Session::flash('flash_notification',array('message'=>"You have purchased the plan succesfully ",'level'=>'success'));
              return  redirect("user/purchase/preview/".Crypt::encrypt($purchase_id->id));
             // echo 'New Subscriber Created and Billed';

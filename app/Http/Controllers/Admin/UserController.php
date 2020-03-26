@@ -1406,14 +1406,10 @@ else
         
          //commsiiom
             $sponsor_id=Sponsortree::where('user_id',$transaction->user_id)->value('sponsor');
+            ProfileModel::where('user_id',$transaction->user_id)->update(['package' => $transaction->package]);
             $user_arrs=[];
             $results=Ranksetting::getTreeUplinePackage($transaction->user_id,1,$user_arrs);
             array_push($results, $transaction->user_id);
-          
-
-       
-            // Packages::levelCommission($transaction->user_id,$package->amount,$rank_id);
-            // Packages::directReferral($sponsor_id,$transaction->user_id,$transaction->package);
 
             foreach ($results as $key => $value) {
                 Packages::rankCheck($value);
@@ -1441,7 +1437,6 @@ else
           $userpurchase['date_p']=$purchase_id->created_at;
           $userpurchase['package']=$package->package;
           PurchaseHistory::where('id','=',$purchase_id->id)->update(['datas'=>json_encode($userpurchase)]);
-          ProfileModel::where('user_id',$transaction->user_id)->update(['package' => $transaction->package]);
           $transaction->payment_status ='complete';
           $transaction->save();
           Session::flash('flash_notification',array('message'=>"You have purchased the plan successfully ",'level'=>'success'));

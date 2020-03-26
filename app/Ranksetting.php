@@ -103,7 +103,7 @@ class Ranksetting extends Model
    }
 
     public static function getTreeUplinePackage($upline_users,$level=1,$uplines){
-     if ($level > 3) 
+     if ($level > 4) 
         return $uplines;  
    
      $upline=Sponsortree::where('user_id',$upline_users)->where('type','=','yes')->value('sponsor'); 
