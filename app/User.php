@@ -496,7 +496,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     public static function add($data,$sponsor_id,$placement_id){
 
-            // DB::beginTransaction();
+            DB::beginTransaction();
 
             try {
 
