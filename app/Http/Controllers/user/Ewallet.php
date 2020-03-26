@@ -66,7 +66,7 @@ class Ewallet extends UserAdminController
         $users1 = array();
         $users2 = array();
         //echo $user_id;die();
-       $users1 = Commission::select('commission.id', 'user.username', 'fromuser.username as fromuser', 'commission.payment_type','packages.package',  'commission.user_id', 'commission.payable_amount','commission.created_at')
+       $users1 = Commission::select('commission.id', 'user.username', 'fromuser.username as fromuser', 'commission.payment_type', 'commission.user_id', 'commission.payable_amount', 'commission.created_at','packages.package')
          ->join('users as fromuser', 'fromuser.id', '=', 'commission.from_id')
          ->join('users as user', 'user.id', '=', 'commission.user_id')
          ->join('packages', 'packages.id', '=','commission.package')
@@ -205,3 +205,4 @@ class Ewallet extends UserAdminController
         return view('app.user.ewallet.mytransfer',compact('title','countries','user','sub_title','base','method','data'));
     }
 }
+>>>>>>> 756ee44e8a5de4a6a37d2a9afdcfbd9484ff4aa2

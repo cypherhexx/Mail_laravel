@@ -20,12 +20,10 @@ use App\ProfileInfo;
 use App\Packages;
 use App\Ranksetting;
 use App\Category;
-use App\PendingTransactions;
 
 use Illuminate\Http\Request;
 use Auth;
 use DB;
-use DateTime;
 
 class dashboard extends UserAdminController{
 
@@ -38,8 +36,6 @@ class dashboard extends UserAdminController{
       if($current_pack == 1){
          return redirect('/user/purchasedashboard');
       }
-
-
 
         $title = trans('dashboard.dashboard');       
         $users = User::count();               
@@ -75,8 +71,8 @@ class dashboard extends UserAdminController{
         $USER_CURRENCY=Currency::all();
         $pack=ProfileInfo::where('user_id',Auth::user()->id)->value('package');
         $pack_name=Packages::find($pack)->package;
-        $level_percent=Packages::find($pack)->level_percent;
-        $pac_image=Packages::find($pack)->image;
+      $level_percent=Packages::find($pack)->level_percent;
+       $pac_image=Packages::find($pack)->image;
 
          $ran=User::where('id',Auth::user()->id)->value('rank_id');
           $rank_name=Ranksetting::find($ran)->rank_name;
@@ -85,7 +81,7 @@ class dashboard extends UserAdminController{
           else
             $rank_name=$rank_name;
       $rank_image=Ranksetting::find($ran)->image;
-        
+       
 
            //Weekly Join
        $weekly_users_count = DB::table('sponsortree')->where('sponsor',Auth::user()->id)->where('type','yes')->whereDate('created_at', '>=', date('Y-m-d H:i:s',strtotime('-7 days')) )->count();
@@ -100,8 +96,8 @@ class dashboard extends UserAdminController{
         $category=Category::where('id',$cat_id)->value('category_name');
 
         $cat_image=Category::find($cat_id)->image;
-       
-        $transaction=PendingTransactions::where('user_id',Auth::user()->id)
+
+            $transaction=PendingTransactions::where('user_id',Auth::user()->id)
                                       ->where('payment_status','complete')
                                       ->where('package',$current_pack)
                                       ->where('payment_type','upgrade')
@@ -118,8 +114,9 @@ class dashboard extends UserAdminController{
                $date_diff='na';
               $numberdays = 'na';
             }
+       
 
-       return view('app.user.dashboard.index', compact('count_new','new_users','title', 'users', 'balance','percentage_released','percentage_balance','sub_title','right_bv','left_bv','total_bv','total_top_up','total_rs','base','method','USER_CURRENCY','payout','weekly_users_count','monthly_users_count','yearly_users_count','total_invest','total_grants','pending_payout','pack_name','rank_name','level_percent','pac_image','category','cat_image','date_diff','numberdays','rank_image'));
+       return view('app.user.dashboard.index', compact('count_new','new_users','title', 'users', 'balance','percentage_released','percentage_balance','sub_title','right_bv','left_bv','total_bv','total_top_up','total_rs','base','method','USER_CURRENCY','payout','weekly_users_count','monthly_users_count','yearly_users_count','total_invest','total_grants','pending_payout','pack_name','rank_name','level_percent','pac_image','category','cat_image','rank_image','date_diff','numberdays'));
     }
 
   
@@ -156,3 +153,4 @@ class dashboard extends UserAdminController{
     }
 
 }
+>>>>>>> 756ee44e8a5de4a6a37d2a9afdcfbd9484ff4aa2

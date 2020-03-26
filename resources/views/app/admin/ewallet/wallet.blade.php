@@ -1,3 +1,4 @@
+
 @extends('app.admin.layouts.default') {{-- Web site Title --}} @section('title') {{{ $title }}} :: @parent @stop {{-- Content --}} @section('styles') @parent
 
 
@@ -29,7 +30,7 @@
                                         {{trans('ewallet.amount_type')}}
                                     </th>
                                     <th>
-                                        {{trans('Package Name')}}
+                                        {{trans('ewallet.package_name')}}
                                     </th>
 
                                     <th>
@@ -89,4 +90,5 @@
    $('#ewallet').DataTable();
 } );
 </script>
+
 @stop

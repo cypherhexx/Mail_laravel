@@ -1,3 +1,4 @@
+
 @extends('app.user.layouts.default') {{-- Web site Title --}} @section('title') {{{ $title }}} :: @parent @stop {{-- Content --}} @section('styles') @parent
 <style type="text/css">
 </style>
@@ -13,7 +14,7 @@
         </div>
     </div>
     <!-- @include('app.user.layouts.ewalletrecord') -->
-    <table class="table datatable-basic table-striped table-hover" id="ewallet-user-table" ">
+    <table class="table datatable-basic table-striped table-hover" id="ewallet-user-table">
                             <thead>
                                 <tr>
                                     <th>
@@ -25,9 +26,7 @@
                                     <th>
                                         {{trans('ewallet.amount_type')}}
                                     </th>
-                                    <th>
-                                        {{trans('Package Name')}}
-                                    </th>
+                                    
                                     <th>
                                     {{trans('ewallet.debit')}} ({{$currency_sy}})
                                     </th>
@@ -36,6 +35,9 @@
                                     </th>
                                     <th>
                                         {{trans('ewallet.date')}}
+                                    </th>
+                                    <th>
+                                        {{trans('ewallet.package')}}
                                     </th>
                                 </tr>
                             </thead>
@@ -53,4 +55,5 @@
    
 
 </script>
+
 @stop

@@ -152,7 +152,8 @@ class productController extends UserAdminController
 
 
     public function purchase(Request $request){
-        // dd($request->all());
+      // dd($request->all());
+      
         
         $title = trans('products.purchased_plan');
         $sub_title = trans('products.purchased_plan'); 
@@ -238,7 +239,7 @@ class productController extends UserAdminController
                 $pay_amount=$fee*10;
             }
 
-           
+            $next_payment_date=date('Y-m-d H:i:s', strtotime(' + 1'.$request->payment_type));
 
             $purchase=PendingTransactions::create([
              'order_id' =>$orderid,
@@ -252,15 +253,13 @@ class productController extends UserAdminController
              'payment_period'=>$request->payment_type,
              'payment_type' =>'upgrade',
              'amount' => $pay_amount,
+             'next_payment_date' => $next_payment_date,
             ]);
 
             if($request->payment_type == 'month')
                 $period='Month';
             else
                 $period='Year';
-           
-       
-
              // packages::levelBonus(Auth::user()->id,$package);
 
 
@@ -348,7 +347,7 @@ class productController extends UserAdminController
                 $agreement = new Agreement();
                 $agreement->setName('Algolight Track '.$period.'ly Subscription Agreement')
                   ->setDescription($package->package.' Subscription')
-                  ->setStartDate(\Carbon\Carbon::now()->addMinutes(5)->toIso8601String());
+                  ->setStartDate(\Carbon\Carbon::now()->addMinutes(1)->toIso8601String());
 
                 // Set plan id
                 $plan = new Plan();
@@ -583,12 +582,12 @@ class productController extends UserAdminController
              // $sponsor_id =User::where('id',Auth::user()->id)->value('sponsor') ;
              // dd($sponsor_id);
             $sponsor_id=Sponsortree::where('user_id',$item->user_id)->value('sponsor');
-            // $user_arrs=[];
-            // $results=Ranksetting::getthreeupline($item->user_id,1,$user_arrs);
+            $user_arrs=[];
+            $results=Ranksetting::getthreeupline($item->user_id,1,$user_arrs);
           
-            // foreach ($results as $key => $value) {
-                Packages::rankCheck($item->user_id);
-            // }
+            foreach ($results as $key => $value) {
+                Packages::rankCheck($value);
+            }
 
             Packages::levelCommission($item->user_id,$package->amount);
             // Packages::directReferral($sponsor_id,$item->user_id,$item->package);
