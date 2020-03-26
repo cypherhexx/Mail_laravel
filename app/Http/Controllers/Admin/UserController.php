@@ -1406,18 +1406,18 @@ else
         
          //commsiiom
             $sponsor_id=Sponsortree::where('user_id',$transaction->user_id)->value('sponsor');
-            // $user_arrs=[];
-            // $results=Ranksetting::getTreeUplinePackage($transaction->user_id,1,$user_arrs);
-            // array_push($results, $transaction->user_id);
+            $user_arrs=[];
+            $results=Ranksetting::getTreeUplinePackage($transaction->user_id,1,$user_arrs);
+            array_push($results, $transaction->user_id);
           
 
        
             // Packages::levelCommission($transaction->user_id,$package->amount,$rank_id);
             // Packages::directReferral($sponsor_id,$transaction->user_id,$transaction->package);
 
-            // foreach ($results as $key => $value) {
-            //     Packages::rankCheck($value);
-            // }
+            foreach ($results as $key => $value) {
+                Packages::rankCheck($value);
+            }
             Packages::levelCommission($transaction->user_id,$package->amount);
             Packages::directReferral($sponsor_id,$transaction->user_id,$transaction->package);
 
