@@ -224,12 +224,13 @@ class Packages extends Model
    }
 
    public static function rankCheck($rankuser){
+      $package=ProfileInfo::where('user_id',$rankuser)->value('package');
       $cur_rank=User::find($rankuser)->rank_id;
       $next_rank=$cur_rank+1;
 
       $rank_det=Ranksetting::find($next_rank);
 
-        if($rank_det <> null){
+        if($rank_det <> null && $package > 1){
           $user_count=User::find($rankuser)->referral_count;
           $direct_ref1_users=Sponsortree::join('users','sponsortree.user_id','=','users.id')
                                   ->where('sponsortree.sponsor','=',$rankuser)

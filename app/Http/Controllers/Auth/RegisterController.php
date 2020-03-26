@@ -800,12 +800,12 @@ public function checkStatus($trans){
   
          //commsiiom
             $sponsor_id=Sponsortree::where('user_id',$item->user_id)->value('sponsor');
-            // $user_arrs=[];
-            // $results=Ranksetting::getthreeupline($item->user_id,1,$user_arrs);
+            $user_arrs=[];
+            $results=Ranksetting::getthreeupline($item->user_id,1,$user_arrs);
           
-            // foreach ($results as $key => $value) {
-                Packages::rankCheck($item->user_id);
-            // }
+            foreach ($results as $key => $value) {
+                Packages::rankCheck($value);
+            }
             Packages::levelCommission($item->user_id,$item->amount);
             // Packages::directReferral($sponsor_id,$item->user_id,$package->amount);
             //comm
