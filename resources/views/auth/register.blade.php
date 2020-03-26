@@ -532,12 +532,34 @@ ul, menu, dir {
             </fieldset>
              <fieldset>
 
+                @if($joiningfee == 0)
+
+                 <div class="m-b-0 text-center">
+                    <div class="containerX">
+                        <br><br>
+
+                          <div class="text-center">
+                                            <div class="text-center">
+                                                <p>
+                                                    <button class="btn btn-success btn-lg" role="button" style="background-color: #00bcd4; border-color: #00bcd4;width: 204px;font-size: 20px;">Free Registration</button>
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                            </div>
+                </div>
+                @endif
+
+                 @if($joiningfee >  0)
+
+
+
                 <div class="m-b-0 text-center">
                     <div class="containerX">
                         <br><br>
-                        <!-- <div class="row bhoechie-tab-container"> -->
-                            <!-- <div class="col-xs-12 "> -->
-                            <!--     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bhoechie-tab-menu">
+                        <div class="row bhoechie-tab-container">
+                            <div class="col-xs-12 ">
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 bhoechie-tab-menu">
                                     <div class="list-group">
                                         @foreach($payment_type as $payment) @if($payment->id==4)
                                             <a href="#" payment="paypal" class="list-group-item text-center active" class="">
@@ -550,19 +572,13 @@ ul, menu, dir {
                                         </a>
                                         @endif @endforeach
                                     </div>
-                                </div> -->
-                                <!-- <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab"> -->
+                                </div>
+                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 bhoechie-tab">
 
 
-                                        <div class="text-center">
-                                            <div class="text-center">
-                                                <p>
-                                                    <button class="btn btn-success btn-lg" role="button" style="background-color: #00bcd4; border-color: #00bcd4;width: 204px;font-size: 20px;">Free Registration</button>
-                                                </p>
-                                            </div>
-                                        </div>
+                                      
                                  
-                                   <!--  @foreach($payment_type as $pay) @if($pay->payment_name=="Cheque")
+                                    @foreach($payment_type as $pay) @if($pay->payment_name=="Cheque")
                                     <div class="bhoechie-tab-content active">
                                         <div class="text-center">
                                             <div class="text-center">
@@ -636,7 +652,7 @@ ul, menu, dir {
                                             </div>
                                         </div>
                                     </div>
-                                    @else -->
+                                    @else
                                   
                          
                           <!--   <div class="bhoechie-tab-content ">
@@ -647,7 +663,7 @@ ul, menu, dir {
                                             <span name="fee" id="voucher_joining">70  </span> -->
                                <!-- </p></h1> -->
                   <!--   #reg         --> 
-<!--                      <div class="tab-pane fade in active" id="steps-planpurchase-tab1">
+                     <div class="tab-pane fade in active" id="steps-planpurchase-tab1">
                        <table class="table table-dark bg-slate-600 table-vouher-regpayment">
                         <thead>
                           <tr>
@@ -674,9 +690,9 @@ ul, menu, dir {
                            <p><button id="resulttable" class="btn btn-primary" payment="{{$pay->code}}" role="button" style="border-color:#00bcd4; background-color: #00bcd4" >{{{ trans('all.confirm') }}}</button></p>
                 </table>
             </div>
- -->
 
-                          <!--   <div class="row">
+
+                            <div class="row">
                             <div class="col-sm-2">
                             <h5 style="color:silver";>Voucher No.</h5>
                             </div>
@@ -689,25 +705,26 @@ ul, menu, dir {
                             <div class="col-sm-4">
                             <div id ="err"></div>
                             </div>
-                            </div>   -->
+                            </div>  
 
 
                            <!--  <table class="table" id="resulttable">
 
                             </table><br> -->
                            
-                        <!--     </div>
+                            </div>
                             </div>
                             </div> 
 
 
                                     @endif 
-                                    @endforeach -->
+                                    @endforeach
                                 <!-- </div> -->
                             <!-- </div> -->
                         <!-- </div> -->
                     </div>
                 </div>
+                @endif
     </fieldset>
         </form>  
     </div>
