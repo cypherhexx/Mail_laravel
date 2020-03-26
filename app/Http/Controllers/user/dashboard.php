@@ -20,6 +20,7 @@ use App\ProfileInfo;
 use App\Packages;
 use App\Ranksetting;
 use App\Category;
+use App\PendingTransactions;
 
 use Illuminate\Http\Request;
 use Auth;
@@ -153,4 +154,4 @@ class dashboard extends UserAdminController{
     }
 
 }
->>>>>>> 756ee44e8a5de4a6a37d2a9afdcfbd9484ff4aa2
+
