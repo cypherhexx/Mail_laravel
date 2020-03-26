@@ -630,13 +630,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
            
             
-            // $user_arrs=[];
-            // $results=Ranksetting::getthreeupline($userresult->id,1,$user_arrs);
+            $user_arrs=[];
+            $results=Ranksetting::getTreeUplinePackage($userresult->id,1,$user_arrs);
           
-            // foreach ($results as $key => $value) {
-            //               Packages::rankCheck($value);
+            foreach ($results as $key => $value) {
+                Packages::rankCheck($value);
             
-            // }
+            }
             // Packages::levelCommission($userresult->id,$userPackage->amount);
           
             // Packages::directReferral($sponsor_id,$userresult->id,$data['package']);

@@ -582,13 +582,13 @@ class productController extends UserAdminController
              // $sponsor_id =User::where('id',Auth::user()->id)->value('sponsor') ;
              // dd($sponsor_id);
             $sponsor_id=Sponsortree::where('user_id',$item->user_id)->value('sponsor');
-            $user_arrs=[];
-            $results=Ranksetting::getTreeUplinePackage($item->user_id,1,$user_arrs);
-            array_push($results, $item->user_id);
+            // $user_arrs=[];
+            // $results=Ranksetting::getTreeUplinePackage($item->user_id,1,$user_arrs);
+            // array_push($results, $item->user_id);
           
-            foreach ($results as $key => $value) {
-                Packages::rankCheck($value);
-            }
+            // foreach ($results as $key => $value) {
+            //     Packages::rankCheck($value);
+            // }
 
             Packages::levelCommission($item->user_id,$package->amount);
             // Packages::directReferral($sponsor_id,$item->user_id,$item->package);
