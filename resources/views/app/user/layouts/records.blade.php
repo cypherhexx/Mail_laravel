@@ -125,7 +125,7 @@
                         <div class="col-lg-4">
 
                             <!-- Sparklines in colored panel -->
-                            <div class="panel bg-success-400 rank-bg-image">
+                            <div class="panel bg-success-400 rem-bg-image">
                                 <div class="panel-body">
                                     <div class="heading-elements">
                                         
@@ -148,7 +148,7 @@
                         <div class="col-lg-4">
 
                             <!-- Sparklines in colored panel -->
-                            <div class="panel bg-success-400 rank-bg-image">
+                            <div class="panel bg-success-400 rem-bg-image">
                                 <div class="panel-body">
                                     <div class="heading-elements">
                                         
@@ -158,7 +158,11 @@
                                  My Rank
                                  @if($rank_name != 'No rank')
 
-                                  <img src="{{ url('assets/uploads/'.$rank_image) }}" style="width: 80px;margin-top: -41px;float:right;">
+                                  <img src="{{ url('assets/uploads/'.$rank_image) }}" style="width: 100px;margin-top: -41px;float:right;">
+
+
+                                  
+
 
                                   @endif
                                     <!-- <div class="text-mut text-size-small">My Rank</div> -->

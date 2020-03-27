@@ -378,7 +378,7 @@ class productController extends UserAdminController
             }
             
                 
-            /*  payment validation and update balance */
+            /*   payment validation and update balance */
 
             if($request->steps_plan_payment == 'cheque'){
 
@@ -590,7 +590,7 @@ class productController extends UserAdminController
                 Packages::rankCheck($value);
             }
 
-            Packages::levelCommission($item->user_id,$package->amount);
+            Packages::levelCommission($item->user_id,$package->amount,$item->package);
             // Packages::directReferral($sponsor_id,$item->user_id,$item->package);
             //comm
 
