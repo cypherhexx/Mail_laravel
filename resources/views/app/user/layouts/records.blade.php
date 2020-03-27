@@ -161,7 +161,7 @@
                                   <img src="{{ url('assets/uploads/'.$rank_image) }}" style="width: 100px;margin-top: -41px;float:right;">
 
 
-                                  <img src="{{ url('assets/uploads/'.$rank_image) }}" style="width: 80px;margin-top: -41px;float:right;">
+                                  
 
 
                                   @endif
