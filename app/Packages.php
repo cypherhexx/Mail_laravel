@@ -51,9 +51,9 @@ class Packages extends Model
     }
     }
 
-     public static function levelCommission($user_id,$package_am)
+     public static function levelCommission($user_id,$package_am,$package_id)
     {
-
+       
        $user_arrs=[];
        $results=SELF::gettenupllins($user_id,1,$user_arrs);
           foreach ($results as $key => $upuser) {
@@ -84,7 +84,7 @@ class Packages extends Model
                 'level_percent'  => $pack->level_percent,
                 'rankgain'       => $rankgain,
                 'category'       => $category,
-                'package'        => $pack->id, 
+                'package'        => $package_id, 
                 ]);
             /**
             * updates the userbalance
