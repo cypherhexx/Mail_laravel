@@ -68,7 +68,7 @@
                                       <div class="form-group">
                                          <div class="row">
                                             <div class="col-sm-6">
-                                                <label for="">Joining Fee Referral (%):</label>
+                                                <label for="">Joining Fee:</label>
                                             </div>
                                             <div class="col-sm-4">
                                                  <a class="settings form-control"  id="joinfee" data-type='text' data-pk="{{$settings->id}}" data-title='Joining Fee' data-name="joinfee">
