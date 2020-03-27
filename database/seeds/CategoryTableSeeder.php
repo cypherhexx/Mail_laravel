@@ -12,21 +12,24 @@ class CategoryTableSeeder extends Seeder
     public function run()
     {
        \App\Category::create([
-            'category_name'          => "Trader",
+            'category_name'          => "Trader 0%",
             'count'                  => 0,
             'percentage'             => 0,
+            'image'                  =>'61449130148.jpg',
             
         ]);
         \App\Category::create([
-            'category_name'          => "Star",
-            'count'                  => 1,
-            'percentage'             => 5,
+            'category_name'          => "Star 1%",
+            'count'                  => 5,
+            'percentage'             => 1,
+             'image'                  =>'97474272665.png',
             
         ]);
          \App\Category::create([
-            'category_name'          => "Superstar",
-            'count'                  => 2,
-            'percentage'             => 10,
+            'category_name'          => "Superstar 2%",
+            'count'                  => 10,
+            'percentage'             => 2,
+             'image'                  =>'65492280238.png',
             
         ]);
     }

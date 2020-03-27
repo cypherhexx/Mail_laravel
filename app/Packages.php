@@ -242,7 +242,7 @@ class Packages extends Model
           $referral_count=User::find($rankuser)->referral_count;
           $direct_ref1_users=Sponsortree::join('users','sponsortree.user_id','=','users.id')
                                         ->join('profile_infos','profile_infos.user_id','=','users.id')
-                                        // ->where('profile_infos.package','>',1)
+                                        ->where('profile_infos.package','>',1)
                                         ->where('sponsortree.sponsor','=',$rankuser)
                                         ->where('sponsortree.type','=','yes')
                                         ->where('users.referral_count','>=',$rank_det->minimum_ref_for_each1)
@@ -298,7 +298,7 @@ class Packages extends Model
                                             ->join('profile_infos','profile_infos.user_id','=','users.id')
                                             ->where('sponsortree.sponsor','=',$suser)
                                             ->where('sponsortree.type','=','yes')
-                                            // ->where('profile_infos.package','>',1)
+                                            ->where('profile_infos.package','>',1)
                                             ->where('users.referral_count','>=',$rank_det->minimum_ref_for_each3)
                                             ->pluck('users.username');
                       $s=count($sum_users);
