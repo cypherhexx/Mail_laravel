@@ -144,7 +144,7 @@ class ProfileController extends UserAdminController
 
 
         
-        return view('app.user.profile.index', compact('title','sub_title', 'base', 'method', 'mail_count', 'voucher_count', 'balance', 'referrals', 'countries', 'selecteduser', 'state_list', 'sponsor', 'referals', 'unread_count', 'unread_mail',  'left_bv', 'right_bv', 'user_package','profile_infos','country','state','sponsorId','sponsorUserName','referrals_count','user_rank_name','profile_photo','cover_photo','total_payout','notes','states','total_referalz'));
+        return view('app.user.profile.index', compact('title','sub_title', 'base', 'method', 'mail_count', 'voucher_count', 'balance', 'referrals', 'countries', 'selecteduser', 'sponsor', 'referals',  'left_bv', 'right_bv', 'user_package','profile_infos','country','state','referrals_count','user_rank_name','profile_photo','cover_photo','total_payout','notes','states','total_referalz'));
     }
 
     // public function index()

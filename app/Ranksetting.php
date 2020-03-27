@@ -101,4 +101,20 @@ class Ranksetting extends Model
     
      return SELF::getthreeupline($upline,++$level,$uplines);
    }
+
+    public static function getTreeUplinePackage($upline_users,$level=1,$uplines){
+     if ($level > 4) 
+        return $uplines;  
+   
+     $upline=Sponsortree::where('user_id',$upline_users)->where('type','=','yes')->value('sponsor'); 
+
+      if ($upline > 0)
+          $uplines[]=$upline;
+
+     if ($upline == 1) 
+       
+        return $uplines;  
+    
+     return SELF::getTreeUplinePackage($upline,++$level,$uplines);
+   }
 }

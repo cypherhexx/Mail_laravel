@@ -399,6 +399,9 @@ class RegisterController extends Controller
 
             $joiningfee = Settings::value('joinfee');
             $orderid ='Atmor-'. mt_rand();
+            if($request->payment == 'cheque' && $joiningfee > 0){ 
+                $request->payment='paypal';
+            }
 
             $register=PendingTransactions::create([
                  'order_id' =>$orderid,
@@ -800,12 +803,14 @@ public function checkStatus($trans){
   
          //commsiiom
             $sponsor_id=Sponsortree::where('user_id',$item->user_id)->value('sponsor');
-            // $user_arrs=[];
-            // $results=Ranksetting::getthreeupline($item->user_id,1,$user_arrs);
+             ProfileModel::where('user_id',$item->user_id)->update(['package' => $item->package]);
+            $user_arrs=[];
+            $results=Ranksetting::getTreeUplinePackage($item->user_id,1,$user_arrs);
+            array_push($results, $item->user_id);
           
-            // foreach ($results as $key => $value) {
-                Packages::rankCheck($item->user_id);
-            // }
+            foreach ($results as $key => $value) {
+                Packages::rankCheck($value);
+            }
             Packages::levelCommission($item->user_id,$item->amount);
             // Packages::directReferral($sponsor_id,$item->user_id,$package->amount);
             //comm
@@ -828,7 +833,6 @@ public function checkStatus($trans){
              $userpurchase['date_p']=$purchase_id->created_at;
              $userpurchase['package']=$package->package;
              PurchaseHistory::where('id','=',$purchase_id->id)->update(['datas'=>json_encode($userpurchase)]);
-             ProfileModel::where('user_id',$item->user_id)->update(['package' => $item->package]);
               $item->purchase_id=$purchase_id->id;
             $item->save();
        }

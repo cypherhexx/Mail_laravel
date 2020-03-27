@@ -20,6 +20,7 @@ use App\ProfileInfo;
 use App\Packages;
 use App\Ranksetting;
 use App\Category;
+use App\PendingTransactions;
 
 use Illuminate\Http\Request;
 use Auth;
@@ -96,9 +97,27 @@ class dashboard extends UserAdminController{
         $category=Category::where('id',$cat_id)->value('category_name');
 
         $cat_image=Category::find($cat_id)->image;
+
+            $transaction=PendingTransactions::where('user_id',Auth::user()->id)
+                                      ->where('payment_status','complete')
+                                      ->where('package',$current_pack)
+                                      ->where('payment_type','upgrade')
+                                      ->first();
+          if($transaction->payment_method <> 'paypal'){
+              $next_pay_date = date('Y-m-d', strtotime($transaction->next_payment_date));
+              $today=date('Y-m-d');
+              $date1=date_create($today);
+              $date2=date_create($next_pay_date);
+              $diff=date_diff($date1,$date2);
+              $date_diff=$diff->format("%R%a");
+              $numberdays = substr($date_diff, 1);
+            }else{
+               $date_diff='na';
+              $numberdays = 'na';
+            }
        
 
-       return view('app.user.dashboard.index', compact('count_new','new_users','title', 'users', 'balance','percentage_released','percentage_balance','sub_title','right_bv','left_bv','total_bv','total_top_up','total_rs','base','method','USER_CURRENCY','payout','weekly_users_count','monthly_users_count','yearly_users_count','total_invest','total_grants','pending_payout','pack_name','rank_name','level_percent','pac_image','category','cat_image','rank_image'));
+       return view('app.user.dashboard.index', compact('count_new','new_users','title', 'users', 'balance','percentage_released','percentage_balance','sub_title','right_bv','left_bv','total_bv','total_top_up','total_rs','base','method','USER_CURRENCY','payout','weekly_users_count','monthly_users_count','yearly_users_count','total_invest','total_grants','pending_payout','pack_name','rank_name','level_percent','pac_image','category','cat_image','rank_image','date_diff','numberdays'));
     }
 
   
@@ -135,3 +154,4 @@ class dashboard extends UserAdminController{
     }
 
 }
+

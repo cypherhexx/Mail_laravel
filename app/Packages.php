@@ -231,18 +231,22 @@ class Packages extends Model
    }
 
    public static function rankCheck($rankuser){
+    // echo "user".$rankuser."<br>";
+      $package=ProfileInfo::where('user_id',$rankuser)->value('package');
       $cur_rank=User::find($rankuser)->rank_id;
       $next_rank=$cur_rank+1;
 
       $rank_det=Ranksetting::find($next_rank);
 
-        if($rank_det <> null){
-          $user_count=User::find($rankuser)->referral_count;
+        if($rank_det <> null && $package > 1){
+          $referral_count=User::find($rankuser)->referral_count;
           $direct_ref1_users=Sponsortree::join('users','sponsortree.user_id','=','users.id')
                                   ->where('sponsortree.sponsor','=',$rankuser)
                                   ->where('sponsortree.type','=','yes')
                                   ->where('users.referral_count','>=',$rank_det->minimum_ref_for_each1)
                                   ->pluck('users.id');
+                                  // dd($direct_ref1_users);
+   
                      
           $direct_ref1=count($direct_ref1_users);
             
@@ -252,7 +256,7 @@ class Packages extends Model
             if($rank_det->minimum_direct_ref1 == 0)
               $flag_direct_ref1=1;
             else{
-              if($user_count >= $rank_det->minimum_direct_ref1)
+              if($direct_ref1 >= $rank_det->minimum_direct_ref1)
                 $flag_direct_ref1=1;
               else
                 $flag_direct_ref1=0;
@@ -338,6 +342,8 @@ class Packages extends Model
 
           
              if($flag_direct_ref1 == 1  && $flag_direct_ref3 == 1 && $flag_ref_for_each1 == 1  && $flag_ref_for_each3 == 1){
+         
+              
                Ranksetting::insertRankHistory($rankuser,$next_rank,$cur_rank,'rank_updated');
                
              }

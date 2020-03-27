@@ -205,3 +205,4 @@ class Ewallet extends UserAdminController
         return view('app.user.ewallet.mytransfer',compact('title','countries','user','sub_title','base','method','data'));
     }
 }
+
