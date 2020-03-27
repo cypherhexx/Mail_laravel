@@ -66,7 +66,7 @@ class Ewallet extends UserAdminController
         $users1 = array();
         $users2 = array();
         //echo $user_id;die();
-       $users1 = Commission::select('commission.id', 'user.username', 'fromuser.username as fromuser', 'commission.payment_type', 'commission.user_id', 'commission.payable_amount', 'commission.created_at','packages.package')
+       $users1 = Commission::select('commission.id', 'user.username', 'fromuser.username as fromuser', 'commission.payment_type', 'commission.user_id', 'commission.payable_amount','packages.package', 'commission.created_at')
          ->join('users as fromuser', 'fromuser.id', '=', 'commission.from_id')
          ->join('users as user', 'user.id', '=', 'commission.user_id')
          ->join('packages', 'packages.id', '=','commission.package')
