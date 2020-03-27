@@ -157,7 +157,7 @@
                                     <h3 class="no-margin text-semibold">{{$rank_name}}</h3>
                                  My Rank
                                  @if($rank_name != 'No rank')
-                                  <img src="{{ url('assets/uploads/'.$rank_image) }}" style="width: 80px;margin-top: -41px;float:right;">
+                                  <img src="{{ url('assets/uploads/'.$rank_image) }}" style="width: 100px;margin-top: -41px;float:right;">
                                   @endif
                                     <!-- <div class="text-mut text-size-small">My Rank</div> -->
                                 </div>
