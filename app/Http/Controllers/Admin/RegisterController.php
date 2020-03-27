@@ -370,26 +370,26 @@ class RegisterController extends AdminController
                 Activity::add("Added user $userresult->username","Added $userresult->username sponsor as $sponsorname ");
                 Activity::add("Joined as $userresult->username","Joined in system as $userresult->username sponsor as $sponsorname ",$userresult->id);
 
-                SendAllEmail::dispatch($data['firstname'],$data['lastname'],$data['username'],$data['password'],$data['email'])
-                        ->delay(Carbon::now()->addSeconds(10));
+                // SendAllEmail::dispatch($data['firstname'],$data['lastname'],$data['username'],$data['password'],$data['email'])
+                //         ->delay(Carbon::now()->addSeconds(10));
               
-                // $email = Emails::find(1);
-                // $welcome=welcomeemail::find(1);
-                // $app_settings = AppSettings::find(1);
+                $email = Emails::find(1);
+                $welcome=welcomeemail::find(1);
+                $app_settings = AppSettings::find(1);
                
-                // Mail::send('emails.register',
-                //     ['email'         => $email,
-                //         'company_name'   => $app_settings->company_name,
-                //         'logo'   => $app_settings->logo,
-                //         'firstname'      => $data['firstname'],
-                //         'name'           => $data['lastname'],
-                //         'login_username' => $data['username'],
-                //         'password'       => $data['password'],
-                //         'welcome'        => $welcome,
-                //         'transaction_pass'=>$data['transaction_pass'],
-                //     ], function ($m) use ($data, $email) {
-                //         $m->to($data['email'], $data['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
-                //     });
+                Mail::send('emails.register',
+                    ['email'         => $email,
+                        'company_name'   => $app_settings->company_name,
+                        'logo'   => $app_settings->logo,
+                        'firstname'      => $data['firstname'],
+                        'name'           => $data['lastname'],
+                        'login_username' => $data['username'],
+                        'password'       => $data['password'],
+                        'welcome'        => $welcome,
+                        'transaction_pass'=>$data['transaction_pass'],
+                    ], function ($m) use ($data, $email) {
+                        $m->to($data['email'], $data['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
+                    });
                 return redirect("admin/register/preview/" . Crypt::encrypt($userresult->id));
             }
              
