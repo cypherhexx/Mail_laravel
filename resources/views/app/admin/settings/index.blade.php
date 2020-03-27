@@ -296,10 +296,10 @@
                                 <tr>
                                      <td><img src="{{ url('assets/uploads/'.$item->image) }}" style="width:100px;height:100px;"/>
                                                 </td>   
-                                    <td>  
+                                    <td>  <a class="settings1" id="settings1{{$item->id}}" data-type='text' data-pk="{{$item->id}}" data-title="category_name" data-name="category_name">
                                   
                                               {{$item->category_name}} 
-                                                </td>    
+                                                </td>   
                                      <td>  <a class="settings1" id="settings1{{$item->id}}" data-type='text' data-pk="{{$item->id}}" data-title="count" data-name="count">
                                                 
                                               {{$item->count}}  </a> </td>            
