@@ -811,7 +811,7 @@ public function checkStatus($trans){
             foreach ($results as $key => $value) {
                 Packages::rankCheck($value);
             }
-            Packages::levelCommission($item->user_id,$item->amount);
+            Packages::levelCommission($item->user_id,$item->amount,$item->package);
             // Packages::directReferral($sponsor_id,$item->user_id,$package->amount);
             //comm
 
