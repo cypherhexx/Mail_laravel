@@ -756,7 +756,8 @@ public function checkStatus($trans){
             $item->payment_status='complete';
             $item->save();
 
-              $old_package=ProfileModel::where('user_id',$item->user_id)->value('package');
+            $old_package=ProfileModel::where('user_id',$item->user_id)->value('package');
+
              if($old_package > 1){
                $cur_pack_order=PendingTransactions::where('user_id',$item->user_id)->where('package',$old_package)->where('payment_status','complete')->first();
                if($cur_pack_order->payment_method == 'paypal'){
@@ -803,6 +804,11 @@ public function checkStatus($trans){
   
          //commsiiom
             $sponsor_id=Sponsortree::where('user_id',$item->user_id)->value('sponsor');
+            if($old_package == 1){
+                $pur_count=User::where('id',$sponsor_id)->value('purchase_count');
+                $new_pur_count=$pur_count+1;
+                User::where('id',$sponsor_id)->update(['purchase_count' => $new_pur_count]);
+             }
              ProfileModel::where('user_id',$item->user_id)->update(['package' => $item->package]);
             $user_arrs=[];
             $results=Ranksetting::getTreeUplinePackage($item->user_id,1,$user_arrs);

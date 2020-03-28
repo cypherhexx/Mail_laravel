@@ -245,6 +245,7 @@ class Packages extends Model
                                         ->where('profile_infos.package','>',1)
                                         ->where('sponsortree.sponsor','=',$rankuser)
                                         ->where('sponsortree.type','=','yes')
+                                        ->where('users.purchase_count','>=',$rank_det->minimum_ref_for_each1)
                                         ->where('users.referral_count','>=',$rank_det->minimum_ref_for_each1)
                                         ->pluck('users.id');
                                   // dd($direct_ref1_users);
@@ -300,6 +301,7 @@ class Packages extends Model
                                             ->where('sponsortree.type','=','yes')
                                             ->where('profile_infos.package','>',1)
                                             ->where('users.referral_count','>=',$rank_det->minimum_ref_for_each3)
+                                             ->where('users.purchase_count','>=',$rank_det->minimum_ref_for_each3)
                                             ->pluck('users.username');
                       $s=count($sum_users);
 
