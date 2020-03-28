@@ -11,7 +11,7 @@ class UsersTableSeeder extends Seeder {
 		$user = \App\User::create([
 			'name' 	     => 'John',
 			'lastname'   => 'Doe',
-			'username'   => 'mlmadmin',
+			'username'   => 'algolight',
 			'email'		 => 'info@cloudmlmsoftware.com',
 		    'rank_id'    => '1',
 			'password'   => bcrypt('#1MLMsoftware'),

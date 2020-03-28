@@ -1,3 +1,4 @@
+
 <?php
 
 namespace App;
@@ -23,7 +24,7 @@ class Tree_Table extends Model
 
     protected $table = 'tree_table';
 
-    protected $fillable = ['user_id', 'sponsor', 'placement_id', 'leg','type','level','count'];
+    protected $fillable = ['user_id', 'sponsor', 'placement_id', 'leg','type','level'];
 
     public static function getmaxid()
     {
@@ -39,13 +40,9 @@ class Tree_Table extends Model
     {
      
        $id =Tree_Table::where("type","=","vaccant")->whereIn('placement_id',$sponsor_id)->where('user_id','=',0)->value('placement_id');
-
-
-     
        if(!isset($id)){   
            // $sponsor_list = Tree_Table::whereIn('placement_id',$sponsor_id)->where("type","<>","vaccant")->value('user_id');
-            $sponsor_list = Tree_Table::whereIn('placement_id',$sponsor_id)->where('user_id','!=',0)->orderBy('count','ASC')->pluck('user_id');
-            // dd($sponsor_list);
+            $sponsor_list = Tree_Table::whereIn('placement_id',$sponsor_id)->where('user_id','!=',0)->pluck('user_id');
        return self::gettreePlacementId($sponsor_list);
            
       }
@@ -57,7 +54,6 @@ class Tree_Table extends Model
     {
 
         $data = self::where('placement_id', $placement_id)->where("type", "=", "vaccant")->value('id');
-        // dd($data);
 
         return $data;
 
@@ -216,9 +212,9 @@ class Tree_Table extends Model
                             <li>
                                 <span class='key'>Track</span> : <span class='value'>$package_name</span>
                             </li>   
-                            <li class='topupcount'>
+                           <!-- <li class='topupcount'>
                             <span class='key'>Top Ups</span> : <span class='value'>".PurchaseHistory::where('user_id', '=', $value->user_id)->sum('count')."</span>
-                          </li>
+                          </li>-->
                         </ul>
                     </div>
                 </div>
@@ -414,6 +410,26 @@ class Tree_Table extends Model
         return true;
 
     }
+    //to get uplines including admin
+       public static function getAllUplines($user_id)
+    {   
+        $result = SELF::join('profile_infos', 'profile_infos.user_id', '=', 'tree_table.placement_id')
+            ->where('tree_table.user_id', $user_id)
+            ->select('tree_table.leg', 'tree_table.placement_id', 'tree_table.type', 'profile_infos.package')
+            ->get();       
+        foreach ($result as $key => $value) {
+            if ($value->type != 'vaccant') {
+                SELF::$upline_users[]   = ['user_id' => $value->placement_id, 'leg' => $value->leg, 'package' => $value->package];
+                SELF::$upline_id_list[] = $value->placement_id;
+            }
+
+            if ($value->placement_id >= 1) {
+                SELF::getAllUplines($value->placement_id);
+            }
+        }
+        return true;
+
+    }
     public static function getUplineCount($user_id,$level)
     {   
         $result = SELF::where('user_id', $user_id)
@@ -534,3 +550,4 @@ class Tree_Table extends Model
         }
     }
 }
+

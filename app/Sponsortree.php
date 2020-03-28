@@ -205,8 +205,7 @@ class Sponsortree extends Model
                             <li>
                                 <span class='key'>Track</span> : <span class='value'>$package_name</span>
                             </li>  
-                            
-                            
+
                         </ul>
                                             </div>
                                         </div>
