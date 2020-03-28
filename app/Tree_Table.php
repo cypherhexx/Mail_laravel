@@ -23,7 +23,7 @@ class Tree_Table extends Model
 
     protected $table = 'tree_table';
 
-    protected $fillable = ['user_id', 'sponsor', 'placement_id', 'leg','type','level'];
+    protected $fillable = ['user_id', 'sponsor', 'placement_id', 'leg','type','level','count'];
 
     public static function getmaxid()
     {
@@ -39,9 +39,13 @@ class Tree_Table extends Model
     {
      
        $id =Tree_Table::where("type","=","vaccant")->whereIn('placement_id',$sponsor_id)->where('user_id','=',0)->value('placement_id');
+
+
+     
        if(!isset($id)){   
            // $sponsor_list = Tree_Table::whereIn('placement_id',$sponsor_id)->where("type","<>","vaccant")->value('user_id');
-            $sponsor_list = Tree_Table::whereIn('placement_id',$sponsor_id)->where('user_id','!=',0)->pluck('user_id');
+            $sponsor_list = Tree_Table::whereIn('placement_id',$sponsor_id)->where('user_id','!=',0)->orderBy('count','ASC')->pluck('user_id');
+            // dd($sponsor_list);
        return self::gettreePlacementId($sponsor_list);
            
       }
@@ -53,6 +57,7 @@ class Tree_Table extends Model
     {
 
         $data = self::where('placement_id', $placement_id)->where("type", "=", "vaccant")->value('id');
+        // dd($data);
 
         return $data;
 

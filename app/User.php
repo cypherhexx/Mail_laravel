@@ -597,37 +597,21 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             $uservaccant = Sponsortree::createVaccant($userresult->id, 0);
             self::where('id',$sponsor_id)->increment('referral_count',1);
 
-            // $user_arrs=[];
-            // $results=Ranksetting::getthreeupline($userresult->id,1,$user_arrs);
-          
-            // foreach ($results as $key => $value) {
-            //     Packages::rankCheck($value);
-            // }
-
-
-
-            /**
-             * returns placement id, to where user to be added,
-             * if placement id didnt do well, returns sponsor id and will be placed under sponsor
-             * @var [userid]
-             */
+            // //treeee
 
             // $placement_id = Tree_Table::gettreePlacementId([$placement_id]); 
-          
             // $tree_id = Tree_Table::vaccantId($placement_id);
-           
-
             // $tree          = Tree_Table::find($tree_id);
             // $tree->user_id = $userresult->id;
             // $tree->sponsor = $sponsor_id;
             // $tree->type    = 'yes';
             // $tree->save(); 
+            // Tree_Table::where('user_id',$tree->placement_id)->increment('count',1);
             // $count=Tree_Table::where('user_id','=',$placement_id)->value('level');
             // Tree_Table::where('id',$tree_id)->update(['level'=>$count+1]);
+            // Tree_Table::createVaccant($tree->user_id);
 
-
-            // Tree_Table::getAllUpline($userresult->id);
-
+            // //treee end
            
             
             $user_arrs=[];
