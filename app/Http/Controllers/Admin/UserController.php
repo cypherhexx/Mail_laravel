@@ -1412,6 +1412,7 @@ else
                 User::where('id',$sponsor_id)->update(['purchase_count' => $new_pur_count]);
              }
             ProfileModel::where('user_id',$transaction->user_id)->update(['package' => $transaction->package]);
+             User::where('id',$transaction->user_id)->update(['active_purchase' => 'yes']);
             $user_arrs=[];
             $results=Ranksetting::getTreeUplinePackage($transaction->user_id,1,$user_arrs);
             array_push($results, $transaction->user_id);

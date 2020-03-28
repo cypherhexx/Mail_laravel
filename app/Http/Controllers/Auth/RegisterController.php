@@ -810,6 +810,7 @@ public function checkStatus($trans){
                 User::where('id',$sponsor_id)->update(['purchase_count' => $new_pur_count]);
              }
              ProfileModel::where('user_id',$item->user_id)->update(['package' => $item->package]);
+             User::where('id',$item->user_id)->update(['active_purchase' => 'yes']);
             $user_arrs=[];
             $results=Ranksetting::getTreeUplinePackage($item->user_id,1,$user_arrs);
             array_push($results, $item->user_id);
