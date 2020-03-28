@@ -30,6 +30,7 @@ class CreateUsersTable extends Migration
             $table->string('verified')->default('no');
              $table->string('verification_number')->nullable();
             $table->integer('referral_count')->default(0);
+            $table->integer('purchase_count')->default(0);
             $table->string('confirmation_code')->default(false);
             $table->boolean('confirmed')->default(false);
             $table->boolean('admin')->default(false);

@@ -1,3 +1,4 @@
+
 <?php
 
 namespace App;
@@ -549,3 +550,4 @@ class Tree_Table extends Model
         }
     }
 }
+

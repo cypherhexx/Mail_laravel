@@ -1406,6 +1406,11 @@ else
         
          //commsiiom
             $sponsor_id=Sponsortree::where('user_id',$transaction->user_id)->value('sponsor');
+             if($old_package == 1){
+                $pur_count=User::where('id',$sponsor_id)->value('purchase_count');
+                $new_pur_count=$pur_count+1;
+                User::where('id',$sponsor_id)->update(['purchase_count' => $new_pur_count]);
+             }
             ProfileModel::where('user_id',$transaction->user_id)->update(['package' => $transaction->package]);
             $user_arrs=[];
             $results=Ranksetting::getTreeUplinePackage($transaction->user_id,1,$user_arrs);
