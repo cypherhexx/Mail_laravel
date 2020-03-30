@@ -1422,6 +1422,7 @@ else
             }
             Packages::levelCommission($transaction->user_id,$package->amount,$transaction->package);
             Packages::directReferral($sponsor_id,$transaction->user_id,$transaction->package);
+             $category_update=User::categoryUpdate($sponsor_id);
 
             //comm
 

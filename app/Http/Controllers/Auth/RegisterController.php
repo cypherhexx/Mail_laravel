@@ -863,6 +863,7 @@ public function checkStatus($trans){
                 Packages::rankCheck($value);
             }
             Packages::levelCommission($item->user_id,$item->amount,$item->package);
+             $category_update=User::categoryUpdate($sponsor_id);
             // Packages::directReferral($sponsor_id,$item->user_id,$package->amount);
             //comm
 

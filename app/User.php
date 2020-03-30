@@ -336,25 +336,25 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             ->get();
 
     }
-    public static function categoryUpdate($sponsor_id)
-    {
-     
-      $sponsor_count=Sponsortree::where('sponsor',$sponsor_id)->where('type','=','yes')->count();
-       
+    public static function categoryUpdate($sponsor_id){
 
-      $cat1=Category::where('id','=',2)->value('count');
-      $cat2=Category::where('id','=',3)->value('count');
+      $sponsor_package=ProfileModel::where('user_id',$sponsor_id)->value('package');
+      $sponsor_category=User::where('id',$sponsor_id)->value('category_id');
+      $next_cat=$sponsor_category+1;
+      $cat_det=Category::find($next_cat);
+        if($cat_det <> null && $sponsor_package > 1){
 
-      
+          $sponsor_count=Sponsortree::join('profile_infos','profile_infos.user_id','=','sponsortree.user_id')
+                                    ->where('sponsortree.sponsor',$sponsor_id)
+                                    ->where('sponsortree.type','=','yes')
+                                    ->count();
+            if($sponsor_count >= $cat_det->count){
+              
+               User::where('id',$sponsor_id)->update(['category_id'=>$cat_det->id]);
+            }
+        }
      
-      if($sponsor_count == $cat1)
-      {
-        User::where('id',$sponsor_id)->update(['category_id'=>2]);
-      }
-      if($sponsor_count == $cat2)
-      {
-        User::where('id',$sponsor_id)->update(['category_id'=>3]); 
-      }
+
     }
 
     public static function hoverCard($user_id)
@@ -600,9 +600,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             self::where('id',$sponsor_id)->update(['referral_count' => $sp_count]);
            
 
-            // //treeee
+            //treeee
 
             // $placement_id = Tree_Table::gettreePlacementId([$placement_id]); 
+            // dd($placement_id);
             // $tree_id = Tree_Table::vaccantId($placement_id);
             // $tree          = Tree_Table::find($tree_id);
             // $tree->user_id = $userresult->id;
@@ -614,7 +615,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             // Tree_Table::where('id',$tree_id)->update(['level'=>$count+1]);
             // Tree_Table::createVaccant($tree->user_id);
 
-            // //treee end
+            //treee end
            
             
             $user_arrs=[];
