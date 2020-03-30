@@ -167,9 +167,14 @@ class RegisterController extends Controller
         }
         $user_id=User::where('username',$sponsor_name)->value('id');
         $spon_pack=ProfileModel::where('user_id',$user_id)->value('package');
-        if($spon_pack == 1){
-            return redirect("/")->withErrors(['The username not exist']);
+
+        
+        if($spon_pack == 1 && $user_id > 1 ){
+             Session::flash('flash_notification', array('level' => 'danger', 'message' =>'Ooopzz...!! Sory, Please purchase any package to proceed with registration'));
+                return redirect()->route('login');
         }
+
+        
 
 
 

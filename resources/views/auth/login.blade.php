@@ -28,7 +28,9 @@ $lockedflag = true;
     $redirectFlag = true;
 @endphp
 @endif
+@include('flash::message')
 
+      @include('utils.errors.list')
 <style type="text/css">
 
 
