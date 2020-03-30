@@ -616,6 +616,11 @@ class RegisterController extends Controller
             $email=User::where('email',$item->email)->value('id');
               if($username == null && $email == null){
                 $userresult = User::add($details,$item->sponsor,$item->sponsor);
+                $sponsorname = $details['sponsor'];
+                $legname = $details['leg'] == "L" ? "Left" : "right";            
+                
+                Activity::add("Added user $userresult->username","Added $userresult->username sponsor as $sponsorname ");
+                Activity::add("Joined as $userresult->username","Joined in system as $userresult->username sponsor as $sponsorname ",$userresult->id);
                 $email = Emails::find(1);
                 $welcome=welcomeemail::find(1);
                 $app_settings = AppSettings::find(1);
@@ -758,6 +763,11 @@ public function checkStatus($trans){
                  $userresult = User::add($details,$item->sponsor,$item->sponsor);
                  $item->payment_status ='complete';
                  $item->save();
+                 $sponsorname = $details['sponsor'];
+                 $legname = $details['leg'] == "L" ? "Left" : "right";            
+                
+                 Activity::add("Added user $userresult->username","Added $userresult->username sponsor as $sponsorname ");
+                 Activity::add("Joined as $userresult->username","Joined in system as $userresult->username sponsor as $sponsorname ",$userresult->id);
                  $email = Emails::find(1);
                  $welcome=welcomeemail::find(1);
                  $app_settings = AppSettings::find(1);
