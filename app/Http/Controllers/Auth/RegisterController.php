@@ -165,7 +165,11 @@ class RegisterController extends Controller
             $sponsor_name = User::find(1)->username;
 
         }
-
+        $user_id=User::where('username',$sponsor_name)->value('id');
+        $spon_pack=ProfileModel::where('user_id',$user_id)->value('package');
+        if($spon_pack == 1){
+            return redirect("/")->withErrors(['The username not exist']);
+        }
 
 
 
