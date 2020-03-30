@@ -25,8 +25,6 @@ class ProfileInfoSeeder extends Seeder
         'address2' => 'Room No.45 23th floor, NewEvelyn, New York',
         'zip'      => '452233',
         'location' => '',
-        'package'  => 2,
-
        	]);
     }
 }
