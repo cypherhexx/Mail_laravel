@@ -169,7 +169,8 @@ class ReportController extends UserAdminController
             ->where('commission.payment_status','=','yes')             
             ->join('users','users.id','=','commission.user_id')
             ->join('users as from','from.id','=','commission.from_id')
-            ->select('users.username','users.lastname','users.name','commission.created_at','commission.payable_amount' ,'commission.payment_type','from.username as fromuser')->orderby('created_at','ASC');
+             ->join('packages','packages.id','=','commission.package')
+            ->select('users.username','users.lastname','users.name','commission.created_at','commission.payable_amount' ,'commission.payment_type','from.username as fromuser','packages.package')->orderby('created_at','ASC');
 
           
             $reportdata= $reportdata->get();
