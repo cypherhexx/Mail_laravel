@@ -46,7 +46,7 @@ $lockedflag = true;
 }
 
 .bg{
-      background-image:url('http://cloud2162.cloudmlmdemo.com/img/cache/original/login-bg.jpg');
+      background-image:url('img/cache/original/login-bg1.jpg');
         background-repeat: no-repeat;
         background-size:cover;
         width: 100%;
@@ -102,15 +102,13 @@ $lockedflag = true;
 </style>
 
 
-
-
 <!-- Simple login form -->
 <form class="form-horizontal" method="POST" action="{{ route('login') }}">
 
-<div class="col-md-5">
-<a href="https://algolight.net/"><img src="img/cache/original/alg-logo.png" width="40%" height="auto"></a>
-<!--<a href="http://vintagehut.in/wordpress-demo/cloud-2162/home/"><img src="{{url('img/cache/logo/alg-logo-004.png')}}"></a>-->
-</div>
+<!--<div class="col-md-5">
+<a href="https://algolight.net/"><img src="img/cache/original/algo-logo.png" width="40%" height="auto"></a>
+<a href="http://vintagehut.in/wordpress-demo/cloud-2162/home/"><img src="{{url('img/cache/logo/alg-logo-004.png')}}"></a>
+</div>-->
     {{ csrf_field() }}
     <div class="col-md-12">
     <div class="ellipse">

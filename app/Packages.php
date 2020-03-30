@@ -536,15 +536,17 @@ public static function Levelcount($user_id,$level)
         // dd($sponsor_id);
 
         $placement_id = Tree_Table::gettreePlacementId([$sponsor_id]); 
-        $tree_id = Tree_Table::vaccantId($placement_id);
-        $tree          = Tree_Table::find($tree_id);
+
+        dd($placement_id);
+        // $tree_id = Tree_Table::vaccantId($placement_id);
+        $tree          = Tree_Table::find($placement_id);
         $tree->user_id = $user_id;
         $tree->sponsor = $sponsor_id;
         $tree->type    = 'yes';
         $tree->save(); 
-        $count=Tree_Table::where('user_id','=',$placement_id)->value('level');
-        Tree_Table::where('id',$tree_id)->update(['level'=>$count+1]);
-        Tree_Table::createVaccant($tree->user_id);
+        // $count=Tree_Table::where('user_id','=',$tree->placement_id)->value('level');
+        Tree_Table::where('id',$tree->placement_id)->increment('level');
+        Tree_Table::createVaccant($tree->user_id,$tree->leg);
 
 
         Tree_Table::$upline_users = [];
