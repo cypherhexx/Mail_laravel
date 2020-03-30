@@ -643,6 +643,11 @@ class RegisterController extends AdminController
             $placement_id =  User::checkUserAvailable($details['placement_user']);
               if($username == null && $email == null){
                 $userresult = User::add($details,$sponsor_id,$placement_id);
+                $sponsorname = $details['sponsor'];
+                $legname = $details['leg'] == "L" ? "Left" : "right";            
+                
+                Activity::add("Added user $userresult->username","Added $userresult->username sponsor as $sponsorname ");
+                Activity::add("Joined as $userresult->username","Joined in system as $userresult->username sponsor as $sponsorname ",$userresult->id);
                 $email = Emails::find(1);
                 $welcome=welcomeemail::find(1);
                 $app_settings = AppSettings::find(1);
