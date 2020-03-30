@@ -183,6 +183,8 @@ class Sponsortree extends Model
 
                         $coverPhoto = '' . Html::image(route('imagecache', ['template' => 'large', 'filename' => self::coverPhoto($username)]), $username, array('class'=>$class.' tree-user','style' => '','data-accessid'=>$accessid)) . '';
 
+                         $count=User::where('id',$value->user_id)->value('dowlinecount'); 
+
                 
 
                         $info    = "<div class='hoverouter'>
@@ -201,7 +203,10 @@ class Sponsortree extends Model
                                                 <ul class='secondaryinfo'>
                             <li class='rankname'>
                                 <span class='key'>Rank</span> :  <span class='value'>$rank_nm</span>
-                            </li class='packagename'>                            
+                            </li class='packagename'>    
+                              <li class='rankname'>
+                                <span class='key'>Total Count</span> :  <span class='value'>$count</span>
+                            </li class='packagename'>                         
                             <li>
                                 <span class='key'>Track</span> : <span class='value'>$package_name</span>
                             </li>  
