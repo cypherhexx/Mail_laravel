@@ -616,6 +616,23 @@ class RegisterController extends Controller
             $email=User::where('email',$item->email)->value('id');
               if($username == null && $email == null){
                 $userresult = User::add($details,$item->sponsor,$item->sponsor);
+                $email = Emails::find(1);
+                $welcome=welcomeemail::find(1);
+                $app_settings = AppSettings::find(1);
+               
+                Mail::send('emails.register',
+                    ['email'         => $email,
+                        'company_name'   => $app_settings->company_name,
+                        'logo'   => $app_settings->logo,
+                        'firstname'      => $details['firstname'],
+                        'name'           => $details['lastname'],
+                        'login_username' => $details['username'],
+                        'password'       => $details['password'],
+                        'welcome'        => $welcome,
+                        'transaction_pass'=>$details['transaction_pass'],
+                    ], function ($m) use ($details, $email) {
+                        $m->to($details['email'], $details['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
+                    });
                  return redirect("register/preview/" . Crypt::encrypt($userresult->id));
               }
               else{
@@ -741,6 +758,23 @@ public function checkStatus($trans){
                  $userresult = User::add($details,$item->sponsor,$item->sponsor);
                  $item->payment_status ='complete';
                  $item->save();
+                 $email = Emails::find(1);
+                 $welcome=welcomeemail::find(1);
+                 $app_settings = AppSettings::find(1);
+               
+                Mail::send('emails.register',
+                    ['email'         => $email,
+                        'company_name'   => $app_settings->company_name,
+                        'logo'   => $app_settings->logo,
+                        'firstname'      => $details['firstname'],
+                        'name'           => $details['lastname'],
+                        'login_username' => $details['username'],
+                        'password'       => $details['password'],
+                        'welcome'        => $welcome,
+                        'transaction_pass'=>$details['transaction_pass'],
+                    ], function ($m) use ($details, $email) {
+                        $m->to($details['email'], $details['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
+                    });
               }
          }
 

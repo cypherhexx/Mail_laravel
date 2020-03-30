@@ -80,6 +80,7 @@ Cheerfully yours, <br>
                         <b style="color:#000; font-size:16px;">Username : {{$login_username}} </b><br>
 
                         <b style="color:#000; font-size:16px;">Your password : {{$password}} </b><br>
+                         <b style="color:#000; font-size:16px;">Your Transaction Password : {{$transaction_pass}} </b><br>
 
                        
 
