@@ -19,14 +19,14 @@ class CategoryTableSeeder extends Seeder
         ]);
         \App\Category::create([
             'category_name'          => "Star",
-            'count'                  => 1,
-            'percentage'             => 5,
+            'count'                  => 5,
+            'percentage'             => 1,
             
         ]);
          \App\Category::create([
             'category_name'          => "Superstar",
-            'count'                  => 2,
-            'percentage'             => 10,
+            'count'                  => 10,
+            'percentage'             => 2,
             
         ]);
     }
