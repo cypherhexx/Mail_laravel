@@ -241,10 +241,13 @@ class Packages extends Model
         if($rank_det <> null && $package > 1){
           $referral_count=User::find($rankuser)->referral_count;
           $direct_ref1_users=Sponsortree::join('users','sponsortree.user_id','=','users.id')
-                                  ->where('sponsortree.sponsor','=',$rankuser)
-                                  ->where('sponsortree.type','=','yes')
-                                  ->where('users.referral_count','>=',$rank_det->minimum_ref_for_each1)
-                                  ->pluck('users.id');
+                                        ->join('profile_infos','profile_infos.user_id','=','users.id')
+                                        ->where('profile_infos.package','>',1)
+                                        ->where('sponsortree.sponsor','=',$rankuser)
+                                        ->where('sponsortree.type','=','yes')
+                                        ->where('users.purchase_count','>=',$rank_det->minimum_ref_for_each1)
+                                        ->where('users.referral_count','>=',$rank_det->minimum_ref_for_each1)
+                                        ->pluck('users.id');
                                   // dd($direct_ref1_users);
    
                      
@@ -293,11 +296,14 @@ class Packages extends Model
                       $ref_count=User::find($suser)->referral_count;
                       
                       $sum_users=Sponsortree::join('users','sponsortree.user_id','=','users.id')
-                                  ->where('sponsortree.sponsor','=',$suser)
-                                  ->where('sponsortree.type','=','yes')
-                                  ->where('users.referral_count','>=',$rank_det->minimum_ref_for_each3)
-                                  ->pluck('username');
-                                  $s=count($sum_users);
+                                            ->join('profile_infos','profile_infos.user_id','=','users.id')
+                                            ->where('sponsortree.sponsor','=',$suser)
+                                            ->where('sponsortree.type','=','yes')
+                                            ->where('profile_infos.package','>',1)
+                                            ->where('users.referral_count','>=',$rank_det->minimum_ref_for_each3)
+                                             ->where('users.purchase_count','>=',$rank_det->minimum_ref_for_each3)
+                                            ->pluck('users.username');
+                      $s=count($sum_users);
 
                                  // dd($sum_users);
                                   

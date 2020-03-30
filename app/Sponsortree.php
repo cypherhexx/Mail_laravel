@@ -205,10 +205,7 @@ class Sponsortree extends Model
                             <li>
                                 <span class='key'>Track</span> : <span class='value'>$package_name</span>
                             </li>  
-                            
-                             <li class='topupcount'>
-                                                        <span class='key'>Top Ups</span> : <span class='value'>".PurchaseHistory::where('user_id', '=', $value->user_id)->sum('count')."</span>
-                                                    </li> 
+
                         </ul>
                                             </div>
                                         </div>

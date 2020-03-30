@@ -519,9 +519,9 @@ class productController extends UserAdminController
 
             //cancelexisting
             $item = PendingTransactions::find($id);
-            $package=ProfileModel::where('user_id',$item->user_id)->value('package');
-             if($package > 1){
-               $cur_pack_order=PendingTransactions::where('user_id',$item->user_id)->where('package',$package)->where('payment_status','complete')->first();
+            $old_package=ProfileModel::where('user_id',$item->user_id)->value('package');
+             if($old_package > 1){
+               $cur_pack_order=PendingTransactions::where('user_id',$item->user_id)->where('package',$old_package)->where('payment_status','complete')->first();
                if($cur_pack_order->payment_method == 'paypal'){
                 $agreementId = $cur_pack_order->paypal_agreement_id;                 
                 $agreement = new Agreement();  
@@ -582,7 +582,13 @@ class productController extends UserAdminController
              // $sponsor_id =User::where('id',Auth::user()->id)->value('sponsor') ;
              // dd($sponsor_id);
             $sponsor_id=Sponsortree::where('user_id',$item->user_id)->value('sponsor');
-             ProfileModel::where('user_id',$item->user_id)->update(['package' => $item->package]);
+             if($old_package == 1){
+                $pur_count=User::where('id',$sponsor_id)->value('purchase_count');
+                $new_pur_count=$pur_count+1;
+                User::where('id',$sponsor_id)->update(['purchase_count' => $new_pur_count]);
+             }
+            ProfileModel::where('user_id',$item->user_id)->update(['package' => $item->package]);
+             User::where('id',$item->user_id)->update(['active_purchase' => 'yes']);
             $user_arrs=[];
             $results=Ranksetting::getTreeUplinePackage($item->user_id,1,$user_arrs);
             array_push($results, $item->user_id);
@@ -591,6 +597,7 @@ class productController extends UserAdminController
             }
 
             Packages::levelCommission($item->user_id,$package->amount,$item->package);
+             $category_update=User::categoryUpdate($sponsor_id);
             // Packages::directReferral($sponsor_id,$item->user_id,$item->package);
             //comm
 

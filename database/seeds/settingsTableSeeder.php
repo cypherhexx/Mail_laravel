@@ -19,7 +19,7 @@ class settingsTableSeeder extends Seeder
             'service_charge'   => '0',
             'sponsor_Commisions'   => '60',
             'sponsor'=>'90',
-            'joinfee' => '20',
+            'joinfee' => '0',
             'direct_referral' =>'25',
             'three_friends' => '1',
             'eight_friends' => '1',

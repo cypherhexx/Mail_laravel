@@ -42,7 +42,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @var array
      */
-    protected $fillable = ['user_id','email', 'password','username','sponsor','rank_id','register_by','name','lastname','transaction_pass','created_at','admin','referral_count','document','verified','verification_number','sponsor'];
+    protected $fillable = ['user_id','email', 'password','username','sponsor','rank_id','register_by','name','lastname','transaction_pass','created_at','admin','referral_count','document','verified','verification_number','sponsor','purchase_count'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -51,10 +51,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     protected $hidden = ['password', 'remember_token'];
 
-	public function articles()
-	{
-		return $this->hasMany('App\Article');
-	}
+  public function articles()
+  {
+    return $this->hasMany('App\Article');
+  }
 
    //By Aslam
     public static function isOnline($id)
@@ -336,25 +336,25 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             ->get();
 
     }
-    public static function categoryUpdate($sponsor_id)
-    {
-     
-      $sponsor_count=Sponsortree::where('sponsor',$sponsor_id)->where('type','=','yes')->count();
-       
+    public static function categoryUpdate($sponsor_id){
 
-      $cat1=Category::where('id','=',2)->value('count');
-      $cat2=Category::where('id','=',3)->value('count');
+      $sponsor_package=ProfileModel::where('user_id',$sponsor_id)->value('package');
+      $sponsor_category=User::where('id',$sponsor_id)->value('category_id');
+      $next_cat=$sponsor_category+1;
+      $cat_det=Category::find($next_cat);
+        if($cat_det <> null && $sponsor_package > 1){
 
-      
+          $sponsor_count=Sponsortree::join('profile_infos','profile_infos.user_id','=','sponsortree.user_id')
+                                    ->where('sponsortree.sponsor',$sponsor_id)
+                                    ->where('sponsortree.type','=','yes')
+                                    ->count();
+            if($sponsor_count >= $cat_det->count){
+              
+               User::where('id',$sponsor_id)->update(['category_id'=>$cat_det->id]);
+            }
+        }
      
-      if($sponsor_count == $cat1)
-      {
-        User::where('id',$sponsor_id)->update(['category_id'=>2]);
-      }
-      if($sponsor_count == $cat2)
-      {
-        User::where('id',$sponsor_id)->update(['category_id'=>3]); 
-      }
+
     }
 
     public static function hoverCard($user_id)
@@ -595,39 +595,27 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
              * @var [collection]
              */
             $uservaccant = Sponsortree::createVaccant($userresult->id, 0);
-            self::where('id',$sponsor_id)->increment('referral_count',1);
-
-            // $user_arrs=[];
-            // $results=Ranksetting::getthreeupline($userresult->id,1,$user_arrs);
-          
-            // foreach ($results as $key => $value) {
-            //     Packages::rankCheck($value);
-            // }
-
-
-
-            /**
-             * returns placement id, to where user to be added,
-             * if placement id didnt do well, returns sponsor id and will be placed under sponsor
-             * @var [userid]
-             */
-
-            // $placement_id = Tree_Table::gettreePlacementId([$placement_id]); 
-          
-            // $tree_id = Tree_Table::vaccantId($placement_id);
+            $sponsor_ref=self::where('id',$sponsor_id)->value('referral_count');
+            $sp_count=$sponsor_ref+1;
+            self::where('id',$sponsor_id)->update(['referral_count' => $sp_count]);
            
 
+            //treeee
+
+            // $placement_id = Tree_Table::gettreePlacementId([$placement_id]); 
+            // dd($placement_id);
+            // $tree_id = Tree_Table::vaccantId($placement_id);
             // $tree          = Tree_Table::find($tree_id);
             // $tree->user_id = $userresult->id;
             // $tree->sponsor = $sponsor_id;
             // $tree->type    = 'yes';
             // $tree->save(); 
+            // Tree_Table::where('user_id',$tree->placement_id)->increment('count',1);
             // $count=Tree_Table::where('user_id','=',$placement_id)->value('level');
             // Tree_Table::where('id',$tree_id)->update(['level'=>$count+1]);
+            // Tree_Table::createVaccant($tree->user_id);
 
-
-            // Tree_Table::getAllUpline($userresult->id);
-
+            //treee end
            
             
             $user_arrs=[];

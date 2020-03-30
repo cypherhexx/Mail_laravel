@@ -616,6 +616,28 @@ class RegisterController extends Controller
             $email=User::where('email',$item->email)->value('id');
               if($username == null && $email == null){
                 $userresult = User::add($details,$item->sponsor,$item->sponsor);
+                $sponsorname = $details['sponsor'];
+                $legname = $details['leg'] == "L" ? "Left" : "right";            
+                
+                Activity::add("Added user $userresult->username","Added $userresult->username sponsor as $sponsorname ");
+                Activity::add("Joined as $userresult->username","Joined in system as $userresult->username sponsor as $sponsorname ",$userresult->id);
+                $email = Emails::find(1);
+                $welcome=welcomeemail::find(1);
+                $app_settings = AppSettings::find(1);
+               
+                Mail::send('emails.register',
+                    ['email'         => $email,
+                        'company_name'   => $app_settings->company_name,
+                        'logo'   => $app_settings->logo,
+                        'firstname'      => $details['firstname'],
+                        'name'           => $details['lastname'],
+                        'login_username' => $details['username'],
+                        'password'       => $details['password'],
+                        'welcome'        => $welcome,
+                        'transaction_pass'=>$details['transaction_pass'],
+                    ], function ($m) use ($details, $email) {
+                        $m->to($details['email'], $details['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
+                    });
                  return redirect("register/preview/" . Crypt::encrypt($userresult->id));
               }
               else{
@@ -741,6 +763,28 @@ public function checkStatus($trans){
                  $userresult = User::add($details,$item->sponsor,$item->sponsor);
                  $item->payment_status ='complete';
                  $item->save();
+                 $sponsorname = $details['sponsor'];
+                 $legname = $details['leg'] == "L" ? "Left" : "right";            
+                
+                 Activity::add("Added user $userresult->username","Added $userresult->username sponsor as $sponsorname ");
+                 Activity::add("Joined as $userresult->username","Joined in system as $userresult->username sponsor as $sponsorname ",$userresult->id);
+                 $email = Emails::find(1);
+                 $welcome=welcomeemail::find(1);
+                 $app_settings = AppSettings::find(1);
+               
+                Mail::send('emails.register',
+                    ['email'         => $email,
+                        'company_name'   => $app_settings->company_name,
+                        'logo'   => $app_settings->logo,
+                        'firstname'      => $details['firstname'],
+                        'name'           => $details['lastname'],
+                        'login_username' => $details['username'],
+                        'password'       => $details['password'],
+                        'welcome'        => $welcome,
+                        'transaction_pass'=>$details['transaction_pass'],
+                    ], function ($m) use ($details, $email) {
+                        $m->to($details['email'], $details['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
+                    });
               }
          }
 
@@ -756,7 +800,8 @@ public function checkStatus($trans){
             $item->payment_status='complete';
             $item->save();
 
-              $old_package=ProfileModel::where('user_id',$item->user_id)->value('package');
+            $old_package=ProfileModel::where('user_id',$item->user_id)->value('package');
+
              if($old_package > 1){
                $cur_pack_order=PendingTransactions::where('user_id',$item->user_id)->where('package',$old_package)->where('payment_status','complete')->first();
                if($cur_pack_order->payment_method == 'paypal'){
@@ -803,7 +848,13 @@ public function checkStatus($trans){
   
          //commsiiom
             $sponsor_id=Sponsortree::where('user_id',$item->user_id)->value('sponsor');
+            if($old_package == 1){
+                $pur_count=User::where('id',$sponsor_id)->value('purchase_count');
+                $new_pur_count=$pur_count+1;
+                User::where('id',$sponsor_id)->update(['purchase_count' => $new_pur_count]);
+             }
              ProfileModel::where('user_id',$item->user_id)->update(['package' => $item->package]);
+             User::where('id',$item->user_id)->update(['active_purchase' => 'yes']);
             $user_arrs=[];
             $results=Ranksetting::getTreeUplinePackage($item->user_id,1,$user_arrs);
             array_push($results, $item->user_id);
@@ -812,6 +863,7 @@ public function checkStatus($trans){
                 Packages::rankCheck($value);
             }
             Packages::levelCommission($item->user_id,$item->amount,$item->package);
+             $category_update=User::categoryUpdate($sponsor_id);
             // Packages::directReferral($sponsor_id,$item->user_id,$package->amount);
             //comm
 

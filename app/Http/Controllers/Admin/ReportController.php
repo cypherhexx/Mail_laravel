@@ -207,7 +207,7 @@ class ReportController extends AdminController
         $reportdata = Commission::where('commission.created_at', '>', date('Y-m-d 00:00:00', strtotime($request->start)))->where('commission.created_at', '<', date('Y-m-d 23:59:59', strtotime($request->end)))
             ->join('users', 'users.id', '=', 'commission.user_id')
             ->join('profile_infos', 'profile_infos.user_id', '=', 'commission.user_id')
-            ->join('packages', 'packages.id', '=', 'profile_infos.package')
+            ->join('packages', 'packages.id', '=', 'commission.package')
             ->select('users.username', 'packages.package as position', 'users.lastname', 'users.name', 'commission.created_at', 'commission.total_amount', 'commission.payment_type')
             ->where(function ($query) use ($request, $user_id) {
                 if ($request->bonus_type != 'all') {

@@ -38,6 +38,8 @@
                         <th>{{trans('report.username')}}</th>
                         <th>{{trans('report.fullname')}}</th>                        
                         <th>{{trans('report.amount_type')}}</th>
+                        <th>Purchase
+                        </th>
                         <th>{{trans('report.credit')}} ({{$currency_sy}})  </th>
                         <th>{{trans('report.created')}}</th>                        
                     </tr>
@@ -51,7 +53,8 @@
 	            		<td>{{$key +1 }}</td>	                   
                         <td>{{$report->username}}</td>
                         <td>{{$report->name}} {{$report->lastname}}</td>                      
-                        <td>@if($report->payment_type != 'released')  {{  str_replace('_', ' ', $report->payment_type)}} @else  Payout Released  @endif</td>                        
+                        <td>@if($report->payment_type != 'released')  {{  str_replace('_', ' ', $report->payment_type)}} @else  Payout Released  @endif</td>     
+                        <td>{{$report->package}}                   
                        
 
 

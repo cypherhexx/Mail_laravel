@@ -211,9 +211,9 @@ class Tree_Table extends Model
                             <li>
                                 <span class='key'>Track</span> : <span class='value'>$package_name</span>
                             </li>   
-                            <li class='topupcount'>
+                           <!-- <li class='topupcount'>
                             <span class='key'>Top Ups</span> : <span class='value'>".PurchaseHistory::where('user_id', '=', $value->user_id)->sum('count')."</span>
-                          </li>
+                          </li>-->
                         </ul>
                     </div>
                 </div>
@@ -409,6 +409,26 @@ class Tree_Table extends Model
         return true;
 
     }
+    //to get uplines including admin
+       public static function getAllUplines($user_id)
+    {   
+        $result = SELF::join('profile_infos', 'profile_infos.user_id', '=', 'tree_table.placement_id')
+            ->where('tree_table.user_id', $user_id)
+            ->select('tree_table.leg', 'tree_table.placement_id', 'tree_table.type', 'profile_infos.package')
+            ->get();       
+        foreach ($result as $key => $value) {
+            if ($value->type != 'vaccant') {
+                SELF::$upline_users[]   = ['user_id' => $value->placement_id, 'leg' => $value->leg, 'package' => $value->package];
+                SELF::$upline_id_list[] = $value->placement_id;
+            }
+
+            if ($value->placement_id >= 1) {
+                SELF::getAllUplines($value->placement_id);
+            }
+        }
+        return true;
+
+    }
     public static function getUplineCount($user_id,$level)
     {   
         $result = SELF::where('user_id', $user_id)
@@ -529,3 +549,4 @@ class Tree_Table extends Model
         }
     }
 }
+

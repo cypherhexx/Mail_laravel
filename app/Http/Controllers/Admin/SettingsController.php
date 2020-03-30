@@ -21,6 +21,7 @@ use App\RsHistory;
 use App\Activity;
 use App\settings2;
 use App\Category;
+use App\Tree_Table;
 
 use Auth;
 use Artisan;
@@ -34,6 +35,26 @@ use Log;
 use Storage;
 use Datatables;
 
+//paypal
+
+use PayPal\Rest\ApiContext;
+use PayPal\Auth\OAuthTokenCredential;
+use PayPal\Api\Amount;
+use PayPal\Api\Details;
+use PayPal\Api\Item;
+use PayPal\Api\ItemList;
+use PayPal\Api\Payer;
+use PayPal\Api\Payment;
+use PayPal\Api\RedirectUrls;
+use PayPal\Api\ExecutePayment;
+use PayPal\Api\PaymentExecution;
+use PayPal\Api\Transaction;
+use Srmklive\PayPal\Services\ExpressCheckout;
+use App\PendingTransactions;
+use App\Jobs\SendAllEmail;
+
+use Carbon;
+
 class SettingsController extends AdminController
 {
     /**
@@ -41,6 +62,20 @@ class SettingsController extends AdminController
      *
      * @return Response
      */
+
+         protected static  $provider;
+
+     // private $_api_context;
+    public function __construct()
+    {
+        // parent::__construct();
+        
+        // /** setup PayPal api context **/
+        // $paypal_conf = \Config::get('paypal');
+        // $this->_api_context = new ApiContext(new OAuthTokenCredential($paypal_conf['client_id'], $paypal_conf['secret']));
+        // $this->_api_context->setConfig($paypal_conf['settings']);
+      self::$provider = new ExpressCheckout;    
+    }
     public function index()
     
     {
@@ -969,8 +1004,58 @@ static function humanFilesize($size, $precision = 2) {
                 $user_id=User::where('username',$request->username)->value('id');
                 $cur_package=ProfileModel::where('user_id',$user_id)->value('package');
                   if($request->package > $cur_package){
+                    if($cur_package > 1){
 
+                       $cur_pack_order=PendingTransactions::where('user_id',$user_id)->where('package',$cur_package)->where('payment_status','complete')->first();
+                       if($cur_pack_order <> null){
+                       if($cur_pack_order->payment_method == 'paypal'){
+                         $agreement = new \PayPal\Api\Agreement();
+                        $agreementId = $cur_pack_order->paypal_agreement_id;                 
+                        $agreement = new Agreement();  
+                        $agreement->setId($agreementId);
+                        $agreementStateDescriptor = new AgreementStateDescriptor();
+                        $agreementStateDescriptor->setNote("Cancel the agreement");
+
+                        try {
+                            $agreement->cancel($agreementStateDescriptor, $this->apiContext);
+                            $cancelAgreementDetails = Agreement::get($agreement->getId(), $this->apiContext); 
+                                  
+                        } catch (Exception $ex) {                  
+                        }
+                     }
+                    }
+                   }
+
+                    /*edited by vincy on match 13 2020*/
+            
+                    $check_in_matrix = Tree_Table::where('user_id',$user_id)->where('type','yes')->count();
+                    if($check_in_matrix == 0){
+                         Packages::DirectReferrals($user_id,$request->package);
+                        $addtomatrixplan = Packages::Addtomatrixplan($user_id);   
+                    }
+                    /*edited by vincy on match 13 2020*/
                     $package=Packages::find($request->package);
+
+                    //commsiiom
+                        $sponsor_id=Sponsortree::where('user_id',$user_id)->value('sponsor');
+                        if($cur_package == 1){
+                            $pur_count=User::where('id',$sponsor_id)->value('purchase_count');
+                            $new_pur_count=$pur_count+1;
+                            User::where('id',$sponsor_id)->update(['purchase_count' => $new_pur_count]);
+                         }
+                         ProfileModel::where('user_id',$user_id)->update(['package' => $request->package]);
+                          User::where('id',$user_id)->update(['active_purchase' => 'yes']);
+                        $user_arrs=[];
+                        $results=Ranksetting::getTreeUplinePackage($user_id,1,$user_arrs);
+                        array_push($results, $user_id);
+                      
+                        foreach ($results as $key => $value) {
+                            Packages::rankCheck($value);
+                        }
+                        Packages::levelCommission($user_id,$package->amount,$request->package);
+                        // Packages::directReferral($sponsor_id,$item->user_id,$package->amount);
+                        //comm
+
                     $purchase_id= PurchaseHistory::create([
                                     'user_id'=>$user_id,
                                     'purchase_user_id'=>$user_id,
@@ -1006,7 +1091,7 @@ static function humanFilesize($size, $precision = 2) {
                     $userpurchase['date_p']=$purchase_id->created_at;
                     $userpurchase['package']=$package->package;
                     PurchaseHistory::where('id','=',$purchase_id->id)->update(['datas'=>json_encode($userpurchase)]);
-                    ProfileModel::where('user_id',$user_id)->update(['package' => $request->package]);
+                    // ProfileModel::where('user_id',$user_id)->update(['package' => $request->package]);
                    
                     Session::flash('flash_notification',array('message'=>"You have purchased the plan successfully ",'level'=>'success'));
                     return redirect()->back();
