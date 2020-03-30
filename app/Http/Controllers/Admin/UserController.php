@@ -1379,6 +1379,7 @@ else
          $rank_id=User::where('id',$transaction->user_id)->value('rank_id');
             $check_in_matrix = Tree_Table::where('user_id',$transaction->user_id)->where('type','yes')->count();
             if($check_in_matrix == 0){
+               Packages::DirectReferrals($transaction->user_id,$transaction->package);
                 $addtomatrixplan = Packages::Addtomatrixplan($transaction->user_id);   
             }
         /*edited by vincy on match 13 2020*/
@@ -1421,7 +1422,7 @@ else
                 Packages::rankCheck($value);
             }
             Packages::levelCommission($transaction->user_id,$package->amount,$transaction->package);
-            Packages::directReferral($sponsor_id,$transaction->user_id,$transaction->package);
+            // Packages::directReferral($sponsor_id,$transaction->user_id,$transaction->package);
              $category_update=User::categoryUpdate($sponsor_id);
 
             //comm
