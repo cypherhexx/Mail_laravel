@@ -49,7 +49,8 @@
     				<tr>
     					<th>{{trans('report.no')}}</th>      
                         <th>{{trans('report.username')}}</th>                       
-                        <th>{{trans('report.bonus_type')}}</th>                        
+                        <th>{{trans('report.bonus_type')}}</th>    
+                         <th>Purchase</th>                               
                         <th>{{trans('report.credit')}} </th>
                         <th>{{trans('report.date')}} </th>                     
                     </tr>
@@ -61,6 +62,7 @@
                         <td>{{$report->username}}</td>
 	                                    
                         <td>@if($report->payment_type == 'released') Payout Released @else  {{  str_replace('_', ' ', $report->payment_type)}} @endif</td>
+                        <td>{{$report->position}}</td>
                         <td>{{$currency_sy}} {{ number_format($report->total_amount,2)}}</td>
                         <td>{{ date('d M Y H:i:s',strtotime($report->created_at))}}</td>
 					</tr>
