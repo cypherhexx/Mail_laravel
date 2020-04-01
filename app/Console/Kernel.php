@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         'App\Console\Commands\CloudReset',
         'App\Console\Commands\BackupUnilevel',
         'App\Console\Commands\PurchaseActiveCheck',
+        'App\Console\Commands\CommissionPaypal',
     ];
 
     /**
@@ -33,6 +34,8 @@ class Kernel extends ConsoleKernel
                 // $schedule->command('backup:run',['--only-db'=>'true'])
                 // ->everyFiveMinutes();
                  $schedule->command('check:purchase')
+                ->daily();
+                 $schedule->command('commission:paypal')
                 ->daily();
     }
 
