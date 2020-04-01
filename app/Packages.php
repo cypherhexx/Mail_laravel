@@ -57,6 +57,11 @@ class Packages extends Model
        $user_arrs=[];
        $results=SELF::gettenupllins($user_id,1,$user_arrs);
           foreach ($results as $key => $upuser) {
+
+            $puchase_status = User::where('id',$upuser)->value('active_purchase');
+            if($puchase_status == "no"){
+                continue;
+            }
             $package=ProfileInfo::where('user_id',$upuser)->value('package');
             $pack=Packages::find($package);
             $cat_id=User::where('id',$upuser)->value('category_id');
@@ -591,26 +596,31 @@ public static function Levelcount($user_id,$level)
     }
      public static function DirectReferrals($user_id,$package)
      {
-       $sponsor_id=Sponsortree::where('user_id',$user_id)->value('sponsor');
+         $sponsor_id=Sponsortree::where('user_id',$user_id)->value('sponsor');
+         $puchase_status = User::where('id',$sponsor_id)->value('active_purchase');
+         $package_amount=Packages::where('id',$package)->value('amount');
+         $direct_referral=Settings::value('direct_referral');
+         $amount=$package_amount * $direct_referral / 100;
 
-       $package_amount=Packages::where('id',$package)->value('amount');
-       $direct_referral=Settings::value('direct_referral');
-       $amount=$package_amount * $direct_referral / 100;
-       $commision = Commission::create([
-                'user_id'        => $sponsor_id,
-                'from_id'        => $user_id,
-                'total_amount'   => $amount,
-                'tds'            => 0,
-                'service_charge' => 0,
-                'payable_amount' => $amount,
-                'package'        =>$package,
-                'payment_type'   => 'direct_referral',
-                'payment_status' => 'Yes',
-          ]);
-          /**
-          * updates the userbalance
-          */
-          User::upadteUserBalance($sponsor_id, $amount);
+         if($puchase_status != "no"){
+            
+              $commision = Commission::create([
+                  'user_id'        => $sponsor_id,
+                  'from_id'        => $user_id,
+                  'total_amount'   => $amount,
+                  'tds'            => 0,
+                  'service_charge' => 0,
+                  'payable_amount' => $amount,
+                  'package'        =>$package,
+                  'payment_type'   => 'direct_referral',
+                  'payment_status' => 'Yes',
+            ]);
+            /**
+            * updates the userbalance
+            */
+            User::upadteUserBalance($sponsor_id, $amount);
+         }
+      
      }
 
    
