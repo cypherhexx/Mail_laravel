@@ -55,7 +55,7 @@ class Ewallet extends UserAdminController
                   ->sum('payable_amount');
 
      
-        return view('app.user.ewallet.wallet',compact('title', 'user', 'sub_title', 'base', 'method','payout','balance','income','credit'));
+        return view('app.user.ewallet.wallet',compact('title', 'sub_title', 'base', 'method','payout','balance','income','credit'));
     }
  
     
