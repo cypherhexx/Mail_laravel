@@ -239,7 +239,9 @@ class productController extends UserAdminController
                 $pay_amount=$fee*10;
             }
 
-            $next_payment_date=date('Y-m-d H:i:s', strtotime(' + 1'.$request->payment_type));
+            $next_payment_date=date('Y-m-d H:i:s', strtotime(' + 1 '.$request->payment_type));
+            $monthly_commission_date=date('Y-m-d H:i:s', strtotime(' + 1 month'));
+           
 
             $purchase=PendingTransactions::create([
              'order_id' =>$orderid,
@@ -254,6 +256,7 @@ class productController extends UserAdminController
              'payment_type' =>'upgrade',
              'amount' => $pay_amount,
              'next_payment_date' => $next_payment_date,
+             'monthly_commission_date' => $monthly_commission_date,
             ]);
 
             if($request->payment_type == 'month')
