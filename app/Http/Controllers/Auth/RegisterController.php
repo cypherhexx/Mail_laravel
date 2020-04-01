@@ -907,7 +907,18 @@ public function checkStatus($trans){
         $rec_id=$request->recurring_payment_id;
         $paypal=PendingTransactions::where('paypal_agreement_id',$rec_id)->first();
         $package=$paypal->package;
-        $user_id=$paypal->user_id;}
+        $pac_amount=Packages::find($package)->amount;
+        $user_id=$paypal->user_id;
+        $user_pakage=ProfileModel::where('user_id',$user_id)->value('package');
+         if($user_pakage == $package && $paypal->payment_status == 'complete' && isset($request->payment_status)){
+            
+            $cteated_date = date('Y-m-d', strtotime($paypal->created_at));
+                if($request->payment_status == 'Completed' && date('Y-m-d') >  $cteated_date){
+                    
+                    Packages::levelCommission($user_id,$pac_amount,$package);
+                }
+         }
+    }
     else{
         $rec_id='NA';
         $package=0;
@@ -963,6 +974,8 @@ public function checkStatus($trans){
             'profile_status'=>$profile_status,
             'response'=>json_encode($request->all())
           ]);
+
+
    dd("done");
 
 
