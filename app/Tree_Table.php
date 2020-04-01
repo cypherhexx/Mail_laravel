@@ -35,6 +35,7 @@ class Tree_Table extends Model
         return $sponsor_id = DB::table('tree_table')->where('user_id', $user_id)->value('sponsor');
     }
 
+
      public static function gettreePlacementId($sponsor_id,$level =1 )
     {
 
@@ -99,8 +100,31 @@ class Tree_Table extends Model
         }
       
 
-
     }
+
+    //  public static function gettreePlacementId($sponsor_id)
+    // {
+     
+    //    // $id =Tree_Table::where("type","=","vaccant")->whereIn('placement_id',$sponsor_id)->where('user_id','=',0)->value('placement_id');
+    //     $id=Tree_Table::where("type","=","vaccant")->whereIn('placement_id',$sponsor_id)->orderBy('count','ASC')->where('user_id','=',0)->value('placement_id');
+    //    echo "placement".$id."<br>";
+    //    if(!isset($id)){   
+    //        // $sponsor_list = Tree_Table::whereIn('placement_id',$sponsor_id)->where("type","<>","vaccant")->value('user_id');
+    //         $sponsor_list = Tree_Table::whereIn('placement_id',$sponsor_id)->where('user_id','!=',0)->orderBy('count','ASC')->pluck('user_id');
+    //   print_r($sponsor_list);
+    //   echo "<br>";
+    //    return self::gettreePlacementId($sponsor_list);
+           
+    //   }
+
+    //    return $id;         
+
+    // }
+
+
+
+
+
     public static function vaccantId($placement_id)
     {
 
@@ -110,34 +134,64 @@ class Tree_Table extends Model
 
     }
 
-    public static function createVaccant($placement_id,$leg)
-    {
-    $leg = $leg * 3 ;
-    Tree_Table::create([
-            'sponsor'      => 0,
-            'user_id'      => '0',
-            'placement_id' => $placement_id,
-            'leg'          => $leg - 2,
-            'type'         => 'vaccant',
-        ]);
 
+     public static function createVaccant($placement_id,$leg){
+        $leg = $leg * 3 ;
         Tree_Table::create([
-            'sponsor'      => 0,
-            'user_id'      => '0',
-            'placement_id' => $placement_id,
-            'leg'          => $leg - 1,
-            'type'         => 'vaccant',
-        ]);
+                'sponsor'      => 0,
+                'user_id'      => '0',
+                'placement_id' => $placement_id,
+                'leg'          => $leg - 2,
+                'type'         => 'vaccant',
+            ]);
 
-         Tree_Table::create([
-            'sponsor'      => 0,
-            'user_id'      => '0',
-            'placement_id' => $placement_id,
-            'leg'          => $leg,
-            'type'         => 'vaccant',
-        ]);
+            Tree_Table::create([
+                'sponsor'      => 0,
+                'user_id'      => '0',
+                'placement_id' => $placement_id,
+                'leg'          => $leg - 1,
+                'type'         => 'vaccant',
+            ]);
+
+             Tree_Table::create([
+                'sponsor'      => 0,
+                'user_id'      => '0',
+                'placement_id' => $placement_id,
+                'leg'          => $leg,
+                'type'         => 'vaccant',
+            ]);
+
 
     }
+
+    // public static function createVaccant($placement_id)
+    // {
+
+    // Tree_Table::create([
+    //         'sponsor'      => 0,
+    //         'user_id'      => '0',
+    //         'placement_id' => $placement_id,
+    //         'leg'          => '1',
+    //         'type'         => 'vaccant',
+    //     ]);
+
+    //     Tree_Table::create([
+    //         'sponsor'      => 0,
+    //         'user_id'      => '0',
+    //         'placement_id' => $placement_id,
+    //         'leg'          => '2',
+    //         'type'         => 'vaccant',
+    //     ]);
+
+    //      Tree_Table::create([
+    //         'sponsor'      => 0,
+    //         'user_id'      => '0',
+    //         'placement_id' => $placement_id,
+    //         'leg'          => '3',
+    //         'type'         => 'vaccant',
+    //     ]);
+
+    // }
     public static function takeUserId($user_name)
     {
         return DB::table('users')->where('username', $user_name)->value('id');

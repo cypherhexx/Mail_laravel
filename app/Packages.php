@@ -152,30 +152,29 @@ class Packages extends Model
 
           }
      }
-     public static function directReferral($sponsor,$from,$package){
+    //  public static function directReferral($sponsor,$from,$package){
           
-          $pack=Packages::find($package);
-          $direct_ref=Settings::find(1)->direct_referral;
-          $direct_referral=$pack->amount*$direct_ref*0.01;
-          // dd( $direct_referral);
-          $commision = Commission::create([
-                'user_id'        => 'NA',
-                'from_id'        => $from,
-                'total_amount'   => $direct_referral,
-                'tds'            => 0,
-                'service_charge' =>0,
-                'payable_amount' => $direct_referral,
-                'payment_type'   => 'direct_referral',
-                'payment_status' => 'Yes',
-                 'package'       => $pack, 
-          ]);
-          /**
-          * updates the userbalance
-          */
-          User::upadteUserBalance($sponsor, $direct_referral);
-          // self::checkRefreals($sponsor,$from,$package);
+    //       $pack=Packages::find($package);
+    //       $direct_ref=Settings::find(1)->direct_referral;
+    //       $direct_referral=$pack->amount*$direct_ref*0.01;
+    //       // dd( $direct_referral);
+    //       $commision = Commission::create([
+    //             'user_id'        => 'NA',
+    //             'from_id'        => $from,
+    //             'total_amount'   => $direct_referral,
+    //             'tds'            => 0,
+    //             'service_charge' =>0,
+    //             'payable_amount' => $direct_referral,
+    //             'payment_type'   => 'direct_referral',
+    //             'payment_status' => 'Yes',
+    //       ]);
+    //       /**
+    //       * updates the userbalance
+    //       */
+    //       User::upadteUserBalance($sponsor, $direct_referral);
+    //       // self::checkRefreals($sponsor,$from,$package);
 
-    }
+    // }
 
     public static function checkRefreals($sponsor,$from,$package){
       $usercount=Sponsortree::where('sponsor',$sponsor)->where('type','yes')->count('user_id');
@@ -531,12 +530,41 @@ public static function Levelcount($user_id,$level)
     }
 
 
+    // public static function Addtomatrixplan($user_id){
+
+    //     $sponsor_id = Sponsortree::where('user_id',$user_id)->value('sponsor');
+    //     // dd($sponsor_id);
+
+    //     $placement_id = Tree_Table::gettreePlacementId([$sponsor_id]); 
+    //     $tree_id = Tree_Table::vaccantId($placement_id);
+    //     $tree          = Tree_Table::find($tree_id);
+    //     $tree->user_id = $user_id;
+    //     $tree->sponsor = $sponsor_id;
+    //     $tree->type    = 'yes';
+    //     $tree->save(); 
+    //     $count=Tree_Table::where('user_id','=',$placement_id)->value('level');
+    //     Tree_Table::where('id',$tree_id)->update(['level'=>$count+1]);
+    //     Tree_Table::createVaccant($tree->user_id);
+
+
+    //     Tree_Table::$upline_users = [];
+    //     Tree_Table::getAllUpline($user_id);
+    //     $variable = Tree_Table::$upline_users;
+    //     foreach ($variable as $key => $value) {
+    //        // dd($value);
+    //       $update_downlinecout=User::where('id',$value['user_id'])->increment('dowlinecount');
+    //     }
+    //     Tree_Table::$upline_users = [];
+    //     return true;
+
+    // }
+
     public static function Addtomatrixplan($user_id){
 
         $sponsor_id = Sponsortree::where('user_id',$user_id)->value('sponsor');
         // dd($sponsor_id);
 
-        $placement_id = Tree_Table::gettreePlacementId([$sponsor_id]); 
+        $placement_id = Tree_Table::gettreePlacementId([$sponsor_id]);
 
         // dd($placement_id);
         // $tree_id = Tree_Table::vaccantId($placement_id);
@@ -544,7 +572,7 @@ public static function Levelcount($user_id,$level)
         $tree->user_id = $user_id;
         $tree->sponsor = $sponsor_id;
         $tree->type    = 'yes';
-        $tree->save(); 
+        $tree->save();
         // $count=Tree_Table::where('user_id','=',$tree->placement_id)->value('level');
         Tree_Table::where('id',$tree->placement_id)->increment('level');
         Tree_Table::createVaccant($tree->user_id,$tree->leg);
@@ -587,4 +615,5 @@ public static function Levelcount($user_id,$level)
 
    
 }
+
 
