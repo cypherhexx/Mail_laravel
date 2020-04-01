@@ -27,7 +27,9 @@
 		</ul>
 		<ul class="breadcrumb-elements">
 		<!-- 	<li><a href="{{url('user/helpdesk/tickets-dashboard')}}"><i class="icon-comment-discussion position-left"></i> Support</a></li> -->
-			<li class="dropdown">
+			
+<!--comment on 1-->
+			<!-- <li class="dropdown">
 				<a href="{{url('admin/settings')}}" class="dropdown-toggle" data-toggle="dropdown">
 					<i class="icon-gear position-left"></i>
 					Settings
@@ -38,7 +40,7 @@
 					<li class="divider"></li>
 					<li><a href="{{url('user/compose#/u/mail/inbox')}}"><i class="icon-gear"></i> All emails</a></li>
 				</ul>
-			</li>
+			</li> -->
 		</ul>
 	</div>
 	

@@ -34,3 +34,4 @@ class CategoryTableSeeder extends Seeder
         ]);
     }
 }
+
