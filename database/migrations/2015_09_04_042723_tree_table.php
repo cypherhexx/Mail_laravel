@@ -19,9 +19,10 @@ class TreeTable extends Migration
             $table->integer('user_id');
             $table->integer('sponsor');
             $table->integer('placement_id');
-            $table->string('leg');
+            $table->integer('leg');
             $table->string('type')->default('vaccant');
             $table->integer('level')->default('0');
+            $table->integer('count')->default('0');
             $table->timestamps();
         });
     }
