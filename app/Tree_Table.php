@@ -35,18 +35,70 @@ class Tree_Table extends Model
         return $sponsor_id = DB::table('tree_table')->where('user_id', $user_id)->value('sponsor');
     }
 
-     public static function gettreePlacementId($sponsor_id)
+     public static function gettreePlacementId($sponsor_id,$level =1 )
     {
-     
-       $id =Tree_Table::where("type","=","vaccant")->whereIn('placement_id',$sponsor_id)->where('user_id','=',0)->value('placement_id');
-       if(!isset($id)){   
-           // $sponsor_list = Tree_Table::whereIn('placement_id',$sponsor_id)->where("type","<>","vaccant")->value('user_id');
-            $sponsor_list = Tree_Table::whereIn('placement_id',$sponsor_id)->where('user_id','!=',0)->pluck('user_id');
-       return self::gettreePlacementId($sponsor_list);
-           
-      }
 
-       return $id;         
+
+        if($level ==1 ){
+            $down_line = Tree_Table::whereIn('placement_id',$sponsor_id)->where('type','vaccant')->orderBy('leg')->first();
+
+             if($down_line){
+                return $down_line->id;
+            }else{
+                $sponsor_list = Tree_Table::whereIn('placement_id',$sponsor_id)->orderBy('leg')->pluck('user_id');
+                return self::gettreePlacementId($sponsor_list,2);
+            }
+        }else{
+            // dd($sponsor_id); 
+
+            $down_line = Tree_Table::whereIn('placement_id',$sponsor_id)
+                                    ->select('placement_id','leg',DB::raw('COUNT(`placement_id`) as CNT'))
+                                    ->where('user_id','=',0)
+                                    ->groupBy('placement_id')
+                                    ->orderby('leg')
+                                    ->get();
+
+                                    // print_r($down_line->toArray()) ;
+            if($down_line->count() ==0 ){
+                 $sponsor_list = Tree_Table::whereIn('placement_id',$sponsor_id)->orderBy('leg')->pluck('user_id');
+                return self::gettreePlacementId($sponsor_list,++$level);
+            }else{
+                
+
+                // dd($down_line->toArray());
+                 $placement = $down_line[0]->placement_id ; 
+                // echo  "  ...  " ;
+                  $cnt = $down_line[0]->CNT ;
+
+                foreach ($down_line as $key => $value) {
+                             echo "</br> " .$value->placement_id .'   ... ' . $value->CNT ;
+                     if($cnt < $value->CNT){
+
+                        echo " replace value here " ;
+                        $placement = $value->placement_id;
+                        $cnt = $value->CNT;
+                     }
+
+                }
+
+
+
+                // dd($placement);
+                return $down_line = Tree_Table::where('placement_id',$placement)
+                                            ->where('type','vaccant')
+                                            ->orderby('leg')
+                                            ->first()
+                                            ->id; 
+
+                    // dd($down_line) ;
+
+            }
+
+
+
+        }
+      
+
 
     }
     public static function vaccantId($placement_id)
@@ -58,14 +110,14 @@ class Tree_Table extends Model
 
     }
 
-    public static function createVaccant($placement_id)
+    public static function createVaccant($placement_id,$leg)
     {
-
+    $leg = $leg * 3 ;
     Tree_Table::create([
             'sponsor'      => 0,
             'user_id'      => '0',
             'placement_id' => $placement_id,
-            'leg'          => '1',
+            'leg'          => $leg - 2,
             'type'         => 'vaccant',
         ]);
 
@@ -73,7 +125,7 @@ class Tree_Table extends Model
             'sponsor'      => 0,
             'user_id'      => '0',
             'placement_id' => $placement_id,
-            'leg'          => '2',
+            'leg'          => $leg - 1,
             'type'         => 'vaccant',
         ]);
 
@@ -81,7 +133,7 @@ class Tree_Table extends Model
             'sponsor'      => 0,
             'user_id'      => '0',
             'placement_id' => $placement_id,
-            'leg'          => '3',
+            'leg'          => $leg,
             'type'         => 'vaccant',
         ]);
 
