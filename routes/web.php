@@ -23,6 +23,9 @@ use App\User;
 | Language route for language switcher
 |
  */
+Route::get('testplacement',function(){
+    echo App\Packages::Addtomatrixplan(17);
+});
 Route::get('lang/{lang}', ['as' => 'lang.switch', 'uses' => 'LanguageController@switchLang']);
 
 Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
