@@ -437,6 +437,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth'], 'namespace' 
     Route::get('paymentreport', 'ReportController@paymentReport');
     Route::post('paymentreport', 'ReportController@paymentReportView');
 
+    
+    Route::get('joiningfeereport', 'ReportController@joiningfeereport');
+    Route::post('joiningfeereport', 'ReportController@joiningfeereportview');
+
     Route::get('mark-as-read/{msg_id}', 'MailController@mark_as_read');
     Route::get('plansettings', 'PackageController@index');
     Route::post('plansettings', 'PackageController@update');

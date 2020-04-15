@@ -636,6 +636,60 @@ class ReportController extends AdminController
 
     }
 
+
+    public function joiningfeereport(){
+
+        $title = 'Joiningfee Report';
+        $sub_title = 'Joiningfee Report';
+        $base =  'Joiningfee Report';
+        $method =  'Joiningfee Report';
+        return view('app.admin.report.joiningfeereport',compact('title','sub_title','base','method'));
+
+    }
+
+    public function joiningfeereportview(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'start' => 'required|date',
+            'end'   => 'required|date|',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator);
+        }
+
+        $title = 'Joiningfee Report';
+        $sub_title =  'Joiningfee Report';
+        $base =  'Joiningfee Report';
+        $method = 'Joiningfee Report';
+        $app        = AppSettings::find(1);
+
+        $reportdata = array();
+      
+
+        $reportdata = PendingTransactions::where('pending_transactions.created_at', '>', date('Y-m-d 00:00:00', strtotime($request->start)))
+                                   ->where('pending_transactions.created_at', '<', date('Y-m-d 23:59:59', strtotime($request->end)))
+                                   ->where('pending_transactions.payment_type','=','register') 
+                                   // ->where('pending_transactions.payment_method','<>','paypal')
+                                   ->where('pending_transactions.payment_status','=','complete')
+                                   ->leftjoin('users', 'users.id', '=', 'pending_transactions.user_id')
+                                   //->leftjoin('packages', 'packages.id', '=', 'pending_transactions.package')
+                                  
+                                   ->select('users.username', 'users.name', 'users.lastname', 'users.email','pending_transactions.amount','pending_transactions.payment_method','pending_transactions.payment_status as profile_status','pending_transactions.payment_status','pending_transactions.payment_type','pending_transactions.created_at','pending_transactions.request_data as resp')->get();
+           
+                        
+        
+
+         $users = $reportdata;
+
+         // dd($users);
+
+
+
+        return view('app.admin.report.joiningfeereportview', compact('title', 'sub_title', 'base', 'method','app','users'));
+
+    }
+
+
     
 
 
