@@ -508,6 +508,8 @@
                             <li class="{{set_active('admin/salesreport')}}"><a href="{{url('admin/salesreport')}}">{{trans('menu.sales_report')}}</a></li>
                             <li class="{{set_active('admin/topenrollerreport')}}"><a href="{{url('admin/topenrollerreport')}}">{{trans('menu.top_enroller_report')}}</a></li>
                             <li class="{{set_active('admin/paymentreport')}}"><a href="{{url('admin/paymentreport')}}">Annual & Monthly Payment Report</a></li>
+
+                            <li class="{{set_active('admin/joiningfeereport')}}"><a href="{{url('admin/joiningfeereport')}}">Joining fee Report</a></li>
                           <!--   <li class="{{set_active('admin/pairingreport')}}"><a href="{{url('admin/pairingreport')}}">Pairing Report</a></li> -->
                         </ul>
                     </li>
