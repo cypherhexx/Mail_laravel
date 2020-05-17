@@ -6,7 +6,7 @@
 @section('main')
 <!-- Cover area -->
 <div class="profile-cover">
-    <div class="profile-cover-img" style="background-image: url({{url('img/cache/original/'.$cover_photo)}}">
+    <div class="profile-cover-img" style="background-size: cover;  background-position-y: 30%;background-image: url({{url('img/cache/original/'.$cover_photo)}}">
     </div>
 
 
@@ -728,6 +728,130 @@
 {!! Form::close() !!}
 </div>
 </div>
+<div class="panel panel-flat">
+<div class="panel-heading">
+<h6 class="panel-title">
+    Bitcion Account Settings :
+</h6>
+<div class="heading-elements">
+    <ul class="icons-list">
+        <li>
+            <a data-action="collapse">
+            </a>
+        </li>
+        <li>
+            <a data-action="reload">
+            </a>
+        </li>
+        <li>
+            <a data-action="close">
+            </a>
+        </li>
+    </ul>
+</div>
+</div>
+<div class="panel-body">
+
+
+ <form action="{{url('user/bitconaccount_settings')}}" class="smart-wizard form-horizontal" method="post"  >
+     {!! csrf_field() !!}
+    <div class="form-group">
+       <div class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                        <label>Bitcoin Address</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input class="form-control" id="bitcoin_address" name="bitcoin_address" type="text" value="{{$selecteduser->bitcoin_address}}" >
+                        </div>
+                    </div>
+
+                </div> 
+  
+            </div>
+        
+        </div>
+    </div>
+  
+  
+    <div class="text-right">
+        <button class="btn btn-primary" type="submit">
+            {{trans('profile.save')}}
+            <i class="icon-arrow-right14 position-right">
+            </i>
+        </button>
+    </div>
+ </form>
+
+{!! Form::close() !!}
+</div>
+</div>
+<div class="panel panel-flat">
+<div class="panel-heading">
+<h6 class="panel-title">
+   Paypal Account Settings:
+</h6>
+<div class="heading-elements">
+    <ul class="icons-list">
+        <li>
+            <a data-action="collapse">
+            </a>
+        </li>
+        <li>
+            <a data-action="reload">
+            </a>
+        </li>
+        <li>
+            <a data-action="close">
+            </a>
+        </li>
+    </ul>
+</div>
+</div>
+<div class="panel-body">
+
+
+ <form action="{{url('user/payplemail_settings')}}" class="smart-wizard form-horizontal" method="post"  >
+     {!! csrf_field() !!}
+    <div class="form-group">
+       <div class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                        <label>Eamil Paypal</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input class="form-control" id="paypal_email" name="paypal_email" type="email" value="{{$selecteduser->paypal_email}}" >
+                        </div>
+                    </div>
+
+                </div> 
+  
+            </div>
+        
+        </div>
+    </div>
+  
+  
+    <div class="text-right">
+        <button class="btn btn-primary" type="submit">
+            {{trans('profile.save')}}
+            <i class="icon-arrow-right14 position-right">
+            </i>
+        </button>
+    </div>
+ </form>
+
+{!! Form::close() !!}
+</div>
+</div>
 <!-- /account settings -->
 </div>
                     <div class="tab-pane fade" id="settings">
@@ -789,6 +913,7 @@
 </div>
 </div>
 <!-- begin col-6 -->
+
 
 <div class="col-md-4">
 <div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('gender') ? ' has-error' : '' }}">
@@ -930,56 +1055,77 @@
 <div class="row">
 <!-- begin col-6 -->
 <div class="col-md-6">
-<div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('account_number') ? ' has-error' : '' }}">
-    {!! Form::label('account number', trans("register.account_number"), array('class' => 'control-label')) !!} {!! Form::text('account_number', null !==(Input::old('account_number')) ? Input::old('account_number') : $selecteduser->profile_info->account_number, ['class' => 'form-control','id' => 'account_number','data-parsley-required-message' => trans("all.please_enter_account_number"),'data-parsley-group' => 'block-1']) !!}
-  
-    <span class="help-block">
-        <small>{!! trans("all.enter_your_account_number") !!}</small>
-        @if ($errors->has('account_number'))
-        <strong>{{ $errors->first('account_number') }}</strong>
-        @endif
-    </span>
+   <div class="form-group">
+      <label>Account Holder Name</label>
+      <input class="form-control" id="account_holder_name" name="account_holder_name" type="text" value="{{$selecteduser->profile_info->account_holder_name}}" >
+    </div>
 </div>
-</div>
+
+
 <div class="col-md-6">
-<div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('account_number') ? ' has-error' : '' }}">
-    {!! Form::label('Account holder name', trans("register.account_holder_name"), array('class' => 'control-label')) !!} {!! Form::text('account_holder_name', null !==(Input::old('account_holder_name')) ? Input::old('account_holder_name') : $selecteduser->profile_info->account_holder_name, ['class' => 'form-control','id' => 'account_holder_name','data-parsley-required-message' => trans("all.please_enter_account_holder_name"),'data-parsley-group' => 'block-1']) !!}
-  
-    <span class="help-block">
-        <small>{!! trans("all.enter_account_holder_name") !!}</small>
-        @if ($errors->has('account_holder_name'))
-        <strong>{{ $errors->first('account_holder_name') }}</strong>
-        @endif
-    </span>
+     <div class="form-group">
+        <label>Code swift</label>
+        <input class="form-control" id="swift" name="swift" type="text" value="{{$selecteduser->profile_info->swift}}" >
+     </div>
+ </div>       
+
 </div>
-</div>
-</div>
+
 <div class="row">
     <div class="col-md-6">
-<div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('account_number') ? ' has-error' : '' }}">
-    {!! Form::label('Bank code', trans("register.bank_code"), array('class' => 'control-label')) !!} {!! Form::text('swift', null !==(Input::old('swift')) ? Input::old('swift') : $selecteduser->profile_info->swift, ['class' => 'form-control','id' => 'swift','data-parsley-required-message' => trans("all.please_enter_bank_code"),'data-parsley-group' => 'block-1']) !!}
-  
-    <span class="help-block">
-        <small>{!! trans("all.enter_your_bank_code") !!}</small>
-        @if ($errors->has('account_number'))
-        <strong>{{ $errors->first('bank_code') }}</strong>
-        @endif
-    </span>
-</div>
-</div>
-
-  <div class="col-md-6">
-                <label>
-                   Bank Name
-                </label>
-
-                <input class="form-control" id="bank_name" name="bank_name" type="text" value="{{ $selecteduser->profile_info->bank_name }}" >
-                    
-                
-                
+     <div class="form-group">
+     <label>Iban</label>
+        <input class="form-control" id="iban" name="iban" type="text" value="{{$selecteduser->profile_info->iban}}" >
+    </div>
+    </div>
+     
+     <div class="col-md-6">
+       
+            <div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('country') ? ' has-error' : '' }}">
+            {!! Form::label('country', trans("register.country"), array('class' => 'control-label')) !!} {!! Form::select('bank_country', $countries ,null !==(Input::old('bank_country')) ? Input::old('bank_country') : $selecteduser->profile_info->bank_country,['class' => 'form-control','id' => 'bank_country','required' => 'required','data-parsley-required-message' => trans("all.please_select_country"),'data-parsley-group' => 'block-1']) !!}
+            
             </div>
+     </div>
+
 
 </div>
+
+
+
+<div class="row">
+     <div class="col-md-6">
+      <div class="form-group">
+        <label>Bank Name</label>
+         <input class="form-control" id="bank_name" name="bank_name" type="text" value="{{ $selecteduser->profile_info->bank_name }}" >
+      </div>
+     </div>  
+     <div class="col-md-6">
+       <div class="form-group">
+        <label>Bank Code</label>
+        <input class="form-control" id="bank_code" name="bank_code" type="text" value="{{$selecteduser->profile_info->bank_code}}" >
+       </div>
+     </div>            
+        
+</div>
+
+<div class="row">
+     <div class="col-md-6">
+       <div class="form-group">
+        <label>Number of Branches</label>
+        <input class="form-control" id="branch_count" name="branch_count" type="text" value="{{$selecteduser->profile_info->branch_count}}" >
+       </div>
+     </div> 
+     
+     <div class="col-md-6">
+       <div class="form-group">
+       <label>Account Number</label>
+        <input class="form-control" id="account_number" name="account_number" type="text" value="{{$selecteduser->profile_info->account_number}}" >
+       </div>
+    </div> 
+              
+        
+</div>
+
 
     <div class="form-group">
         <div class="row">

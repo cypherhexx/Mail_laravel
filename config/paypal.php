@@ -31,7 +31,7 @@ return array(
         'http.ConnectionTimeOut' => 3000,
        
         // Specify whether or not we want to store logs
-        'log.LogEnabled' => true,
+        'log.LogEnabled' => false,
         
         // Specigy the location for our paypal logs
         'log.FileName' => storage_path() . '/logs/paypal.log',

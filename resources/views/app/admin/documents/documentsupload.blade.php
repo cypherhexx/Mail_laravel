@@ -30,7 +30,7 @@
                         </div>
                         <div class="row">                            
                             <div class="form-group">
-                                    <label class="col-md-3 control-label">{{trans('ticket_config.select_file')}} (doc,docx,pdf files only): </label>
+                                    <label class="col-md-3 control-label">{{trans('ticket_config.select_file')}} (doc,pdf,docx,ppt,pptx,png,jpeg,jpg files only): </label>
                                      <div class="col-sm-6 control-label">
                                     <input type="file" name="file" class="file-input" data-show-caption="false" data-show-upload="false" data-browse-class="btn btn-primary" data-remove-class="btn btn-light" data-fouc>
                                     </div>
@@ -75,7 +75,10 @@
                             {{trans('ticket_config.download')}}
                         </a>
                     </td>
-                    <td>{{$request->created_at}}</td>                    
+                    <td>{{$request->created_at}}</td>
+                    <td> <a class="btn btn-danger" href="{{url('admin/document/delete/'.$request->id)}}" name="requestid">
+                            {{trans('ticket_config.delete')}}
+                        </a></td>                          
                 </tr>
                 @endforeach
             </tbody>

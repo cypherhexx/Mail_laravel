@@ -98,6 +98,47 @@
                                 </div>
 
                                  </td>
+                                 
+
+                                    <td>  <button type="button"  class="btn btn-danger" data-toggle="modal" data-target="#modaltrash{{$user->id}}"> <span class="fa fa-trash"></span>   </button>
+
+                                      <!-- Modal -->
+
+                                <div id="modaltrash{{$user->id}}" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+
+                              <!-- Modal content-->
+
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+                                </div>
+
+                                <div class="modal-body" style="overflow: auto !important;">
+
+                               <center> 
+
+                               Do you want to Delete ?
+                              
+
+                                </center>
+
+                                
+                                </div>                 
+                                
+                                <div class="modal-footer">
+                                <div class="row">
+                                
+                                <a href="{{url('admin/deletependinguser/'.$user->id)}}" class="btn btn-success" ></span>Confirm </a>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                                </div>
+                                </div>
+                                </div>
+                                </div>
+
+                                 </td>
                                         
                      
                     </tr>

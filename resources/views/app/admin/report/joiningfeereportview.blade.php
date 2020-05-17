@@ -120,13 +120,14 @@
                            <!-- <td>{{$report->payment_date}}</td>
                             <td>{{$report->next_payment_date}}</td> -->
                              <td>{{$report->amount}}</td>
-                              <<!--  -->td>{{$report->amount_per_cycle}}</td>
+                              <!--  --><!-- td>{{$report->amount_per_cycle}}</td> -->
                                <td>@if($report->profile_status == 'complete')
                             Active
                             @else
                            {{$report->profile_status}}
                           @endif</td>
                                <td>{{$report->payment_status}}</td>
+                               
                   
                         <td>{{ date('d M Y H:i:s',strtotime($report->created_at))}}</td>
                     </tr>

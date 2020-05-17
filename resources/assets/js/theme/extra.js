@@ -1636,19 +1636,12 @@ $(function() {
         }
     });
     if ($('#users-table').length) {
-        var username = $('#users-table').attr('data-priority');
-        var packages = $('#users-table').attr('data-package');
-        var sponsor = $('#users-table').attr('data-sponsor');
-        console.log(username);
-        console.log(packages);
         $(document).ready(function() {
             oTable = $('#users-table').DataTable({
                 "processing": true,
                 "serverSide": true,
-                "ordering": true,
-                "scrollY": 200,
-                "scrollX": true,
-                "ajax": CLOUDMLMSOFTWARE.siteUrl + "/admin/users/data/?username=" + username + "&package=" + packages + "&sponsor=" +sponsor,
+                "ordering": false,
+                "ajax": CLOUDMLMSOFTWARE.siteUrl + "/admin/users/data",
                 "fnDrawCallback": function(oSettings) {}
             });
         });

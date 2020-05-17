@@ -38,6 +38,9 @@ class dashboard extends UserAdminController{
          return redirect('/user/purchasedashboard');
       }
 
+      // Packages::rankCheck(83);
+      
+
         $title = trans('dashboard.dashboard');       
         $users = User::count();               
         $total_bv =  Auth::user()->revenue_share;
@@ -95,14 +98,22 @@ class dashboard extends UserAdminController{
 
         $cat_id=User::where('id',Auth::user()->id)->value('category_id');
         $category=Category::where('id',$cat_id)->value('category_name');
-
-        $cat_image=Category::find($cat_id)->image;
+        
+        
+        if(isset($category)){
+           $cat_image=Category::find($cat_id)->image;
+        }
 
             $transaction=PendingTransactions::where('user_id',Auth::user()->id)
                                       ->where('payment_status','complete')
                                       ->where('package',$current_pack)
                                       ->where('payment_type','upgrade')
                                       ->first();
+          
+        $date_diff='na';
+              $numberdays = 'na';                         
+        if(isset($transaction)){
+
           if($transaction->payment_method <> 'paypal'){
               $next_pay_date = date('Y-m-d', strtotime($transaction->next_payment_date));
               $today=date('Y-m-d');
@@ -115,6 +126,9 @@ class dashboard extends UserAdminController{
                $date_diff='na';
               $numberdays = 'na';
             }
+          
+        }
+          
        
 
        return view('app.user.dashboard.index', compact('count_new','new_users','title', 'users', 'balance','percentage_released','percentage_balance','sub_title','right_bv','left_bv','total_bv','total_top_up','total_rs','base','method','USER_CURRENCY','payout','weekly_users_count','monthly_users_count','yearly_users_count','total_invest','total_grants','pending_payout','pack_name','rank_name','level_percent','pac_image','category','cat_image','rank_image','date_diff','numberdays'));

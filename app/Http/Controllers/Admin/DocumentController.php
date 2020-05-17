@@ -11,6 +11,7 @@ use Redirect;
 use Response;
 use Session;
 
+use Auth;
 
 class DocumentController extends AdminController
 {
@@ -32,10 +33,9 @@ class DocumentController extends AdminController
     public function uploadfile(Request $request)
     {
 
-
-
       $validator = Validator::make($request->all(), [
-            'file'   => 'mimes:doc,pdf,docx'
+            'file'   => 'mimes:doc,pdf,docx,ppt,pptx,png,jpeg,jpg',
+            'between'=> '0,500000'
         ]);
 
         if ($validator->fails()) {
@@ -153,5 +153,19 @@ class DocumentController extends AdminController
         return Response::download($file, $request->name, $headers);
         //dd($name);
     }
+
+     public function document_delete($id)
+    {
+        
+        $name = DocumentUpload::where('id',$id)->value('name');
+        $documents=DocumentUpload::where('id',$id)->delete();
+        $changedby =Auth::user()->username;
+        
+        // Activity::add("$changedby deleted  document ","$name was deleted by $changedby ","Documents");
+        Session::flash('flash_notification', array('level' => 'success', 'message' => trans('ticket_config.document_deleted_successfully')));
+        return redirect()->back();
+
+    }
+   
 
 }

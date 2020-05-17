@@ -26,7 +26,7 @@
 								<div class="media-right media-middle">
 									<ul class="icons-list">
 										<li>
-											<a href="#"><i class="icon-cog3"></i></a>
+											<!-- <a href="#"><i class="icon-cog3"></i></a> -->
 										</li>
 									</ul>
 								</div>
@@ -145,13 +145,13 @@
                            
                         </ul>
                     </li>
-                     <li class="{{set_active('admin/register')}}">
+                  <!--    <li class="{{set_active('admin/register')}}">
                             <a href="{{url('admin/register')}}">
                                 <i class="icon-add"></i>
                                 <span class="text">{{trans('menu.register')}}  </span>
                             </a>
                     </li> 
-
+ -->
                  
 
 
@@ -374,7 +374,7 @@
                     </li>  -->
                
                     <li class="navigation-header"><span>Members Management</span> <i class="icon-menu" title="Forms"></i></li>
-                    <li class="has-sub {{set_active('admin/users')}}{{set_active('admin/users/*')}}{{set_active('admin/pendingtransactions')}}">
+                    <li class="has-sub {{set_active('admin/users')}}{{set_active('admin/users/*')}}{{set_active('admin/pendingtransactions')}}{{set_active('admin/users/deleteusers')}}">
                         <a href="javascript:;">
                              <!--<b class="caret pull-right"></b>-->
                             <i class="icon-users2"></i>
@@ -387,6 +387,8 @@
                              <li class="{{set_active('admin/users/password')}}"><a href="{{url('admin/users/password')}}">Edit Info</a></li>
 
                              <li class="{{set_active('admin/users/verifyusers')}}"><a href="{{url('admin/users/verifyusers')}}">Verify Users</a></li>
+
+                               <li class="{{set_active('admin/users/deleteusers')}}"><a href="{{url('admin/users/deleteusers')}}">Delete Users</a></li>
             
               <!--  <li class="{{set_active('admin/users/changeusername')}}"><a href="{{url('admin/users/changeusername')}}">{{trans('menu.Change_Username')}}</a></li> -->
                 <!-- <li class="{{set_active('admin/online_users')}}"><a href="{{url('admin/online_users')}}">Online Users</a></li> -->

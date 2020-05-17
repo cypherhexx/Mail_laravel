@@ -7,8 +7,9 @@
         <div class="panel panel-default">
              <div class="panel-body">
                 <div class="text-center">
+                
                
-                <h5 class="mb-0">Bitaps Payment</h5>
+                <h5 class="mb-0">Bitcoin Payment</h5>
                                 <!-- <span class="d-block text-muted">All fields are required</span> -->
                 </div>
        

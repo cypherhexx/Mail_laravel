@@ -279,6 +279,10 @@ class Tree_Table extends Model
                  /*downline user count */
                 $count=User::where('id',$value->user_id)->value('dowlinecount');  
 
+                $sponsorid = Sponsortree::where('user_id',$value->user_id)->value('sponsor');
+
+                $sponsor_name = User::where('id',$sponsorid)->value('username');
+
 
 
                 $url="userprofiles/".$value->username;
@@ -303,8 +307,7 @@ class Tree_Table extends Model
                             
                                 <div class='ellipsis username'>
                                     $value->username
-                                </div>
-                           
+                                </div>    
                         </div>
                         <ul class='secondaryinfo'>
                             <li class='rankname'>
@@ -316,7 +319,10 @@ class Tree_Table extends Model
                             </li class='packagename'>                            
                             <li>
                                 <span class='key'>Track</span> : <span class='value'>$package_name</span>
-                            </li>   
+                            </li>
+                            <li>
+                                <span class='key'>Sponsor</span> : <span class='value'>$sponsor_name</span>
+                            </li>
                            <!-- <li class='topupcount'>
                             <span class='key'>Top Ups</span> : <span class='value'>".PurchaseHistory::where('user_id', '=', $value->user_id)->sum('count')."</span>
                           </li>-->

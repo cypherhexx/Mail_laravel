@@ -166,7 +166,6 @@ class UserController extends UserAdminController
           $status='stopped';
         }
         // dd($status);
-   
       return view('app.user.users.runsoftware',compact('title','base','method','sub_title','broker_users','status'));
 
     }

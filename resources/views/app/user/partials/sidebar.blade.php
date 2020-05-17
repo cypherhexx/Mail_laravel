@@ -26,7 +26,7 @@
 								<div class="media-right media-middle">
 									<ul class="icons-list">
 										<li>
-											<a href="#"><i class="icon-cog3"></i></a>
+											<!-- <a href="#"><i class="icon-cog3"></i></a> -->
 										</li>
 									</ul>
 								</div>
@@ -166,18 +166,16 @@
                     @endif
 
 
-
-
-                    <li class="{{set_active('user/runsoftware')}}">
+		    <li class="{{set_active('user/runsoftware')}}">
                         <a href="{{url('user/runsoftware')}}">
                             <i class="icon-pushpin"></i>
                             <span class="text"> Run Software</span>
                         </a>
                     </li>  
 
+                  
 
-                 
-                     
+                            
 
                    <!--     <li class="{{set_active('user/compose')}}">
                         <a href="{{url('user/compose')}}">

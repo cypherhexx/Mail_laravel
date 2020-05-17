@@ -191,10 +191,9 @@
                 
                 @if($key < 10)
                 
-
                 <li class="media">
                     <div class="media-body">
-                        <a href="{{url('admin/userprofiles/')}}/{{$activity->username}}" target="_blank">{{$activity->name}}</a> {{$activity->description}}
+                        <a href="#" target="_blank">{{$activity->name}}</a> {{$activity->description}}
                     </div>
                    
                 </li>
@@ -227,7 +226,7 @@
                     @foreach($chunk as $user)
                     
                     <li class="media">
-                        <a href="{{url('/admin/userprofiles/')}}/{{$user->username}}" target="_blank" class="media-link">
+                        <a href="#" target="_blank" class="media-link">
                             <div class="media-left">
                                 {{ Html::image(route('imagecache', ['template' => 'profile', 'filename' => $user->image]), 'Admin', array('class' => 'img-circle img-xs')) }}
                             </div>

@@ -608,6 +608,7 @@ class ReportController extends AdminController
         $reportdata2 = array();
         $reportdata1 = IpnResponse::where('ipn_response.created_at', '>', date('Y-m-d 00:00:00', strtotime($request->start)))
                                    ->where('ipn_response.created_at', '<', date('Y-m-d 23:59:59', strtotime($request->end)))
+                                   ->where('ipn_response.payment_status','Completed')
                                    ->join('users', 'users.id', '=', 'ipn_response.user_id')
                                    ->join('packages', 'packages.id', '=', 'ipn_response.package_id')
                                    ->join('pending_transactions','pending_transactions.paypal_agreement_id','=','ipn_response.payment_id')

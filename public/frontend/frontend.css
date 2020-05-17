@@ -1767,6 +1767,9 @@ pre {
   .form-control::-webkit-input-placeholder {
     color: #868e96;
     opacity: 1; }
+  .form-control::-moz-placeholder {
+    color: #868e96;
+    opacity: 1; }
   .form-control::-ms-input-placeholder {
     color: #868e96;
     opacity: 1; }
@@ -5543,6 +5546,7 @@ img {
   }
   [data-grid].masonry {
     -webkit-column-count: 1;
+    -moz-column-count: 1;
     column-count: 1;
   }
 }
@@ -14729,11 +14733,11 @@ img.s-logo-2 {
 @charset "UTF-8";
 
 /*!
- * animate.css -http://daneden.me/animate
- * Version - 3.7.0
+ * animate.css -https://daneden.github.io/animate.css/
+ * Version - 3.7.2
  * Licensed under the MIT license - http://opensource.org/licenses/MIT
  *
- * Copyright (c) 2018 Daniel Eden
+ * Copyright (c) 2019 Daniel Eden
  */
 
 @-webkit-keyframes bounce {
@@ -18225,12 +18229,14 @@ img.s-logo-2 {
   animation-duration: 3s;
 }
 
-@media (prefers-reduced-motion) {
+@media (print), (prefers-reduced-motion: reduce) {
   .animated {
-    -webkit-animation: unset !important;
-    animation: unset !important;
-    -webkit-transition: none !important;
-    transition: none !important;
+    -webkit-animation-duration: 1ms !important;
+    animation-duration: 1ms !important;
+    -webkit-transition-duration: 1ms !important;
+    transition-duration: 1ms !important;
+    -webkit-animation-iteration-count: 1 !important;
+    animation-iteration-count: 1 !important;
   }
 }
 

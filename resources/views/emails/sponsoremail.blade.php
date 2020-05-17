@@ -43,7 +43,7 @@
 
                 <tr>
 
-                    <td style="padding:30px 30px 10px 30px"><h2 style="color:#000;">You are registerd to {{$company_name}}</h2></td>
+                    <td style="padding:30px 30px 10px 30px"><h2 style="color:#000;">A sponsor has been added under your account.</h2></td>
 
                 </tr>
 
@@ -80,7 +80,7 @@ Cheerfully yours, <br>
 
                 <tr>
 
-                    <td style="padding:20px 30px"><p style="font-size:12px; color:#000000;">Copyright Â© {{Date('Y')}} {{$company_name}}. All Rights Reserved</p></td>
+                    <td style="padding:20px 30px"><p style="font-size:12px; color:#000000;">Copyright © {{Date('Y')}} {{$company_name}}. All Rights Reserved</p></td>
 
                 </tr>
 

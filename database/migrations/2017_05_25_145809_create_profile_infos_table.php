@@ -30,7 +30,7 @@ class CreateProfileInfosTable extends Migration
             $table->string('image', 600)->default('avatar-big.png');
 
             $table->string('profile', 600)->default('avatar.png');
-            $table->string('cover', 600)->default('cover.jpg');
+            $table->string('cover', 600)->default('algolightcover.jpg');
 
             $table->string('mobile', 60)->default(false)->nullable();;
             $table->string('passport', 60)->default(false)->nullable();;

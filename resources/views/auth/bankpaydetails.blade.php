@@ -14,36 +14,16 @@
                     
                    <p style="margin: 0 auto!important;display: block!important;">
 
-
-
-
-
-
-                      1 .Payment to this account <br><br>
-                      <center>
-                        
-                        <b>{{$bank_details->accound_holder_name}}</b><br>
-                        Account Number: <b>{{$bank_details->account_number}}</b><br>
-                        Swift Code: <b>{{$bank_details->swift}}</b><br> 
-                        Bank NAME: <b>{{$bank_details->bank_name}}</b><br>
-                        BANK ADDRESS: <b>{{$bank_details->bank_address}}</b><br>
-                    <br>
+                       <center>
+                      <img src="{{url('img/cache/original/Internationaltransfer.jpg')}}" style="width: 1000px;width:1000px;">
                       </center>
-                      2.Payment Of Amount <b>${{$joiningfee}}</b> as <b>Joining Fee 
+
                       <br>
                        <br>
-           <!--           3 . USE this as PAYMENT REFERENCE :
-                     <div class="row" style="margin-top: 2%!important;">
-                      <div class="col-sm-4">
-                    <b><input type="text" value="{{$orderid}}" id="myInput" readonly=""  class="form-control"></b>
-                    </div>
-                    <div class="col-sm-2">
-
-                
-                    <button class = "btn-copy form-control" onclick="myFunction()"  data-clipboard-target="#myInput" >Copy</button>
-                    </div>
-                    </div><br><br><br><br> -->
-
+                      Payment Of Amount <b>€ {{$joiningfee}}</b> as <b>Joining Fee 
+                      <br>
+                       <br>
+         
                       <b>Note! :</b><code> Registration will be completed once payment is done  </code>                          
                     </p>
 
@@ -70,5 +50,6 @@
      }, 4000);
 
  </script>
+  
   
 @endsection

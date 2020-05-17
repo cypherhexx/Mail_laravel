@@ -106,8 +106,10 @@
                             @else
                             {{$report->payment_cycle}}
                           @endif</td>
-                          <td>@if($report->payment_method == 'cheque')
-                            Bank
+                          <td>@if($report->payment_method == 'cheque' && $report->payment_type == 'register')
+                            Free
+                            @elseif($report->payment_method == 'cheque' && $report->payment_type != 'register')
+                            Bank Transfer
                             @else
                             {{$report->payment_method}}
                           @endif</td>

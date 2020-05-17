@@ -131,9 +131,15 @@
                                         
                                     </div>
 
+
                                     <h3 class="no-margin text-semibold"> {{$category}}</h3>
                                    My Category
-                                   <img src="{{url('/assets/uploads/'.$cat_image)}}" style="width: 80px;margin-top: -41px;float:right;">                                  
+                                    @if($category != null)
+                                   <img src="{{url('/assets/uploads/'.$cat_image)}}" style="width: 80px;margin-top: -41px;float:right;">
+                                   @else
+                                   <h3 class="no-margin text-semibold"> No category</h3>
+                                   @endif                                       
+
 
 
                                     <!-- <div class="text-muted text-size-small">   My Category</div> -->
@@ -156,14 +162,10 @@
 
                                     <h3 class="no-margin text-semibold">{{$rank_name}}</h3>
                                  My Rank
+
                                  @if($rank_name != 'No rank')
-
-                                  <img src="{{ url('assets/uploads/'.$rank_image) }}" style="width: 100px;margin-top: -41px;float:right;">
-
-
-                                  
-
-
+        <img src="{{ url('assets/uploads/'.$rank_image) }}" style="width:80px;height :auto;margin-top:-41px;float:right;height:78px;">
+    
                                   @endif
                                     <!-- <div class="text-mut text-size-small">My Rank</div> -->
                                 </div>

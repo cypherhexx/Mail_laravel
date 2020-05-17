@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use DB;
+use Illuminate\Support\Facades\Log;
 
 
 class Packages extends Model
@@ -47,7 +48,7 @@ class Packages extends Model
     return true;
 
     }else{
-    return flase ; 
+    return false ; 
     }
     }
 
@@ -62,9 +63,12 @@ class Packages extends Model
             if($puchase_status == "no"){
                 continue;
             }
+            Log::debug('Arslan debug: User: ' . $upuser);
             $package=ProfileInfo::where('user_id',$upuser)->value('package');
             $pack=Packages::find($package);
+            Log::debug('Arslan debug: Package: ' . $package);
             $cat_id=User::where('id',$upuser)->value('category_id');
+            Log::debug('Arslan debug: Category id: ' . $cat_id);
             $category=Category::find($cat_id)->percentage;
             $rank=User::where('id',$upuser)->value('rank_id');
             $rankgain=Ranksetting::find($rank)->gain;

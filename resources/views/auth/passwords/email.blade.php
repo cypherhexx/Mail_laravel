@@ -6,7 +6,9 @@
         <div class="row">
     <div class="col-md-8 col-md-offset-2">
         <div class="panel-heading">
-        <p style="text-align:center;"><img src="{{url('img/cache/original/logo.png')}}" alt="logo" style="width:60px;height:60px;" align="middle"></p>
+        <p style="text-align:center;">
+            <!-- <img src="{{url('img/cache/original/logo.png')}}" alt="logo" style="width:60px;height:60px;" align="middle"></p> -->
+             <img src="https://office.algolight.net/img/cache/logo/atmorlogo.png" alt="logo" style="width:60px;height:60px;" align="middle"></p>
     </div>
 </div>
 </div>

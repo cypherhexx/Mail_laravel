@@ -160,9 +160,11 @@ class RegisterController extends Controller
             $sponsor_name=Session::get('replication');          
         }
         else{
+            
+            $sponsor_name = NULL;
 
-
-            $sponsor_name = User::find(1)->username;
+             //return redirect("/");
+            //$sponsor_name = User::find(2)->username;
 
         }
         $user_id=User::where('username',$sponsor_name)->value('id');
@@ -198,19 +200,24 @@ class RegisterController extends Controller
         $voucher_code=Voucher::pluck('voucher_code');
         $payment_type=PaymentType::where('status','yes')->get();
         $transaction_pass=self::RandomString();
-        $sponsor = User::where('username','=',$sponsor_name)->get();
-        $profile = ProfileInfo::where('user_id','=',$sponsor[0]->id)->get();
-        $profile_photo = $profile[0]->profile;
         $app = AppSettings::find(1);
         $currency_sy = $app->currency;
         // dd($profile_photo);
 
-        if (!Storage::disk('images')->exists($profile_photo)){
-            $profile_photo = 'avatar-big.png';
+        if($sponsor_name != NULL){
+
+            $sponsor = User::where('username','=',$sponsor_name)->get();
+            $profile = ProfileInfo::where('user_id','=',$sponsor[0]->id)->get();
+            $profile_photo = $profile[0]->profile;
+            
+            if (!Storage::disk('images')->exists($profile_photo)){
+                $profile_photo = 'avatar-big.png';
+            }
+            if(!$profile_photo){
+                $profile_photo = 'avatar-big.png';
+            }
         }
-        if(!$profile_photo){
-            $profile_photo = 'avatar-big.png';
-        }
+
 // dd($profile_photo);
         
 
@@ -412,6 +419,8 @@ class RegisterController extends Controller
                 $request->payment='paypal';
             }
 
+            $btc_forwarding = Settings::value('bitcon_address');
+
             $register=PendingTransactions::create([
                  'order_id' =>$orderid,
                  'username' =>$request->username,
@@ -450,10 +459,12 @@ class RegisterController extends Controller
                     $response = self::$provider->setExpressCheckout($data); 
                     PendingTransactions::where('id',$register->id)->update(['payment_data' => json_encode($response),'paypal_express_data' => json_encode($data)]);
                 
+
                     return redirect($response['paypal_link']);
                 }
 
             if($request->payment == 'bitcoin'){
+
 
                 $title='Bitaps Payment';
                 $sub_title='Bitaps Payment';
@@ -461,7 +472,7 @@ class RegisterController extends Controller
                 $method='Bitaps Payment';
                 $url ='https://api.bitaps.com/btc/v1//create/payment/address' ;
                 $payment_details = $this->url_get_contents($url,[
-                                        'forwarding_address'=>'1GwyMojNcB6yoChGy8KeAyEXfDLKxVQg1G',
+                                        'forwarding_address'=>$btc_forwarding,
                                         'callback_link'=>url('bitaps/paymentnotify'),
                                         'confirmations'=>3
                                         ]);
@@ -470,7 +481,7 @@ class RegisterController extends Controller
                 $package_amount = $joiningfee/$conversion->data->last;
                 $package_amount=round($package_amount,8);
                 PendingTransactions::where('id',$register->id)->update(['payment_code'=>$payment_details->payment_code,'invoice'=>$payment_details->invoice,'payment_address'=>$payment_details->address,'payment_data'=>json_encode($payment_details)]);
-                 $trans_id=$register->id;
+                $trans_id=$register->id;
 
                 return view('auth.bitaps',compact('title','sub_title','base','method','payment_details','data','package_amount','trans_id'));
             }
@@ -505,13 +516,28 @@ class RegisterController extends Controller
                     ], function ($m) use ($data, $email) {
                         $m->to($data['email'], $data['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
                     });
+Log::debug('Register Controller Auth - Arslan');
                 return redirect("register/preview/" . Crypt::encrypt($userresult->id));
+            }
+            if($request->payment == 'bank'){
+
+
+                $title     = "Payment Details";
+                $sub_title = "Payment Details";
+                $base      = "Payment Details";
+                $method    = "Payment Details";
+              //  $data=PendingTransactions::find($request->id);
+
+                $trans_id = $register->id;
+
+                return view('auth.bankpaydetails',compact('title', 'sub_title', 'base', 'method','joiningfee','trans_id'));
             }
         }
 
        
     }
 
+   
     public function paypalReg(Request $request){
 
         $payment_id = Session::get('paypal_payment_id');
@@ -605,63 +631,109 @@ class RegisterController extends Controller
     }
 
     public function paypalRegSuccess(Request $request,$id){
+
         // dd($request->all());
         // echo "here";
-         self::$provider->setCurrency('EUR');
+          self::$provider->setCurrency('EUR');
           $response = self::$provider->getExpressCheckoutDetails($request->token);
 
           // dd($?response);
           $item = PendingTransactions::find($id);
           $item->payment_response_data = json_encode($response);
           $express_data=json_decode($item->paypal_express_data,true);
+
+          // dd($express_data['invoice_id']);
           // $response = self::$provider->doExpressCheckoutPayment($express_data, $request->token, $request->PayerID);
           $item->paypal_recurring_reponse = json_encode($response);
           $item->save();
           if($response['ACK'] == 'Success'){
-            $item->payment_status='complete';
-            $item->save();
-            $details=json_decode($item->request_data,true);
-            $username=User::where('username',$item->username)->value('id');
-            $email=User::where('email',$item->email)->value('id');
-              if($username == null && $email == null){
-                $userresult = User::add($details,$item->sponsor,$item->sponsor);
-                $sponsorname = $details['sponsor'];
-                $legname = $details['leg'] == "L" ? "Left" : "right";            
-                
-                Activity::add("Added user $userresult->username","Added $userresult->username sponsor as $sponsorname ");
-                Activity::add("Joined as $userresult->username","Joined in system as $userresult->username sponsor as $sponsorname ",$userresult->id);
-                $email = Emails::find(1);
-                $welcome=welcomeemail::find(1);
-                $app_settings = AppSettings::find(1);
-               
-                Mail::send('emails.register',
-                    ['email'         => $email,
-                        'company_name'   => $app_settings->company_name,
-                        'logo'   => $app_settings->logo,
-                        'firstname'      => $details['firstname'],
-                        'name'           => $details['lastname'],
-                        'login_username' => $details['username'],
-                        'password'       => $details['password'],
-                        'welcome'        => $welcome,
-                        'transaction_pass'=>$details['transaction_pass'],
-                    ], function ($m) use ($details, $email) {
-                        $m->to($details['email'], $details['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
-                    });
-                 return redirect("register/preview/" . Crypt::encrypt($userresult->id));
-              }
-              else{
-                Session::flash('flash_notification', array('level' => 'error', 'message' => 'User Already Exist'));
-                return Redirect::to('register');
 
-              }
+            /*added vincy*/
+
+            $item->payment_status='payment_initiated';
+            $item->save();
+            $data = [];
+            $data['items'] = [
+                        [
+                            'name' => Config('APP_NAME'),
+                            'price' => $item->amount,
+                            'qty' => 1
+                        ]
+                    ];
+
+            $data['invoice_id'] = $express_data['invoice_id'];
+            $data['invoice_description'] = "Order #{$express_data['invoice_id']} Invoice";
+            $data['return_url'] = url('/register/paypal/success',$id);
+            $data['cancel_url'] = url('register');
+
+            $item->save();
+                
+            $total = 0;
+            foreach($data['items'] as $item) {
+                        $total += $item['price']*$item['qty'];
+            }
+
+            $data['total'] = $total;
+
+            $response = self::$provider->doExpressCheckoutPayment($data, $request->token, $request->PayerID);
+
+            $item = PendingTransactions::find($id);
+            $item->payment_doexpressresponse_data=json_encode($response);
+            $item->save();
+            /**/
+            
+
+            
+            // dd($response);
+
+            if($response['ACK'] == 'Success'){
+                $item = PendingTransactions::find($id);
+                $item->payment_status='complete';
+                $item->save();
+                $details=json_decode($item->request_data,true);
+                $username=User::where('username',$item->username)->value('id');
+                $email=User::where('email',$item->email)->value('id');
+                if($username == null && $email == null){
+                    $userresult = User::add($details,$item->sponsor,$item->sponsor);
+                    $sponsorname = $details['sponsor'];
+                    $legname = $details['leg'] == "L" ? "Left" : "right";            
+                    
+                    Activity::add("Added user $userresult->username","Added $userresult->username sponsor as $sponsorname ");
+                    Activity::add("Joined as $userresult->username","Joined in system as $userresult->username sponsor as $sponsorname ",$userresult->id);
+                    $email = Emails::find(1);
+                    $welcome=welcomeemail::find(1);
+                    $app_settings = AppSettings::find(1);
+                   
+                    Mail::send('emails.register',
+                        ['email'         => $email,
+                            'company_name'   => $app_settings->company_name,
+                            'logo'   => $app_settings->logo,
+                            'firstname'      => $details['firstname'],
+                            'name'           => $details['lastname'],
+                            'login_username' => $details['username'],
+                            'password'       => $details['password'],
+                            'welcome'        => $welcome,
+                            'transaction_pass'=>$details['transaction_pass'],
+                        ], function ($m) use ($details, $email) {
+                            $m->to($details['email'], $details['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
+                        });
+                     return redirect("register/preview/" . Crypt::encrypt($userresult->id));
+                  }
+                  else{
+                      Session::flash('flash_notification', array('level' => 'error', 'message' => 'User Already Exist'));
+                      return Redirect::to('register');
+
+                  }
+             }else{
+                return redirect('register')->withErrors(['Opps something went wrong']);
+             } 
           }
           else{
               Session::flash('flash_notification', array('level' => 'error', 'message' => 'Error In payment'));
                 return Redirect::to('register');
           }
 
-          
-
+        
             // dd($details['firstname']);
 
            

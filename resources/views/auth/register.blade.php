@@ -1,4 +1,4 @@
-<!--@extends('layouts.auth')-->
+@extends('layouts.auth')
 
 <div class="bg-register">
 @section('content')
@@ -120,11 +120,14 @@ ul, menu, dir {
 </div>-->
 <div class="col-md-8 col-md-offset-4">
     <div class="vide-strap">
+         @if($sponsor_name != NULL)
           <p>Welcome , This site is sponsored by <b>{{ $sponsor[0]->username }}</b> </p>
+         @endif
     </div>
 </div>
 </div>
 <div class="col-md-3 side-1 padding-1">
+@if($sponsor_name != NULL)
     <div class="panel panel-white" >
     <h3 class="bdr">
         <i class="fa fa-newspaper-o"></i>Sponsor
@@ -159,6 +162,7 @@ ul, menu, dir {
     <div class="clear"></div>
     <div class="shadow"></div>
  </div>
+ @endif
  </div>
 
 
@@ -279,7 +283,11 @@ ul, menu, dir {
                          <div class="col-md-6">
                         <div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('sponsor') ? ' has-error' : '' }}">
                             {!! Form::label('sponsor', trans("all.sponsor"), array('class' => 'control-label')) !!}
+                            @if($sponsor_name != NULL)
                             <input class="form-control" value="{{$sponsor_name}}" required="required" data-parsley-required-message="all.please_enter_sponsor_name" name="sponsor" type="text" id="sponsor" data-parsley-group="block-0" data-parsley-sponsor="null" readonly>
+                            @else
+                            <input class="form-control" value="{{$sponsor_name}}" required="required" data-parsley-required-message="all.please_enter_sponsor_name" name="sponsor" type="text" id="sponsor" data-parsley-group="block-0" data-parsley-sponsor="null">
+                            @endif
                             <!--data-parsley-remote="data-parsley-remote" data-parsley-remote-validator="validate_sponsor" data-parsley-remote-options='{ "type": "POST", "dataType": "jsonp", "data": { "csrf": {{csrf_token()}} } }' data-parsley-remote-message="all.there_is_no_user_with_that_username" data-parsley-trigger-after-failure="change" data-parsley-trigger="change" 
                             -->
                             <div class="form-control-feedback">
@@ -566,9 +574,13 @@ ul, menu, dir {
 
                                            <img src="{{url('img/cache/original/paypallogo.png')}}" style="width: 76px;height: 60px;">
                                         </a>
-                                        @else
+                                        @elseif($payment->id==6)
                                         <a href="#" payment="{{$payment->code}}" class="list-group-item text-center" class="">
                                               <img src="{{url('img/cache/original/bit.png')}}" style="width: 90px;height: 63px;">
+                                        </a>
+                                        @else
+                                        <a href="#" payment="{{$payment->code}}" class="list-group-item text-center" class="">
+                                             Bank transfer
                                         </a>
                                         @endif @endforeach
                                     </div>
@@ -636,6 +648,24 @@ ul, menu, dir {
                                     </div>
 
                                          @elseif($pay->payment_name=="Bitcoin")
+                                    <div class="bhoechie-tab-content">
+                                        <div class="text-center">
+                                            <div class="text-center">
+                                                <h1> <p class="text-body">
+                                                    
+                                                    {{trans('register.joining_fee') }}:{{$currency_sy}}
+                                                    <span name="fee" class="ewallet_joining"> {{$joiningfee}} </span>
+                                                    
+                                                </p></h1>
+                                               
+                                                <p>
+                                                    <button class="btn btn-success btn-lg"  role="button" style="background-color: #00bcd4; border-color: #00bcd4;">{{$pay->payment_name}} payment confirmation</button>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    @elseif($pay->payment_name=="BankTransfer")
                                     <div class="bhoechie-tab-content">
                                         <div class="text-center">
                                             <div class="text-center">

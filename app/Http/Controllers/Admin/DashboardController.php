@@ -14,6 +14,7 @@ use App\Payout;
 use App\User;
 use App\Mail;
 use App\Tree_Table;
+use App\Ranksetting;
 
 use App\Models\Helpdesk\Ticket\Ticket;
 use Illuminate\Http\Request;
@@ -52,7 +53,17 @@ class DashboardController extends AdminController
         // Tree_Table::$downline_id_list =[];
         // $data=Tree_Table::getDownlineCount($user_id);
 
-       
+        // Packages::rankCheck(13);
+
+       // $user_arrs=[];
+       //      $results=Ranksetting::getTreeUplinePackage(35,1,$user_arrs);
+       //      array_push($results, 35);
+       //      // dd($results);
+          
+       //      foreach ($results as $key => $value) {
+           
+       //          Packages::rankCheck($value);
+       //      }
 
         $title     = trans('dashboard.dashboard');
         $sub_title = trans('dashboard.your-dashboard');
@@ -163,7 +174,13 @@ class DashboardController extends AdminController
        // $results=Packages::gettenupllins(12,1,$user_arrs);
        // dd($results);
             $users=1;
-        return view('app.admin.dashboard.index', compact('title', 'per_users', 'recent', 'per_payout', 'per_mail', 'per_voucher', 'users', 'all_payout', 'new_users', 'count_new', 'percentage_released', 'percentage_balance', 'total_users', 'total_messages', 'total_voucher', 'total_amount', 'unread_count', 'unread_mail', 'point_details', 'sub_title', 'base', 'method','male_users_count','female_users_count','weekly_users_count','monthly_users_count','yearly_users_count','packages_data','all_activities','top_recruiters','top_earners'));
+
+        /*vincy*/
+
+        $turnover=PurchaseHistory::sum('total_amount');
+                               
+                               
+        return view('app.admin.dashboard.index', compact('title', 'per_users', 'recent', 'per_payout', 'per_mail', 'per_voucher', 'users', 'all_payout', 'new_users', 'count_new', 'percentage_released', 'percentage_balance', 'total_users', 'total_messages', 'total_voucher', 'total_amount', 'unread_count', 'unread_mail', 'point_details', 'sub_title', 'base', 'method','male_users_count','female_users_count','weekly_users_count','monthly_users_count','yearly_users_count','packages_data','all_activities','top_recruiters','top_earners','turnover'));
     }
 
 

@@ -527,9 +527,9 @@
 
 
 <div class="panel-heading">
-<h6 class="panel-title">
-  Bank Account details
-</h6>
+    <h6 class="panel-title">
+        Bank Account details
+    </h6>
 
 </div>
 <div class="panel-body">                                
@@ -537,16 +537,16 @@
         <div class="row">
             <div class="col-md-6">
                 <label>
-                    {{ trans('register.account_number') }}
+                    {{ trans('register.account_holder_name') }}
                 </label>
-                <input class="form-control" name="account_number" type="text" value="{{ $selecteduser->profile_info->account_number }}">
+                <input class="form-control" name="account_holder_name" type="text" value="{{ $selecteduser->profile_info->account_holder_name }}">
                  
             </div>
             <div class="col-md-6">
                 <label>
-                    {{ trans('register.account_holder_name') }}
+                   Swift
                 </label>
-                <input class="form-control" name="account_holder_name" type="text" value="{{ $selecteduser->profile_info->account_holder_name }}">
+                <input class="form-control" name="swift" type="text" value="{{ $selecteduser->profile_info->swift }}">
                 
             </div>
         </div>
@@ -556,17 +556,16 @@
         <div class="row">
             <div class="col-md-6">
                 <label>
-                   Swift Code
+                 Iban
                 </label>
-                <input class="form-control" name="swift" type="text" value="{{ $selecteduser->profile_info->swift }}">
+                <input class="form-control" name="iban" type="text" value="{{ $selecteduser->profile_info->iban }}">
                  
             </div>
             <div class="col-md-6">
-                <label>
-                   Bank Name
-                </label>
-
-                <input class="form-control" id="bank_name" name="bank_name" type="text" value="{{ $selecteduser->profile_info->bank_name }}" >
+                <div class="required form-group has-feedbackX has-feedback-leftx {{ $errors->has('country') ? ' has-error' : '' }}">
+            {!! Form::label('country', trans("register.country"), array('class' => 'control-label')) !!} {!! Form::select('bank_country', $countries ,null !==(Input::old('bank_country')) ? Input::old('bank_country') : $selecteduser->profile_info->bank_country,['class' => 'form-control','id' => 'bank_country','required' => 'required','data-parsley-required-message' => trans("all.please_select_country"),'data-parsley-group' => 'block-1']) !!}
+            
+            </div>
                     
                 
                 
@@ -575,7 +574,45 @@
     </div>
     <div class="form-group">
         <div class="row">
-                 <div class="col-md-6">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Bank Name</label>
+                    <input class="form-control" id="bank_name" name="bank_name" type="text" value="{{ $selecteduser->profile_info->bank_name }}" >
+                </div>
+                
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Bank Code</label>
+                    <input class="form-control" id="bank_code" name="bank_code" type="text" value="{{$selecteduser->profile_info->bank_code}}" >
+                </div>
+            </div>  
+        </div>
+        
+    </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-6">
+            <div class="form-group">
+                <label>Number of Branches</label>
+                <input class="form-control" id="branch_count" name="branch_count" type="text" value="{{$selecteduser->profile_info->branch_count}}" >
+            </div>
+            </div> 
+     
+            <div class="col-md-6">
+            <div class="form-group">
+            <label>Account Number</label>
+                <input class="form-control" id="account_number" name="account_number" type="text" value="{{$selecteduser->profile_info->account_number}}" >
+            </div>
+             </div> 
+              
+        
+        </div>
+        
+    </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-6">
                 <label>
                    Bank Address
                 </label>
@@ -588,6 +625,7 @@
     </div>
         
     </div>
+    
 
     <div class="text-right">
         <button class="btn btn-primary" type="submit">
@@ -597,7 +635,7 @@
         </button>
     </div>
 
-</div>
+    </div>
 </form>
 </div>
 </div>
@@ -772,6 +810,133 @@
             </div>
         </div>
     </div>
+  
+    <div class="text-right">
+        <button class="btn btn-primary" type="submit">
+            {{trans('profile.save')}}
+            <i class="icon-arrow-right14 position-right">
+            </i>
+        </button>
+    </div>
+ </form>
+
+{!! Form::close() !!}
+</div>
+</div>
+
+<div class="panel panel-flat">
+<div class="panel-heading">
+<h6 class="panel-title">
+    Bitcion Account Settings :
+</h6>
+<div class="heading-elements">
+    <ul class="icons-list">
+        <li>
+            <a data-action="collapse">
+            </a>
+        </li>
+        <li>
+            <a data-action="reload">
+            </a>
+        </li>
+        <li>
+            <a data-action="close">
+            </a>
+        </li>
+    </ul>
+</div>
+</div>
+<div class="panel-body">
+
+
+ <form action="{{url('admin/users/bitconaccount_settings')}}" class="smart-wizard form-horizontal" method="post"  >
+     {!! csrf_field() !!}
+    <div class="form-group">
+       <div class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                        <label>Bitcoin Address</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input class="form-control" id="bitcoin_address" name="bitcoin_address" type="text" value="{{$selecteduser->bitcoin_address}}" >
+                            <input type="hidden" name="user_id"value="{{$selecteduser->id}}">
+                        </div>
+                    </div>
+
+                </div> 
+  
+            </div>
+        
+        </div>
+    </div>
+  
+  
+    <div class="text-right">
+        <button class="btn btn-primary" type="submit">
+            {{trans('profile.save')}}
+            <i class="icon-arrow-right14 position-right">
+            </i>
+        </button>
+    </div>
+ </form>
+
+{!! Form::close() !!}
+</div>
+</div>
+<div class="panel panel-flat">
+<div class="panel-heading">
+<h6 class="panel-title">
+   Paypal Account Settings:
+</h6>
+<div class="heading-elements">
+    <ul class="icons-list">
+        <li>
+            <a data-action="collapse">
+            </a>
+        </li>
+        <li>
+            <a data-action="reload">
+            </a>
+        </li>
+        <li>
+            <a data-action="close">
+            </a>
+        </li>
+    </ul>
+</div>
+</div>
+<div class="panel-body">
+
+
+ <form action="{{url('admin/users/payplemail_settings')}}" class="smart-wizard form-horizontal" method="post"  >
+     {!! csrf_field() !!}
+    <div class="form-group">
+       <div class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                        <label>Eamil Paypal</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input class="form-control" id="paypal_email" name="paypal_email" type="email" value="{{$selecteduser->paypal_email}}" >
+                              <input type="hidden" name="user_id"value="{{$selecteduser->id}}">
+                        </div>
+                    </div>
+
+                </div> 
+  
+            </div>
+        
+        </div>
+    </div>
+  
   
     <div class="text-right">
         <button class="btn btn-primary" type="submit">

@@ -42,7 +42,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @var array
      */
-    protected $fillable = ['user_id','email', 'password','username','sponsor','rank_id','register_by','name','lastname','transaction_pass','created_at','admin','referral_count','document','verified','verification_number','sponsor','purchase_count'];
+    protected $fillable = ['user_id','email', 'password','username','sponsor','rank_id','register_by','name','lastname','transaction_pass','created_at','admin','referral_count','document','verified','verification_number','sponsor','purchase_count','bitcoin_address','paypal_email'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -336,7 +336,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             ->get();
 
     }
-    public static function categoryUpdate($sponsor_id){
+    public static function categoryUpdate($sponsor_id)
+    {
 
       $sponsor_package=ProfileModel::where('user_id',$sponsor_id)->value('package');
       $sponsor_category=User::where('id',$sponsor_id)->value('category_id');
@@ -345,17 +346,31 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         if($cat_det <> null && $sponsor_package > 1){
 
           $sponsor_count=Sponsortree::join('profile_infos','profile_infos.user_id','=','sponsortree.user_id')
+                                      ->where('profile_infos.package','>',1)
                                     ->where('sponsortree.sponsor',$sponsor_id)
                                     ->where('sponsortree.type','=','yes')
                                     ->count();
             if($sponsor_count >= $cat_det->count){
               
                User::where('id',$sponsor_id)->update(['category_id'=>$cat_det->id]);
+               self::insertCategoryHistory($sponsor_id,$cat_det->id,$sponsor_category,"categoryupdate");
             }
         }
      
 
     }
+
+    public static function insertCategoryHistory($user_id,$category_id,$last_category,$remarks)
+    {
+       
+        return CategoryHistory::create([
+                "user_id"=>$user_id,
+                "category_id"=>$last_category,
+                "category_updated"=>$category_id,
+                "remarks"=>$remarks,
+                    ]);
+    }
+
 
     public static function hoverCard($user_id)
     {
@@ -646,7 +661,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
              */
             $balanceupdate = SELF::insertToBalance($userresult->id);
 
-            $category_update=SELF::categoryUpdate($sponsor_id);
+            // $category_update=SELF::categoryUpdate($sponsor_id);
             
               // Activity::add("Added user $userresult->username","Added $userresult->username sponsor as 
               //   $sponsor ");

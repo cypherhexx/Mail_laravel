@@ -9,7 +9,6 @@
 
 
    
-   @if(count($result) > 0)
 
 <div class="panel panel-white">
     <div class="panel-heading">
@@ -22,7 +21,7 @@
     </div>
     <div class="panel-body">
 
-      $if(count($result) > 0)
+      @if(count($result) > 0)
     <div class="row">
       @foreach ($result as $key=>$video)
         <div class="col-sm-6">

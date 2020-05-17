@@ -184,8 +184,11 @@ class Sponsortree extends Model
                         $coverPhoto = '' . Html::image(route('imagecache', ['template' => 'large', 'filename' => self::coverPhoto($username)]), $username, array('class'=>$class.' tree-user','style' => '','data-accessid'=>$accessid)) . '';
 
                          $count=User::where('id',$value->user_id)->value('dowlinecount'); 
-
-                
+                       
+                       $url="userprofiles/".$value->username;
+                       $viewprofile=NULL;
+                      if(Auth::user()->id==1)
+                      $viewprofile="<a href='{$url}'class=btn'>View Profile</a>";
 
                         $info    = "<div class='hoverouter'>
                                         <div class='hoverinner'>
@@ -235,7 +238,8 @@ class Sponsortree extends Model
                                         
       
                                         </div>
-                                </div>";
+                                </div>".$viewprofile;
+
                 $className = $user_active_class;
                 $treearray[$value->id]['id']      =  $id;
                 $treearray[$value->id]['name']      = $name.'&nbsp'.$lastname;

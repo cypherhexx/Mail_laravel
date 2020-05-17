@@ -50,7 +50,7 @@
                 <div class="badge  bar bar-vacant ">{{trans('tree.vacant')}}</div>
             </div>
         </div>
-        <div class="overflow metrix-bg" style="background-image:url('http://cloud2162.cloudmlmdemo.com/img/cache/original/59a9220c74c5a.jpg'); background-repeat: no-repeat; background-size:cover;">
+        <div class="overflow metrix-bg" style="background-image:url('https://office.algolight.net/img/cache/original/genology-bg.jpg'); background-repeat: no-repeat; background-size:cover;">
                 <canvas id='treemap'></canvas>
             
             <div id="treediv" class="overflow overflow-auto">

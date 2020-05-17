@@ -312,6 +312,7 @@ class RegisterController extends Controller
                     Mail::send('emails.register', ['welcome'=>$welcome,'email'=>$email,'company_name'=>$app_settings->company_name,'firstname'=>$data['firstname'],'name'=>$data['lastname'],'login_username' => $data['username'],'password'=> $data['password']], function ($m) use ($data , $email) {
              $m->to($data['email'], $data['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
          });
+		Log::debug('Register Controller - Arslan');
                     $encrypt_id = Crypt::encrypt($userresult->id);
                     return  redirect("registersucces/$encrypt_id");
                 }
@@ -434,7 +435,19 @@ class RegisterController extends Controller
                                 Mail::send('emails.register', ['welcome'=>$welcome,'email'=>$email,'company_name'=>$app_settings->company_name,'firstname'=>$str['L_PAYMENTREQUEST_0_NAME0'],'name'=>$str['lastname'],'login_username' => $str['username'],'password'=> $str['password']], function ($m) use ($str , $email) {
              $m->to($str['email'], $str['L_PAYMENTREQUEST_0_NAME0'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
          });
-                                $encrypt_id = Crypt::encrypt($userresult->id);
+         $emaill = Emails::find(2);
+         Mail::send('emails.subscriptionemail',
+         ['email'         => $emaill,
+              'company_name'   => $app_settings->company_name,
+              'firstname'      => $data['firstname'],
+              'name'           => $data['lastname'],
+              'login_username' => $data['username'],
+              'welcome'        => $emaill->content,
+          ], function ($m) use ($data, $emaill) {
+              $m->to($data['email'], $data['firstname'])->subject('Package Activated!')->from($emaill->from_email, $emaill->from_name);
+          });
+          Log::debug($emaill);
+         $encrypt_id = Crypt::encrypt($userresult->id);
                                 return  redirect("registersucces/$encrypt_id");
                             }
                         }
@@ -443,4 +456,24 @@ class RegisterController extends Controller
          public function binary_calculate_demo(Request $request){
              PointTable::pairing();
         }
+
+
+    public function store_sponsor(Request $request)
+    {
+
+        $validate = User::where('username',$request->username)->count();
+        if($validate > 0){
+
+            Session::put('replication', $request->username);
+            $sponsor_value = Session::get('replication'); 
+            
+        }
+
+         session_start();
+//  echo 11111111111;
+ $_SESSION['test']="ath";
+        // echo  Session::get('replication');        
+
+        return Response::json(['message'=>'succes','sponsor_value'=>$sponsor_value])->header('Content-Type','application/json');
+   }
 }

@@ -17,6 +17,8 @@ class Kernel extends ConsoleKernel
         'App\Console\Commands\BackupUnilevel',
         'App\Console\Commands\PurchaseActiveCheck',
         'App\Console\Commands\CommissionPaypal',
+         'App\Console\Commands\DatabaseBackup',
+
     ];
 
     /**
@@ -37,6 +39,7 @@ class Kernel extends ConsoleKernel
                 ->daily();
                  $schedule->command('commission:paypal')
                 ->daily();
+                $schedule->command('Database:backup')->daily();
     }
 
     /**

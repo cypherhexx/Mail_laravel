@@ -27,6 +27,9 @@ use App\PendingTransactions;
 use App\ProfileModel;
 use App\BrokerDetails;
 use App\UserBrokerDetails;
+use App\Emails;
+use App\welcomeemail;
+use App\AppSettings;
 use Auth;
 use Datatables;
 use DB;
@@ -41,6 +44,7 @@ use App\Payout;
 use Crypt;
 use CountryState;
 use App\Ranksetting;
+use App\Settings;
 use Storage;
 use Hash;
 
@@ -312,139 +316,32 @@ class UserController extends AdminController
      *
      * @return Datatables JSON
      */
-    public function data(Request $request)
+ public function data(Request $request)
     {
-
-       
-        $sponsor_id = User::where('username','=',$request->sponsor)->value('id');
-       
-        $users = ProfileInfo::select(array('users.id', 'users.name', 'users.username','sponsor.username as sponsor', 'packages.package','tree_table.level', 'users.email', 'users.created_at','users.active'))
+// dd($request->all());
+        $user_count = User::where('id', '>', 1)->count();
+        // $users = User::select(array('users.id','users.name','users.username','packages.package','users.email', 'users.created_at'))
+        // ->join('packages','packages.id','=','users.package')->where('admin','<>',1)
+        $users = ProfileInfo::select(array('users.id', 'users.name', 'users.username', 'packages.package', 'users.email', 'users.created_at'))
             ->join('users', 'users.id', '=', 'profile_infos.user_id')
-            ->join('packages', 'packages.id', '=', 'profile_infos.package')
-            ->join('sponsortree','sponsortree.user_id','=','users.id')
-            ->join('tree_table','tree_table.user_id','=','users.id')
-            ->join('users as sponsor','sponsor.id','=','sponsortree.sponsor')
-              ->where(function ($query) use ($request,$sponsor_id) {
-                if ($request->username != 'all') {
-                    $query->where('users.username', '=', $request->username);
-                }
-                 if ($request->package != 'all') {
-                    $query->where('packages.package', '=', $request->package);
-                }
-                 if ($request->sponsor != 'all') {
-                    $query->where('sponsortree.sponsor', '=', $sponsor_id);
-                }
-
-            });
-           
-             // ->get();
-
+            ->join('packages', 'packages.id', '=', 'profile_infos.package')->where('admin', '<>', 1);
+          
+            // ->get();
 
         return Datatables::of($users)                
             // ->remove_column('id')
-            ->remove_column('active')
-            ->edit_column('level', '<?php $ends = array(\'th\',\'st\',\'nd\',\'rd\',\'th\',\'th\',\'th\',\'th\',\'th\',\'th\');
-if (($level %100) >= 11 && ($level%100) <= 13)
-   echo $test = $level. \'th\';
-else
-   echo $test = $level. $ends[$level % 10]; ?>')
-            ->edit_column('created_at', '{{ date("dS F Y",strtotime($created_at)) }}')
-             ->add_column('actions', '<a href="{{{ URL::to(\'admin/userprofiles/\' . $username) }}}" class="btn btn-info" ><span class="fa fa-user"></span> </a>')
-           ->add_column('deactivate',  ' <?php if($active !="no"){ ?><!-- Trigger the modal with a button -->
-
-        <button type="button"  class="btn btn-danger" data-toggle="modal" data-target="#myModal{{$id}}"> <span class="fa fa-trash "></span>   </button>
-
-      <!-- Modal -->
-
-        <div id="myModal{{$id}}" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-
-      <!-- Modal content-->
-
-        <div class="modal-content">
-        <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-
-        </div>
-
-        <div class="modal-body" style="overflow: auto !important;">
-
-       <center> 
-
-       Do you want to deactivate user <b>{{$username}}</b>
-      
-
-        </center>
-
-        
-        </div>                 
-        </form>
-        <div class="modal-footer">
-        <div class="row">
-        <a href="{{{ URL::to(\'admin/userprofiles_deactivate/\' . $username) }}}" class="btn btn-success" ></span>Confirm </a>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-        </div>
-        </div>
-        </div>
-        </div>
-        <script type="text/javascript">
-
-        $("#myModal{{$id}}").on("hidden.bs.modal", function () {
-        oTable.ajax.reload();
-        })
-        </script>
-
-             <?php }else{ ?>
-                <!-- Trigger the modal with a button -->
-
-        <button type="button"  class="btn btn-success" data-toggle="modal" data-target="#myModal{{$id}}"> <span class="fa fa-check"></span></button>
-
-      <!-- Modal -->
-
-        <div id="myModal{{$id}}" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-
-      <!-- Modal content-->
-
-        <div class="modal-content">
-        <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-
-        </div>
-
-        <div class="modal-body" style="overflow: auto !important;">
-
-       <center> 
-
-       Do you want to activate user <b>{{$username}}</b>
-      
-
-        </center>
-
-        
-        </div>                 
-        </form>
-        <div class="modal-footer">
-        <div class="row">
-        <a href="{{{ URL::to(\'admin/userprofiles_activate/\' . $username) }}}" class="btn btn-success" ></span>Confirm </a>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-        </div>
-        </div>
-        </div>
-        </div>
-        <script type="text/javascript">
-
-        $("#myModal{{$id}}").on("hidden.bs.modal", function () {
-        oTable.ajax.reload();
-        })
-        </script>
-              <?php } ?> '
-              )
+            // ->add_column('profile', '<a href="{{{ URL::to(\'/\' . $id) }}}">{{ trans("dfdf") }}</a>')
+            ->add_column('profile view','<a href="{{{ URL::to(\'admin/userprofiles/\' . $username) }}}" class="btn btn-success btn-sm ">{{ trans("$username") }}</a>' )
+            ->edit_column('created_at', '{{ date("D M Y",strtotime($created_at)) }}')
+            // ->add_column('actions', '@if ($id!="1")<a href="{{{ URL::to(\'admin/users/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm iframe" ><span class="fa fa-lock"></span>  {{ trans("admin/modal.changepassword") }}</a>
+                    // <a href="{{{ URL::to(\'admin/users/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger iframe"><span class="glyphicon glyphicon-trash"></span> {{ trans("admin/modal.terminate") }}</a>
+                // @endif')
+            ->setTotalRecords($user_count)
              ->escapeColumns([])
              ->make();
+// dd($users);
     }
+
 
       public function deactivateUser($user){
        // dd($user);
@@ -585,10 +482,12 @@ else
          * Get all packages from database
          * @var [collection]
          */
-
+        $settings=Settings::first();
+        $bitcon_address=$settings->bitcon_address;
+        $paypal_email=$settings->paypal_email;
  
 
-        return view('app.admin.users.profile', compact('title','sub_title', 'base', 'method', 'mail_count', 'voucher_count', 'balance', 'referrals', 'countries', 'selecteduser', 'sponsor', 'referals',  'left_bv', 'right_bv', 'user_package','profile_infos','countries','country','states','state','referrals_count','user_rank_name','profile_photo','cover_photo','total_payout'));
+        return view('app.admin.users.profile', compact('title','sub_title', 'base', 'method', 'mail_count', 'voucher_count', 'balance', 'referrals', 'countries', 'selecteduser', 'sponsor', 'referals',  'left_bv', 'right_bv', 'user_package','profile_infos','countries','country','states','state','referrals_count','user_rank_name','profile_photo','cover_photo','total_payout','bitcon_address','paypal_email'));
     }
     public function profile(Request $request)
     {
@@ -658,14 +557,22 @@ else
 
         $related_profile_info->account_number      = $request->account_number;
         $related_profile_info->account_holder_name = $request->account_holder_name;
+        $related_profile_info->iban                = $request->iban;
         $related_profile_info->swift               = $request->swift;
-        $related_profile_info->sort_code           = $request->sort_code;
+        $related_profile_info->bank_country        = $request->bank_country;
+        $related_profile_info->bank_name           = $request->bank_name;
         $related_profile_info->bank_code           = $request->bank_code;
+        $related_profile_info->branch_count        = $request->branch_count;
+        $related_profile_info->bank_address        = $request->bank_address;
+
+       
+       
+     
+        $related_profile_info->sort_code           = $request->sort_code;
+      
         $related_profile_info->paypal              = $request->paypal;
         $related_profile_info->about               = $request->about_me;
-         $related_profile_info->bank_address               = $request->bank_address;
-          $related_profile_info->bank_name               = $request->bank_name;
-
+      
         // if ($request->hasFile('profile_pic')) {
         //     $destinationPath = base_path() . "\public\appfiles\images\profileimages";
         //     $extension       = Input::file('profile_pic')->getClientOriginalExtension();
@@ -1281,7 +1188,12 @@ else
         $users = PendingTransactions::select('pending_transactions.id','pending_transactions.order_id','pending_transactions.username','pending_transactions.email','packages.package','pending_transactions.payment_type','pending_transactions.amount','pending_transactions.created_at')
            ->join('packages','pending_transactions.package','=','packages.id')
          ->where('payment_status','pending')
-          ->where('payment_method','cheque')->get();
+         ->where(function ($query) {
+                  $query->orwhere('payment_method','cheque'); 
+                  $query->orwhere('payment_method','bank');
+          })
+          ->get();
+          
         return view('app.admin.users.pendingtransactions',  compact('title','sub_title','base','method','users'));
 
     }
@@ -1438,7 +1350,7 @@ else
           $userpurchase['lastname']=$user[0]->lastname;
           $userpurchase['amount']=$transaction->amount;
           $userpurchase['payment_method']=$purchase_id->pay_by;
-          $userpurchase['mail_address']=$user[0]->email;;
+          $userpurchase['mail_address']=$user[0]->email;
           $userpurchase['mobile']=$user[0]->mobile;
           $userpurchase['address']=$user[0]->address1;
           $userpurchase['invoice_id'] ='0000'.$purchase_id->id;
@@ -1447,6 +1359,23 @@ else
           PurchaseHistory::where('id','=',$purchase_id->id)->update(['datas'=>json_encode($userpurchase)]);
           $transaction->payment_status ='complete';
           $transaction->save();
+
+          //Developed By Arslan Malik - NetPower
+          $email = Emails::find(3);
+          $app_settings = AppSettings::find(1);
+            
+          \Mail::send('emails.upgrade',
+                      ['email'         => $email,
+                          'company_name'   => $app_settings->company_name,
+                          'logo'   => $app_settings->logo,
+                          'firstname'      => $user[0]->name,
+                          'name'           => $user[0]->lastname,
+                          'welcome'        => $email->content,
+                     ], function ($m) use ($user, $email) {
+              $m->to($user[0]->email, $user[0]->name)->subject('Successfully upgraded!')->from($email->from_email, $email->from_name);
+                      });
+
+
           Session::flash('flash_notification',array('message'=>"You have purchased the plan successfully ",'level'=>'success'));
           return redirect()->back();
       }else{
@@ -1455,7 +1384,7 @@ else
       }
        }
        else{
-
+	
           // dd($pay_data);
           $sponsor_id = User::checkUserAvailable($pay_data['sponsor']);
           $placement_id =  User::checkUserAvailable($pay_data['placement_user']);
@@ -1465,6 +1394,39 @@ else
             $userresult=User::add($pay_data,$sponsor_id,$placement_id);
             $transaction->payment_status ='complete';
             $transaction->save();
+
+            $email = Emails::find(1);
+            $welcome=welcomeemail::find(1);
+            $app_settings = AppSettings::find(1);
+
+            //Developed By Arslan Malik - NetPower
+            \Mail::send('emails.register',
+                        ['email'         => $email,
+                            'company_name'   => $app_settings->company_name,
+                            'logo'   => $app_settings->logo,
+                            'firstname'      => $pay_data['firstname'],
+                            'name'           => $pay_data['lastname'],
+                            'login_username' => $pay_data['username'],
+                            'password'       => $pay_data['password'],
+                            'welcome'        => $welcome,
+                            'transaction_pass'=>$pay_data['transaction_pass'],
+                       ], function ($m) use ($pay_data, $email) {
+                $m->to($pay_data['email'], $pay_data['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
+                        });
+
+                $subemail = Emails::find(2);
+
+                \Mail::send('emails.subscriptionemail',
+                        ['email'         => $subemail,
+                            'company_name'   => $app_settings->company_name,
+                            'logo'   => $app_settings->logo,
+                            'firstname'      => $pay_data['firstname'],
+                            'name'           => $pay_data['lastname'],
+                            'welcome'        => $subemail->content,
+                       ], function ($m) use ($pay_data, $email) {
+                            $m->to($pay_data['email'], $pay_data['firstname'])->subject('Package Activated Successfully!')->from($email->from_email, $email->from_name);
+                        });
+
 
             Session::flash('flash_notification', array('level' => 'success', 'message' => 'User activated Successfully'));
             return redirect()->back();
@@ -1585,6 +1547,138 @@ else
     }
 
 
+
+    public function deletependinguser($id)
+    {
+        
+        $pending_trans = PendingTransactions::find($id);
+
+        $pending_trans->delete();
+
+        Session::flash('flash_notification', array('level' => 'success', 'message' => ' Deleted Successfully'));
+        return redirect()->back();
+    }
+
+    public function deleteusers()
+     {
+
+        $title     = 'Remove Users';
+        $sub_title = 'Remove Users';
+        $base      = 'Remove Users';
+        $method    = 'Remove Users';
+
+        return view('app.admin.users.deleteusers',  compact('title','sub_title','base','method'));
+    }
+
+
+    public function postdeleteusers(Request $request)
+    {
+        $validator = Validator::make($request->all(), ["username" => 'required|exists:users,username']);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors(['The username not exist']);
+        }
+
+        $user_id = User::where('username',$request->username)->value('id');
+      
+        $check_spvaccancy = Sponsortree::where('sponsor',$user_id)->where('type','<>','vaccant')->count();
+        
+        if($check_spvaccancy > 0){
+                
+           Session::flash('flash_notification', array('level' => 'danger', 'message' => 'This user cant be deleted'));          
+           return redirect()->back(); 
+        }
+
+        $placed_check = Tree_Table::where('user_id',$user_id)->count();
+
+        if($placed_check > 0){
+
+            $check_vaccancy = Tree_Table::where('placement_id',$user_id)->where('type','<>','vaccant')->count();
+
+            if($check_vaccancy > 0){
+                
+                Session::flash('flash_notification', array('level' => 'danger', 'message' => 'This user can not be deleted'));    
+                return redirect()->back(); 
+            }
+
+            #delete from tree table 
+            $treeid = Tree_Table::where('user_id',$user_id)->value('id');
+
+            $tree          = Tree_Table::find($treeid);
+            $tree->user_id = 0;
+            $tree->sponsor = 0;
+            $tree->type    = 'vaccant';
+            $tree->save();
+
+            $delete_vaccant = Tree_Table::where('placement_id',$user_id)->delete();
+       }
+       #delete from sponsor table
+       $sp_treeid = Sponsortree::where('user_id',$user_id)->value('id');
+       $softdel_user = Sponsortree::find($sp_treeid)->delete();
+       $delete_vac = Sponsortree::where('sponsor',$user_id)->delete();
+
+       $userinfo = User::find($user_id);
+       
+       $user_name_update = User::where('id',$user_id)->update([
+                                                              'username' => $userinfo->username.'deleted' , 
+                                                              'email' => $userinfo->email.'deleted' ,
+                                                     ]);
+
+       $user_tbl_del = User::find($user_id)->delete();
+       $profile_tbl_del = ProfileModel::where('user_id',$user_id)->delete();
+       $purchase_tbl_del = PurchaseHistory::where('user_id',$user_id)->delete();
+
+       Session::flash('flash_notification', array('level' => 'success', 'message' => 'User has been deleted'));   
+       return redirect()->back();   
+         
+    }
+
+  public function payplemail_settings(Request $request)
+    {
+      $validator = Validator::make($request->all(), [
+            'paypal_email' => 'required|email',
+            
+        ]);
+
+        if ($validator->fails()) {
+
+            return redirect()->back()->withErrors($validator);
+        }else{
+             $user_info                 = User::where('id',$request->user_id)->first();
+            $user_info->paypal_email = $request->paypal_email;
+            if($user_info->save()) {
+              Session::flash('flash_notification', array('level' => 'success', 'message' => 'Paypal Eamil Updated Successfully'));
+            }else{
+              Session::flash('flash_notification', array('level' => 'error', 'message' => 'Something went wrong'));
+            }
+            return redirect()->back();
+        }
+     
+    }
+    public function bitconaccount_settings(Request $request)
+    {
+       
+       $validator = Validator::make($request->all(), [
+            'bitcoin_address' => 'required',
+            
+        ]);
+
+        if ($validator->fails()) {
+
+            return redirect()->back()->withErrors($validator);
+        }else{
+             
+              $user_info                 = User::where('id',$request->user_id)->first();
+              $user_info->bitcoin_address = $request->bitcoin_address;
+              if ($user_info->save()) {
+                  Session::flash('flash_notification', array('level' => 'success', 'message' => 'Bitcoin Account Updated Successfully'));
+      
+              }
+            else{
+              Session::flash('flash_notification', array('level' => 'error', 'message' => 'Something went wrong'));
+            }
+            return redirect()->back();
+        }
+    }
 
    
 

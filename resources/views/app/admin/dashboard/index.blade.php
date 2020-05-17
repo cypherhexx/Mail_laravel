@@ -137,7 +137,8 @@
         </div>
         <div class="panel-body">
             <div class="input-group">
-                <input id="referrallink" type="text" readonly="true" class="selectall form-control" spellcheck="false" value="{{url('/',Auth::user()->username)}}" />
+                <!-- input id="referrallink" type="text" readonly="true" class="selectall form-control" spellcheck="false" value="{{url('/',Auth::user()->username)}}" /> -->
+                <input id="referrallink" type="text" readonly="true" class="selectall form-control" spellcheck="false" value="https://algolight.net/{{Auth::user()->username}}" />
                 <span class="input-group-addon copylink">
                     <button class="btn btn-link btn-copy"  style="margin: 0 auto;padding: 0px;font-size: 12px;" data-clipboard-target="#referrallink">
                     <i class="fa fa-copy"></i>
@@ -145,8 +146,8 @@
                 </span>
             </div>
         </div>
-        <div class="panel-footer"><a class="heading-elements-toggle"><i class="icon-more"></i></a>
-        <div class="">
+        <!-- <div class="panel-footer"><a class="heading-elements-toggle"><i class="icon-more"></i></a> -->
+      <!--   <div class="">
             <div class="text-semibold text-center">{{trans('dashboard.share')}}</div>
             <hr class="mb-5 mt-5" />
             <div class="panel-body text-center">
@@ -170,7 +171,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
     </div>
 </div>    

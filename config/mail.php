@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+    'host' => env('MAIL_HOST', 'smtp.sendgrid.net'),
 
     /*
     |--------------------------------------------------------------------------
@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'demo@cloudmlmsoftware.com'),
-        'name' => env('MAIL_FROM_NAME', 'Cloud MLM Software Demo'),
+        'address' => env('MAIL_FROM_ADDRESS', 'bluesky410219@gmail.com'),
+        'name' => env('MAIL_FROM_NAME', 'jeff'),
     ],
 
     /*

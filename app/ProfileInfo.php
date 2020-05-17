@@ -17,7 +17,8 @@ class ProfileInfo extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id','dateofbirth','address1','address2','gender','city','location','occupation','country','state','zip','image','mobile','passport','skype','twitter','facebook','gplus','linkedin','whatsapp','wechat','about','package','currency','account_number','account_holder_name','swift','sort_code','bank_code','paypal','profile','cover','bank_address','bank_name'];
+    protected $fillable = ['user_id','dateofbirth','address1','address2','gender','city','location','occupation','country','state','zip','image','mobile','passport','skype','twitter','facebook','gplus','linkedin','whatsapp','wechat','about','package','currency','account_number','account_holder_name','swift','sort_code','bank_code','paypal','profile','cover','bank_address','bank_name','iban','bank_country','branch_count'];
+
 
     public static function getNewUsers(){
         $user_type = self::checkUserType(Auth::user()->id);

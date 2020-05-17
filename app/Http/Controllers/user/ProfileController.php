@@ -291,9 +291,13 @@ class ProfileController extends UserAdminController
         $new_user->swift=$request->swift;
         $new_user->sort_code=$request->sort_code;
         $new_user->bank_code=$request->bank_code;
+        $new_user->iban=$request->iban;
+        $new_user->bank_country=$request->bank_country;
+        $new_user->branch_count=$request->branch_count;
         $new_user->paypal=$request->paypal;
           $new_user->bank_address               = $request->bank_address;
           $new_user->bank_name               = $request->bank_name;
+
 
 
       if ($request->hasFile('profile_pic')){
@@ -367,7 +371,52 @@ class ProfileController extends UserAdminController
         Session::flash('flash_notification', array('level' => 'error', 'message' => trans('ticket_config.no_file')));
        return Redirect::back();
     }
+    public function payplemail_settings(Request $request)
+    {
+      $validator = Validator::make($request->all(), [
+            'paypal_email' => 'required|email',
+            
+        ]);
 
+        if ($validator->fails()) {
+
+            return redirect()->back()->withErrors($validator);
+        }else{
+             $user_info               = User::where('id',Auth::user()->id)->first();
+             $user_info->paypal_email = $request->paypal_email;
+             if($user_info->save()) {
+               Session::flash('flash_notification', array('level' => 'success', 'message' => 'Paypal Eamil Updated Successfully'));
+             }else{
+               Session::flash('flash_notification', array('level' => 'error', 'message' => 'Something went wrong'));
+             }
+             return redirect()->back();
+        }
+     
+    }
+    public function bitconaccount_settings(Request $request)
+    {
+       $validator = Validator::make($request->all(), [
+            'bitcoin_address' => 'required',
+            
+        ]);
+
+        if ($validator->fails()) {
+
+            return redirect()->back()->withErrors($validator);
+        }else{
+
+              $user_info               = User::where('id',Auth::user()->id)->first();
+              $user_info->bitcoin_address = $request->bitcoin_address;
+              if ($user_info->save()) {
+                  Session::flash('flash_notification', array('level' => 'success', 'message' => 'Bitcoin Account Updated Successfully'));
+      
+              }
+            else{
+              Session::flash('flash_notification', array('level' => 'error', 'message' => 'Something went wrong'));
+            }
+            return redirect()->back();
+        }
+    }
     
     
 

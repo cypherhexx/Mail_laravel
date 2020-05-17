@@ -26,7 +26,8 @@
 
             <ul class="nav navbar-nav visible-xs-block">
                 <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
-                <li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li>
+                
+                <!-- <li><a class="sidebar-mobile-main-toggle"><i class="icon-paragraph-justify3"></i></a></li> -->
             </ul>
         </div>
  @if(Auth::check())
@@ -39,7 +40,7 @@
                         <i class="icon-lan3"></i>
                     </a>
                 </li>
-                <li><a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a></li>
+                <!-- <li><a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a></li> -->
 
 
 
@@ -98,7 +99,7 @@
                     </ul>
                 </li>
 
-                <li class="dropdown">
+           <!--      <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="icon-bubbles4"></i>
                         <span class="visible-xs-inline-block position-right">Messages</span>
@@ -139,7 +140,8 @@
                             <a href="{{url('admin/inbox')}}" data-popup="tooltip" title="All messages"><i class="icon-menu display-block"></i></a>
                         </div>
                     </div>
-                </li>
+                </li> -->
+
 
                 <li class="dropdown dropdown-user">
                     <a class="dropdown-toggle" data-toggle="dropdown">

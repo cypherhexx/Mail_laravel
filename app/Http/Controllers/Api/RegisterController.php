@@ -228,4 +228,20 @@ class RegisterController extends Controller
     {
         //
     }
+
+
+    public function username_verification(Request $request)
+    {
+
+        $user_exists = User::where('username',$request->username)->count();
+        
+        if ($user_exists > 0){
+        return Response::json(['message'=>'success','1000'=>'OK'])->header('Content-Type','application/json');          
+        }
+        else{
+        return Response::json(['message'=>'failed','1000'=>'OK'])->header('Content-Type','application/json');  
+        }
+
+    }
+ 
 }

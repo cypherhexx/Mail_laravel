@@ -21,6 +21,7 @@ class VerifyCsrfToken extends BaseVerifier
         'purchasebitaps/paymentnotify',
 
         'paypal/ipnnotify',
+        'username_validate',
 
     ];
 }

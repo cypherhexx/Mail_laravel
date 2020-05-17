@@ -30,7 +30,7 @@
                               </div>
                               <div class="panel-footer">
                                 <h3>{{$currency_sy}} {{$item->amount}}</h3>
-                                <h4>Monthly Payment</h4>                                  
+                                <!-- <h4>Monthly Payment</h4>                                   -->
                                 <div class="form-check">
                                   <div class="uniform-choice border-indigo-600 text-indigo-800"><span class="checked">
                                     <input type="radio"  required="true"    name="plan" badge-class="{{$item->package}}"  class="form-check-input-styled-custom" data-fouc="" data-parsley-group="block-0" value="{{$item->id}}" plan-amount="{{$item->amount}}">
@@ -66,7 +66,7 @@
                 <ul class="nav nav-tabs nav-tabs-highlight nav-justified">
                   <li class="nav-item active"><a href="#steps-planpurchase-tab1" class="nav-link  steps-plan-payment active " data-toggle="tab" data-payment='paypal' >Paypal</a></li>
                   <li class="nav-item"><a href="#steps-planpurchase-tab2" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='cheque'>Bank Transfer</a></li>
-                   <li class="nav-item"><a href="#steps-planpurchase-tab3" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='bitcoin'>Bitaps</a></li>
+                   <li class="nav-item"><a href="#steps-planpurchase-tab3" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='bitcoin'>Bitcoin</a></li>
                 
                   <!--   <li class="nav-item"><a href="#steps-planpurchase-tab4" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='paypal'>Paypal</a></li> -->
               <!--     <li class="nav-item"><a href="#steps-planpurchase-tab5" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='voucher'>Voucher</a></li> -->
@@ -96,8 +96,10 @@
                  -->
                      
                   </div>
+
+                  
                    <div class="tab-pane fade" id="steps-planpurchase-tab3">
-                    <h4>  <center>Pay With Bitaps</center> </h4>
+                    <h4>  <center>Pay With Bitcoin</center> </h4>
               <!--    <center> <b ><p style="color:red;">Fee:
                   <span name="fee" class="bitap"></span></p></b></center> -->
                 

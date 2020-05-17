@@ -390,6 +390,7 @@ class RegisterController extends AdminController
                     ], function ($m) use ($data, $email) {
                         $m->to($data['email'], $data['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
                     });
+Log::debug('Register Controller Admin - Arslan');
                 return redirect("admin/register/preview/" . Crypt::encrypt($userresult->id));
             }
              
@@ -494,6 +495,7 @@ class RegisterController extends AdminController
                 ], function ($m) use ($data, $email) {
                     $m->to($data['email'], $data['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
                 });
+Log::debug('Register Controller Admin - Arslan');
             return redirect("admin/register/preview/" . Crypt::encrypt($userresult->id)); 
             }
         Session::flash('flash_notification', array('level' => 'danger', 'message' => "Payment failed"));
@@ -665,6 +667,7 @@ class RegisterController extends AdminController
                     ], function ($m) use ($details, $email) {
                         $m->to($details['email'], $details['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
                     });
+		Log::debug('Register Controller Paypal Admin - Arslan');
                  return redirect("admin/register/preview/" . Crypt::encrypt($userresult->id));
               }
               else{

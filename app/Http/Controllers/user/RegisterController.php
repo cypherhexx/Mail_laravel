@@ -382,6 +382,8 @@ class RegisterController extends UserAdminController
             Activity::add("Added user $userresult->username","Added $userresult->username sponsor as $sponsorname ");
             Activity::add("Joined as $userresult->username","Joined in system as $userresult->username sponsor as $sponsorname ",$userresult->id);
             Activity::add("Package purchased","Purchased package - $userPackage->package ",$userresult->id);
+            //Developd by Arslan - NetPower
+
             $email = Emails::find(1);
             $welcome=welcomeemail::find(1);
             $app_settings = AppSettings::find(1);
@@ -397,8 +399,8 @@ class RegisterController extends UserAdminController
                 ], function ($m) use ($data, $email) {
                     $m->to($data['email'], $data['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
                 });
-
-            return redirect("user/register/preview/" . Crypt::encrypt($userresult->id)); 
+		Log::debug('Register Controller User - Arslan');
+	            return redirect("user/register/preview/" . Crypt::encrypt($userresult->id)); 
             }
         Session::flash('flash_notification', array('level' => 'danger', 'message' => "Payment failed"));
          return redirect("user/register");
