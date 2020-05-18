@@ -473,7 +473,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['web', 'auth'], 'namespace' 
     Route::get('emailsettings', 'SettingsController@email');
     Route::post('emailsettings', 'SettingsController@updateemailsetting');
     Route::get('welcomeemail', 'SettingsController@welcome');
-    Route::post('welcomeemail', 'SettingsController@updatewelcome');
+    Route::get('deletetemplate/{id}','SettingsController@deletetemplate');
+    Route::post('savetemplate','SettingsController@savetemplate');
+    Route::get('edittemplate/{id}','SettingsController@edittemplate');
+    Route::post('welcomeemail', 'SettingsController@template');
+    //Route::post('welcomeemail', 'SettingsController@updatewelcome');
     Route::get('uploads', 'SettingsController@getUploadLogo');
     Route::post('uploadlogo', ['as' => 'admin.upload', 'uses' => 'SettingsController@uploads']);
     Route::post('logo', 'SettingsController@savelogo');

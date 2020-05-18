@@ -2,8 +2,10 @@
 <head></head>
 <body>
 
-<p>{!! $content !!}</p>
+{!!$template !!}
+
 
 
 </body>
 </html>
+

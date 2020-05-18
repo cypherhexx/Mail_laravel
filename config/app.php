@@ -196,7 +196,8 @@ return [
         Mews\Purifier\PurifierServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Cohensive\Embed\EmbedServiceProvider::class,
-        Srmklive\PayPal\Providers\PayPalServiceProvider::class
+        Srmklive\PayPal\Providers\PayPalServiceProvider::class,
+        JeroenNoten\LaravelCkEditor\ServiceProvider::class
 
 
 

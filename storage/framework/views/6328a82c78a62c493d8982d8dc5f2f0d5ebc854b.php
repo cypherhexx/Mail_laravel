@@ -1,0 +1,1 @@
+<html> <head></head> <body> <?php echo $template; ?> </body> </html>

@@ -24,6 +24,7 @@ use App\RsHistory;
 use App\Sponsortree;
 use App\Ranksetting;
 use App\IpnResponse;
+use App\Mail_template;
 
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Validator;
@@ -203,6 +204,10 @@ class RegisterController extends Controller
         $app = AppSettings::find(1);
         $currency_sy = $app->currency;
         // dd($profile_photo);
+
+         $sponsor = NULL;
+        $profile = NULL;
+        $profile_photo = NULL;
 
         if($sponsor_name != NULL){
 
@@ -703,13 +708,33 @@ Log::debug('Register Controller Auth - Arslan');
                     $email = Emails::find(1);
                     $welcome=welcomeemail::find(1);
                     $app_settings = AppSettings::find(1);
+                   error_log($email->from_email);
+                    error_log("detect mail");
+                    //error_log($email);
+                    //changepart
+                    error_log($sponsorname);
+                   // $sponsor_per = User::where('username',$sponsorname)->value('id');
+                    // $userlist = User::all();
+                    // $sponsor_per=User::where('username',$sponsorname)->value('email');
                    
-                    Mail::send('emails.register',
+                    // error_log($sponsor_per);
+                    
+
+
+                    $template = Mail_template::where('id',1)->value('text');
+                    error_log($template);
+
+                    $template = str_replace( '{{$firstname}}', $details['firstname'], $template );
+                    $template = str_replace( '{{$username}}', $details['username'], $template );
+                    $template = str_replace( '{{$password}}', $details['password'], $template );
+                    $template = str_replace( '{{$transaction_pass}}', $details['transaction_pass'], $template );
+                    Mail::send('emails.welcome',
                         ['email'         => $email,
+                            'template'       => $template,
                             'company_name'   => $app_settings->company_name,
                             'logo'   => $app_settings->logo,
                             'firstname'      => $details['firstname'],
-                            'name'           => $details['lastname'],
+                            'lname'           => $details['lastname'],
                             'login_username' => $details['username'],
                             'password'       => $details['password'],
                             'welcome'        => $welcome,
@@ -717,6 +742,21 @@ Log::debug('Register Controller Auth - Arslan');
                         ], function ($m) use ($details, $email) {
                             $m->to($details['email'], $details['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
                         });
+
+
+                    // Mail::send('emails.sponsoremail',
+                    // ['email'         => $email,
+                    //     'sponsor_per' => $sponsor_per,
+                    //     'company_name'   => $app_settings->company_name,
+                    //     'logo'   => $app_settings->logo,
+                    //     'username'      => $sponsorname,
+                    //     'newuser' => $details['username'],
+                    //     'email'          => $details['email'],
+                    // ], function ($m) use ($details, $email,$sponsor_per) {
+                    //     $m->to($sponsor_per, $details['firstname'])->subject('Alert for new user')->from($email->from_email, $email->from_name);
+                    // });
+
+             
                      return redirect("register/preview/" . Crypt::encrypt($userresult->id));
                   }
                   else{

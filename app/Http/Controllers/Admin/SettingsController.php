@@ -23,6 +23,8 @@ use App\settings2;
 use App\Category;
 use App\Tree_Table;
 use App\Sponsortree;
+use App\Mail_template;
+use App\Mail_variable;
 
 use Auth;
 use Artisan;
@@ -382,7 +384,7 @@ class SettingsController extends AdminController
 
     public function welcome()
     {
-
+        $templates = Mail_template::all();
         $settings = Welcome::all();
         // $title= trans('settings.rank_settings');
         $title     = trans('menu.system_templates');
@@ -394,7 +396,87 @@ class SettingsController extends AdminController
         //$userss = User::getUserDetails(Auth::id());
         //$user = $userss[0];
          $settings_payout  = PaymentNotification::all();
-        return view('app.admin.settings.welcomesetting', compact('title', 'settings', 'sub_title', 'base', 'method','settings_payout'));
+       
+        return view('app.admin.settings.welcomesetting', compact('title', 'settings', 'sub_title', 'base', 'method','settings_payout','templates'));
+    }
+
+    public function edittemplate($id)
+    {
+        $title     = trans('menu.system_templates');
+        $sub_title = trans('menu.system_templates');
+        $base      = trans('menu.system_templates');
+        $method    = trans('menu.system_templates');
+        $template=Mail_template::find($id);
+        $subjectname=Mail_template::where('id',$id)->value('subject');
+        $variables = Mail_variable::where('mail_type',$subjectname)->get();
+        error_log(json_encode($variables));
+        if($variables){
+            return view('app.admin.settings.edittemplate', compact('template','title','sub_title','base','method','variables'));
+        } else{
+            return view('app.admin.settings.edittemplate', compact('template','title','sub_title','base','method'));
+        }
+    }
+
+    public function deletetemplate($id)
+    {   
+        error_log("delete test");
+        $template=Mail_template::find($id)->delete();
+        return redirect()->back();
+    }
+
+    public function savetemplate(Request $request)
+    {   
+        error_log('update test');
+        $templates = Mail_template::all();
+        $settings = Welcome::all();
+        // $title= trans('settings.rank_settings');
+        $title     = trans('menu.system_templates');
+        $sub_title = trans('menu.system_templates');
+        $base      = trans('menu.system_templates');
+        $method    = trans('menu.system_templates');
+        //$unread_count  = Mail::unreadMailCount(Auth::id());
+        //$unread_mail  = Mail::unreadMail(Auth::id());
+        //$userss = User::getUserDetails(Auth::id());
+        //$user = $userss[0];
+        error_log("update template");
+        error_log($request->id);
+        error_log($request->text);
+        $settings_payout  = PaymentNotification::all();
+        error_log($request->content);
+        Mail_template::where('id',$request->id)->update(['text'=>$request->content]);
+        return redirect('admin/welcomeemail');
+    }
+
+
+
+
+    public function template(Request $request) {
+        error_log("detect template");
+        $content = "";
+        $subject = "";
+        //error_log($request->all()->content);
+        error_log(json_encode($request->all()));
+        $data = json_encode($request->all());
+       // error_log($data.content);
+        error_log($request->content);
+        
+        $settings = Welcome::all();
+        error_log('add template');
+        // $title= trans('settings.rank_settings');
+        $title     = trans('menu.system_templates');
+        $sub_title = trans('menu.system_templates');
+        $base      = trans('menu.system_templates');
+        $method    = trans('menu.system_templates');
+        $content = $request->content;
+        $subject = $request->subject;
+        if($subject != "")$addNew = Mail_template::create(['text'=>$content, 'subject' =>$subject]);
+        //$unread_count  = Mail::unreadMailCount(Auth::id());
+        //$unread_mail  = Mail::unreadMail(Auth::id());
+        //$userss = User::getUserDetails(Auth::id());
+        //$user = $userss[0];
+         $settings_payout  = PaymentNotification::all();
+         $templates = Mail_template::all();
+        return view('app.admin.settings.welcomesetting', compact('title', 'settings', 'sub_title', 'base', 'method','settings_payout','content','templates'));
     }
 
     public function updatewelcome(Request $request)
