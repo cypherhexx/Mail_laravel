@@ -68,6 +68,7 @@
                   <li class="nav-item active"><a href="#steps-planpurchase-tab1" class="nav-link  steps-plan-payment active " data-toggle="tab" data-payment='paypal' >Paypal</a></li>
                   <li class="nav-item"><a href="#steps-planpurchase-tab2" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='cheque'>Bank Transfer</a></li>
                    <li class="nav-item"><a href="#steps-planpurchase-tab3" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='bitcoin'>Bitcoin</a></li>
+                   <li class="nav-item"><a href="#steps-planpurchase-tab4" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='netpay'>NetPay</a></li>
                 
                   <!--   <li class="nav-item"><a href="#steps-planpurchase-tab4" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='paypal'>Paypal</a></li> -->
               <!--     <li class="nav-item"><a href="#steps-planpurchase-tab5" class="nav-link steps-plan-payment" data-toggle="tab" data-payment='voucher'>Voucher</a></li> -->
@@ -91,6 +92,7 @@
 
                    <div class="tab-pane fade" id="steps-planpurchase-tab2">
                       <h4><center>Pay With Bank</center> </h4>
+
                      
                 <!--  <center> <b><p style="color:red;">Fee:
                   <span name="fee" class="bank"></span></p></b></center> -->
@@ -102,6 +104,13 @@
                  <!-- <center> <b ><p style="color:red;">Fee:
                   <span name="fee" class="bitap"></span></p></b></center> -->
                 
+                  </div>
+
+                  <div class="tab-pane fade" id="steps-planpurchase-tab4">
+                    <h4>  <center>Pay With NetPay</center> </h4>
+                 <!-- <center> <b ><p style="color:red;">Fee:
+                  <span name="fee" class="bitap"></span></p></b></center> -->
+
                   </div>
                    
                      
@@ -171,6 +180,7 @@ $(document).on('submit', 'form', function() {
     $('.paypal').html(real_amount); 
     $('.bank').html(real_amount);  
     $('.bitap').html(real_amount);
+    $('.netpay').html(real_amount);
 });
 </script>
 

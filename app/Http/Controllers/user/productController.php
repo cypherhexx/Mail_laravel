@@ -388,6 +388,11 @@ class productController extends UserAdminController
                return redirect()->action('user\productController@banktransferPreview', ['id' =>$purchase->id]);
             }
 
+            if($request->steps_plan_payment == 'netpay'){
+              $link = "https://uiservices.netpay-intl.com/hosted/?merchantID=7687751&url_redirect=&url_notify=&trans_comment=&trans_refNum=&trans_installments=1&trans_amount=50&trans_currency=ILS&disp_paymentType=&disp_payFor=Purchase&trans_recurring1=1M1&trans_recurring2=1M1A50&disp_recurring=0&disp_lng=en-us&disp_mobile=auto&signature=U0y91D4GPmZg%2b%2fQfJ2utmb9C9DvMvXRlHTGOXfhE28Q%3d";
+               return redirect($link);
+            }
+
              if($request->steps_plan_payment == 'bitcoin'){
 
                 $title='Bitaps Payment';
