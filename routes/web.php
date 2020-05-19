@@ -124,6 +124,8 @@ Route::get('register/preview/{idencrypt}', 'Auth\RegisterController@preview')->n
 Route::get('paypal/register', 'Auth\RegisterController@paypalReg');
 Route::get('banktransferPreview','Auth\RegisterController@banktransferPreview');
 
+Route::get('netpay/register', 'Auth\RegisterController@netpayReg');
+
 // Passwordd Reset Routes...
 
 Route::get('lock', 'CloudMLMController@performLogoutToLock');

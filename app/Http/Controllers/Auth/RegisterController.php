@@ -575,6 +575,13 @@ Log::debug('Register Controller Auth - Arslan');
        
     }
 
+    public function netpayReg(Request $request){
+        
+        error_log("test pay");
+        error_log($request->replyDesc);
+        error_log("test netpay");
+
+    }
    
     public function paypalReg(Request $request){
 
