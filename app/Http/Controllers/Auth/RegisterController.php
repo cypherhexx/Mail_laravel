@@ -205,7 +205,7 @@ class RegisterController extends Controller
         $currency_sy = $app->currency;
         // dd($profile_photo);
 
-         $sponsor = NULL;
+        $sponsor = NULL;
         $profile = NULL;
         $profile_photo = NULL;
 
@@ -472,7 +472,7 @@ class RegisterController extends Controller
 
              if($request->payment == 'netpay'){ 
                     
-                    // Session::put('paypal_id',$register->id);
+                     Session::put('netpay_id',$register->id);
                     // $data = [];
                     // $data['items'] = [
                     //     [
@@ -576,11 +576,23 @@ Log::debug('Register Controller Auth - Arslan');
     }
 
     public function netpayReg(Request $request){
-        
+        $payment_id = Session::get('netpay_id');
+
         error_log("test pay");
         error_log($request->replyDesc);
         error_log("test netpay");
 
+        if($request->replyDesc == "SUCCESS"){
+            $item = PendingTransactions::where('id',$payment_id)->first();
+            $details=json_decode($item->request_data,true);
+            $sponsor_id = $item->sponsor;
+            $userresult = User::add($details,$sponsor_id,$sponsor_id);
+
+           return redirect("register/preview/" . Crypt::encrypt($userresult->id)); 
+           
+        } else {
+           return redirect("/register");
+        }
     }
    
     public function paypalReg(Request $request){
@@ -951,7 +963,6 @@ public function checkStatus($trans){
          }
 
          dd("done");
-
        }
 
        public function purchaseBitaps(Request $request){
