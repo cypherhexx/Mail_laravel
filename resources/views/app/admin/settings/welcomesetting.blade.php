@@ -20,10 +20,15 @@
 <form action="{{url('admin/welcomeemail')}}" method="post" data-parsley-validate="true" name="form-wizard">
  <input type="hidden" name="_token" value="{{csrf_token()}}"> 
   <p></p>
-  <span>Subject: </span><input type="text" name="subject" value="">
+  <div style="margin-bottom: 5px">
+  <span style="font-size: 20px; font-weight: bold; vertical-align: middle; ">Subject: </span><input type="text" name="subject" value="">
+  </div>
+  <br>
   <textarea id="bodyField" name="content"></textarea>
   <input type="submit" value="submit">
 </form>
+
+
 
 <table class="table datatable-basic table-striped table-hover" id="templates-table">
     <thead>
@@ -64,7 +69,11 @@
 </table>
 
 
-
+ <script type="text/javascript">
+$(document).on('submit', 'form', function() {
+   $(this).find('button:submit, input:submit').attr('disabled','disabled');
+ });
+</script>
 
 @ckeditor('bodyField');
 

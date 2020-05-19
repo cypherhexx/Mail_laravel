@@ -578,6 +578,11 @@ ul, menu, dir {
                                         <a href="#" payment="{{$payment->code}}" class="list-group-item text-center" class="">
                                               <img src="{{url('img/cache/original/bit.png')}}" style="width: 90px;height: 63px;">
                                         </a>
+                                        @elseif($payment->id==8)
+                                            <a href="#" payment="netpay" class="list-group-item text-center" class="">
+
+                                          NetPay
+                                        </a>
                                         @else
                                         <a href="#" payment="{{$payment->code}}" class="list-group-item text-center" class="">
                                              Bank transfer
@@ -626,6 +631,8 @@ ul, menu, dir {
                                             </div>
                                         </div>
                                     </div>
+
+                                  
                                 
                                     @elseif($pay->payment_name=="Paypal")
                                     <div class="bhoechie-tab-content active">
@@ -665,6 +672,26 @@ ul, menu, dir {
                                         </div>
                                     </div>
 
+                                     @elseif($pay->payment_name=="NetPay")
+                                    <div class="bhoechie-tab-content">
+                                        <div class="text-center">
+                                            <div class="text-center">
+                                                <h1> <p class="text-body">
+                                                    
+                                                    {{trans('register.joining_fee') }}:{{$currency_sy}}
+                                                    <span name="fee" class="ewallet_joining"> {{$joiningfee}} </span>
+                                                    
+                                                </p></h1>
+                                               
+                                                <p>
+                                                    <button class="btn btn-success btn-lg"  role="button" style="background-color: #00bcd4; border-color: #00bcd4;">{{$pay->payment_name}} payment confirmation</button>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                            
+                                  
+
                                     @elseif($pay->payment_name=="BankTransfer")
                                     <div class="bhoechie-tab-content">
                                         <div class="text-center">
@@ -685,6 +712,8 @@ ul, menu, dir {
                                     @else
                                   
                          
+
+
                           <!--   <div class="bhoechie-tab-content ">
                               <div class="text-center">
                               <div class="text-center">

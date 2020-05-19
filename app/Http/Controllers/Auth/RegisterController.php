@@ -384,7 +384,9 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
-
+        error_log($request);
+        error_log($request->payment);
+        error_log('detect payment');
         // dd($request->all());
         $validator = $this->validator($request->all());
 
@@ -466,6 +468,37 @@ class RegisterController extends Controller
                 
 
                     return redirect($response['paypal_link']);
+                }
+
+             if($request->payment == 'netpay'){ 
+                    
+                    // Session::put('paypal_id',$register->id);
+                    // $data = [];
+                    // $data['items'] = [
+                    //     [
+                    //         'name' => Config('APP_NAME'),
+                    //         'price' => $joiningfee,
+                    //         'qty' => 1
+                    //     ]
+                    // ];
+
+                    // $data['invoice_id'] = time();
+                    // $data['invoice_description'] = "Order #{$data['invoice_id']} Invoice";
+                    // $data['return_url'] = url('/register/paypal/success',$register->id);
+                    // $data['cancel_url'] = url('register');
+
+                    // $total = 0;
+                    // foreach($data['items'] as $item) {
+                    //     $total += $item['price']*$item['qty'];
+                    // }
+
+                    // $data['total'] = $total; 
+                    // self::$provider->setCurrency('EUR');
+                    // $response = self::$provider->setExpressCheckout($data); 
+                    // PendingTransactions::where('id',$register->id)->update(['payment_data' => json_encode($response),'paypal_express_data' => json_encode($data)]);
+                
+                    $link="https://uiservices.netpay-intl.com/hosted/?merchantID=7687751&url_redirect=&url_notify=&trans_comment=&trans_refNum=&trans_installments=1&trans_amount=20&trans_currency=ILS&disp_paymentType=&disp_payFor=Purchase&disp_recurring=0&disp_lng=en-us&disp_mobile=auto&signature=5xTzL2cr%2boC6ZY5%2b1bCzSM9%2f9uZPgJFJDyk4CL%2b6wfA%3d";
+                    return redirect($link);
                 }
 
             if($request->payment == 'bitcoin'){
@@ -725,6 +758,7 @@ Log::debug('Register Controller Auth - Arslan');
                     error_log($template);
 
                     $template = str_replace( '{{$firstname}}', $details['firstname'], $template );
+                    $template = str_replace( '{{$lastname}}', $details['lastname'], $template );
                     $template = str_replace( '{{$username}}', $details['username'], $template );
                     $template = str_replace( '{{$password}}', $details['password'], $template );
                     $template = str_replace( '{{$transaction_pass}}', $details['transaction_pass'], $template );

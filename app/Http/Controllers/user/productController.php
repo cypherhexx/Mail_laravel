@@ -554,6 +554,37 @@ class productController extends UserAdminController
             $item->payment_status='complete';
             $item->save();
             $package=Packages::find($item->package);
+
+
+            error_log(json_encode($item));
+            $email = Emails::find(1);
+            $template = Mail_template::where('id',2)->value('text');
+            $app_settings = AppSettings::find(1);
+            error_log("detect upgrade");
+             //error_log($item);
+            $payment_num = "New User";
+            if($item->package == 2) $payment_num = "bronze";
+            if($item->package == 3) $payment_num = "silver";
+            if($item->package == 4) $payment_num = "gold";
+            if($item->package == 5) $payment_num = "diamond";
+
+            $template = str_replace( '{{$username}}', $item->username, $template );
+            $template = str_replace( '{{$purchase_type}}', $payment_num, $template );
+            $template = str_replace( '{{$pay_type}}', $item->payment_period, $template );
+            
+            Mail::send('emails.welcome',
+            ['email'         => $email,
+                'company_name'   => $app_settings->company_name,
+                'logo'   => $app_settings->logo,
+                'username' => $item->username,
+                'period' => $item->payment_period,
+                'package_name' => $payment_num,
+
+            ], function ($m) use ($item, $email) {
+                $m->to($item->email,$item->username)->subject('Successfully Purchase the package.')->from($email->from_email, $email->from_name);
+            });
+
+
             $purchase_id= PurchaseHistory::create([
                             'user_id'=>$item->user_id,
                             'purchase_user_id'=>$item->user_id,

@@ -599,6 +599,11 @@ ul, menu, dir {
                                         <a href="#" payment="<?php echo e($payment->code); ?>" class="list-group-item text-center" class="">
                                               <img src="<?php echo e(url('img/cache/original/bit.png')); ?>" style="width: 90px;height: 63px;">
                                         </a>
+                                        <?php elseif($payment->id==8): ?>
+                                            <a href="#" payment="netpay" class="list-group-item text-center" class="">
+
+                                          NetPay
+                                        </a>
                                         <?php else: ?>
                                         <a href="#" payment="<?php echo e($payment->code); ?>" class="list-group-item text-center" class="">
                                              Bank transfer
@@ -647,6 +652,8 @@ ul, menu, dir {
                                             </div>
                                         </div>
                                     </div>
+
+                                  
                                 
                                     <?php elseif($pay->payment_name=="Paypal"): ?>
                                     <div class="bhoechie-tab-content active">
@@ -688,6 +695,27 @@ ul, menu, dir {
                                         </div>
                                     </div>
 
+                                     <?php elseif($pay->payment_name=="NetPay"): ?>
+                                    <div class="bhoechie-tab-content">
+                                        <div class="text-center">
+                                            <div class="text-center">
+                                                <h1> <p class="text-body">
+                                                    
+                                                    <?php echo e(trans('register.joining_fee')); ?>:<?php echo e($currency_sy); ?>
+
+                                                    <span name="fee" class="ewallet_joining"> <?php echo e($joiningfee); ?> </span>
+                                                    
+                                                </p></h1>
+                                               
+                                                <p>
+                                                    <button class="btn btn-success btn-lg"  role="button" style="background-color: #00bcd4; border-color: #00bcd4;"><?php echo e($pay->payment_name); ?> payment confirmation</button>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                            
+                                  
+
                                     <?php elseif($pay->payment_name=="BankTransfer"): ?>
                                     <div class="bhoechie-tab-content">
                                         <div class="text-center">
@@ -709,6 +737,8 @@ ul, menu, dir {
                                     <?php else: ?>
                                   
                          
+
+
                           <!--   <div class="bhoechie-tab-content ">
                               <div class="text-center">
                               <div class="text-center">
