@@ -807,7 +807,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth', 'namespace' => 'user']
     Route::get('getplanid','productController@getplanid');
     
     Route::post('paypalupgrade/paypalsuccess/{id}','productController@paypalSuccess');
-     Route::get('netpayupgrade/netpaysuccess/{id}','productController@netpaySuccess');
+     Route::get('netpay/purchase-plan','productController@netpaySuccess');
      Route::get('paypalupgrade/paypalsuccess/{id}','productController@paypalSuccess');
 
     Route::get('banktransferPreview','productController@banktransferPreview');

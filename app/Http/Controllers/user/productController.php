@@ -390,6 +390,8 @@ class productController extends UserAdminController
             }
 
             if($request->steps_plan_payment == 'netpay'){
+              Session::put('netpay_id',$purchase->id);
+
               $link = "https://uiservices.netpay-intl.com/hosted/?merchantID=7687751&url_redirect=https%3a%2f%2fdev.algolight.net%2fnetpay%2fpurchase-plan&url_notify=&trans_comment=&trans_refNum=&trans_installments=1&trans_amount=50&trans_currency=ILS&disp_paymentType=&disp_payFor=Purchase&trans_recurring1=1M1&trans_recurring2=1M1A50&disp_recurring=0&disp_lng=en-us&disp_mobile=auto&signature=%2fc2LaaEoWKQBrA%2f1A2QRwg%3d%3d";
                return redirect($link);
             }
@@ -517,7 +519,19 @@ class productController extends UserAdminController
 
     }
 
+    public function netpaySuccess(Request $request){
+      $netpay = Session::get('netpay_id');
+      $token = $request->token;
+      error_log("Go to ");
+      error_log($netpay);
+      try{
 
+      }
+      } catch (Exception $ex) {
+            Session::flash('flash_notification', array('level' => 'error', 'message' => 'Error In payment'));
+                  return Redirect::to('user/purchase-plan');
+        }
+    }
 
     public function paypalSuccess(Request $request,$id){
       

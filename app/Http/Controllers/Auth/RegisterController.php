@@ -587,8 +587,9 @@ Log::debug('Register Controller Auth - Arslan');
             $details=json_decode($item->request_data,true);
             $sponsor_id = $item->sponsor;
             $userresult = User::add($details,$sponsor_id,$sponsor_id);
-          Activity::add("Added user $userresult->username","Added $userresult->username sponsor as $sponsorname ");
-                Activity::add("Joined as $userresult->username","Joined in system as $userresult->username sponsor as $sponsorname ",$userresult->id);
+            
+          // Activity::add("Added user $userresult->username","Added $userresult->username sponsor as $sponsorname ");
+          //       Activity::add("Joined as $userresult->username","Joined in system as $userresult->username sponsor as $sponsorname ",$userresult->id);
            return redirect("register/preview/" . Crypt::encrypt($userresult->id)); 
            
         } else {
