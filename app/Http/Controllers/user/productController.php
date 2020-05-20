@@ -172,6 +172,7 @@ class productController extends UserAdminController
 
             $package = Packages::find($request->plan); 
             $fee=$package->amount;
+            error_log($fee);
             $cur_package=ProfileModel::where('user_id',Auth::user()->id)->value('package');
 
             $cur_amount=Packages::find($cur_package)->amount;
@@ -213,6 +214,8 @@ class productController extends UserAdminController
                  if($cur_pack_order->payment_period == 'month'){
                     if($cur_pack_order->payment_method == 'paypal')
                        
+                        $pay_amount=$fee;
+                    elseif($cur_pack_order->payment_method == 'netpay')
                         $pay_amount=$fee;
                     elseif($cur_pack_order->payment_method == 'bitcoin'){
                       
@@ -392,7 +395,42 @@ class productController extends UserAdminController
             if($request->steps_plan_payment == 'netpay'){
               Session::put('netpay_id',$purchase->id);
 
-              $link = "https://uiservices.netpay-intl.com/hosted/?merchantID=7687751&url_redirect=https%3a%3a%2f%2fdev.algolight.net%2fuser%2fnetpay%2fpurchase-plan&url_notify=&trans_comment=&trans_refNum=&trans_installments=1&trans_amount=50&trans_currency=ILS&disp_paymentType=&disp_payFor=Purchase&trans_recurring1=5M1&trans_recurring2=5M1A50&disp_recurring=0&disp_lng=en-us&disp_mobile=auto&signature=YROB%2f39ZnQIXs1ueiqInYuAVnsRmu6RtuLtghhhhCLo%3d";
+
+              $link7="https://uiservices.netpay-intl.com/hosted/?merchantID=7687751&url_redirect=https%3a%2f%2fdev.algolight.net%2fuser%2fnetpay%2fpurchase-plan&url_notify=&trans_comment=&trans_refNum=&trans_installments=1&trans_amount=2000&trans_currency=ILS&disp_paymentType=&disp_payFor=Purchase&trans_recurring1=2Y1&trans_recurring2=2Y1A2000&disp_recurring=0&disp_lng=en-us&disp_mobile=auto&signature=jNR1EiqEb8EswHjk25r9jKjvZa5xJZtrLFvLH8cgvxM%3d";
+              $link6="https://uiservices.netpay-intl.com/hosted/?merchantID=7687751&url_redirect=https%3a%2f%2fdev.algolight.net%2fuser%2fnetpay%2fpurchase-plan&url_notify=&trans_comment=&trans_refNum=&trans_installments=1&trans_amount=1500&trans_currency=ILS&disp_paymentType=&disp_payFor=Purchase&trans_recurring1=2Y1&trans_recurring2=2Y1A1500&disp_recurring=0&disp_lng=en-us&disp_mobile=auto&signature=N35Ow0TBEw%2fgO2tAJ2EzcYfgvR4VxUVeOmAcBzNO2Bs%3d";
+              $link5="https://uiservices.netpay-intl.com/hosted/?merchantID=7687751&url_redirect=https%3a%2f%2fdev.algolight.net%2fuser%2fnetpay%2fpurchase-plan&url_notify=&trans_comment=&trans_refNum=&trans_installments=1&trans_amount=1000&trans_currency=ILS&disp_paymentType=&disp_payFor=Purchase&trans_recurring1=2Y1&trans_recurring2=2Y1A1000&disp_recurring=0&disp_lng=en-us&disp_mobile=auto&signature=YnI0z%2btGbYwI%2ft%2bsIu34uFghG4dGQIz250pagBKC014%3d";
+              $link4="https://uiservices.netpay-intl.com/hosted/?merchantID=7687751&url_redirect=https%3a%2f%2fdev.algolight.net%2fuser%2fnetpay%2fpurchase-plan&url_notify=&trans_comment=&trans_refNum=&trans_installments=1&trans_amount=500&trans_currency=ILS&disp_paymentType=&disp_payFor=Purchase&trans_recurring1=2Y1&trans_recurring2=2Y1A500&disp_recurring=0&disp_lng=en-us&disp_mobile=auto&signature=K2umTjfKIBgK5fA%2fF0D2f5CKuEK7cVJDUbUS27oKwug%3d";
+              $link3="https://uiservices.netpay-intl.com/hosted/?merchantID=7687751&url_redirect=https%3a%2f%2fdev.algolight.net%2fuser%2fnetpay%2fpurchase-plan&url_notify=&trans_comment=&trans_refNum=&trans_installments=1&trans_amount=200&trans_currency=ILS&disp_paymentType=&disp_payFor=Purchase&trans_recurring1=5M1&trans_recurring2=5M1A200&disp_recurring=0&disp_lng=en-us&disp_mobile=auto&signature=V8Ce1RB23S130%2bCW3Sb9%2fShve%2fKtNMkx3PUizgl%2fdHg%3d";
+
+              $link2="https://uiservices.netpay-intl.com/hosted/?merchantID=7687751&url_redirect=https%3a%2f%2fdev.algolight.net%2fuser%2fnetpay%2fpurchase-plan&url_notify=&trans_comment=&trans_refNum=&trans_installments=1&trans_amount=150&trans_currency=ILS&disp_paymentType=&disp_payFor=Purchase&trans_recurring1=5M1&trans_recurring2=5M1A150&disp_recurring=0&disp_lng=en-us&disp_mobile=auto&signature=NpGapYQRTpv%2b0uGtJlrtORvOKvTJp%2bEPW%2bAZrhNBMRo%3d";
+
+              $link1="https://uiservices.netpay-intl.com/hosted/?merchantID=7687751&url_redirect=https%3a%2f%2fdev.algolight.net%2fuser%2fnetpay%2fpurchase-plan&url_notify=&trans_comment=&trans_refNum=&trans_installments=1&trans_amount=100&trans_currency=ILS&disp_paymentType=&disp_payFor=Purchase&trans_recurring1=5M1&trans_recurring2=5M1A100&disp_recurring=0&disp_lng=en-us&disp_mobile=auto&signature=Ny7btnb6qqOta6vRLNQb8VkfB4NGuTrIWTdUsjY870s%3d";
+
+
+              $link0 = "https://uiservices.netpay-intl.com/hosted/?merchantID=7687751&url_redirect=https%3a%3a%2f%2fdev.algolight.net%2fuser%2fnetpay%2fpurchase-plan&url_notify=&trans_comment=&trans_refNum=&trans_installments=1&trans_amount=50&trans_currency=ILS&disp_paymentType=&disp_payFor=Purchase&trans_recurring1=5M1&trans_recurring2=5M1A50&disp_recurring=0&disp_lng=en-us&disp_mobile=auto&signature=YROB%2f39ZnQIXs1ueiqInYuAVnsRmu6RtuLtghhhhCLo%3d";
+
+               if($period == "Month"){
+                if($fee == 50){
+                  $link = $link0;
+                } elseif($fee == 100){
+                  $link = $link1;
+                } elseif($fee == 150){
+                  $link = $link2;
+                } else {
+                  $link = $link3;
+                }
+              } else{
+                if($fee == 50){
+                  $link = $link4;
+                } elseif($fee == 100){
+                  $link = $link5;
+                } elseif($fee == 150){
+                  $link = $link6;
+                } else {
+                  $link = $link7;
+                }
+              }
+
                return redirect($link);
             }
 
