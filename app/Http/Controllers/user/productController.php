@@ -392,7 +392,7 @@ class productController extends UserAdminController
             if($request->steps_plan_payment == 'netpay'){
               Session::put('netpay_id',$purchase->id);
 
-              $link = "https://uiservices.netpay-intl.com/hosted/?merchantID=7687751&url_redirect=https%3a%2f%2fdev.algolight.net%2fnetpay%2fpurchase-plan&url_notify=&trans_comment=&trans_refNum=&trans_installments=1&trans_amount=50&trans_currency=ILS&disp_paymentType=&disp_payFor=Purchase&trans_recurring1=1M1&trans_recurring2=1M1A50&disp_recurring=0&disp_lng=en-us&disp_mobile=auto&signature=%2fc2LaaEoWKQBrA%2f1A2QRwg%3d%3d";
+              $link = "https://uiservices.netpay-intl.com/hosted/?merchantID=7687751&url_redirect=https%3a%3a%2f%2fdev.algolight.net%2fuser%2fnetpay%2fpurchase-plan&url_notify=&trans_comment=&trans_refNum=&trans_installments=1&trans_amount=50&trans_currency=ILS&disp_paymentType=&disp_payFor=Purchase&trans_recurring1=5M1&trans_recurring2=5M1A50&disp_recurring=0&disp_lng=en-us&disp_mobile=auto&signature=YROB%2f39ZnQIXs1ueiqInYuAVnsRmu6RtuLtghhhhCLo%3d";
                return redirect($link);
             }
 
@@ -525,11 +525,214 @@ class productController extends UserAdminController
       error_log("Go to ");
       error_log($netpay);
       try{
+        $item = PendingTransactions::find($netpay);
+        $old_package=ProfileModel::where('user_id',$item->user_id)->value('package');
+         if($old_package > 1){
+             //   $cur_pack_order=PendingTransactions::where('user_id',$item->user_id)->where('package',$old_package)->where('payment_status','complete')->first();
+             //   if($cur_pack_order->payment_method == 'paypal'){
+             //    $agreementId = $cur_pack_order->paypal_agreement_id;                 
+             //    $agreement = new Agreement();  
+             //    $agreement->setId($agreementId);
+             //    $agreementStateDescriptor = new AgreementStateDescriptor();
+             //    $agreementStateDescriptor->setNote("Cancel the agreement");
+
+             //    try {
+             //        $agreement->cancel($agreementStateDescriptor, $this->apiContext);
+             //        $cancelAgreementDetails = Agreement::get($agreement->getId(), $this->apiContext); 
+                          
+             //    } catch (Exception $ex) {                  
+             //    }
+             // }
+           }
+
+            // Execute agreement
+         //   $result = $agreement->execute($token, $this->apiContext);
+            
+            $item->role = 'subscriber';
+            $item->netpay = 1;
+           // $item->paypal_recurring_reponse = json_encode($result);
+            // if(isset($result->id)){
+            //     $item->paypal_agreement_id = $result->id;
+            // }
+            $amount = $item->amount;
+            $item->payment_status='complete';
+            $item->save();
+            $package=Packages::find($item->package);
+            $purchase_id= PurchaseHistory::create([
+                            'user_id'=>$item->user_id,
+                            'purchase_user_id'=>$item->user_id,
+                            'package_id'=>$item->package,
+                            'count'=>1,
+                            'pv'=>$package->pv,
+                            'total_amount'=>$item->amount,
+                            'pay_by'=>$item->payment_method,
+                            'rs_balance'=>$package->rs,
+                            'sales_status'=>'yes',
+                          ]);
+
+            /*edited by vincy on match 13 2020*/
+            $check_in_matrix = Tree_Table::where('user_id',Auth::user()->id)->where('type','yes')->count();
+            if($check_in_matrix == 0){
+
+                Packages::DirectReferrals(Auth::user()->id,$item->package);
+                $addtomatrixplan = Packages::Addtomatrixplan(Auth::user()->id);   
+            }
+            /*edited by vincy on match 13 2020*/
+              RsHistory::create([
+                'user_id'=>$item->user_id,                   
+                'from_id'=>$item->user_id,
+                'rs_credit'=>$package->rs,
+              ]);
+
+ 
+         //commsiiom
+             // $sponsor_id =User::where('id',Auth::user()->id)->value('sponsor') ;
+             // dd($sponsor_id);
+            $sponsor_id=Sponsortree::where('user_id',$item->user_id)->value('sponsor');
+             if($old_package == 1){
+                $pur_count=User::where('id',$sponsor_id)->value('purchase_count');
+                $new_pur_count=$pur_count+1;
+                User::where('id',$sponsor_id)->update(['purchase_count' => $new_pur_count]);
+             }
+            ProfileModel::where('user_id',$item->user_id)->update(['package' => $item->package]);
+             User::where('id',$item->user_id)->update(['active_purchase' => 'yes']);
+            $user_arrs=[];
+            $results=Ranksetting::getTreeUplinePackage($item->user_id,1,$user_arrs);
+            array_push($results, $item->user_id);
+            foreach ($results as $key => $value) {
+                Packages::rankCheck($value);
+            }
+
+            Packages::levelCommission($item->user_id,$package->amount,$item->package);
+             $category_update=User::categoryUpdate($sponsor_id);
+            // Packages::directReferral($sponsor_id,$item->user_id,$item->package);
+            //comm
+
+            $pur_user=PurchaseHistory::find($purchase_id->id);
+            $user=User::join('profile_infos','profile_infos.user_id','=','users.id')
+                       ->join('packages','packages.id','=','profile_infos.package')
+                       ->where('users.id',$pur_user->user_id)
+                       ->select('users.username','users.name','users.lastname','users.email','profile_infos.mobile','profile_infos.address1','packages.package')
+                       ->get();
+             $userpurchase=array();      
+             $userpurchase['name']=$user[0]->name;
+             $userpurchase['lastname']=$user[0]->lastname;
+             $userpurchase['amount']=$item->amount;
+             $userpurchase['payment_method']=$purchase_id->pay_by;
+             $userpurchase['mail_address']=$user[0]->email;;
+             $userpurchase['mobile']=$user[0]->mobile;
+             $userpurchase['address']=$user[0]->address1;
+             $userpurchase['invoice_id'] ='0000'.$purchase_id->id;
+             $userpurchase['date_p']=$purchase_id->created_at;
+             $userpurchase['package']=$package->package;
+             PurchaseHistory::where('id','=',$purchase_id->id)->update(['datas'=>json_encode($userpurchase)]);
+             Session::flash('flash_notification',array('message'=>"You have purchased the plan succesfully ",'level'=>'success'));
+             return  redirect("user/purchase/preview/".Crypt::encrypt($purchase_id->id));
+            // error_log(json_encode($item));
+            // $email = Emails::find(1);
+            // $template = Mail_template::where('id',2)->value('text');
+            // $app_settings = AppSettings::find(1);
+            // error_log("detect upgrade");
+            //  //error_log($item);
+            // $payment_num = "New User";
+            // if($item->package == 2) $payment_num = "bronze";
+            // if($item->package == 3) $payment_num = "silver";
+            // if($item->package == 4) $payment_num = "gold";
+            // if($item->package == 5) $payment_num = "diamond";
+
+            // $template = str_replace( '{{$username}}', $item->username, $template );
+            // $template = str_replace( '{{$purchase_type}}', $payment_num, $template );
+            // $template = str_replace( '{{$pay_type}}', $item->payment_period, $template );
+            
+            // Mail::send('emails.welcome',
+            // ['email'         => $email,
+            //     'company_name'   => $app_settings->company_name,
+            //     'logo'   => $app_settings->logo,
+            //     'username' => $item->username,
+            //     'period' => $item->payment_period,
+            //     'package_name' => $payment_num,
+
+            // ], function ($m) use ($item, $email) {
+            //     $m->to($item->email,$item->username)->subject('Successfully Purchase the package.')->from($email->from_email, $email->from_name);
+            // });
+
+
+            $purchase_id= PurchaseHistory::create([
+                            'user_id'=>$item->user_id,
+                            'purchase_user_id'=>$item->user_id,
+                            'package_id'=>$item->package,
+                            'count'=>1,
+                            'pv'=>$package->pv,
+                            'total_amount'=>$item->amount,
+                            'pay_by'=>$item->payment_method,
+                            'rs_balance'=>$package->rs,
+                            'sales_status'=>'yes',
+                          ]);
+
+            /*edited by vincy on match 13 2020*/
+            $check_in_matrix = Tree_Table::where('user_id',Auth::user()->id)->where('type','yes')->count();
+            if($check_in_matrix == 0){
+
+                Packages::DirectReferrals(Auth::user()->id,$item->package);
+                $addtomatrixplan = Packages::Addtomatrixplan(Auth::user()->id);   
+            }
+            /*edited by vincy on match 13 2020*/
+              RsHistory::create([
+                'user_id'=>$item->user_id,                   
+                'from_id'=>$item->user_id,
+                'rs_credit'=>$package->rs,
+              ]);
+
+ 
+         //commsiiom
+             // $sponsor_id =User::where('id',Auth::user()->id)->value('sponsor') ;
+             // dd($sponsor_id);
+            $sponsor_id=Sponsortree::where('user_id',$item->user_id)->value('sponsor');
+             if($old_package == 1){
+                $pur_count=User::where('id',$sponsor_id)->value('purchase_count');
+                $new_pur_count=$pur_count+1;
+                User::where('id',$sponsor_id)->update(['purchase_count' => $new_pur_count]);
+             }
+            ProfileModel::where('user_id',$item->user_id)->update(['package' => $item->package]);
+             User::where('id',$item->user_id)->update(['active_purchase' => 'yes']);
+            $user_arrs=[];
+            $results=Ranksetting::getTreeUplinePackage($item->user_id,1,$user_arrs);
+            array_push($results, $item->user_id);
+            foreach ($results as $key => $value) {
+                Packages::rankCheck($value);
+            }
+
+            Packages::levelCommission($item->user_id,$package->amount,$item->package);
+             $category_update=User::categoryUpdate($sponsor_id);
+            // Packages::directReferral($sponsor_id,$item->user_id,$item->package);
+            //comm
+
+            $pur_user=PurchaseHistory::find($purchase_id->id);
+            $user=User::join('profile_infos','profile_infos.user_id','=','users.id')
+                       ->join('packages','packages.id','=','profile_infos.package')
+                       ->where('users.id',$pur_user->user_id)
+                       ->select('users.username','users.name','users.lastname','users.email','profile_infos.mobile','profile_infos.address1','packages.package')
+                       ->get();
+             $userpurchase=array();      
+             $userpurchase['name']=$user[0]->name;
+             $userpurchase['lastname']=$user[0]->lastname;
+             $userpurchase['amount']=$item->amount;
+             $userpurchase['payment_method']=$purchase_id->pay_by;
+             $userpurchase['mail_address']=$user[0]->email;;
+             $userpurchase['mobile']=$user[0]->mobile;
+             $userpurchase['address']=$user[0]->address1;
+             $userpurchase['invoice_id'] ='0000'.$purchase_id->id;
+             $userpurchase['date_p']=$purchase_id->created_at;
+             $userpurchase['package']=$package->package;
+             PurchaseHistory::where('id','=',$purchase_id->id)->update(['datas'=>json_encode($userpurchase)]);
+             Session::flash('flash_notification',array('message'=>"You have purchased the plan succesfully ",'level'=>'success'));
+             return  redirect("user/purchase/preview/".Crypt::encrypt($purchase_id->id));
+          
 
       }
-      } catch (Exception $ex) {
-            Session::flash('flash_notification', array('level' => 'error', 'message' => 'Error In payment'));
-                  return Redirect::to('user/purchase-plan');
+      catch (Exception $ex) {
+            // Session::flash('flash_notification', array('level' => 'error', 'message' => 'Error In payment'));
+            //       return Redirect::to('user/purchase-plan');
         }
     }
 
@@ -576,6 +779,76 @@ class productController extends UserAdminController
             $package=Packages::find($item->package);
 
 
+            $purchase_id= PurchaseHistory::create([
+                            'user_id'=>$item->user_id,
+                            'purchase_user_id'=>$item->user_id,
+                            'package_id'=>$item->package,
+                            'count'=>1,
+                            'pv'=>$package->pv,
+                            'total_amount'=>$item->amount,
+                            'pay_by'=>$item->payment_method,
+                            'rs_balance'=>$package->rs,
+                            'sales_status'=>'yes',
+                          ]);
+
+            /*edited by vincy on match 13 2020*/
+            $check_in_matrix = Tree_Table::where('user_id',Auth::user()->id)->where('type','yes')->count();
+            if($check_in_matrix == 0){
+
+                Packages::DirectReferrals(Auth::user()->id,$item->package);
+                $addtomatrixplan = Packages::Addtomatrixplan(Auth::user()->id);   
+            }
+            /*edited by vincy on match 13 2020*/
+              RsHistory::create([
+                'user_id'=>$item->user_id,                   
+                'from_id'=>$item->user_id,
+                'rs_credit'=>$package->rs,
+              ]);
+
+ 
+         //commsiiom
+             // $sponsor_id =User::where('id',Auth::user()->id)->value('sponsor') ;
+             // dd($sponsor_id);
+            $sponsor_id=Sponsortree::where('user_id',$item->user_id)->value('sponsor');
+             if($old_package == 1){
+                $pur_count=User::where('id',$sponsor_id)->value('purchase_count');
+                $new_pur_count=$pur_count+1;
+                User::where('id',$sponsor_id)->update(['purchase_count' => $new_pur_count]);
+             }
+            ProfileModel::where('user_id',$item->user_id)->update(['package' => $item->package]);
+             User::where('id',$item->user_id)->update(['active_purchase' => 'yes']);
+            $user_arrs=[];
+            $results=Ranksetting::getTreeUplinePackage($item->user_id,1,$user_arrs);
+            array_push($results, $item->user_id);
+            foreach ($results as $key => $value) {
+                Packages::rankCheck($value);
+            }
+
+            Packages::levelCommission($item->user_id,$package->amount,$item->package);
+             $category_update=User::categoryUpdate($sponsor_id);
+            // Packages::directReferral($sponsor_id,$item->user_id,$item->package);
+            //comm
+
+            $pur_user=PurchaseHistory::find($purchase_id->id);
+            $user=User::join('profile_infos','profile_infos.user_id','=','users.id')
+                       ->join('packages','packages.id','=','profile_infos.package')
+                       ->where('users.id',$pur_user->user_id)
+                       ->select('users.username','users.name','users.lastname','users.email','profile_infos.mobile','profile_infos.address1','packages.package')
+                       ->get();
+             $userpurchase=array();      
+             $userpurchase['name']=$user[0]->name;
+             $userpurchase['lastname']=$user[0]->lastname;
+             $userpurchase['amount']=$item->amount;
+             $userpurchase['payment_method']=$purchase_id->pay_by;
+             $userpurchase['mail_address']=$user[0]->email;;
+             $userpurchase['mobile']=$user[0]->mobile;
+             $userpurchase['address']=$user[0]->address1;
+             $userpurchase['invoice_id'] ='0000'.$purchase_id->id;
+             $userpurchase['date_p']=$purchase_id->created_at;
+             $userpurchase['package']=$package->package;
+             PurchaseHistory::where('id','=',$purchase_id->id)->update(['datas'=>json_encode($userpurchase)]);
+             Session::flash('flash_notification',array('message'=>"You have purchased the plan succesfully ",'level'=>'success'));
+             return  redirect("user/purchase/preview/".Crypt::encrypt($purchase_id->id));
             // error_log(json_encode($item));
             // $email = Emails::find(1);
             // $template = Mail_template::where('id',2)->value('text');
