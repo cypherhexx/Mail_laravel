@@ -25,6 +25,7 @@ use App\PaypalDetails;
 use App\ProfileInfo;
 use App\Ranksetting;
 use App\IpnResponse;
+use App\Emails;
 
 use Validator;
 use Session;
@@ -389,7 +390,7 @@ class productController extends UserAdminController
             }
 
             if($request->steps_plan_payment == 'netpay'){
-              $link = "https://uiservices.netpay-intl.com/hosted/?merchantID=7687751&url_redirect=&url_notify=&trans_comment=&trans_refNum=&trans_installments=1&trans_amount=50&trans_currency=ILS&disp_paymentType=&disp_payFor=Purchase&trans_recurring1=1M1&trans_recurring2=1M1A50&disp_recurring=0&disp_lng=en-us&disp_mobile=auto&signature=U0y91D4GPmZg%2b%2fQfJ2utmb9C9DvMvXRlHTGOXfhE28Q%3d";
+              $link = "https://uiservices.netpay-intl.com/hosted/?merchantID=7687751&url_redirect=https%3a%2f%2fdev.algolight.net%2fnetpay%2fpurchase-plan&url_notify=&trans_comment=&trans_refNum=&trans_installments=1&trans_amount=50&trans_currency=ILS&disp_paymentType=&disp_payFor=Purchase&trans_recurring1=1M1&trans_recurring2=1M1A50&disp_recurring=0&disp_lng=en-us&disp_mobile=auto&signature=%2fc2LaaEoWKQBrA%2f1A2QRwg%3d%3d";
                return redirect($link);
             }
 
@@ -561,33 +562,33 @@ class productController extends UserAdminController
             $package=Packages::find($item->package);
 
 
-            error_log(json_encode($item));
-            $email = Emails::find(1);
-            $template = Mail_template::where('id',2)->value('text');
-            $app_settings = AppSettings::find(1);
-            error_log("detect upgrade");
-             //error_log($item);
-            $payment_num = "New User";
-            if($item->package == 2) $payment_num = "bronze";
-            if($item->package == 3) $payment_num = "silver";
-            if($item->package == 4) $payment_num = "gold";
-            if($item->package == 5) $payment_num = "diamond";
+            // error_log(json_encode($item));
+            // $email = Emails::find(1);
+            // $template = Mail_template::where('id',2)->value('text');
+            // $app_settings = AppSettings::find(1);
+            // error_log("detect upgrade");
+            //  //error_log($item);
+            // $payment_num = "New User";
+            // if($item->package == 2) $payment_num = "bronze";
+            // if($item->package == 3) $payment_num = "silver";
+            // if($item->package == 4) $payment_num = "gold";
+            // if($item->package == 5) $payment_num = "diamond";
 
-            $template = str_replace( '{{$username}}', $item->username, $template );
-            $template = str_replace( '{{$purchase_type}}', $payment_num, $template );
-            $template = str_replace( '{{$pay_type}}', $item->payment_period, $template );
+            // $template = str_replace( '{{$username}}', $item->username, $template );
+            // $template = str_replace( '{{$purchase_type}}', $payment_num, $template );
+            // $template = str_replace( '{{$pay_type}}', $item->payment_period, $template );
             
-            Mail::send('emails.welcome',
-            ['email'         => $email,
-                'company_name'   => $app_settings->company_name,
-                'logo'   => $app_settings->logo,
-                'username' => $item->username,
-                'period' => $item->payment_period,
-                'package_name' => $payment_num,
+            // Mail::send('emails.welcome',
+            // ['email'         => $email,
+            //     'company_name'   => $app_settings->company_name,
+            //     'logo'   => $app_settings->logo,
+            //     'username' => $item->username,
+            //     'period' => $item->payment_period,
+            //     'package_name' => $payment_num,
 
-            ], function ($m) use ($item, $email) {
-                $m->to($item->email,$item->username)->subject('Successfully Purchase the package.')->from($email->from_email, $email->from_name);
-            });
+            // ], function ($m) use ($item, $email) {
+            //     $m->to($item->email,$item->username)->subject('Successfully Purchase the package.')->from($email->from_email, $email->from_name);
+            // });
 
 
             $purchase_id= PurchaseHistory::create([

@@ -807,6 +807,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth', 'namespace' => 'user']
     Route::get('getplanid','productController@getplanid');
     
     Route::post('paypalupgrade/paypalsuccess/{id}','productController@paypalSuccess');
+     Route::get('netpayupgrade/netpaysuccess/{id}','productController@netpaySuccess');
      Route::get('paypalupgrade/paypalsuccess/{id}','productController@paypalSuccess');
 
     Route::get('banktransferPreview','productController@banktransferPreview');
@@ -900,6 +901,8 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth', 'namespace' => 'user']
       Route::get('purchase/invoice/{id}', 'productController@invoice');
     Route::get('purchase-history','productController@purchasehistory');
      Route::get('paypal/purchase-plan','productController@paypalpurchase');
+
+
     #Register new memeber
     Route::get('register/{placement_id}','RegisterController@index');
     Route::get('register','RegisterController@index');
