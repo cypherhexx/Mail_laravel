@@ -497,7 +497,7 @@ class RegisterController extends Controller
                     // $response = self::$provider->setExpressCheckout($data); 
                     // PendingTransactions::where('id',$register->id)->update(['payment_data' => json_encode($response),'paypal_express_data' => json_encode($data)]);
                 
-                    $link="https://uiservices.netpay-intl.com/hosted/?merchantID=7687751&url_redirect=https%3a%3a%2f%2fdev.algolight.net%2fnetpay%2fregister&url_notify=&trans_comment=&trans_refNum=&trans_installments=1&trans_amount=20&trans_currency=ILS&disp_paymentType=&disp_payFor=Purchase&disp_recurring=0&disp_lng=en-us&disp_mobile=auto&signature=LqWSQpBZ4g7kuMS91cJq9iGw0lbelQWULsOGtG2l8fo%3d";
+                    $link="https://uiservices.netpay-intl.com/hosted/?merchantID=7687751&url_redirect=https%3a%2f%2fdev.algolight.net&url_notify=&trans_comment=&trans_refNum=&trans_installments=1&trans_amount=20&trans_currency=ILS&disp_paymentType=&disp_payFor=Purchase&disp_recurring=0&disp_lng=en-us&disp_mobile=auto&signature=J7sbYI8S7A6YPNp5lCOBus%2buX%2bpsR8cXDzNIraQuGZ0%3d";
                     return redirect($link);
                 }
 
