@@ -98,7 +98,7 @@ class dashboard extends UserAdminController{
 
         $cat_id=User::where('id',Auth::user()->id)->value('category_id');
         $category=Category::where('id',$cat_id)->value('category_name');
-       // $cat_image=null;
+        $cat_image=null;
         
         if(isset($category)){
            $cat_image=Category::find($cat_id)->image;
