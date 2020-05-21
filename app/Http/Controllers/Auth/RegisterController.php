@@ -581,7 +581,7 @@ Log::debug('Register Controller Auth - Arslan');
         error_log("test pay");
         error_log($request->replyDesc);
         error_log("test netpay");
-
+ 
         if($request->replyDesc == "SUCCESS"){
             $item = PendingTransactions::where('id',$payment_id)->first();
             $details=json_decode($item->request_data,true);
