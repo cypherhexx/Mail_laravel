@@ -596,76 +596,7 @@ class productController extends UserAdminController
             $item->payment_status='complete';
             $item->save();
             $package=Packages::find($item->package);
-            $purchase_id= PurchaseHistory::create([
-                            'user_id'=>$item->user_id,
-                            'purchase_user_id'=>$item->user_id,
-                            'package_id'=>$item->package,
-                            'count'=>1,
-                            'pv'=>$package->pv,
-                            'total_amount'=>$item->amount,
-                            'pay_by'=>$item->payment_method,
-                            'rs_balance'=>$package->rs,
-                            'sales_status'=>'yes',
-                          ]);
-
-            /*edited by vincy on match 13 2020*/
-            $check_in_matrix = Tree_Table::where('user_id',Auth::user()->id)->where('type','yes')->count();
-            if($check_in_matrix == 0){
-
-                Packages::DirectReferrals(Auth::user()->id,$item->package);
-                $addtomatrixplan = Packages::Addtomatrixplan(Auth::user()->id);   
-            }
-            /*edited by vincy on match 13 2020*/
-              RsHistory::create([
-                'user_id'=>$item->user_id,                   
-                'from_id'=>$item->user_id,
-                'rs_credit'=>$package->rs,
-              ]);
-
- 
-         //commsiiom
-             // $sponsor_id =User::where('id',Auth::user()->id)->value('sponsor') ;
-             // dd($sponsor_id);
-            $sponsor_id=Sponsortree::where('user_id',$item->user_id)->value('sponsor');
-             if($old_package == 1){
-                $pur_count=User::where('id',$sponsor_id)->value('purchase_count');
-                $new_pur_count=$pur_count+1;
-                User::where('id',$sponsor_id)->update(['purchase_count' => $new_pur_count]);
-             }
-            ProfileModel::where('user_id',$item->user_id)->update(['package' => $item->package]);
-             User::where('id',$item->user_id)->update(['active_purchase' => 'yes']);
-            $user_arrs=[];
-            $results=Ranksetting::getTreeUplinePackage($item->user_id,1,$user_arrs);
-            array_push($results, $item->user_id);
-            foreach ($results as $key => $value) {
-                Packages::rankCheck($value);
-            }
-
-            Packages::levelCommission($item->user_id,$package->amount,$item->package);
-             $category_update=User::categoryUpdate($sponsor_id);
-            // Packages::directReferral($sponsor_id,$item->user_id,$item->package);
-            //comm
-
-            $pur_user=PurchaseHistory::find($purchase_id->id);
-            $user=User::join('profile_infos','profile_infos.user_id','=','users.id')
-                       ->join('packages','packages.id','=','profile_infos.package')
-                       ->where('users.id',$pur_user->user_id)
-                       ->select('users.username','users.name','users.lastname','users.email','profile_infos.mobile','profile_infos.address1','packages.package')
-                       ->get();
-             $userpurchase=array();      
-             $userpurchase['name']=$user[0]->name;
-             $userpurchase['lastname']=$user[0]->lastname;
-             $userpurchase['amount']=$item->amount;
-             $userpurchase['payment_method']=$purchase_id->pay_by;
-             $userpurchase['mail_address']=$user[0]->email;;
-             $userpurchase['mobile']=$user[0]->mobile;
-             $userpurchase['address']=$user[0]->address1;
-             $userpurchase['invoice_id'] ='0000'.$purchase_id->id;
-             $userpurchase['date_p']=$purchase_id->created_at;
-             $userpurchase['package']=$package->package;
-             PurchaseHistory::where('id','=',$purchase_id->id)->update(['datas'=>json_encode($userpurchase)]);
-             Session::flash('flash_notification',array('message'=>"You have purchased the plan succesfully ",'level'=>'success'));
-             return  redirect("user/purchase/preview/".Crypt::encrypt($purchase_id->id));
+         
             // error_log(json_encode($item));
             // $email = Emails::find(1);
             // $template = Mail_template::where('id',2)->value('text');
