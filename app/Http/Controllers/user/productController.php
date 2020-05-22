@@ -407,7 +407,7 @@ class productController extends UserAdminController
               $link1="https://uiservices.netpay-intl.com/hosted/?merchantID=7687751&url_redirect=https%3a%2f%2fdev.algolight.net%2fuser%2fnetpay%2fpurchase-plan&url_notify=&trans_comment=&trans_refNum=&trans_installments=1&trans_amount=100&trans_currency=ILS&disp_paymentType=&disp_payFor=Purchase&trans_recurring1=5M1&trans_recurring2=5M1A100&disp_recurring=0&disp_lng=en-us&disp_mobile=auto&signature=Ny7btnb6qqOta6vRLNQb8VkfB4NGuTrIWTdUsjY870s%3d";
 
 
-              $link0 = "https://uiservices.netpay-intl.com/hosted/?merchantID=7687751&url_redirect=https%3a%3a%2f%2fdev.algolight.net%2fuser%2fnetpay%2fpurchase-plan&url_notify=&trans_comment=&trans_refNum=&trans_installments=1&trans_amount=50&trans_currency=ILS&disp_paymentType=&disp_payFor=Purchase&trans_recurring1=5M1&trans_recurring2=5M1A50&disp_recurring=0&disp_lng=en-us&disp_mobile=auto&signature=YROB%2f39ZnQIXs1ueiqInYuAVnsRmu6RtuLtghhhhCLo%3d";
+              $link0 = "https://uiservices.netpay-intl.com/hosted/?merchantID=7687751&url_redirect=https%3a%2f%2fdev.algolight.net%2fuser%2fnetpay%2fpurchase-plan&url_notify=&trans_comment=&trans_refNum=&trans_installments=1&trans_amount=50&trans_currency=ILS&disp_paymentType=&disp_payFor=Purchase&trans_recurring1=5M1&trans_recurring2=5M1A50&disp_recurring=0&disp_lng=en-us&disp_mobile=auto&signature=80P%2bUD7VGzlo4lJ0by%2fuxPXnUprpKMr9SAWEN2dx4yQ%3d";
 
                if($period == "Month"){
                 if($fee == 50){
