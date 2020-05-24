@@ -469,9 +469,7 @@ class productController extends UserAdminController
                 $sponsor_id =Sponsortree::where('user_id',Auth::user()->id)->value('sponsor') ;
 
                 //test
-                 
-         
-                 
+                                  
                   $email = Emails::find(1);
                   $template = Mail_template::where('id',2)->value('text');
                   $app_settings = AppSettings::find(1);
