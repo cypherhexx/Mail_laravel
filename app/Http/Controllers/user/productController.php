@@ -26,6 +26,7 @@ use App\ProfileInfo;
 use App\Ranksetting;
 use App\IpnResponse;
 use App\Emails;
+use App\Mail_template
 
 use Validator;
 use Session;
