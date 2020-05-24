@@ -541,19 +541,45 @@ class RegisterController extends Controller
                 $welcome=welcomeemail::find(1);
                 $app_settings = AppSettings::find(1);
                
-                Mail::send('emails.register',
-                    ['email'         => $email,
-                        'company_name'   => $app_settings->company_name,
-                        'logo'   => $app_settings->logo,
-                        'firstname'      => $data['firstname'],
-                        'name'           => $data['lastname'],
-                        'login_username' => $data['username'],
-                        'password'       => $data['password'],
-                        'welcome'        => $welcome,
-                        'transaction_pass'=>$data['transaction_pass'],
-                    ], function ($m) use ($data, $email) {
-                        $m->to($data['email'], $data['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
-                    });
+                // Mail::send('emails.register',
+                //     ['email'         => $email,
+                //         'company_name'   => $app_settings->company_name,
+                //         'logo'   => $app_settings->logo,
+                //         'firstname'      => $data['firstname'],
+                //         'name'           => $data['lastname'],
+                //         'login_username' => $data['username'],
+                //         'password'       => $data['password'],
+                //         'welcome'        => $welcome,
+                //         'transaction_pass'=>$data['transaction_pass'],
+                //     ], function ($m) use ($data, $email) {
+                //         $m->to($data['email'], $data['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
+                //     });
+
+                //test
+                 $template = Mail_template::where('id',1)->value('text');
+                    error_log($template);
+
+                    $template = str_replace( '{{$firstname}}', $data['firstname'], $template );
+                    $template = str_replace( '{{$lastname}}', $data['lastname'], $template );
+                    $template = str_replace( '{{$username}}', $data['username'], $template );
+                    $template = str_replace( '{{$password}}', $data['password'], $template );
+                    $template = str_replace( '{{$transaction_pass}}', $data['transaction_pass'], $template );
+                    Mail::send('emails.welcome',
+                        ['email'         => $email,
+                            'template'       => $template,
+                            'company_name'   => $app_settings->company_name,
+                            'logo'   => $app_settings->logo,
+                            'firstname'      => $data['firstname'],
+                            'lname'           => $data['lastname'],
+                            'login_username' => $data['username'],
+                            'password'       => $data['password'],
+                            'welcome'        => $welcome,
+                            'transaction_pass'=>$data['transaction_pass'],
+                        ], function ($m) use ($details, $email) {
+                            $m->to($data['email'], $data['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
+                        });
+                    //test
+
 Log::debug('Register Controller Auth - Arslan');
                 return redirect("register/preview/" . Crypt::encrypt($userresult->id));
             }
@@ -590,6 +616,34 @@ Log::debug('Register Controller Auth - Arslan');
             $sponsorname = $userresult->sponsor;
           Activity::add("Added user $userresult->username","Added $userresult->username sponsor as $sponsorname ");
                 Activity::add("Joined as $userresult->username","Joined in system as $userresult->username sponsor as $sponsorname ",$userresult->id);
+             $email = Emails::find(1);
+            $welcome=welcomeemail::find(1);
+            $app_settings = AppSettings::find(1);
+
+            $template = Mail_template::where('id',1)->value('text');
+            error_log($template);
+
+            $template = str_replace( '{{$firstname}}', $details['firstname'], $template );
+            $template = str_replace( '{{$lastname}}', $details['lastname'], $template );
+            $template = str_replace( '{{$username}}', $details['username'], $template );
+            $template = str_replace( '{{$password}}', $details['password'], $template );
+            $template = str_replace( '{{$transaction_pass}}', $details['transaction_pass'], $template );
+            Mail::send('emails.welcome',
+                ['email'         => $email,
+                    'template'       => $template,
+                    'company_name'   => $app_settings->company_name,
+                    'logo'   => $app_settings->logo,
+                    'firstname'      => $details['firstname'],
+                    'lname'           => $details['lastname'],
+                    'login_username' => $details['username'],
+                    'password'       => $details['password'],
+                    'welcome'        => $welcome,
+                    'transaction_pass'=>$details['transaction_pass'],
+                ], function ($m) use ($details, $email) {
+                    $m->to($details['email'], $details['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
+                });
+
+
            return redirect("register/preview/" . Crypt::encrypt($userresult->id)); 
            
         } else {
@@ -763,19 +817,7 @@ Log::debug('Register Controller Auth - Arslan');
                     $email = Emails::find(1);
                     $welcome=welcomeemail::find(1);
                     $app_settings = AppSettings::find(1);
-                   error_log($email->from_email);
-                    error_log("detect mail");
-                    //error_log($email);
-                    //changepart
-                    error_log($sponsorname);
-                   // $sponsor_per = User::where('username',$sponsorname)->value('id');
-                    // $userlist = User::all();
-                    // $sponsor_per=User::where('username',$sponsorname)->value('email');
-                   
-                    // error_log($sponsor_per);
-                    
-
-
+       
                     $template = Mail_template::where('id',1)->value('text');
                     error_log($template);
 
@@ -933,6 +975,7 @@ public function checkStatus($trans){
          if($request->confirmations >=3 && $item->payment_status == 'pending'){
             $item->payment_response_data = json_encode($request->all());
             $item->save();
+
             $details=json_decode($item->request_data,true);
             $username=User::where('username',$item->username)->value('id');
             $email=User::where('email',$item->email)->value('id');
@@ -948,13 +991,22 @@ public function checkStatus($trans){
                  $email = Emails::find(1);
                  $welcome=welcomeemail::find(1);
                  $app_settings = AppSettings::find(1);
-               
-                Mail::send('emails.register',
+
+                $template = Mail_template::where('id',1)->value('text');
+                error_log($template);
+
+                $template = str_replace( '{{$firstname}}', $details['firstname'], $template );
+                $template = str_replace( '{{$lastname}}', $details['lastname'], $template );
+                $template = str_replace( '{{$username}}', $details['username'], $template );
+                $template = str_replace( '{{$password}}', $details['password'], $template );
+                $template = str_replace( '{{$transaction_pass}}', $details['transaction_pass'], $template );
+                Mail::send('emails.welcome',
                     ['email'         => $email,
+                        'template'       => $template,
                         'company_name'   => $app_settings->company_name,
                         'logo'   => $app_settings->logo,
                         'firstname'      => $details['firstname'],
-                        'name'           => $details['lastname'],
+                        'lname'           => $details['lastname'],
                         'login_username' => $details['username'],
                         'password'       => $details['password'],
                         'welcome'        => $welcome,
@@ -962,6 +1014,9 @@ public function checkStatus($trans){
                     ], function ($m) use ($details, $email) {
                         $m->to($details['email'], $details['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
                     });
+
+
+
               }
          }
 

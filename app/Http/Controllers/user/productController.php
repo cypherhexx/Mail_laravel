@@ -409,6 +409,7 @@ class productController extends UserAdminController
 
               $link0 = "https://uiservices.netpay-intl.com/hosted/?merchantID=7687751&url_redirect=https%3a%2f%2fdev.algolight.net%2fuser%2fnetpay%2fpurchase-plan&url_notify=&trans_comment=&trans_refNum=&trans_installments=1&trans_amount=50&trans_currency=ILS&disp_paymentType=&disp_payFor=Purchase&trans_recurring1=1M1&trans_recurring2=1M1A50&disp_recurring=0&disp_lng=en-us&disp_mobile=auto&signature=tpxf2e5%2bxDBg5f%2f%2fF1emDp2uVX2mK0%2fQ3gv6EJOjKhg%3d";
 
+
                if($period == "Month"){
                 if($fee == 50){
                   $link = $link0;
