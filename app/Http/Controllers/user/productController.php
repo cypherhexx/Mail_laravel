@@ -34,6 +34,7 @@ use Crypt;
 use Auth;
 use Redirect;
 use Input;
+use Mail;
 
 //paypal
 
