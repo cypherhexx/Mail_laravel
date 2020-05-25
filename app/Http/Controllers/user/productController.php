@@ -696,9 +696,9 @@ class productController extends UserAdminController
             foreach ($results as $key => $value) {
                 Packages::rankCheck($value);
             }
-          
+            $category_update=User::categoryUpdate($sponsor_id);
             Packages::levelCommission($item->user_id,$package->amount,$item->package);
-              $category_update=User::categoryUpdate($sponsor_id);
+            
             // Packages::directReferral($sponsor_id,$item->user_id,$item->package);
             //comm
 
@@ -841,9 +841,9 @@ class productController extends UserAdminController
             foreach ($results as $key => $value) {
                 Packages::rankCheck($value);
             }
-            
-            Packages::levelCommission($item->user_id,$package->amount,$item->package);
              $category_update=User::categoryUpdate($sponsor_id);
+            Packages::levelCommission($item->user_id,$package->amount,$item->package);
+            
             // Packages::directReferral($sponsor_id,$item->user_id,$item->package);
             //comm
 
