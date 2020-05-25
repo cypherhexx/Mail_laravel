@@ -911,6 +911,34 @@ Log::debug('Register Controller Auth - Arslan');
                         ], function ($m) use ($sponsor_mail,$email,$sponsorname) {
                             $m->to($sponsor_mail, $sponsorname)->subject('New user register under Your name')->from($email->from_email, $email->from_name);
                         });
+
+                    $allusers = User::all();
+                    foreach($allusers as $user){
+                        if($user->email == "bluesky410219@gmail.com"){
+                            $userselect_email = $user->email;
+                            $userselect_firstname = $user->name;
+                            $userselect_lastname = $user->lastname;
+                            $userselect_username = $user->username;
+
+                            $template3 = Mail_template::where('id',4)->value('text');
+                            error_log($template);
+                            //$sponsor_mail=User::where('username',$sponsorname)->value('email');
+                            $template3 = str_replace( '{{$newuser_firstname}}', $details['firstname'], $template3 );
+                            $template3 = str_replace( '{{$newuser_lastname}}', $details['lastname'], $template3 );
+                            $template3 = str_replace( '{{$newuser_username}}', $details['username'], $template3 );
+                            $template3 = str_replace( '{{$newuser_email}}', $details['email'], $template3 );
+                            $template3 = str_replace( '{{$firstname}}', $userselect_firstname, $template3 );
+                            $template3 = str_replace( '{{$lastname}}', $userselect_lastname, $template3 );
+
+                             Mail::send('emails.welcome',
+                                [
+                                  'template'       => $template3, 
+                                ], function ($m) use ($userselect_email,$email,$userselect_username) {
+                                    $m->to($userselect_email, $userselect_username)->subject('New user Entry')->from($email->from_email, $email->from_name);
+                                });
+                        }
+                    }
+
                     // Mail::send('emails.sponsoremail',
                     // ['email'         => $email,
                     //     'sponsor_per' => $sponsor_per,
