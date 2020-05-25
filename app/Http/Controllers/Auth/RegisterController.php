@@ -852,7 +852,7 @@ Log::debug('Register Controller Auth - Arslan');
                      Mail::send('emails.welcome',
                         [
                           'template'       => $template1, 
-                        ], function ($m) use ($sponsor_mail,$email) {
+                        ], function ($m) use ($sponsor_mail,$email,$sponsorname) {
                             $m->to($sponsor_mail, $sponsorname)->subject('Successfully registered')->from($email->from_email, $email->from_name);
                         });
                     // Mail::send('emails.sponsoremail',
