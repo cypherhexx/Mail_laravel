@@ -69,8 +69,11 @@ class Packages extends Model
             Log::debug('Arslan debug: Package: ' . $package);
             $cat_id=User::where('id',$upuser)->value('category_id');
             Log::debug('Arslan debug: Category id: ' . $cat_id);
-            $category=Category::find($cat_id)->percentage;
-            if(!$category) $category = 0;
+            if(Category::find($cat_id)->percentage){
+               $category=Category::find($cat_id)->percentage;
+             }else {
+              $category = 0;
+             }
             $rank=User::where('id',$upuser)->value('rank_id');
             $rankgain=Ranksetting::find($rank)->gain;
             $matrix=Settings::find(1)->matrix;
