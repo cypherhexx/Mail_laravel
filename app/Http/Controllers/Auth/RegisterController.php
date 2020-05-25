@@ -585,7 +585,7 @@ class RegisterController extends Controller
                     //sponsormail
                     $template1 = Mail_template::where('id',3)->value('text');
                     error_log($template);
-                    $sponsor_mail=User::where('username',$sponsorname)->value('email');
+                    $sponsor_mail=User::where('id',$sponsor_id)->value('email');
                     $template1 = str_replace( '{{$firstname}}', $details['firstname'], $template1 );
                     $template1 = str_replace( '{{$lastname}}', $details['lastname'], $template1 );
                     $template1 = str_replace( '{{$username}}', $details['username'], $template1 );
@@ -635,6 +635,8 @@ Log::debug('Register Controller Auth - Arslan');
             $userresult = User::add($details,$sponsor_id,$sponsor_id);
             $sponsorname = $userresult->sponsor;
             error_log($sponsorname);
+            error_log($sponsor_id);
+            error_log(json_encode($item));
             error_log("check sponsor");
           Activity::add("Added user $userresult->username","Added $userresult->username sponsor as $sponsorname ");
                 Activity::add("Joined as $userresult->username","Joined in system as $userresult->username sponsor as $sponsorname ",$userresult->id);
@@ -667,7 +669,7 @@ Log::debug('Register Controller Auth - Arslan');
             $template1 = Mail_template::where('id',3)->value('text');
             error_log($template);
 
-            $sponsor_mail=User::where('username',$sponsorname)->value('email');
+            $sponsor_mail=User::where('id',$sponsor_id)->value('email');
             error_log($sponsor_mail);
             error_log("check mail");
             $template1 = str_replace( '{{$firstname}}', $details['firstname'], $template1 );
