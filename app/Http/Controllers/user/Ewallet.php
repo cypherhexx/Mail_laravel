@@ -32,7 +32,7 @@ class Ewallet extends UserAdminController
     public function index(Request $request)
     {
         
-         $title     = trans('ewallet.ewallet');
+        $title     = trans('ewallet.ewallet');
         $sub_title = trans('ewallet.ewallet');
         $base      = trans('ewallet.ewallet');
         $method    = trans('ewallet.ewallet'); 
