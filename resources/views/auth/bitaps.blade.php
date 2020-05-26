@@ -18,7 +18,7 @@
                         <label for="cardNumber">BTC {{$package_amount}} </label>
                         <div class="input-group" style="margin: 0 auto;">
 
-                            <input type="text" class="form-control selectall copyfrom form-control" readonly="" id="cardNumber" value="mxiAWYTDExB4SrPN3WsbbS2Ukdhhr1HJ4t" style="width:318px;" 
+                            <input type="text" class="form-control selectall copyfrom form-control" readonly="" id="cardNumber" value="{{$payment_details->address}}" style="width:318px;" 
                                 required autofocus />
                           <!--   <span class="input-group-addon"  data-clipboard-target="#replicationlink"> <i class="fa fa-copy"></i> </span> -->
                         </div>
