@@ -126,13 +126,13 @@ class productController extends UserAdminController
         $base =  trans('products.purchase_plan');
         $method =  trans('products.purchase_plan');
         $package=ProfileModel::where('user_id',Auth::user()->id)->value('package');
-        $products = Packages::where('id','>',$package)->get();  
+        $products = Packages::where('id','>',1)->get();  
         $balance =  Balance::where('user_id',Auth::user()->id)->value('balance');
         $min_amount =  Packages::min('amount');
         $pac_am= Packages::find($package)->amount;  
         return view('app.user.product.index',compact('title','products','rules','base','method','sub_title','balance','min_amount','pac_am'));    
     }
-
+ 
 
 
 
