@@ -508,7 +508,7 @@ class RegisterController extends Controller
                 $sub_title='Bitaps Payment';
                 $base='Bitaps Payment';
                 $method='Bitaps Payment';
-                $url ='https://api.bitaps.com/btc/v1//create/payment/address' ;
+                $url ='https://api.bitaps.com/btc/testnet/v1//create/payment/address' ;
                 $payment_details = $this->url_get_contents($url,[
                                         'forwarding_address'=>$btc_forwarding,
                                         'callback_link'=>url('bitaps/paymentnotify'),
