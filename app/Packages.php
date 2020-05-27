@@ -57,7 +57,7 @@ class Packages extends Model
        
        $user_arrs=[];
        $results=SELF::gettenupllins($user_id,1,$user_arrs);
-       $results = array_unique($results);
+      // $results = array_unique($results);
 
           foreach ($results as $key => $upuser) {
 
