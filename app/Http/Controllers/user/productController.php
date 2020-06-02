@@ -784,7 +784,7 @@ class productController extends UserAdminController
             if($item->package == 4) $payment_num = "gold";
             if($item->package == 5) $payment_num = "diamond";
 
-            $payment_amounts = $payment_num + 150 - 2;
+            $payment_amounts = $item->package + 150 - 2;
 
             $template = str_replace( '{{$username}}', $item->username, $template );
             $template = str_replace( '{{$purchase_type}}', $payment_num, $template );
