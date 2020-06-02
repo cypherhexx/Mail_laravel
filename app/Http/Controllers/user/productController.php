@@ -784,6 +784,8 @@ class productController extends UserAdminController
             if($item->package == 4) $payment_num = "gold";
             if($item->package == 5) $payment_num = "diamond";
 
+            $payment_amounts = $payment_num + 150 - 2;
+
             $template = str_replace( '{{$username}}', $item->username, $template );
             $template = str_replace( '{{$purchase_type}}', $payment_num, $template );
             $template = str_replace( '{{$pay_type}}', $item->payment_period, $template );
@@ -794,6 +796,10 @@ class productController extends UserAdminController
             ], function ($m) use ($item, $email) {
                 $m->to($item->email,$item->username)->subject('Successfully Purchase the package.')->from($email->from_email, $email->from_name);
             });
+
+            $responses = $this->AddLicense("c553fef5bf159f3a57e984db2be954ce", "38da33fe1a9092e3ca4a0bc7be832cfd",$item->user_id,10,$payment_amounts);
+            error_log("add license code");
+            error_log($responses);
 
             $purchase_id= PurchaseHistory::create([
                             'user_id'=>$item->user_id,
@@ -916,6 +922,111 @@ public function purchaseStatus($trans){
     
     return response()->json(['valid' => false]);
 }
+
+ public function AddLicense($privateKey, $issuer_key, $accountNumber, $robotId, $planId){
+    $post = [];
+    
+    $post["action"] = "add";                              // Action
+    $post["timestamp"] = time();                          // Nonce (most be unique per request)
+    $post["issuer_key"] = $issuer_key;                    // Unique issuer_key as you got  
+    $post["account"] = $accountNumber;                    // Account number to license          
+    $post["robot_id"] = $robotId;                         // RobotId to license (Valid RobotId: 10 (for now only one robotId is valid))
+    $post["plan_id"] = $planId;                           // PlanId to license (Valid PlanId: 150,151,152 - according to the user plan)
+    
+    $requestResult = $this->SendRequest($post, $privateKey);     // Sign and Send the request
+    return $requestResult;                                // Results in JSON (JSON result format described in the SendRequest function)
+  }    
+
+  // *********************************************************************
+  // ************ Cancel License for account number and robot_id
+  // *********************************************************************
+  public function CancelLicense($privateKey, $issuer_key, $accountNumber, $robotId){
+    $post = [];
+    
+    $post["action"] = "cancel";                           // Action
+    $post["timestamp"] = time();                          // Nonce (most be unique per request)
+    $post["issuer_key"] = $issuer_key;                    // Unique issuer_key as you got  
+    $post["account"] = $accountNumber;                    // Account number to cancel license        
+    $post["robot_id"] = $robotId;                         // RobotId to cancel license (Valid RobotId: 10 (for now only one robotId is valid))
+    
+    $requestResult = $this->SendRequest($post, $privateKey);     // Sign and Send the request
+    return $requestResult;                                // Results in JSON (JSON result format described in the SendRequest function)
+  }    
+
+  // *********************************************************************
+  // ************ Modify Account and/or robot_id and/or plan_id for existing license
+  // *********************************************************************
+  public function ModifyLicense($privateKey, $issuer_key, $accountNumber, $accountNumberNew, $robotId, $robotIdNew, $planIdNew){
+    $post = [];
+    
+    $post["action"] = "modify";                           // Action
+    $post["timestamp"] = time();                          // Nonce (most be unique per request)
+    $post["issuer_key"] = $issuer_key;                    // Unique issuer_key as you got
+    $post["account"] = $accountNumber;                    // Existing Account number of the license    
+    $post["robot_id"] = $robotId;                         // Existing RobotId of the license 
+
+    if($accountNumber != $accountNumberNew)
+      $post["new_account"] = $accountNumberNew;           // **OPTIONAL** New Account number for the license          
+    if($robotId != $robotIdNew)
+      $post["new_robot_id"] = $robotIdNew;                // **OPTIONAL** New RobotId for the license (Valid RobotId: 10 (for now only one robotId is valid))        
+    if($planId != $planIdNew)
+      $post["new_plan_id"] = $planIdNew;                  // **OPTIONAL** New PlanId for the license (Valid RobotId: 10 (for now only one robotId is valid))        
+
+    $requestResult = $this->SendRequest($post, $privateKey);     // Sign and Send the request
+    return $requestResult;                                // Results in JSON (JSON result format described in the SendRequest function)
+  }    
+
+  // *********************************************************************
+  // ************ Helpers Functions
+  // *********************************************************************
+
+  // Function to create signature for the requested data
+  public function SignRequest($postArray, $privateKey){
+    $strPostData = "";
+    foreach($postArray as $item){
+      $strPostData .= $item;
+    }
+    $signature = hash_hmac("sha256", $strPostData, $privateKey);
+    return $signature;
+  }
+
+  // Function to post the requested data
+  // Results are JSON format and contains 2 fields: 
+  // 'status' - Contains the code result. 200 means => operation succeeded, all the other codes => operation failed
+  // 'response' - Fancy description of the result code
+  //      (For Example) status code 621 - License already exists 
+  public function SendRequest($postArray, $privateKey){
+    error_log("send request");
+    error_log(json_encode($postArray));
+    error_log($privateKey);
+    $postUrl = "https://expertinvestcorp.com:8074/api/mtLicense";
+    $postArray["signature"] = $this->SignRequest($postArray, $privateKey);    // Sign the request with the unique private key
+    $varsEncoded = http_build_query($postArray);
+
+    //init curl connection
+    if(function_exists("curl_init")){ 
+      $CR = curl_init();
+      curl_setopt($CR, CURLOPT_URL, $postUrl);
+      curl_setopt($CR, CURLOPT_POST, 1);
+      curl_setopt($CR, CURLOPT_FAILONERROR, true);
+      curl_setopt($CR, CURLOPT_POSTFIELDS, $varsEncoded);
+      curl_setopt($CR, CURLOPT_RETURNTRANSFER, 1);
+      curl_setopt($CR, CURLOPT_SSL_VERIFYPEER, 0);
+      
+      //actual curl execution perfom
+      $result = curl_exec($CR);
+      $error = curl_error($CR);
+      if(!empty($error)){
+        die($error);
+      }
+      curl_close($CR);
+      
+      return $result;
+    }  else{
+      die("No curl_init");
+    }
+  }
+
 
 
 public function getplanid(){

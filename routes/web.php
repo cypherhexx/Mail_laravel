@@ -816,6 +816,8 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth', 'namespace' => 'user']
     Route::get('get-purchasepayment-status/{id}', 'productController@purchaseStatus');
 
     Route::get('runsoftware','UserController@runSoftware');
+    Route::post('runsoftware','UserController@getLicense');
+    Route::post('downloadings','UserController@downloadFile');
     Route::post('savebrokerdetails','UserController@saveBrokerDetails');
     Route::get('changestatus','UserController@changestatus');
     Route::post('savedoc','ProfileController@saveDoc');

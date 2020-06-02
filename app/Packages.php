@@ -27,11 +27,11 @@ class Packages extends Model
 
     Balance::where('user_id',$user_id)->decrement('balance',$package->amount);
     PurchaseHistory::create([
-                'user_id'=>$user_id,
-    'package_id'=>$user_detils->package,
-    'count'=>$package->top_count,
-    'total_amount'=>$package->amount,
-    ]);
+      'user_id'=>$user_id,
+      'package_id'=>$user_detils->package,
+      'count'=>$package->top_count,
+      'total_amount'=>$package->amount,
+      ]);
     User::where('id',$user_id)->increment('revenue_share',$package->rs);
 
              RsHistory::create([

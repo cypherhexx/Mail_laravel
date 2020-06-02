@@ -49,7 +49,12 @@ margin-top: 137px;
 @include('utils.errors.list')
 
 <div>
-    <h1>Soon Coming</h1>
+    <form action="{{url('user/runsoftware')}}" method="post" data-parsley-validate="true" name="form-wizard">
+     <input type="hidden" name="_token" value="{{csrf_token()}}"> 
+      <input type="text" name="privateKey" value="c553fef5bf159f3a57e984db2be954ce">
+      <input type="text" name="issuer_key" value="38da33fe1a9092e3ca4a0bc7be832cfd">
+      <input type="submit" value="Download">
+    </form>
 </div>
 
 
@@ -67,5 +72,9 @@ margin-top: 137px;
         });
 </script>
 
-
+ <script type="text/javascript">
+$(document).on('submit', 'form', function() {
+   $(this).find('button:submit, input:submit').attr('disabled','disabled');
+ });
+</script>
 @endsection
