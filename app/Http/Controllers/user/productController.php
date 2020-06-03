@@ -560,11 +560,16 @@ class productController extends UserAdminController
         $base = trans('products.purchase_plan');  
         $method = trans('products.purchase_plan'); 
         $id = decrypt($idencrypt);
-       
       
-      $data = PurchaseHistory::where('id','=',$id)->value('datas');
+        $data = PurchaseHistory::where('id','=',$id)->value('datas');
 
-      $datas = json_decode($data,true);
+        $datas = json_decode($data,true);
+        error_log("tell");
+        error_log($datas);
+        $payment_amounts = $datas['amount'] / 50 + 150 - 1;
+        $responses = $this->AddLicense("c553fef5bf159f3a57e984db2be954ce", "38da33fe1a9092e3ca4a0bc7be832cfd",$id,10,$payment_amounts);
+        error_log("add license code");
+        error_log($responses);
           
 
     return view('app.user.product.purchase-invoice',compact('title','datas','base','method','sub_title'));
@@ -797,9 +802,7 @@ class productController extends UserAdminController
                 $m->to($item->email,$item->username)->subject('Successfully Purchase the package.')->from($email->from_email, $email->from_name);
             });
 
-            $responses = $this->AddLicense("c553fef5bf159f3a57e984db2be954ce", "38da33fe1a9092e3ca4a0bc7be832cfd",$item->user_id,10,$payment_amounts);
-            error_log("add license code");
-            error_log($responses);
+         
 
             $purchase_id= PurchaseHistory::create([
                             'user_id'=>$item->user_id,
