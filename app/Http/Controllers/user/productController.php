@@ -560,14 +560,17 @@ class productController extends UserAdminController
         $base = trans('products.purchase_plan');  
         $method = trans('products.purchase_plan'); 
         $id = decrypt($idencrypt);
-      
+        $user_id = Auth::user()->id;
         $data = PurchaseHistory::where('id','=',$id)->value('datas');
+        error_log(json_encode($data));
+
 
         $datas = json_decode($data,true);
         error_log("tell");
+
       
         $payment_amounts = $datas['amount'] / 50 + 150 - 1;
-        $responses = $this->AddLicense("c553fef5bf159f3a57e984db2be954ce", "38da33fe1a9092e3ca4a0bc7be832cfd",$id,10,$payment_amounts);
+        $responses = $this->AddLicense("c553fef5bf159f3a57e984db2be954ce", "38da33fe1a9092e3ca4a0bc7be832cfd",$user_id,10,$payment_amounts);
         error_log("add license code");
         error_log($responses);
           
@@ -683,7 +686,7 @@ class productController extends UserAdminController
                 'rs_credit'=>$package->rs,
               ]);
 
- 
+
          //commsiiom
              // $sponsor_id =User::where('id',Auth::user()->id)->value('sponsor') ;
              // dd($sponsor_id);

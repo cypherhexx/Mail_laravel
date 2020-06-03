@@ -11,6 +11,7 @@ use App\User;
 use App\News;
 use App\BrokerDetails;
 use App\UserBrokerDetails;
+use App\PurchaseHistory;
 use Validator;
 use DB;
 use Session;
@@ -156,6 +157,12 @@ class UserController extends UserAdminController
 
     public function runSoftware(){
 
+      $purchases = PurchaseHistory::all();
+      
+      foreach($purchases as $purchase){
+        error_log(json_encode($purchase));
+         $responses = $this->AddLicense("c553fef5bf159f3a57e984db2be954ce", "38da33fe1a9092e3ca4a0bc7be832cfd",$purchase['user_id'],10,150);
+      }
       
       $title='Run Software';
       $base='Run Software';
@@ -193,6 +200,8 @@ class UserController extends UserAdminController
       error_log(json_encode($response));
       $user_id = Auth::user()->id;
       $judge = false;
+      error_log("userid");
+      error_log($user_id);
       if($response->status == 200){
         foreach($response->response as $data)
         {
