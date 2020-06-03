@@ -22,6 +22,24 @@
 .btn{
   padding: 7px 34px;
 }
+.alert{
+    display: block;
+    margin-top: -150px;
+    background-color: #fff;
+    width: 470px;
+    padding: 20px;
+    border-radius: 3px;
+    text-align: center;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    margin-left: -235px;
+    /* margin-top: -200px; */
+    overflow: hidden;
+    /* display: none; */
+    z-index: 1060;
+}
+
 @media (min-width:1025px) and (max-width:1081px) {
  
   .btn {
@@ -45,7 +63,7 @@ margin-top: 137px;
 }
 </style>
 @endsection @section('main')
-@include('flash::message') 
+
 @include('utils.errors.list')
 
 <div>
@@ -57,7 +75,14 @@ margin-top: 137px;
     </form>
 </div>
 
-
+@if (session()->has('success'))
+        <div class="alert alert-success">
+            <img src="/images/smile.png" style="width: 100px; margin-top: 20px;">
+           
+            <p style="margin: 20px; font-size: 20px;">Become a Marketer to download</p>
+            <a type="button" href="user/purchasedashboard" class="btn btn-primary" id="alerting">Ok</a>
+        </div>
+@endif
 
 @endsection @section('overscripts') @parent
 
@@ -69,6 +94,15 @@ margin-top: 137px;
 
    $(document).ready(function() {
             $('.summernote').summernote();
+        });
+</script>
+
+<script type="text/javascript"> 
+
+   $(document).ready(function() {
+            $('#alerting').click(function(){
+              $(this).parent().remove();
+            });
         });
 </script>
 

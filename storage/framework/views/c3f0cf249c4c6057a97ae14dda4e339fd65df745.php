@@ -22,6 +22,24 @@
 .btn{
   padding: 7px 34px;
 }
+.alert{
+    display: block;
+    margin-top: -150px;
+    background-color: #fff;
+    width: 470px;
+    padding: 20px;
+    border-radius: 3px;
+    text-align: center;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    margin-left: -235px;
+    /* margin-top: -200px; */
+    overflow: hidden;
+    /* display: none; */
+    z-index: 1060;
+}
+
 @media (min-width:1025px) and (max-width:1081px) {
  
   .btn {
@@ -45,26 +63,26 @@ margin-top: 137px;
 }
 </style>
 <?php $__env->stopSection(); ?> <?php $__env->startSection('main'); ?>
-<?php echo $__env->make('flash::message', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?> 
+
 <?php echo $__env->make('utils.errors.list', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
 <div>
     <form action="<?php echo e(url('user/runsoftware')); ?>" method="post" data-parsley-validate="true" name="form-wizard">
      <input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>"> 
-      <input type="text" name="privateKey" value="c553fef5bf159f3a57e984db2be954ce">
-      <input type="text" name="issuer_key" value="38da33fe1a9092e3ca4a0bc7be832cfd">
-      <input type="submit" value="submit">
-    </form>
-
-    <form action="<?php echo e(url('user/downloadings')); ?>" method="post" data-parsley-validate="true" name="form-wizard">
-     <input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>"> 
-  
+      <input type="hidden" name="privateKey"  value="c553fef5bf159f3a57e984db2be954ce">
+      <input type="hidden" name="issuer_key"  value="38da33fe1a9092e3ca4a0bc7be832cfd">
       <input type="submit" value="Download">
     </form>
-
 </div>
 
-
+<?php if(session()->has('success')): ?>
+        <div class="alert alert-success">
+            <img src="/images/smile.png" style="width: 100px; margin-top: 20px;">
+           
+            <p style="margin: 20px; font-size: 20px;">Please purchase the package to download.</p>
+            <button class="btn btn-primary" id="alerting">Ok</button>
+        </div>
+<?php endif; ?>
 
 <?php $__env->stopSection(); ?> <?php $__env->startSection('overscripts'); ?> ##parent-placeholder-cf3aa7a97dccc92dae72236fb07ec31668edf210##
 
@@ -76,6 +94,15 @@ margin-top: 137px;
 
    $(document).ready(function() {
             $('.summernote').summernote();
+        });
+</script>
+
+<script type="text/javascript"> 
+
+   $(document).ready(function() {
+            $('#alerting').click(function(){
+              $(this).parent().remove();
+            });
         });
 </script>
 
