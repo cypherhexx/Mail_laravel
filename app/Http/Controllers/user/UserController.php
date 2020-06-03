@@ -205,11 +205,11 @@ class UserController extends UserAdminController
           error_log("testing loginsg");
           return  Response::download($file,"NOXVM.exe", $headers);
         }else {
-          Session::flash('flash_notification',array('message'=>"You do not purchase the package",'level'=>'warning'));
+          Session::flash('flash_notification',array('message'=>"Please purchase the package.",'level'=>'error'));
              return  redirect("user/runsoftware");
         }
       }else {
-        Session::flash('flash_notification',array('message'=>"You do not purchase the package",'level'=>'warning'));
+        Session::flash('flash_notification',array('message'=>"Please purchase the package",'level'=>'error'));
              return  redirect("user/runsoftware");
       }
     }
