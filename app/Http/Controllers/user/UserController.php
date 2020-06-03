@@ -190,6 +190,7 @@ class UserController extends UserAdminController
       $response =  $this->getLicenses("c553fef5bf159f3a57e984db2be954ce", "38da33fe1a9092e3ca4a0bc7be832cfd");
       $response = json_decode($response);
       error_log($response->status);
+      error_log(json_encode($response));
       $user_id = Auth::user()->id;
       $judge = false;
       if($response->status == 200){
