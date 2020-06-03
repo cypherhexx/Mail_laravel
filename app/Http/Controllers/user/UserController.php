@@ -157,13 +157,16 @@ class UserController extends UserAdminController
 
     public function runSoftware(){
 
-      $purchases = PurchaseHistory::all();
+      // $purchases = PurchaseHistory::all();
       
-      foreach($purchases as $purchase){
-        error_log(json_encode($purchase));
-         $responses = $this->AddLicense("c553fef5bf159f3a57e984db2be954ce", "38da33fe1a9092e3ca4a0bc7be832cfd",$purchase['user_id'],10,150);
-      }
-      
+      // foreach($purchases as $purchase){
+      //   error_log(json_encode($purchase));
+      //    $responses = $this->CancelLicense("c553fef5bf159f3a57e984db2be954ce", "38da33fe1a9092e3ca4a0bc7be832cfd",$purchase['user_id'],10,150);
+      // }
+
+      //   $response =  $this->getLicenses("c553fef5bf159f3a57e984db2be954ce", "38da33fe1a9092e3ca4a0bc7be832cfd");
+      // error_log(json_encode($response));
+
       $title='Run Software';
       $base='Run Software';
       $method='Run Software';

@@ -829,7 +829,8 @@ Log::debug('Register Controller Auth - Arslan');
 // echo Crypt::decrypt($idencrypt) ;
 // die();
         $userresult      = User::with(['profile_info', 'profile_info.package_detail', 'sponsor_tree', 'tree_table', 'purchase_history.package'])->find(Crypt::decrypt($idencrypt));
-
+        error_log("user details");
+        error_log(json_encode($userresult));
 
         $userCountry = $userresult->profile_info->country;
         if ($userCountry) {
