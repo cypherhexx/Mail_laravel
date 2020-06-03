@@ -77,10 +77,10 @@ margin-top: 137px;
 
 @if (session()->has('success'))
         <div class="alert alert-success">
-            <img src="/images/smile.png" style="width: 100px; margin-top: 20px;">
+            <img src="/images/smile.png" style="width: 100px; margin-top: 25px;">
            
-            <p style="margin: 20px; font-size: 20px;">Become a Marketer to download</p>
-            <a type="button" href="user/purchasedashboard" class="btn btn-primary" id="alerting">Ok</a>
+            <p style="margin: 25px; font-size: 20px;">Become a Marketer to download</p>
+            <a type="button" href="purchasedashboard" class="btn btn-primary" id="alerting">Ok</a>
         </div>
 @endif
 
