@@ -739,7 +739,7 @@ Log::debug('Register Controller Auth - Arslan');
             //                 $m->to($userselect_email, $userselect_username)->subject('New user Entry')->from($email->from_email, $email->from_name);
             //             });
             //     }
-            }
+            //}
 
            return redirect("register/preview/" . Crypt::encrypt($userresult->id)); 
            
