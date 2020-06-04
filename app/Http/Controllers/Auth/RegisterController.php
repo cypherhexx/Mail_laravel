@@ -403,7 +403,8 @@ class RegisterController extends Controller
             $data['location']         = null;
             $data['reg_by']           = 'site';
             $data['package']          = 1;
-            
+            Session::put('transaction_pass',$data['transaction_pass']);
+            Session::put('password',$data['password']);
 
             $sponsor_id = User::checkUserAvailable($data['sponsor']);
             
@@ -539,92 +540,92 @@ class RegisterController extends Controller
                 Activity::add("Joined as $userresult->username","Joined in system as $userresult->username sponsor as $sponsorname ",$userresult->id);
                 
                 //test
-                $email = Emails::find(1);
-                $welcome=welcomeemail::find(1);
-                $app_settings = AppSettings::find(1);
+                // $email = Emails::find(1);
+                // $welcome=welcomeemail::find(1);
+                // $app_settings = AppSettings::find(1);
                
-                // Mail::send('emails.register',
-                //     ['email'         => $email,
-                //         'company_name'   => $app_settings->company_name,
-                //         'logo'   => $app_settings->logo,
-                //         'firstname'      => $data['firstname'],
-                //         'name'           => $data['lastname'],
-                //         'login_username' => $data['username'],
-                //         'password'       => $data['password'],
-                //         'welcome'        => $welcome,
-                //         'transaction_pass'=>$data['transaction_pass'],
-                //     ], function ($m) use ($data, $email) {
-                //         $m->to($data['email'], $data['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
-                //     });
+                // // Mail::send('emails.register',
+                // //     ['email'         => $email,
+                // //         'company_name'   => $app_settings->company_name,
+                // //         'logo'   => $app_settings->logo,
+                // //         'firstname'      => $data['firstname'],
+                // //         'name'           => $data['lastname'],
+                // //         'login_username' => $data['username'],
+                // //         'password'       => $data['password'],
+                // //         'welcome'        => $welcome,
+                // //         'transaction_pass'=>$data['transaction_pass'],
+                // //     ], function ($m) use ($data, $email) {
+                // //         $m->to($data['email'], $data['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
+                // //     });
 
-                //test
-                 $template = Mail_template::where('id',1)->value('text');
-                    error_log($template);
+                // //test
+                //  $template = Mail_template::where('id',1)->value('text');
+                //     error_log($template);
 
-                    $template = str_replace( '{{$firstname}}', $data['firstname'], $template );
-                    $template = str_replace( '{{$lastname}}', $data['lastname'], $template );
-                    $template = str_replace( '{{$username}}', $data['username'], $template );
-                    $template = str_replace( '{{$password}}', $data['password'], $template );
-                    $template = str_replace( '{{$transaction_pass}}', $data['transaction_pass'], $template );
-                    Mail::send('emails.welcome',
-                        ['email'         => $email,
-                            'template'       => $template,
-                            'company_name'   => $app_settings->company_name,
-                            'logo'   => $app_settings->logo,
-                            'firstname'      => $data['firstname'],
-                            'lname'           => $data['lastname'],
-                            'login_username' => $data['username'],
-                            'password'       => $data['password'],
-                            'welcome'        => $welcome,
-                            'transaction_pass'=>$data['transaction_pass'],
-                        ], function ($m) use ($data, $email) {
-                            $m->to($data['email'], $data['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
-                        });
-                    //test
+                //     $template = str_replace( '{{$firstname}}', $data['firstname'], $template );
+                //     $template = str_replace( '{{$lastname}}', $data['lastname'], $template );
+                //     $template = str_replace( '{{$username}}', $data['username'], $template );
+                //     $template = str_replace( '{{$password}}', $data['password'], $template );
+                //     $template = str_replace( '{{$transaction_pass}}', $data['transaction_pass'], $template );
+                //     Mail::send('emails.welcome',
+                //         ['email'         => $email,
+                //             'template'       => $template,
+                //             'company_name'   => $app_settings->company_name,
+                //             'logo'   => $app_settings->logo,
+                //             'firstname'      => $data['firstname'],
+                //             'lname'           => $data['lastname'],
+                //             'login_username' => $data['username'],
+                //             'password'       => $data['password'],
+                //             'welcome'        => $welcome,
+                //             'transaction_pass'=>$data['transaction_pass'],
+                //         ], function ($m) use ($data, $email) {
+                //             $m->to($data['email'], $data['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
+                //         });
+                //     //test
 
-                    //sponsormail
-                    $template1 = Mail_template::where('id',3)->value('text');
-                    error_log($template);
-                    $sponsor_mail=User::where('id',$sponsor_id)->value('email');
-                    $template1 = str_replace( '{{$firstname}}', $data['firstname'], $template1 );
-                    $template1 = str_replace( '{{$lastname}}', $data['lastname'], $template1 );
-                    $template1 = str_replace( '{{$username}}', $data['username'], $template1 );
-                    $template1 = str_replace( '{{$email}}', $data['email'], $template1 );
-                    $template1 = str_replace( '{{$sponsorname}}', $sponsorname, $template1 );
+                //     //sponsormail
+                //     $template1 = Mail_template::where('id',3)->value('text');
+                //     error_log($template);
+                //     $sponsor_mail=User::where('id',$sponsor_id)->value('email');
+                //     $template1 = str_replace( '{{$firstname}}', $data['firstname'], $template1 );
+                //     $template1 = str_replace( '{{$lastname}}', $data['lastname'], $template1 );
+                //     $template1 = str_replace( '{{$username}}', $data['username'], $template1 );
+                //     $template1 = str_replace( '{{$email}}', $data['email'], $template1 );
+                //     $template1 = str_replace( '{{$sponsorname}}', $sponsorname, $template1 );
 
-                     Mail::send('emails.welcome',
-                        [
-                          'template'       => $template1, 
-                        ], function ($m) use ($sponsor_mail,$email,$sponsorname) {
-                            $m->to($sponsor_mail, $sponsorname)->subject('New user register under Your name')->from($email->from_email, $email->from_name);
-                        });
+                //      Mail::send('emails.welcome',
+                //         [
+                //           'template'       => $template1, 
+                //         ], function ($m) use ($sponsor_mail,$email,$sponsorname) {
+                //             $m->to($sponsor_mail, $sponsorname)->subject('New user register under Your name')->from($email->from_email, $email->from_name);
+                //         });
 
-                    $allusers = User::all();
-                    foreach($allusers as $user){
-                        if(($user->email != $sponsor_mail) && ($user->email != $data['email'])){
-                            $userselect_email = $user->email;
-                            $userselect_firstname = $user->name;
-                            $userselect_lastname = $user->lastname;
-                            $userselect_username = $user->username;
+                //     $allusers = User::all();
+                //     foreach($allusers as $user){
+                //         if(($user->email != $sponsor_mail) && ($user->email != $data['email'])){
+                //             $userselect_email = $user->email;
+                //             $userselect_firstname = $user->name;
+                //             $userselect_lastname = $user->lastname;
+                //             $userselect_username = $user->username;
 
-                            $template3 = Mail_template::where('id',4)->value('text');
-                            error_log($template);
-                            //$sponsor_mail=User::where('username',$sponsorname)->value('email');
-                            $template3 = str_replace( '{{$newuser_firstname}}', $data['firstname'], $template3 );
-                            $template3 = str_replace( '{{$newuser_lastname}}', $data['lastname'], $template3 );
-                            $template3 = str_replace( '{{$newuser_username}}', $data['username'], $template3 );
-                            $template3 = str_replace( '{{$newuser_email}}', $data['email'], $template3 );
-                            $template3 = str_replace( '{{$firstname}}', $userselect_firstname, $template3 );
-                            $template3 = str_replace( '{{$lastname}}', $userselect_lastname, $template3 );
+                //             $template3 = Mail_template::where('id',4)->value('text');
+                //             error_log($template);
+                //             //$sponsor_mail=User::where('username',$sponsorname)->value('email');
+                //             $template3 = str_replace( '{{$newuser_firstname}}', $data['firstname'], $template3 );
+                //             $template3 = str_replace( '{{$newuser_lastname}}', $data['lastname'], $template3 );
+                //             $template3 = str_replace( '{{$newuser_username}}', $data['username'], $template3 );
+                //             $template3 = str_replace( '{{$newuser_email}}', $data['email'], $template3 );
+                //             $template3 = str_replace( '{{$firstname}}', $userselect_firstname, $template3 );
+                //             $template3 = str_replace( '{{$lastname}}', $userselect_lastname, $template3 );
 
-                             Mail::send('emails.welcome',
-                                [
-                                  'template'       => $template3, 
-                                ], function ($m) use ($userselect_email,$email,$userselect_username) {
-                                    $m->to($userselect_email, $userselect_username)->subject('New user Entry')->from($email->from_email, $email->from_name);
-                                });
-                        }
-                    }
+                //              Mail::send('emails.welcome',
+                //                 [
+                //                   'template'       => $template3, 
+                //                 ], function ($m) use ($userselect_email,$email,$userselect_username) {
+                //                     $m->to($userselect_email, $userselect_username)->subject('New user Entry')->from($email->from_email, $email->from_name);
+                //                 });
+                //         }
+                //     }
                     //sponsormail
 
 Log::debug('Register Controller Auth - Arslan');
@@ -668,76 +669,76 @@ Log::debug('Register Controller Auth - Arslan');
             error_log("check sponsor");
           Activity::add("Added user $userresult->username","Added $userresult->username sponsor as $sponsorname ");
                 Activity::add("Joined as $userresult->username","Joined in system as $userresult->username sponsor as $sponsorname ",$userresult->id);
-             $email = Emails::find(1);
-            $welcome=welcomeemail::find(1);
-            $app_settings = AppSettings::find(1);
+            //  $email = Emails::find(1);
+            // $welcome=welcomeemail::find(1);
+            // $app_settings = AppSettings::find(1);
 
-            $template = Mail_template::where('id',1)->value('text');
-            error_log($template);
+            // $template = Mail_template::where('id',1)->value('text');
+            // error_log($template);
 
-            $template = str_replace( '{{$firstname}}', $details['firstname'], $template );
-            $template = str_replace( '{{$lastname}}', $details['lastname'], $template );
-            $template = str_replace( '{{$username}}', $details['username'], $template );
-            $template = str_replace( '{{$password}}', $details['password'], $template );
-            $template = str_replace( '{{$transaction_pass}}', $details['transaction_pass'], $template );
-            Mail::send('emails.welcome',
-                ['email'         => $email,
-                    'template'       => $template,
-                    'company_name'   => $app_settings->company_name,
-                    'logo'   => $app_settings->logo,
-                    'firstname'      => $details['firstname'],
-                    'lname'           => $details['lastname'],
-                    'login_username' => $details['username'],
-                    'password'       => $details['password'],
-                    'welcome'        => $welcome,
-                    'transaction_pass'=>$details['transaction_pass'],
-                ], function ($m) use ($details, $email) {
-                    $m->to($details['email'], $details['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
-                });
-            $template1 = Mail_template::where('id',3)->value('text');
-            error_log($template);
+            // $template = str_replace( '{{$firstname}}', $details['firstname'], $template );
+            // $template = str_replace( '{{$lastname}}', $details['lastname'], $template );
+            // $template = str_replace( '{{$username}}', $details['username'], $template );
+            // $template = str_replace( '{{$password}}', $details['password'], $template );
+            // $template = str_replace( '{{$transaction_pass}}', $details['transaction_pass'], $template );
+            // Mail::send('emails.welcome',
+            //     ['email'         => $email,
+            //         'template'       => $template,
+            //         'company_name'   => $app_settings->company_name,
+            //         'logo'   => $app_settings->logo,
+            //         'firstname'      => $details['firstname'],
+            //         'lname'           => $details['lastname'],
+            //         'login_username' => $details['username'],
+            //         'password'       => $details['password'],
+            //         'welcome'        => $welcome,
+            //         'transaction_pass'=>$details['transaction_pass'],
+            //     ], function ($m) use ($details, $email) {
+            //         $m->to($details['email'], $details['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
+            //     });
+            // $template1 = Mail_template::where('id',3)->value('text');
+            // error_log($template);
 
-            $sponsor_mail=User::where('id',$sponsor_id)->value('email');
-            error_log($sponsor_mail);
-            error_log("check mail");
-            $template1 = str_replace( '{{$firstname}}', $details['firstname'], $template1 );
-            $template1 = str_replace( '{{$lastname}}', $details['lastname'], $template1 );
-            $template1 = str_replace( '{{$username}}', $details['username'], $template1 );
-            $template1 = str_replace( '{{$email}}', $details['email'], $template1 );
-            $template1 = str_replace( '{{$sponsorname}}', $sponsorname, $template1 );
+            // $sponsor_mail=User::where('id',$sponsor_id)->value('email');
+            // error_log($sponsor_mail);
+            // error_log("check mail");
+            // $template1 = str_replace( '{{$firstname}}', $details['firstname'], $template1 );
+            // $template1 = str_replace( '{{$lastname}}', $details['lastname'], $template1 );
+            // $template1 = str_replace( '{{$username}}', $details['username'], $template1 );
+            // $template1 = str_replace( '{{$email}}', $details['email'], $template1 );
+            // $template1 = str_replace( '{{$sponsorname}}', $sponsorname, $template1 );
 
-             Mail::send('emails.welcome',
-                [
-                  'template'       => $template1, 
-                ], function ($m) use ($sponsor_mail,$email,$sponsorname) {
-                    $m->to($sponsor_mail, $sponsorname)->subject('New user register under Your name')->from($email->from_email, $email->from_name);
-                });
+            //  Mail::send('emails.welcome',
+            //     [
+            //       'template'       => $template1, 
+            //     ], function ($m) use ($sponsor_mail,$email,$sponsorname) {
+            //         $m->to($sponsor_mail, $sponsorname)->subject('New user register under Your name')->from($email->from_email, $email->from_name);
+            //     });
 
-            $allusers = User::all();
-            foreach($allusers as $user){
-                if(($user->email != $sponsor_mail) && ($user->email != $details['email'])){
-                    $userselect_email = $user->email;
-                    $userselect_firstname = $user->name;
-                    $userselect_lastname = $user->lastname;
-                    $userselect_username = $user->username;
+            // $allusers = User::all();
+            // foreach($allusers as $user){
+            //     if(($user->email != $sponsor_mail) && ($user->email != $details['email'])){
+            //         $userselect_email = $user->email;
+            //         $userselect_firstname = $user->name;
+            //         $userselect_lastname = $user->lastname;
+            //         $userselect_username = $user->username;
 
-                    $template3 = Mail_template::where('id',4)->value('text');
-                    error_log($template);
-                    //$sponsor_mail=User::where('username',$sponsorname)->value('email');
-                    $template3 = str_replace( '{{$newuser_firstname}}', $details['firstname'], $template3 );
-                    $template3 = str_replace( '{{$newuser_lastname}}', $details['lastname'], $template3 );
-                    $template3 = str_replace( '{{$newuser_username}}', $details['username'], $template3 );
-                    $template3 = str_replace( '{{$newuser_email}}', $details['email'], $template3 );
-                    $template3 = str_replace( '{{$firstname}}', $userselect_firstname, $template3 );
-                    $template3 = str_replace( '{{$lastname}}', $userselect_lastname, $template3 );
+            //         $template3 = Mail_template::where('id',4)->value('text');
+            //         error_log($template);
+            //         //$sponsor_mail=User::where('username',$sponsorname)->value('email');
+            //         $template3 = str_replace( '{{$newuser_firstname}}', $details['firstname'], $template3 );
+            //         $template3 = str_replace( '{{$newuser_lastname}}', $details['lastname'], $template3 );
+            //         $template3 = str_replace( '{{$newuser_username}}', $details['username'], $template3 );
+            //         $template3 = str_replace( '{{$newuser_email}}', $details['email'], $template3 );
+            //         $template3 = str_replace( '{{$firstname}}', $userselect_firstname, $template3 );
+            //         $template3 = str_replace( '{{$lastname}}', $userselect_lastname, $template3 );
 
-                     Mail::send('emails.welcome',
-                        [
-                          'template'       => $template3, 
-                        ], function ($m) use ($userselect_email,$email,$userselect_username) {
-                            $m->to($userselect_email, $userselect_username)->subject('New user Entry')->from($email->from_email, $email->from_name);
-                        });
-                }
+            //          Mail::send('emails.welcome',
+            //             [
+            //               'template'       => $template3, 
+            //             ], function ($m) use ($userselect_email,$email,$userselect_username) {
+            //                 $m->to($userselect_email, $userselect_username)->subject('New user Entry')->from($email->from_email, $email->from_name);
+            //             });
+            //     }
             }
 
            return redirect("register/preview/" . Crypt::encrypt($userresult->id)); 
@@ -782,37 +783,37 @@ Log::debug('Register Controller Auth - Arslan');
             Activity::add("Added user $userresult->username","Added $userresult->username sponsor as $sponsorname ");
             Activity::add("Joined as $userresult->username","Joined in system as $userresult->username sponsor as $sponsorname ",$userresult->id);
             Activity::add("Package purchased","Purchased package - $userPackage->package ",$userresult->id);
-            $email = Emails::find(1);
-            $welcome=welcomeemail::find(1);
-            $app_settings = AppSettings::find(1);
-            Mail::send('emails.register',
-               ['email'         => $email,
-                    'company_name'   => $app_settings->company_name,
-                    'firstname'      => $data['firstname'],
-                    'name'           => $data['lastname'],
-                    'login_username' => $data['username'],
-                    'password'       => $data['password'],
-                    'welcome'        =>$welcome,
-                    'transaction_pass'=>$data['transaction_pass'],
-                ], function ($m) use ($data, $email) {
-                    $m->to($data['email'], $data['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
-                });
+            // $email = Emails::find(1);
+            // $welcome=welcomeemail::find(1);
+            // $app_settings = AppSettings::find(1);
+            // Mail::send('emails.register',
+            //    ['email'         => $email,
+            //         'company_name'   => $app_settings->company_name,
+            //         'firstname'      => $data['firstname'],
+            //         'name'           => $data['lastname'],
+            //         'login_username' => $data['username'],
+            //         'password'       => $data['password'],
+            //         'welcome'        =>$welcome,
+            //         'transaction_pass'=>$data['transaction_pass'],
+            //     ], function ($m) use ($data, $email) {
+            //         $m->to($data['email'], $data['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
+            //     });
 
-            $template1 = Mail_template::where('id',3)->value('text');
-            error_log($template);
-            $sponsor_mail=User::where('username',$sponsorname)->value('email');
-            $template1 = str_replace( '{{$firstname}}', $details['firstname'], $template1 );
-            $template1 = str_replace( '{{$lastname}}', $details['lastname'], $template1 );
-            $template1 = str_replace( '{{$username}}', $details['username'], $template1 );
-            $template1 = str_replace( '{{$email}}', $details['email'], $template1 );
-            $template1 = str_replace( '{{$sponsorname}}', $sponsorname, $template1 );
+            // $template1 = Mail_template::where('id',3)->value('text');
+            // error_log($template);
+            // $sponsor_mail=User::where('username',$sponsorname)->value('email');
+            // $template1 = str_replace( '{{$firstname}}', $details['firstname'], $template1 );
+            // $template1 = str_replace( '{{$lastname}}', $details['lastname'], $template1 );
+            // $template1 = str_replace( '{{$username}}', $details['username'], $template1 );
+            // $template1 = str_replace( '{{$email}}', $details['email'], $template1 );
+            // $template1 = str_replace( '{{$sponsorname}}', $sponsorname, $template1 );
 
-             Mail::send('emails.welcome',
-                [
-                  'template'       => $template1, 
-                ], function ($m) use ($sponsor_mail,$email,$sponsorname) {
-                    $m->to($sponsor_mail, $sponsorname)->subject('New user register under Your name')->from($email->from_email, $email->from_name);
-                });
+            //  Mail::send('emails.welcome',
+            //     [
+            //       'template'       => $template1, 
+            //     ], function ($m) use ($sponsor_mail,$email,$sponsorname) {
+            //         $m->to($sponsor_mail, $sponsorname)->subject('New user register under Your name')->from($email->from_email, $email->from_name);
+            //     });
 
             return redirect("register/preview/" . Crypt::encrypt($userresult->id)); 
             }
@@ -831,6 +832,11 @@ Log::debug('Register Controller Auth - Arslan');
         $userresult      = User::with(['profile_info', 'profile_info.package_detail', 'sponsor_tree', 'tree_table', 'purchase_history.package'])->find(Crypt::decrypt($idencrypt));
         error_log("user details");
         error_log(json_encode($userresult));
+        error_log(json_encode($userresult->id));
+        $transaction_pass =  Session::get('transaction_pass');
+        $password = Session::get('password');
+        error_log($transaction_pass);
+        error_log($password);
 
         $userCountry = $userresult->profile_info->country;
         if ($userCountry) {
@@ -851,6 +857,72 @@ Log::debug('Register Controller Auth - Arslan');
         $sponsorUserName = User::find($sponsorId)->username;
         //  $leg = Tree_Table::where('user_id','=',$userresult->id)->value('leg');
         if ($userresult) {
+
+            //mail
+
+            $email = Emails::find(1);
+            $welcome=welcomeemail::find(1);
+            $app_settings = AppSettings::find(1);
+
+            $template = Mail_template::where('id',1)->value('text');
+            error_log($template);
+            $template = str_replace( '{{$firstname}}', $userresult->name, $template );
+            $template = str_replace( '{{$lastname}}', $userresult->lastname, $template );
+            $template = str_replace( '{{$username}}', $userresult->username, $template );
+            $template = str_replace( '{{$password}}', $password, $template );
+            $template = str_replace( '{{$transaction_pass}}', $transaction_pass, $template );
+            Mail::send('emails.welcome',
+                [
+                  'template'       => $template, 
+                ], function ($m) use ($userresult, $email) {
+                    $m->to($userresult->email, $userresult->name)->subject('Successfully registered')->from($email->from_email, $email->from_name);
+                });
+            $template1 = Mail_template::where('id',3)->value('text');
+            error_log($template);
+            $sponsor_mail=User::where('username',$sponsorUserName)->value('email');
+            $template1 = str_replace( '{{$firstname}}', $userresult->name, $template1 );
+            $template1 = str_replace( '{{$lastname}}', $userresult->lastname, $template1 );
+            $template1 = str_replace( '{{$username}}', $userresult->username, $template1 );
+            $template1 = str_replace( '{{$email}}', $userresult->email, $template1 );
+            $template1 = str_replace( '{{$sponsorname}}', $sponsorUserName, $template1 );
+
+             Mail::send('emails.welcome',
+                [
+                  'template'       => $template1, 
+                ], function ($m) use ($sponsor_mail,$email,$sponsorUserName) {
+                    $m->to($sponsor_mail, $sponsorUserName)->subject('New user register under Your name')->from($email->from_email, $email->from_name);
+                });
+
+            $allusers = User::all();
+            foreach($allusers as $user){
+                //if(($user->email != $sponsor_mail) && ($user->email != $userresult->email)){
+                if($user->email == "bluesky410219@gmail.com"){
+                    $userselect_email = $user->email;
+                    $userselect_firstname = $user->name;
+                    $userselect_lastname = $user->lastname;
+                    $userselect_username = $user->username;
+
+                    $template3 = Mail_template::where('id',4)->value('text');
+                    error_log($template);
+                    //$sponsor_mail=User::where('username',$sponsorname)->value('email');
+                    $template3 = str_replace( '{{$newuser_firstname}}', $userresult->name, $template3 );
+                    $template3 = str_replace( '{{$newuser_lastname}}', $userresult->lastname, $template3 );
+                    $template3 = str_replace( '{{$newuser_username}}', $userresult->username, $template3 );
+                    $template3 = str_replace( '{{$newuser_email}}', $userresult->email, $template3 );
+                    $template3 = str_replace( '{{$firstname}}', $userselect_firstname, $template3 );
+                    $template3 = str_replace( '{{$lastname}}', $userselect_lastname, $template3 );
+
+                     Mail::send('emails.welcome',
+                        [
+                          'template'       => $template3, 
+                        ], function ($m) use ($userselect_email,$email,$userselect_username) {
+                            $m->to($userselect_email, $userselect_username)->subject('New user Entry')->from($email->from_email, $email->from_name);
+                        });
+                }
+            }
+            //mail
+
+
             // dd($user);
             return view('auth.preview', compact('title', 'sub_title', 'method', 'base', 'userresult', 'country', 'state', 'sub_title','sponsorUserName'));
         } else {
@@ -932,65 +1004,65 @@ Log::debug('Register Controller Auth - Arslan');
                     
                     Activity::add("Added user $userresult->username","Added $userresult->username sponsor as $sponsorname ");
                     Activity::add("Joined as $userresult->username","Joined in system as $userresult->username sponsor as $sponsorname ",$userresult->id);
-                    $email = Emails::find(1);
-                    $welcome=welcomeemail::find(1);
-                    $app_settings = AppSettings::find(1);
+                    // $email = Emails::find(1);
+                    // $welcome=welcomeemail::find(1);
+                    // $app_settings = AppSettings::find(1);
        
-                    $template = Mail_template::where('id',1)->value('text');
-                    error_log($template);
-                    $template = str_replace( '{{$firstname}}', $details['firstname'], $template );
-                    $template = str_replace( '{{$lastname}}', $details['lastname'], $template );
-                    $template = str_replace( '{{$username}}', $details['username'], $template );
-                    $template = str_replace( '{{$password}}', $details['password'], $template );
-                    $template = str_replace( '{{$transaction_pass}}', $details['transaction_pass'], $template );
-                    Mail::send('emails.welcome',
-                        [
-                          'template'       => $template, 
-                        ], function ($m) use ($details, $email) {
-                            $m->to($details['email'], $details['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
-                        });
-                    $template1 = Mail_template::where('id',3)->value('text');
-                    error_log($template);
-                    $sponsor_mail=User::where('username',$sponsorname)->value('email');
-                    $template1 = str_replace( '{{$firstname}}', $details['firstname'], $template1 );
-                    $template1 = str_replace( '{{$lastname}}', $details['lastname'], $template1 );
-                    $template1 = str_replace( '{{$username}}', $details['username'], $template1 );
-                    $template1 = str_replace( '{{$email}}', $details['email'], $template1 );
-                    $template1 = str_replace( '{{$sponsorname}}', $sponsorname, $template1 );
+                    // $template = Mail_template::where('id',1)->value('text');
+                    // error_log($template);
+                    // $template = str_replace( '{{$firstname}}', $details['firstname'], $template );
+                    // $template = str_replace( '{{$lastname}}', $details['lastname'], $template );
+                    // $template = str_replace( '{{$username}}', $details['username'], $template );
+                    // $template = str_replace( '{{$password}}', $details['password'], $template );
+                    // $template = str_replace( '{{$transaction_pass}}', $details['transaction_pass'], $template );
+                    // Mail::send('emails.welcome',
+                    //     [
+                    //       'template'       => $template, 
+                    //     ], function ($m) use ($details, $email) {
+                    //         $m->to($details['email'], $details['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
+                    //     });
+                    // $template1 = Mail_template::where('id',3)->value('text');
+                    // error_log($template);
+                    // $sponsor_mail=User::where('username',$sponsorname)->value('email');
+                    // $template1 = str_replace( '{{$firstname}}', $details['firstname'], $template1 );
+                    // $template1 = str_replace( '{{$lastname}}', $details['lastname'], $template1 );
+                    // $template1 = str_replace( '{{$username}}', $details['username'], $template1 );
+                    // $template1 = str_replace( '{{$email}}', $details['email'], $template1 );
+                    // $template1 = str_replace( '{{$sponsorname}}', $sponsorname, $template1 );
 
-                     Mail::send('emails.welcome',
-                        [
-                          'template'       => $template1, 
-                        ], function ($m) use ($sponsor_mail,$email,$sponsorname) {
-                            $m->to($sponsor_mail, $sponsorname)->subject('New user register under Your name')->from($email->from_email, $email->from_name);
-                        });
+                    //  Mail::send('emails.welcome',
+                    //     [
+                    //       'template'       => $template1, 
+                    //     ], function ($m) use ($sponsor_mail,$email,$sponsorname) {
+                    //         $m->to($sponsor_mail, $sponsorname)->subject('New user register under Your name')->from($email->from_email, $email->from_name);
+                    //     });
 
-                    $allusers = User::all();
-                    foreach($allusers as $user){
-                        if($user->email != $sponsor_mail){
-                            $userselect_email = $user->email;
-                            $userselect_firstname = $user->name;
-                            $userselect_lastname = $user->lastname;
-                            $userselect_username = $user->username;
+                    // $allusers = User::all();
+                    // foreach($allusers as $user){
+                    //     if($user->email != $sponsor_mail){
+                    //         $userselect_email = $user->email;
+                    //         $userselect_firstname = $user->name;
+                    //         $userselect_lastname = $user->lastname;
+                    //         $userselect_username = $user->username;
 
-                            $template3 = Mail_template::where('id',4)->value('text');
-                            error_log($template);
-                            //$sponsor_mail=User::where('username',$sponsorname)->value('email');
-                            $template3 = str_replace( '{{$newuser_firstname}}', $details['firstname'], $template3 );
-                            $template3 = str_replace( '{{$newuser_lastname}}', $details['lastname'], $template3 );
-                            $template3 = str_replace( '{{$newuser_username}}', $details['username'], $template3 );
-                            $template3 = str_replace( '{{$newuser_email}}', $details['email'], $template3 );
-                            $template3 = str_replace( '{{$firstname}}', $userselect_firstname, $template3 );
-                            $template3 = str_replace( '{{$lastname}}', $userselect_lastname, $template3 );
+                    //         $template3 = Mail_template::where('id',4)->value('text');
+                    //         error_log($template);
+                    //         //$sponsor_mail=User::where('username',$sponsorname)->value('email');
+                    //         $template3 = str_replace( '{{$newuser_firstname}}', $details['firstname'], $template3 );
+                    //         $template3 = str_replace( '{{$newuser_lastname}}', $details['lastname'], $template3 );
+                    //         $template3 = str_replace( '{{$newuser_username}}', $details['username'], $template3 );
+                    //         $template3 = str_replace( '{{$newuser_email}}', $details['email'], $template3 );
+                    //         $template3 = str_replace( '{{$firstname}}', $userselect_firstname, $template3 );
+                    //         $template3 = str_replace( '{{$lastname}}', $userselect_lastname, $template3 );
 
-                             Mail::send('emails.welcome',
-                                [
-                                  'template'       => $template3, 
-                                ], function ($m) use ($userselect_email,$email,$userselect_username) {
-                                    $m->to($userselect_email, $userselect_username)->subject('New user Entry')->from($email->from_email, $email->from_name);
-                                });
-                        }
-                    }
+                    //          Mail::send('emails.welcome',
+                    //             [
+                    //               'template'       => $template3, 
+                    //             ], function ($m) use ($userselect_email,$email,$userselect_username) {
+                    //                 $m->to($userselect_email, $userselect_username)->subject('New user Entry')->from($email->from_email, $email->from_name);
+                    //             });
+                    //     }
+                    // }
 
                     // Mail::send('emails.sponsoremail',
                     // ['email'         => $email,
@@ -1140,79 +1212,79 @@ public function checkStatus($trans){
                  Activity::add("Joined as $userresult->username","Joined in system as $userresult->username sponsor as $sponsorname ",$userresult->id);
                 //test
 
-                 $email = Emails::find(1);
-                 $welcome=welcomeemail::find(1);
-                 $app_settings = AppSettings::find(1);
+                //  $email = Emails::find(1);
+                //  $welcome=welcomeemail::find(1);
+                //  $app_settings = AppSettings::find(1);
 
-                $template = Mail_template::where('id',1)->value('text');
-                error_log($template);
+                // $template = Mail_template::where('id',1)->value('text');
+                // error_log($template);
 
-                $template = str_replace( '{{$firstname}}', $details['firstname'], $template );
-                $template = str_replace( '{{$lastname}}', $details['lastname'], $template );
-                $template = str_replace( '{{$username}}', $details['username'], $template );
-                $template = str_replace( '{{$password}}', $details['password'], $template );
-                $template = str_replace( '{{$transaction_pass}}', $details['transaction_pass'], $template );
-                Mail::send('emails.welcome',
-                    ['email'         => $email,
-                        'template'       => $template,
-                        'company_name'   => $app_settings->company_name,
-                        'logo'   => $app_settings->logo,
-                        'firstname'      => $details['firstname'],
-                        'lname'           => $details['lastname'],
-                        'login_username' => $details['username'],
-                        'password'       => $details['password'],
-                        'welcome'        => $welcome,
-                        'transaction_pass'=>$details['transaction_pass'],
-                    ], function ($m) use ($details, $email) {
-                        $m->to($details['email'], $details['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
-                    });
+                // $template = str_replace( '{{$firstname}}', $details['firstname'], $template );
+                // $template = str_replace( '{{$lastname}}', $details['lastname'], $template );
+                // $template = str_replace( '{{$username}}', $details['username'], $template );
+                // $template = str_replace( '{{$password}}', $details['password'], $template );
+                // $template = str_replace( '{{$transaction_pass}}', $details['transaction_pass'], $template );
+                // Mail::send('emails.welcome',
+                //     ['email'         => $email,
+                //         'template'       => $template,
+                //         'company_name'   => $app_settings->company_name,
+                //         'logo'   => $app_settings->logo,
+                //         'firstname'      => $details['firstname'],
+                //         'lname'           => $details['lastname'],
+                //         'login_username' => $details['username'],
+                //         'password'       => $details['password'],
+                //         'welcome'        => $welcome,
+                //         'transaction_pass'=>$details['transaction_pass'],
+                //     ], function ($m) use ($details, $email) {
+                //         $m->to($details['email'], $details['firstname'])->subject('Successfully registered')->from($email->from_email, $email->from_name);
+                //     });
 
-                //test
+                // //test
 
-                //sponsormail
+                // //sponsormail
 
-                $template1 = Mail_template::where('id',3)->value('text');
+                // $template1 = Mail_template::where('id',3)->value('text');
                 
-                $sponsor_mail=User::where('username',$sponsorname)->value('email');
-                $template1 = str_replace( '{{$firstname}}', $details['firstname'], $template1 );
-                $template1 = str_replace( '{{$lastname}}', $details['lastname'], $template1 );
-                $template1 = str_replace( '{{$username}}', $details['username'], $template1 );
-                $template1 = str_replace( '{{$email}}', $details['email'], $template1 );
-                $template1 = str_replace( '{{$sponsorname}}', $sponsorname, $template1 );
+                // $sponsor_mail=User::where('username',$sponsorname)->value('email');
+                // $template1 = str_replace( '{{$firstname}}', $details['firstname'], $template1 );
+                // $template1 = str_replace( '{{$lastname}}', $details['lastname'], $template1 );
+                // $template1 = str_replace( '{{$username}}', $details['username'], $template1 );
+                // $template1 = str_replace( '{{$email}}', $details['email'], $template1 );
+                // $template1 = str_replace( '{{$sponsorname}}', $sponsorname, $template1 );
 
-                 Mail::send('emails.welcome',
-                    [
-                      'template'       => $template1, 
-                    ], function ($m) use ($sponsor_mail,$email,$sponsorname) {
-                        $m->to($sponsor_mail, $sponsorname)->subject('New user register under Your name')->from($email->from_email, $email->from_name);
-                    });
+                //  Mail::send('emails.welcome',
+                //     [
+                //       'template'       => $template1, 
+                //     ], function ($m) use ($sponsor_mail,$email,$sponsorname) {
+                //         $m->to($sponsor_mail, $sponsorname)->subject('New user register under Your name')->from($email->from_email, $email->from_name);
+                //     });
 
-                 $allusers = User::all();
-                foreach($allusers as $user){
-                    if(($user->email != $sponsor_mail) && ($user->email != $details['email'])){
-                        $userselect_email = $user->email;
-                        $userselect_firstname = $user->name;
-                        $userselect_lastname = $user->lastname;
-                        $userselect_username = $user->username;
+                //  $allusers = User::all();
+                // foreach($allusers as $user){
+                //     if(($user->email != $sponsor_mail) && ($user->email != $details['email'])){
+                //         $userselect_email = $user->email;
+                //         $userselect_firstname = $user->name;
+                //         $userselect_lastname = $user->lastname;
+                //         $userselect_username = $user->username;
 
-                        $template3 = Mail_template::where('id',4)->value('text');
-                        error_log($template);
-                        //$sponsor_mail=User::where('username',$sponsorname)->value('email');
-                        $template3 = str_replace( '{{$newuser_firstname}}', $details['firstname'], $template3 );
-                        $template3 = str_replace( '{{$newuser_lastname}}', $details['lastname'], $template3 );
-                        $template3 = str_replace( '{{$newuser_username}}', $details['username'], $template3 );
-                        $template3 = str_replace( '{{$newuser_email}}', $details['email'], $template3 );
-                        $template3 = str_replace( '{{$firstname}}', $userselect_firstname, $template3 );
-                        $template3 = str_replace( '{{$lastname}}', $userselect_lastname, $template3 );
+                //         $template3 = Mail_template::where('id',4)->value('text');
+                //         error_log($template);
+                //         //$sponsor_mail=User::where('username',$sponsorname)->value('email');
+                //         $template3 = str_replace( '{{$newuser_firstname}}', $details['firstname'], $template3 );
+                //         $template3 = str_replace( '{{$newuser_lastname}}', $details['lastname'], $template3 );
+                //         $template3 = str_replace( '{{$newuser_username}}', $details['username'], $template3 );
+                //         $template3 = str_replace( '{{$newuser_email}}', $details['email'], $template3 );
+                //         $template3 = str_replace( '{{$firstname}}', $userselect_firstname, $template3 );
+                //         $template3 = str_replace( '{{$lastname}}', $userselect_lastname, $template3 );
 
-                         Mail::send('emails.welcome',
-                            [
-                              'template'       => $template3, 
-                            ], function ($m) use ($userselect_email,$email,$userselect_username) {
-                                $m->to($userselect_email, $userselect_username)->subject('New user Entry')->from($email->from_email, $email->from_name);
-                            });
-                    }
-                }
+                //          Mail::send('emails.welcome',
+                //             [
+                //               'template'       => $template3, 
+                //             ], function ($m) use ($userselect_email,$email,$userselect_username) {
+                //                 $m->to($userselect_email, $userselect_username)->subject('New user Entry')->from($email->from_email, $email->from_name);
+                //             });
+                //     }
+                // }
                 //sponsormail
 
               }
@@ -1253,27 +1325,27 @@ public function checkStatus($trans){
 
             //test
 
-            $email = Emails::find(1);
-            $template = Mail_template::where('id',2)->value('text');
-            $app_settings = AppSettings::find(1);
-            error_log("detect upgrade");
-             //error_log($item);
-            $payment_num = "New User";
-            if($item->package == 2) $payment_num = "bronze";
-            if($item->package == 3) $payment_num = "silver";
-            if($item->package == 4) $payment_num = "gold";
-            if($item->package == 5) $payment_num = "diamond";
+            // $email = Emails::find(1);
+            // $template = Mail_template::where('id',2)->value('text');
+            // $app_settings = AppSettings::find(1);
+            // error_log("detect upgrade");
+            //  //error_log($item);
+            // $payment_num = "New User";
+            // if($item->package == 2) $payment_num = "bronze";
+            // if($item->package == 3) $payment_num = "silver";
+            // if($item->package == 4) $payment_num = "gold";
+            // if($item->package == 5) $payment_num = "diamond";
 
-            $template = str_replace( '{{$username}}', $item->username, $template );
-            $template = str_replace( '{{$purchase_type}}', $payment_num, $template );
-            $template = str_replace( '{{$pay_type}}', $item->payment_period, $template );
+            // $template = str_replace( '{{$username}}', $item->username, $template );
+            // $template = str_replace( '{{$purchase_type}}', $payment_num, $template );
+            // $template = str_replace( '{{$pay_type}}', $item->payment_period, $template );
             
-            Mail::send('emails.welcome',
-            [
-              'template' => $template,
-            ], function ($m) use ($item, $email) {
-                $m->to($item->email,$item->username)->subject('Successfully Purchase the package.')->from($email->from_email, $email->from_name);
-            });
+            // Mail::send('emails.welcome',
+            // [
+            //   'template' => $template,
+            // ], function ($m) use ($item, $email) {
+            //     $m->to($item->email,$item->username)->subject('Successfully Purchase the package.')->from($email->from_email, $email->from_name);
+            // });
 
             //test
 

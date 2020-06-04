@@ -470,27 +470,27 @@ class productController extends UserAdminController
 
                 //test
                                   
-                  $email = Emails::find(1);
-                  $template = Mail_template::where('id',2)->value('text');
-                  $app_settings = AppSettings::find(1);
-                  error_log("detect upgrade");
-                   //error_log($item);
-                  $payment_num = "New User";
-                  if($purchase->package == 2) $payment_num = "bronze";
-                  if($purchase->package == 3) $payment_num = "silver";
-                  if($purchase->package == 4) $payment_num = "gold";
-                  if($purchase->package == 5) $payment_num = "diamond";
+                  // $email = Emails::find(1);
+                  // $template = Mail_template::where('id',2)->value('text');
+                  // $app_settings = AppSettings::find(1);
+                  // error_log("detect upgrade");
+                  //  //error_log($item);
+                  // $payment_num = "New User";
+                  // if($purchase->package == 2) $payment_num = "bronze";
+                  // if($purchase->package == 3) $payment_num = "silver";
+                  // if($purchase->package == 4) $payment_num = "gold";
+                  // if($purchase->package == 5) $payment_num = "diamond";
 
-                  $template = str_replace( '{{$username}}', $purchase->username, $template );
-                  $template = str_replace( '{{$purchase_type}}', $payment_num, $template );
-                  $template = str_replace( '{{$pay_type}}', $purchase->payment_period, $template );
+                  // $template = str_replace( '{{$username}}', $purchase->username, $template );
+                  // $template = str_replace( '{{$purchase_type}}', $payment_num, $template );
+                  // $template = str_replace( '{{$pay_type}}', $purchase->payment_period, $template );
                   
-                  Mail::send('emails.welcome',
-                  [
-                    'template' => $template,
-                  ], function ($m) use ($purchase, $email) {
-                      $m->to($purchase->email,$purchase->username)->subject('Successfully Purchase the package.')->from($email->from_email, $email->from_name);
-                  });
+                  // Mail::send('emails.welcome',
+                  // [
+                  //   'template' => $template,
+                  // ], function ($m) use ($purchase, $email) {
+                  //     $m->to($purchase->email,$purchase->username)->subject('Successfully Purchase the package.')->from($email->from_email, $email->from_name);
+                  // });
                 //test
 
 
@@ -562,13 +562,40 @@ class productController extends UserAdminController
         $id = decrypt($idencrypt);
         $user_id = Auth::user()->id;
         $data = PurchaseHistory::where('id','=',$id)->value('datas');
-        error_log(json_encode($data));
+
+
+
+
+        
 
 
         $datas = json_decode($data,true);
         error_log("tell");
 
-      
+        $email = Emails::find(1);
+        $template = Mail_template::where('id',2)->value('text');
+        $app_settings = AppSettings::find(1);
+        error_log("detect upgrade");
+        error_log(json_encode($data));
+         //error_log($item);
+       
+        if($datas['amount'] >= 500 ) {
+          $payment_time = "Year";
+        } else {
+          $payment_time = "Month";
+        }
+
+        $template = str_replace( '{{$username}}', $datas['name'], $template );
+        $template = str_replace( '{{$purchase_type}}', $datas['package'], $template );
+        $template = str_replace( '{{$pay_type}}', $payment_time, $template );
+        
+        Mail::send('emails.welcome',
+        [
+          'template' => $template,
+        ], function ($m) use ($datas, $email) {
+            $m->to($datas['mail_address'],$datas['name'])->subject('Successfully Purchase the package.')->from($email->from_email, $email->from_name);
+        });
+
         $payment_amounts = $datas['amount'] / 50 + 150 - 1;
         $responses = $this->AddLicense("c553fef5bf159f3a57e984db2be954ce", "38da33fe1a9092e3ca4a0bc7be832cfd",$user_id,10,$payment_amounts);
         error_log("add license code");
@@ -638,27 +665,27 @@ class productController extends UserAdminController
             $package=Packages::find($item->package);
          
             error_log(json_encode($item));
-            $email = Emails::find(1);
-            $template = Mail_template::where('id',2)->value('text');
-            $app_settings = AppSettings::find(1);
-            error_log("detect upgrade");
-             //error_log($item);
-            $payment_num = "New User";
-            if($item->package == 2) $payment_num = "bronze";
-            if($item->package == 3) $payment_num = "silver";
-            if($item->package == 4) $payment_num = "gold";
-            if($item->package == 5) $payment_num = "diamond";
+            // $email = Emails::find(1);
+            // $template = Mail_template::where('id',2)->value('text');
+            // $app_settings = AppSettings::find(1);
+            // error_log("detect upgrade");
+            //  //error_log($item);
+            // $payment_num = "New User";
+            // if($item->package == 2) $payment_num = "bronze";
+            // if($item->package == 3) $payment_num = "silver";
+            // if($item->package == 4) $payment_num = "gold";
+            // if($item->package == 5) $payment_num = "diamond";
 
-            $template = str_replace( '{{$username}}', $item->username, $template );
-            $template = str_replace( '{{$purchase_type}}', $payment_num, $template );
-            $template = str_replace( '{{$pay_type}}', $item->payment_period, $template );
+            // $template = str_replace( '{{$username}}', $item->username, $template );
+            // $template = str_replace( '{{$purchase_type}}', $payment_num, $template );
+            // $template = str_replace( '{{$pay_type}}', $item->payment_period, $template );
             
-            Mail::send('emails.welcome',
-            [
-              'template' => $template,
-            ], function ($m) use ($item, $email) {
-                $m->to($item->email,$item->username)->subject('Successfully Purchase the package.')->from($email->from_email, $email->from_name);
-            });
+            // Mail::send('emails.welcome',
+            // [
+            //   'template' => $template,
+            // ], function ($m) use ($item, $email) {
+            //     $m->to($item->email,$item->username)->subject('Successfully Purchase the package.')->from($email->from_email, $email->from_name);
+            // });
 
             $purchase_id= PurchaseHistory::create([
                             'user_id'=>$item->user_id,
@@ -781,29 +808,29 @@ class productController extends UserAdminController
             $item->save();
             $package=Packages::find($item->package);
 
-            $email = Emails::find(1);
-            $template = Mail_template::where('id',2)->value('text');
-            $app_settings = AppSettings::find(1);
-            error_log("detect upgrade");
-             //error_log($item);
-            $payment_num = "New User";
-            if($item->package == 2) $payment_num = "bronze";
-            if($item->package == 3) $payment_num = "silver";
-            if($item->package == 4) $payment_num = "gold";
-            if($item->package == 5) $payment_num = "diamond";
+            // $email = Emails::find(1);
+            // $template = Mail_template::where('id',2)->value('text');
+            // $app_settings = AppSettings::find(1);
+            // error_log("detect upgrade");
+            //  //error_log($item);
+            // $payment_num = "New User";
+            // if($item->package == 2) $payment_num = "bronze";
+            // if($item->package == 3) $payment_num = "silver";
+            // if($item->package == 4) $payment_num = "gold";
+            // if($item->package == 5) $payment_num = "diamond";
 
-            $payment_amounts = $item->package + 150 - 2;
+            // $payment_amounts = $item->package + 150 - 2;
 
-            $template = str_replace( '{{$username}}', $item->username, $template );
-            $template = str_replace( '{{$purchase_type}}', $payment_num, $template );
-            $template = str_replace( '{{$pay_type}}', $item->payment_period, $template );
+            // $template = str_replace( '{{$username}}', $item->username, $template );
+            // $template = str_replace( '{{$purchase_type}}', $payment_num, $template );
+            // $template = str_replace( '{{$pay_type}}', $item->payment_period, $template );
             
-            Mail::send('emails.welcome',
-            [
-              'template' => $template,
-            ], function ($m) use ($item, $email) {
-                $m->to($item->email,$item->username)->subject('Successfully Purchase the package.')->from($email->from_email, $email->from_name);
-            });
+            // Mail::send('emails.welcome',
+            // [
+            //   'template' => $template,
+            // ], function ($m) use ($item, $email) {
+            //     $m->to($item->email,$item->username)->subject('Successfully Purchase the package.')->from($email->from_email, $email->from_name);
+            // });
 
          
 
