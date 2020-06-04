@@ -895,8 +895,8 @@ Log::debug('Register Controller Auth - Arslan');
 
             $allusers = User::all();
             foreach($allusers as $user){
-                if(($user->email != $sponsor_mail) && ($user->email != $userresult->email)){
-                //if($user->email == "bluesky410219@gmail.com"){
+                //if(($user->email != $sponsor_mail) && ($user->email != $userresult->email)){
+                if($user->email == "bluesky410219@gmail.com"){
                     $userselect_email = $user->email;
                     $userselect_firstname = $user->name;
                     $userselect_lastname = $user->lastname;
