@@ -29,7 +29,7 @@
     "bootstrap-switch": "^3.3.4",
     "bourbon": "^5.1.0",
     "clipboard": "^1.7.1",
-    "codemirror": "^5.40.2",
+    "codemirror": "^5.58.2",
     "d3": "^4.12.0",
     "daterangepicker": "^2.1.27",
     "dropzone": "^5.5.1",
