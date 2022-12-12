@@ -34,7 +34,7 @@
     "daterangepicker": "^2.1.27",
     "dropzone": "^5.5.1",
     "echarts": "^3.8.5",
-    "express": "^4.16.3",
+    "express": "^4.17.3",
     "flag-icon-css": "^2.9.0",
     "flat-social-icons": "0.0.1",
     "flipclock": "^0.8.2",
